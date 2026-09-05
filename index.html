@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>The Comprehensive Textual Architecture of the Book of Mormon - Interactive Atlas</title>
   <meta name="description" content="Explore an interactive, high-resolution cartographic atlas of the Book of Mormon lands, scripture citations, historical timelines, and expeditions.">
 
@@ -28,7 +28,7 @@
         </div>
         <div class="brand-titles">
           <h1>Book of Mormon Geography</h1>
-          <p>The Comprehensive Textual Architecture <span class="site-count-badge" id="siteCountBadge">50+ Sites</span></p>
+          <p>The Comprehensive Textual Architecture <span class="site-count-badge" id="siteCountBadge">94 Sites</span></p>
         </div>
       </div>
 
@@ -60,14 +60,14 @@
         <!-- Quick Jump Landmark Selector -->
         <div class="journey-select-wrapper">
           <select id="landmarkQuickJump" class="journey-select" aria-label="Quick Jump to Landmark">
-            <option value="">-- Jump to Landmark (94) --</option>
+            <option value="">Jump to Landmark...</option>
           </select>
         </div>
 
         <!-- Expeditions & Journeys Selector (12 Tours) -->
         <div class="journey-select-wrapper">
           <select id="journeySelect" class="journey-select" aria-label="Scriptural Journeys">
-            <option value="">-- Scriptural Journeys (12) --</option>
+            <option value="">Scriptural Journeys...</option>
           </select>
         </div>
 
@@ -95,8 +95,11 @@
     <!-- Main Map Viewport -->
     <main class="map-viewport" id="mapViewport">
       <div class="map-stage" id="mapStage">
-        <!-- High-Resolution Main Map Artwork without baked-in popouts (2120x3160) -->
-        <img src="Book%20of%20Mormon%20Geography%20HighRes.jpg" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage">
+        <!-- High-Resolution Main Map Artwork with mobile-optimized responsive source (2120x3160 canvas) -->
+        <picture>
+          <source media="(max-width: 768px)" srcset="map-mobile.jpg">
+          <img src="map-highres.jpg" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="async">
+        </picture>
         
         <!-- SVG Layer for Territory Overlays, Cataclysm Physical Terrain Transformations & Scriptural Journeys -->
         <svg class="journey-svg" id="journeySvg" viewBox="0 0 100 100" preserveAspectRatio="none">

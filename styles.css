@@ -48,6 +48,7 @@
 html, body {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--bg-parchment-deep);
   color: var(--text-parchment-light);
@@ -61,6 +62,7 @@ html, body {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   position: relative;
   background: radial-gradient(circle at 50% 30%, #251b14 0%, #16120e 100%);
 }
@@ -315,19 +317,38 @@ html, body {
 /* Map Canvas Container (transformed by pan/zoom) */
 .map-stage {
   position: absolute;
+  width: 2120px;
+  height: 3160px;
   transform-origin: 0 0;
-  will-change: transform;
-  display: inline-block;
+  display: block;
   transition: transform 0.05s ease-out;
+}
+
+.map-stage picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .map-artwork {
   display: block;
+  width: 100%;
+  height: 100%;
   max-width: none;
-  height: auto;
   pointer-events: none;
   border: 1px solid rgba(223, 177, 91, 0.2);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  object-fit: fill;
+}
+
+/* Markers Container Layer */
+.markers-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 /* SVG Overlays (Territories & Journeys) */
@@ -1523,14 +1544,97 @@ html, body {
 }
 
 @media (max-width: 768px) {
+  .app-header {
+    padding: 6px 10px;
+    gap: 6px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .brand-section {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .brand-titles h1 {
+    font-size: 0.88rem;
+  }
+
+  .brand-titles p {
+    display: none;
+  }
+
+  .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .journey-select-wrapper {
+    flex: 1 1 calc(50% - 3px);
+    min-width: 0;
+  }
+
+  .journey-select {
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.72rem;
+    padding: 5px 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .search-box {
+    flex: 1 1 calc(100% - 105px);
+    min-width: 160px;
+  }
+
+  .search-box input {
+    padding: 6px 20px 6px 26px;
+    font-size: 0.76rem;
+  }
+
+  .tool-btn {
+    padding: 4px 7px;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .filter-group {
+    flex: 1 1 100%;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px;
+  }
+
+  .filter-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    padding: 3px 7px;
+    font-size: 0.68rem;
+  }
+
   .cataclysm-hud {
     width: calc(100% - 20px);
-    bottom: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom, 10px));
     padding: 10px 12px 12px;
   }
 
+  .cataclysm-hud.collapsed {
+    bottom: max(12px, env(safe-area-inset-bottom, 12px));
+    padding: 6px 14px;
+    max-width: 92vw;
+  }
+
   .cataclysm-title {
-    font-size: 0.86rem;
+    font-size: 0.84rem;
   }
 
   .cataclysm-subtitle {
@@ -1560,35 +1664,41 @@ html, body {
 
 @media (max-width: 500px) {
   .app-header {
-    padding: 6px 10px;
-    gap: 6px;
+    padding: 5px 8px;
+    gap: 4px;
   }
 
-  .brand-titles p {
-    display: none;
+  .brand-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-icon svg {
+    width: 16px;
+    height: 16px;
   }
 
   .brand-titles h1 {
     font-size: 0.82rem;
+    letter-spacing: 0.04em;
   }
 
   .filter-btn {
     padding: 3px 6px;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
   }
 
   .journey-select {
-    font-size: 0.7rem;
-    padding: 4px 6px;
-    max-width: 140px;
+    font-size: 0.68rem;
+    padding: 4px 5px;
   }
 
   .coords-inspector-badge {
     bottom: auto;
-    top: 10px;
-    left: 10px;
-    font-size: 0.68rem;
-    padding: 4px 8px;
+    top: 8px;
+    left: 8px;
+    font-size: 0.65rem;
+    padding: 3px 6px;
   }
 }
 

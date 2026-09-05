@@ -68,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const zoomOutBtn = document.getElementById('zoomOutBtn');
   const resetZoomBtn = document.getElementById('resetZoomBtn');
 
+  // Base Canvas Dimension Constants (Unified Coordinate System)
+  const MAP_BASE_WIDTH = 2120;
+  const MAP_BASE_HEIGHT = 3160;
+
   // Transform State
   let scale = 1;
   let translateX = 0;
@@ -215,8 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function fitMapToScreen() {
     const vWidth = viewport.clientWidth || window.innerWidth;
     const vHeight = viewport.clientHeight || window.innerHeight;
-    const imgWidth = mapImage.naturalWidth || 2120;
-    const imgHeight = mapImage.naturalHeight || 3160;
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
 
     const isMobile = window.innerWidth <= 768;
     const paddingX = isMobile ? 0.96 : 0.90;
@@ -265,8 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function renderTerritoryPolygons() {
     territoryGroup.innerHTML = '';
-    const imgWidth = mapImage.naturalWidth || 848;
-    const imgHeight = mapImage.naturalHeight || 1264;
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
 
     journeySvg.setAttribute('viewBox', `0 0 ${imgWidth} ${imgHeight}`);
 
@@ -474,8 +478,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function focusLocation(targetPctX, targetPctY, customScale) {
     const vWidth = viewport.clientWidth;
     const vHeight = viewport.clientHeight;
-    const imgWidth = mapImage.naturalWidth || 848;
-    const imgHeight = mapImage.naturalHeight || 1264;
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
 
     const targetX = (targetPctX / 100) * imgWidth;
     const targetY = (targetPctY / 100) * imgHeight;
@@ -603,8 +607,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cataclysmTerrainGroup) return;
     cataclysmTerrainGroup.innerHTML = '';
 
-    const imgW = mapImage.naturalWidth || 2120;
-    const imgH = mapImage.naturalHeight || 3160;
+    const imgW = MAP_BASE_WIDTH;
+    const imgH = MAP_BASE_HEIGHT;
     const px = pct => (pct / 100) * imgW;
     const py = pct => (pct / 100) * imgH;
 
@@ -1207,8 +1211,8 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function drawJourneyPath(journey) {
     pathsGroup.innerHTML = '';
-    const imgWidth = mapImage.naturalWidth || 848;
-    const imgHeight = mapImage.naturalHeight || 1264;
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
 
     const points = journey.waypoints.map(id => {
       const loc = mapLocations[id];
@@ -1481,9 +1485,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   viewport.addEventListener('pointermove', (e) => {
     // Update live inspector coordinates
-    const imgRect = mapImage.getBoundingClientRect();
-    const xPct = Math.max(0, Math.min(100, (((e.clientX - imgRect.left) / imgRect.width) * 100))).toFixed(1);
-    const yPct = Math.max(0, Math.min(100, (((e.clientY - imgRect.top) / imgRect.height) * 100))).toFixed(1);
+    const stageRect = stage.getBoundingClientRect();
+    const xPct = Math.max(0, Math.min(100, (((e.clientX - stageRect.left) / stageRect.width) * 100))).toFixed(1);
+    const yPct = Math.max(0, Math.min(100, (((e.clientY - stageRect.top) / stageRect.height) * 100))).toFixed(1);
 
     lastHoveredPct = { x: xPct, y: yPct };
 
@@ -1518,9 +1522,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isInspectorActive) return;
     if (e.target.closest('.hud-btn') || e.target.closest('.expedition-player-bar')) return;
 
-    const imgRect = mapImage.getBoundingClientRect();
-    const xPct = Math.max(0, Math.min(100, (((e.clientX - imgRect.left) / imgRect.width) * 100))).toFixed(1);
-    const yPct = Math.max(0, Math.min(100, (((e.clientY - imgRect.top) / imgRect.height) * 100))).toFixed(1);
+    const stageRect = stage.getBoundingClientRect();
+    const xPct = Math.max(0, Math.min(100, (((e.clientX - stageRect.left) / stageRect.width) * 100))).toFixed(1);
+    const yPct = Math.max(0, Math.min(100, (((e.clientY - stageRect.top) / stageRect.height) * 100))).toFixed(1);
 
     copyCoordinatesToClipboard(xPct, yPct);
   });
@@ -1643,8 +1647,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  let resizeDebounce = null;
   window.addEventListener('resize', () => {
-    applyTransform();
+    clearTimeout(resizeDebounce);
+    resizeDebounce = setTimeout(() => {
+      fitMapToScreen();
+    }, 150);
   });
 
   // Start initialization
