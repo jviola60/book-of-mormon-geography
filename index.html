@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Comprehensive Textual Architecture of the Book of Mormon - Interactive Atlas</title>
+  <meta name="description" content="Explore an interactive, high-resolution cartographic atlas of the Book of Mormon lands, scripture citations, historical timelines, and expeditions.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Top Navigation & Control Bar -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon" title="Book of Mormon Geography">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1>Book of Mormon Geography</h1>
+          <p>The Comprehensive Textual Architecture <span class="site-count-badge" id="siteCountBadge">50+ Sites</span></p>
+        </div>
+      </div>
+
+      <!-- Controls & Filters -->
+      <div class="header-actions">
+        <!-- Search with Clear Button -->
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search cities, people, scriptures..." autocomplete="off" list="landmarksList">
+          <datalist id="landmarksList"></datalist>
+          <button id="clearSearchBtn" class="clear-search-btn" title="Clear Search">&times;</button>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-group">
+          <button class="filter-btn active" data-category="all">All</button>
+          <button class="filter-btn" data-category="waters">Waters & Seas</button>
+          <button class="filter-btn" data-category="capitals">Capitals</button>
+          <button class="filter-btn" data-category="cities">Cities</button>
+          <button class="filter-btn" data-category="fortresses">Fortresses</button>
+          <button class="filter-btn" data-category="sacred">Sacred Sites</button>
+          <button class="filter-btn" data-category="wilderness">Wilderness & Valleys</button>
+          <button class="filter-btn" data-category="regions">Regions</button>
+        </div>
+
+        <!-- Quick Jump Landmark Selector -->
+        <div class="journey-select-wrapper">
+          <select id="landmarkQuickJump" class="journey-select" aria-label="Quick Jump to Landmark">
+            <option value="">-- Jump to Landmark (94) --</option>
+          </select>
+        </div>
+
+        <!-- Expeditions & Journeys Selector (12 Tours) -->
+        <div class="journey-select-wrapper">
+          <select id="journeySelect" class="journey-select" aria-label="Scriptural Journeys">
+            <option value="">-- Scriptural Journeys (12) --</option>
+          </select>
+        </div>
+
+        <!-- Tools: Coordinate Inspector -->
+        <button id="toggleInspectorBtn" class="tool-btn" title="Toggle Coordinate Inspector to click and copy exact map coordinates">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="2" x2="12" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+          </svg>
+          <span id="inspectorBtnText">Inspector: OFF</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Welcome Toast Hint -->
+    <aside class="intro-toast" id="introToast">
+      <span>Drag to pan &bull; Scroll to zoom &bull; Click any landmark or territory to view scriptural codex</span>
+      <button id="dismissIntroBtn" title="Dismiss">&times;</button>
+    </aside>
+
+    <!-- Copy Feedback Toast -->
+    <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
+
+    <!-- Main Map Viewport -->
+    <main class="map-viewport" id="mapViewport">
+      <div class="map-stage" id="mapStage">
+        <!-- High-Resolution Main Map Artwork without baked-in popouts (2120x3160) -->
+        <img src="Book%20of%20Mormon%20Geography%20HighRes.jpg" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage">
+        
+        <!-- SVG Layer for Territory Overlays, Cataclysm Physical Terrain Transformations & Scriptural Journeys -->
+        <svg class="journey-svg" id="journeySvg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <!-- Water Gradient for Inundated Cities (Jerusalem, Onihah, Mocum) -->
+            <radialGradient id="inundatedWaterGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#022b42" stop-opacity="1.0"/>
+              <stop offset="45%" stop-color="#005f73" stop-opacity="0.98"/>
+              <stop offset="75%" stop-color="#0a9396" stop-opacity="0.96"/>
+              <stop offset="92%" stop-color="#48cae4" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#ade8f4" stop-opacity="0.92"/>
+            </radialGradient>
+
+            <!-- Ocean Submergence Gradient for Moroni -->
+            <radialGradient id="oceanSubmergeGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#001829" stop-opacity="1.0"/>
+              <stop offset="40%" stop-color="#003554" stop-opacity="0.98"/>
+              <stop offset="75%" stop-color="#006494" stop-opacity="0.95"/>
+              <stop offset="95%" stop-color="#0582ca" stop-opacity="0.92"/>
+              <stop offset="100%" stop-color="#00a6fb" stop-opacity="0.90"/>
+            </radialGradient>
+
+            <!-- Mountain Ridge Gradient for Moronihah -->
+            <linearGradient id="mountainRidgeGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" stop-color="#fdf0d5" stop-opacity="1.0"/>
+              <stop offset="25%" stop-color="#b08968" stop-opacity="1.0"/>
+              <stop offset="55%" stop-color="#7f5539" stop-opacity="1.0"/>
+              <stop offset="85%" stop-color="#4e342e" stop-opacity="1.0"/>
+              <stop offset="100%" stop-color="#231710" stop-opacity="1.0"/>
+            </linearGradient>
+
+            <!-- Earth Chasm / Sunken Valley Gradient -->
+            <radialGradient id="earthChasmGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#0b0704" stop-opacity="1.0"/>
+              <stop offset="45%" stop-color="#26170f" stop-opacity="0.98"/>
+              <stop offset="80%" stop-color="#4a2e1f" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#734931" stop-opacity="0.90"/>
+            </radialGradient>
+
+            <!-- Scorched Ruins Gradient -->
+            <radialGradient id="scorchedEarthGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#140b06" stop-opacity="0.98"/>
+              <stop offset="45%" stop-color="#541e0c" stop-opacity="0.95"/>
+              <stop offset="80%" stop-color="#8c2e0b" stop-opacity="0.88"/>
+              <stop offset="100%" stop-color="#c1440e" stop-opacity="0.75"/>
+            </radialGradient>
+          </defs>
+
+          <g id="territoryGroup" class="territory-group"></g>
+          <g id="cataclysmTerrainGroup" class="cataclysm-terrain-group"></g>
+          <g id="pathsGroup" class="paths-group"></g>
+        </svg>
+
+        <!-- Interactive Hotspots & Markers Layer -->
+        <div class="markers-layer" id="markersLayer"></div>
+      </div>
+
+      <!-- Zoom & Pan Quick HUD Controls -->
+      <div class="map-hud-controls">
+        <button class="hud-btn" id="zoomInBtn" title="Zoom In (+)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <button class="hud-btn" id="zoomOutBtn" title="Zoom Out (-)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+        <button class="hud-btn" id="resetZoomBtn" title="Fit Map to Viewport (0)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Coordinate Inspector Badge (Clickable) -->
+      <div class="coords-inspector-badge" id="coordsInspectorBadge" title="Click here to copy coordinates to clipboard">
+        <span id="coordsBadgeText"><strong>Map Pos:</strong> X: 0.0% | Y: 0.0%</span>
+        <span class="badge-copy-hint">(Click to copy)</span>
+      </div>
+
+      <!-- Scriptural Era & 3 Nephi Cataclysm Destruction Slider HUD -->
+      <section class="cataclysm-hud" id="cataclysmHud">
+        <div class="cataclysm-header">
+          <div class="cataclysm-title-group">
+            <span class="cataclysm-icon" id="cataclysmIcon">🏛️</span>
+            <div>
+              <h4 class="cataclysm-title" id="cataclysmTitle">Era: Pre-Destruction (Golden Age of the Republic)</h4>
+              <p class="cataclysm-subtitle" id="cataclysmSubtitle">Circa 90 BC – AD 33 • Thriving Cities, Strongholds & Coastal Sanctuaries</p>
+            </div>
+          </div>
+          <div class="cataclysm-actions">
+            <button id="cataclysmQuickToggle" class="btn-cataclysm-trigger" title="Jump directly to the 3 Nephi Cataclysm at Christ's Death">
+              🔥 <span>Trigger 3 Nephi Cataclysm (AD 34)</span>
+            </button>
+          </div>
+        </div>
+        <div class="cataclysm-slider-track-wrapper">
+          <input type="range" id="eraSlider" min="1" max="4" value="2" step="1" class="era-slider-range" list="eraTickMarks" title="Historical Era Slider" aria-label="Historical Era Slider" />
+          <datalist id="eraTickMarks">
+            <option value="1" label="2200 BC Jaredites"></option>
+            <option value="2" label="AD 1-33 Pre-Destruction"></option>
+            <option value="3" label="AD 34 The Cataclysm"></option>
+            <option value="4" label="AD 35+ Post-Destruction Peace"></option>
+          </datalist>
+          <div class="era-step-markers">
+            <div class="era-step" data-step="1">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">2200 BC<br>Jaredite Age</span>
+            </div>
+            <div class="era-step active" data-step="2">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 1–33<br>Pre-Destruction</span>
+            </div>
+            <div class="era-step cataclysm-step" data-step="3">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 34<br>3 Nephi Cataclysm</span>
+            </div>
+            <div class="era-step" data-step="4">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 35–200<br>Universal Peace</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Expedition Tour Player Dock (Active during Journeys) -->
+      <div class="expedition-player-bar" id="expeditionPlayerBar">
+        <div class="expedition-info">
+          <div class="expedition-header-row">
+            <span class="expedition-badge" id="expeditionBadge">EXPEDITION</span>
+            <strong class="expedition-title" id="expeditionTitle">Alma's Flight & Covenant</strong>
+            <span class="expedition-subtitle" id="expeditionSubtitle">Mosiah 18-24</span>
+          </div>
+          <div class="expedition-step-note" id="expeditionStepNote">
+            Step narrative goes here...
+          </div>
+        </div>
+
+        <div class="expedition-controls">
+          <button class="exp-btn" id="expPrevBtn" title="Previous Waypoint">&larr; Prev</button>
+          <span class="exp-step-indicator" id="expStepIndicator">Stage 1 of 6</span>
+          <button class="exp-btn" id="expNextBtn" title="Next Waypoint">Next &rarr;</button>
+          <button class="exp-btn-exit" id="expExitBtn" title="Exit Expedition Tour">&times;</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Slide-Out Ancient Codex / Detail Drawer -->
+    <aside class="codex-drawer" id="codexDrawer" aria-label="Location Details">
+      <div class="drawer-header">
+        <div class="drawer-title-area">
+          <span class="drawer-category-badge" id="drawerCategory">REGION</span>
+          <h2 class="drawer-title" id="drawerTitle">City of Zarahemla</h2>
+          <p class="drawer-subtitle" id="drawerSubtitle">Heart of the Nephite Nation</p>
+        </div>
+        <button class="drawer-close-btn" id="drawerCloseBtn" title="Close Drawer (Esc)">&times;</button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Scriptural Overview -->
+        <div class="drawer-section">
+          <div class="section-label">Scriptural Overview</div>
+          <div class="drawer-summary" id="drawerSummary">
+            The political and spiritual capital of the Nephite nation.
+          </div>
+        </div>
+
+        <!-- 3 Nephi Cataclysm Record (Active for transformed/destroyed sites) -->
+        <div class="drawer-section fate-section-hidden" id="drawerFateSection">
+          <div class="section-label">3 Nephi Cataclysm Record (AD 34)</div>
+          <div class="drawer-fate-card" id="drawerFateCard"></div>
+        </div>
+
+        <!-- Scripture Citations & Excerpts -->
+        <div class="drawer-section">
+          <div class="section-label">Scripture References (Book of Mormon)</div>
+          <div class="refs-list" id="drawerRefs"></div>
+        </div>
+
+        <!-- Key Historical Timeline Events -->
+        <div class="drawer-section">
+          <div class="section-label">Key Historical Events</div>
+          <div class="events-timeline" id="drawerEvents"></div>
+        </div>
+
+        <!-- Notable Figures -->
+        <div class="drawer-section">
+          <div class="section-label">Notable Figures</div>
+          <div class="people-tags" id="drawerPeople"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Church of Jesus Christ Official Scripture Reader Modal (In-App Iframe) -->
+    <div id="scriptureModal" class="scripture-modal" aria-hidden="true">
+      <div class="scripture-modal-backdrop" id="scriptureModalBackdrop"></div>
+      <div class="scripture-modal-dialog">
+        <div class="scripture-modal-header">
+          <div class="scripture-modal-title-group">
+            <div class="scripture-modal-icon">📖</div>
+            <div>
+              <h3 id="scriptureModalTitle" class="scripture-modal-title">Scripture Reader</h3>
+              <p class="scripture-modal-sub">The Church of Jesus Christ of Latter-day Saints • Official Scriptures</p>
+            </div>
+          </div>
+          <div class="scripture-modal-actions">
+            <a id="scriptureExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-scripture-external" title="Open directly on churchofjesuschrist.org">
+              <span>Open in Church Site</span> ↗
+            </a>
+            <button id="closeScriptureModal" class="btn-scripture-close" title="Close Reader">✕</button>
+          </div>
+        </div>
+        <div class="scripture-modal-body">
+          <div id="scriptureLoading" class="scripture-loading-spinner">
+            <div class="spinner"></div>
+            <span>Loading official chapter from ChurchofJesusChrist.org...</span>
+          </div>
+          <iframe id="scriptureIframe" class="scripture-iframe" src="" title="Church of Jesus Christ Book of Mormon Scriptures" allow="fullscreen"></iframe>
+        </div>
+        <div class="scripture-modal-footer">
+          <span class="footer-tip">💡 Scroll up or down within the chapter to read preceding and succeeding context.</span>
+          <a id="scriptureFooterLink" class="footer-url" href="#" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="map-data.js?v=3.2"></script>
+  <script src="app.js?v=3.2"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Dependencies & Temp Files
+scratch/
+1860
+*.tmp
+*.log
+gemini-code-*
+
+# OS Files
+.DS_Store
+Thumbs.db
