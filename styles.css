@@ -1522,6 +1522,76 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+  .cataclysm-hud {
+    width: calc(100% - 20px);
+    bottom: 10px;
+    padding: 10px 12px 12px;
+  }
+
+  .cataclysm-title {
+    font-size: 0.86rem;
+  }
+
+  .cataclysm-subtitle {
+    font-size: 0.68rem;
+  }
+
+  .era-step-label {
+    font-size: 0.62rem;
+  }
+
+  .btn-cataclysm-trigger {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+
+  .hud-controls {
+    bottom: 60px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  .hud-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 500px) {
+  .app-header {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .brand-titles p {
+    display: none;
+  }
+
+  .brand-titles h1 {
+    font-size: 0.82rem;
+  }
+
+  .filter-btn {
+    padding: 3px 6px;
+    font-size: 0.68rem;
+  }
+
+  .journey-select {
+    font-size: 0.7rem;
+    padding: 4px 6px;
+    max-width: 140px;
+  }
+
+  .coords-inspector-badge {
+    bottom: auto;
+    top: 10px;
+    left: 10px;
+    font-size: 0.68rem;
+    padding: 4px 8px;
+  }
+}
+
 /* ==========================================================================
    3 NEPHI CATACLYSM DESTRUCTION & SCRIPTURAL ERA TIMELINE HUD
    ========================================================================== */
@@ -1601,6 +1671,69 @@ html, body {
   color: #fff;
   box-shadow: 0 0 22px rgba(231, 76, 60, 0.6);
   transform: translateY(-1px);
+}
+
+/* Collapse/Expand Toggle Button */
+.btn-hud-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  background: rgba(197, 160, 89, 0.15);
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  color: var(--gold-light);
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-hud-toggle:hover {
+  background: rgba(197, 160, 89, 0.3);
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+}
+
+/* Collapsed state for HUD (Clean, non-intrusive bottom pill) */
+.cataclysm-hud.collapsed {
+  padding: 7px 16px;
+  bottom: 14px;
+  width: auto;
+  max-width: 90vw;
+  border-radius: 24px;
+  background: rgba(22, 17, 13, 0.94);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(197, 160, 89, 0.25);
+}
+
+.cataclysm-hud.collapsed .cataclysm-header {
+  margin-bottom: 0;
+  gap: 12px;
+}
+
+.cataclysm-hud.collapsed .cataclysm-subtitle,
+.cataclysm-hud.collapsed .cataclysm-slider-track-wrapper,
+.cataclysm-hud.collapsed #cataclysmQuickToggle {
+  display: none;
+}
+
+.cataclysm-hud.collapsed .cataclysm-title-group {
+  cursor: pointer;
+}
+
+.cataclysm-hud.collapsed .cataclysm-title {
+  font-size: 0.82rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 220px;
+}
+
+.cataclysm-hud.collapsed .btn-hud-toggle {
+  border-radius: 14px;
+  padding: 4px 10px;
+  font-size: 0.7rem;
 }
 
 .cataclysm-slider-track-wrapper {

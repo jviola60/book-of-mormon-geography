@@ -50,10 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cataclysm HUD & Era Slider Elements
   const cataclysmHud = document.getElementById('cataclysmHud');
+  const cataclysmTitleGroup = document.getElementById('cataclysmTitleGroup');
   const cataclysmIcon = document.getElementById('cataclysmIcon');
   const cataclysmTitle = document.getElementById('cataclysmTitle');
   const cataclysmSubtitle = document.getElementById('cataclysmSubtitle');
   const cataclysmQuickToggle = document.getElementById('cataclysmQuickToggle');
+  const hudToggleBtn = document.getElementById('hudToggleBtn');
+  const hudToggleArrow = document.getElementById('hudToggleArrow');
+  const hudToggleLabel = document.getElementById('hudToggleLabel');
   const eraSlider = document.getElementById('eraSlider');
   const eraSteps = document.querySelectorAll('.era-step');
   const drawerFateSection = document.getElementById('drawerFateSection');
@@ -68,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let scale = 1;
   let translateX = 0;
   let translateY = 0;
-  const minScale = 0.45;
-  const maxScale = 3.5;
+  let minScale = 0.05;
+  const maxScale = 4.0;
 
   // Dragging State
   let isDragging = false;
@@ -209,15 +213,21 @@ document.addEventListener('DOMContentLoaded', () => {
    * Fit map nicely to the center of the viewport
    */
   function fitMapToScreen() {
-    const vWidth = viewport.clientWidth;
-    const vHeight = viewport.clientHeight;
-    const imgWidth = mapImage.naturalWidth || 848;
-    const imgHeight = mapImage.naturalHeight || 1264;
+    const vWidth = viewport.clientWidth || window.innerWidth;
+    const vHeight = viewport.clientHeight || window.innerHeight;
+    const imgWidth = mapImage.naturalWidth || 2120;
+    const imgHeight = mapImage.naturalHeight || 3160;
 
-    const scaleX = (vWidth * 0.88) / imgWidth;
-    const scaleY = (vHeight * 0.90) / imgHeight;
+    const isMobile = window.innerWidth <= 768;
+    const paddingX = isMobile ? 0.96 : 0.90;
+    const paddingY = isMobile ? 0.94 : 0.88;
+
+    const scaleX = (vWidth * paddingX) / imgWidth;
+    const scaleY = (vHeight * paddingY) / imgHeight;
     scale = Math.min(scaleX, scaleY);
-    scale = Math.max(minScale, Math.min(scale, 1.4));
+
+    // Dynamically calculate minScale so users can zoom out to 60% of fitted screen or 0.04
+    minScale = Math.min(0.04, scale * 0.6);
 
     translateX = (vWidth - (imgWidth * scale)) / 2;
     translateY = (vHeight - (imgHeight * scale)) / 2;
@@ -961,6 +971,39 @@ document.addEventListener('DOMContentLoaded', () => {
           focusLocation(64.4, 39.7, 1.25);
         }
       });
+    }
+
+    // Collapse / Expand toggle functionality
+    function setHudCollapsed(collapsed) {
+      if (!cataclysmHud) return;
+      cataclysmHud.classList.toggle('collapsed', collapsed);
+      if (hudToggleArrow) {
+        hudToggleArrow.textContent = collapsed ? '▲' : '▼';
+      }
+      if (hudToggleLabel) {
+        hudToggleLabel.textContent = collapsed ? 'Timeline' : 'Minimize';
+      }
+    }
+
+    if (hudToggleBtn) {
+      hudToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isCollapsed = cataclysmHud.classList.contains('collapsed');
+        setHudCollapsed(!isCollapsed);
+      });
+    }
+
+    if (cataclysmTitleGroup) {
+      cataclysmTitleGroup.addEventListener('click', () => {
+        if (cataclysmHud && cataclysmHud.classList.contains('collapsed')) {
+          setHudCollapsed(false);
+        }
+      });
+    }
+
+    // Auto-collapse on mobile devices by default so the map is completely visible!
+    if (window.innerWidth <= 768) {
+      setHudCollapsed(true);
     }
 
     // Initialize era on load (defaults to Era 2 - Pre-Destruction)
