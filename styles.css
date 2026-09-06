@@ -208,9 +208,15 @@ html, body {
   color: #fff;
 }
 
-.fate-section-hidden,
-#drawerFateSection.fate-section-hidden {
+/* Cataclysm Fate Section: STRICTLY HIDDEN by default on all landmarks */
+#drawerFateSection,
+.drawer-section#drawerFateSection,
+.fate-section-hidden {
   display: none !important;
+}
+
+#drawerFateSection.active-fate-section {
+  display: flex !important;
 }
 
 .drawer-fate-card:empty {
@@ -2685,3 +2691,230 @@ html, body {
 .btn-advance-drawer:active {
   transform: translateY(1px);
 }
+
+/* =========================================================
+   OLD WORLD ORIGINS MODAL & TRANSOCEANIC PORTAL STYLING
+   ========================================================= */
+
+.old-world-btn {
+  background: linear-gradient(135deg, rgba(46, 117, 89, 0.9), rgba(24, 61, 47, 0.9)) !important;
+  border-color: rgba(78, 205, 150, 0.5) !important;
+  color: #e8f8f2 !important;
+}
+
+.old-world-btn:hover {
+  background: linear-gradient(135deg, rgba(58, 147, 112, 1), rgba(30, 78, 60, 1)) !important;
+  border-color: #4ecd96 !important;
+  box-shadow: 0 0 14px rgba(78, 205, 150, 0.5) !important;
+}
+
+/* Old World Modal */
+.old-world-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.old-world-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.old-world-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 6, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.old-world-dialog {
+  position: relative;
+  width: 92%;
+  max-width: 880px;
+  max-height: 88vh;
+  background: linear-gradient(145deg, #241c14, #18130d);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(223, 186, 84, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.old-world-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+  background: rgba(30, 23, 17, 0.95);
+}
+
+.old-world-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.old-world-icon {
+  font-size: 2rem;
+}
+
+.old-world-title {
+  font-family: var(--font-serif-heading);
+  font-size: 1.25rem;
+  color: var(--gold-light);
+  margin: 0;
+}
+
+.old-world-sub {
+  font-size: 0.8rem;
+  color: var(--text-parchment-muted);
+  margin: 2px 0 0;
+}
+
+.btn-old-world-close {
+  background: none;
+  border: none;
+  color: var(--text-parchment-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.btn-old-world-close:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.old-world-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.old-world-banner {
+  background: rgba(45, 34, 20, 0.7);
+  border-left: 4px solid var(--gold-primary);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #f4ebd7;
+}
+
+.old-world-banner strong {
+  color: var(--gold-light);
+}
+
+.old-world-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.old-world-card {
+  background: rgba(34, 27, 20, 0.9);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.old-world-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.old-world-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+  padding-bottom: 8px;
+}
+
+.old-world-card-icon {
+  font-size: 1.5rem;
+}
+
+.old-world-card-title {
+  font-family: var(--font-serif-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin: 0;
+}
+
+.old-world-card-sub {
+  font-size: 0.75rem;
+  color: var(--text-parchment-muted);
+}
+
+.old-world-card-body {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #e2d3be;
+  flex-grow: 1;
+}
+
+.old-world-card-steps {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.old-world-card-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.old-world-card-steps li strong {
+  color: var(--gold-primary);
+  white-space: nowrap;
+}
+
+.btn-jump-landfall {
+  background: linear-gradient(135deg, rgba(184, 134, 11, 0.4), rgba(120, 85, 10, 0.4));
+  border: 1px solid rgba(223, 186, 84, 0.5);
+  color: #fff9e6;
+  font-family: var(--font-serif-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  margin-top: 6px;
+}
+
+.btn-jump-landfall:hover {
+  background: linear-gradient(135deg, rgba(223, 186, 84, 0.6), rgba(184, 134, 11, 0.6));
+  border-color: #f1c40f;
+  transform: translateY(-1px);
+}
+

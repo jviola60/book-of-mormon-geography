@@ -2223,43 +2223,47 @@ const mapLocations = {
 
   "moriancumer_shore": {
     id: "moriancumer_shore",
-    name: "Moriancumer (Great Sea Shore)",
-    title: "Encampment of the Eight Barges",
+    name: "Old World: Moriancumer (Ocean Encampment)",
+    title: "Old World Seashore & Transoceanic Departure (Ether 2:13)",
     category: "waters",
-    region: "Far Eastern Ocean Shore",
-    coords: { x: 88.0, y: 6.0 },
+    region: "Old World (Separated by the Great Deep)",
+    coords: { x: 93.5, y: 5.5 },
     highlightSize: "large",
     glowColor: "azure",
     icon: "waves",
     isScripturalAddition: true,
-    summary: "The shore of the great sea where the Brother of Jared and his people pitched their tents for four years, and where the Lord commanded them to build eight submersible barges.",
+    summary: "The Old World seashore across the great ocean where the Brother of Jared and his companions dwelt in tents for four years after traveling from the Tower of Babel through the Valley of Nimrod. Here the Lord commanded them to build eight submersible barges and touched sixteen stones with divine light before they launched on a 344-day oceanic crossing to reach the Promised Land shores (Ether 2:13-17; 6:11-12). Note: This Old World embarkation site was separated from the Promised Land continent by the vast ocean.",
     refs: [
-      { ref: "Ether 2:13", text: "And it came to pass that the Lord did bring Jared and his brethren forth even to that great sea which divideth the lands. And as they came to the sea they pitched their tents; and they called the name of the place Moriancumer; and they dwelt in tents upon the seashore for the space of four years." }
+      { ref: "Ether 2:13", text: "And it came to pass that the Lord did bring Jared and his brethren forth even to that great sea which divideth the lands. And as they came to the sea they pitched their tents; and they called the name of the place Moriancumer; and they dwelt in tents upon the seashore for the space of four years." },
+      { ref: "Ether 6:11-12", text: "And thus they were driven forth, three hundred and forty and four days upon the water. And they did land upon the shore of the promised land." }
     ],
     historicalEvents: [
-      "Jaredite encampment upon the seashore for four years (Ether 2:13)",
-      "The Lord chastens the brother of Jared and commands barge construction (Ether 2:14-17)"
+      "Jaredite encampment upon the Old World seashore for four years (Ether 2:13)",
+      "The Lord instructs the brother of Jared and commands barge construction (Ether 2:14-17)",
+      "Divine lighting of the sixteen stones on Mount Shelem (Ether 3:1-6)",
+      "344-day transoceanic crossing across the great deep to the Promised Land (Ether 6:11-12)"
     ],
     notablePeople: ["Brother of Jared", "Jared"]
   },
 
   "valley_of_nimrod": {
     id: "valley_of_nimrod",
-    name: "Valley of Nimrod",
-    title: "Valley of the Mighty Hunter",
+    name: "Old World: Valley of Nimrod (Near Babel)",
+    title: "Ancient Mesopotamian Gathering Valley (Ether 2:1)",
     category: "wilderness",
-    region: "Northwest Wilderness Valleys",
-    coords: { x: 23.0, y: 8.5 },
+    region: "Old World Mesopotamia (Near Tower of Babel)",
+    coords: { x: 94.5, y: 13.5 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "tree",
     isScripturalAddition: true,
-    summary: "The northern wilderness valley where Jared and his companions gathered their flocks, swarms of bees (deseret), and seeds before their long trek through the wilderness.",
+    summary: "The wilderness valley in the ancient Old World near the Tower of Babel where Jared, his brother, and their friends gathered their families, flocks, seeds, and honeybees (deseret) before beginning their trek across ancient Asia toward the great sea (Ether 2:1-4). Note: Located in the ancient Old World, separated from the Promised Land continent by the ocean.",
     refs: [
       { ref: "Ether 2:1", text: "And it came to pass that Jared and his brother, and their families, and also the friends of Jared and his brother and their families, went down into the valley which was northward, (and the name of the valley was Nimrod, being called after the mighty hunter) with their flocks which they had gathered together, male and female, of every kind." }
     ],
     historicalEvents: [
-      "Gathering of flocks, fowl, and honeybees (deseret) in Nimrod (Ether 2:1-3)"
+      "Gathering of flocks, fowl, and honeybees (deseret) near Babel in Nimrod (Ether 2:1-3)",
+      "Departure into the wilderness guided by the Lord in a cloud (Ether 2:4-5)"
     ],
     notablePeople: ["Jared", "Brother of Jared"]
   },

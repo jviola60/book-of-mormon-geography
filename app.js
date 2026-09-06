@@ -460,13 +460,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 3 Nephi Cataclysm Fate Card (Only show for cities affected in 3 Nephi)
+    // 3 Nephi Cataclysm Fate Card (Strictly only show for cities affected in 3 Nephi)
     const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
     const isCataclysmEraOrLater = (currentStep >= 20);
 
-    if (loc.fate3Nephi && drawerFateSection && drawerFateCard) {
-      drawerFateSection.style.display = 'flex';
+    if (loc.fate3Nephi && loc.fate3Nephi.type && drawerFateSection && drawerFateCard) {
+      drawerFateSection.classList.add('active-fate-section');
       drawerFateSection.classList.remove('fate-section-hidden');
+      drawerFateSection.style.setProperty('display', 'flex', 'important');
 
       const fateLabelEl = drawerFateSection.querySelector('.section-label');
       if (fateLabelEl) {
@@ -493,10 +494,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="fate-verse">Recorded in <strong>${loc.fate3Nephi.verse}</strong> at the Crucifixion of Christ.</div>
         </div>
       `;
-    } else if (drawerFateSection) {
-      drawerFateSection.style.display = 'none';
-      drawerFateSection.classList.add('fate-section-hidden');
-      if (drawerFateCard) drawerFateCard.innerHTML = '';
+    } else {
+      if (drawerFateSection) {
+        drawerFateSection.classList.remove('active-fate-section');
+        drawerFateSection.classList.add('fate-section-hidden');
+        drawerFateSection.style.setProperty('display', 'none', 'important');
+      }
+      if (drawerFateCard) {
+        drawerFateCard.innerHTML = '';
+      }
     }
 
     // References
@@ -1485,6 +1491,53 @@ document.addEventListener('DOMContentLoaded', () => {
   if (scriptureModalBackdrop) {
     scriptureModalBackdrop.addEventListener('click', closeScriptureModal);
   }
+
+  /**
+   * Setup Old World Origins Modal & Landfall Navigation
+   */
+  const oldWorldModal = document.getElementById('oldWorldModal');
+  const openOldWorldBtn = document.getElementById('openOldWorldBtn');
+  const closeOldWorldModalBtn = document.getElementById('closeOldWorldModal');
+  const oldWorldModalBackdrop = document.getElementById('oldWorldModalBackdrop');
+
+  function openOldWorldModal() {
+    if (oldWorldModal) {
+      oldWorldModal.classList.add('open');
+      oldWorldModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function closeOldWorldModal() {
+    if (oldWorldModal) {
+      oldWorldModal.classList.remove('open');
+      oldWorldModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  if (openOldWorldBtn) {
+    openOldWorldBtn.addEventListener('click', openOldWorldModal);
+  }
+  if (closeOldWorldModalBtn) {
+    closeOldWorldModalBtn.addEventListener('click', closeOldWorldModal);
+  }
+  if (oldWorldModalBackdrop) {
+    oldWorldModalBackdrop.addEventListener('click', closeOldWorldModal);
+  }
+
+  // Handle jump-landfall buttons inside the Old World modal
+  document.querySelectorAll('.btn-jump-landfall').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const targetId = btn.dataset.targetId;
+      if (!targetId) return;
+      closeOldWorldModal();
+      const loc = mapLocations[targetId];
+      if (loc) {
+        focusLocation(loc.coords.x, loc.coords.y, 1.55);
+        openCodex(targetId);
+      }
+    });
+  });
 
   /**
    * Setup Journey Selector & Path Rendering

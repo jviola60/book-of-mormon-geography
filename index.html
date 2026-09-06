@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=4.5">
+  <link rel="stylesheet" href="styles.css?v=4.6">
 </head>
 <body>
 
@@ -79,6 +79,12 @@
             <line x1="2" y1="12" x2="22" y2="12"></line>
           </svg>
           <span id="inspectorBtnText">Inspector: OFF</span>
+        </button>
+
+        <!-- Old World Origins & Transoceanic Crossings Explorer -->
+        <button id="openOldWorldBtn" class="tool-btn old-world-btn" title="Old World Origins & Transoceanic Crossings (Babel & Jerusalem to Promised Land)">
+          <span>🌍</span>
+          <span>Old World Origins</span>
         </button>
       </div>
     </header>
@@ -380,10 +386,104 @@
       </div>
     </div>
 
+    <!-- Old World Origins & Transoceanic Crossings Explorer Modal -->
+    <div id="oldWorldModal" class="old-world-modal" aria-hidden="true">
+      <div class="old-world-backdrop" id="oldWorldModalBackdrop"></div>
+      <div class="old-world-dialog">
+        <div class="old-world-header">
+          <div class="old-world-title-group">
+            <div class="old-world-icon">🌍</div>
+            <div>
+              <h3 class="old-world-title">Old World Origins & Transoceanic Crossings</h3>
+              <p class="old-world-sub">Starting Points in Babel & Jerusalem • Uncharted Oceans • Landfall in the Promised Land</p>
+            </div>
+          </div>
+          <button id="closeOldWorldModal" class="btn-old-world-close" title="Close Explorer">✕</button>
+        </div>
+
+        <div class="old-world-body">
+          <div class="old-world-banner">
+            <strong>Geographical Clarification:</strong> The Book of Mormon map displayed here represents the <em>Promised Land continent</em> (New World). All three civilizations originated in the <strong>Old World</strong> (Babel and Jerusalem) and were brought across vast, uncharted oceans separated from this land. The scriptural text does not specify exact ocean routes or longitudes, focusing instead on their sacred covenant landfall.
+          </div>
+
+          <div class="old-world-grid">
+            <!-- Jaredites -->
+            <div class="old-world-card">
+              <div class="old-world-card-header">
+                <div class="old-world-card-icon">🌊</div>
+                <div>
+                  <h4 class="old-world-card-title">1. The Jaredites</h4>
+                  <span class="old-world-card-sub">c. 2200 BC • Ether 1–6</span>
+                </div>
+              </div>
+              <div class="old-world-card-body">
+                <ul class="old-world-card-steps">
+                  <li><strong>Origin:</strong> Tower of Babel (Mesopotamia)</li>
+                  <li><strong>Old World Wilderness:</strong> Valley of Nimrod & inland seas</li>
+                  <li><strong>Seashore Camp:</strong> Moriancumer (4 years in tents upon the great sea, Ether 2:13)</li>
+                  <li><strong>Voyage:</strong> 8 sealed submersible barges, driven 344 days across the great deep</li>
+                  <li><strong>Landfall:</strong> Shores of the Land Northward near Moron & Desolation</li>
+                </ul>
+              </div>
+              <button class="btn-jump-landfall" data-target-id="land_of_moron">
+                📍 View Landfall: Moron / Desolation
+              </button>
+            </div>
+
+            <!-- Nephites / Lehi -->
+            <div class="old-world-card">
+              <div class="old-world-card-header">
+                <div class="old-world-card-icon">⛵</div>
+                <div>
+                  <h4 class="old-world-card-title">2. Lehi's Colony (Nephites)</h4>
+                  <span class="old-world-card-sub">c. 600 BC • 1 Nephi 1–18</span>
+                </div>
+              </div>
+              <div class="old-world-card-body">
+                <ul class="old-world-card-steps">
+                  <li><strong>Origin:</strong> Jerusalem (Reign of King Zedekiah)</li>
+                  <li><strong>Old World Wilderness:</strong> 8-year trek across Arabia (Valley of Lemuel, Shazer, Nahom)</li>
+                  <li><strong>Seashore Camp:</strong> Old World Bountiful on the Arabian Sea coast</li>
+                  <li><strong>Voyage:</strong> Divine ship guided by the Liahona across the ocean</li>
+                  <li><strong>Landfall:</strong> Land of First Inheritance on the West Sea coast</li>
+                </ul>
+              </div>
+              <button class="btn-jump-landfall" data-target-id="land_first_inheritance">
+                📍 View Landfall: Land of First Inheritance
+              </button>
+            </div>
+
+            <!-- Mulekites -->
+            <div class="old-world-card">
+              <div class="old-world-card-header">
+                <div class="old-world-card-icon">👑</div>
+                <div>
+                  <h4 class="old-world-card-title">3. The Mulekites</h4>
+                  <span class="old-world-card-sub">c. 586 BC • Omni 1; Alma 22; Helaman 6</span>
+                </div>
+              </div>
+              <div class="old-world-card-body">
+                <ul class="old-world-card-steps">
+                  <li><strong>Origin:</strong> Jerusalem (Escape of Prince Mulek during Babylonian conquest)</li>
+                  <li><strong>Voyage:</strong> Brought by the hand of the Lord across the great waters</li>
+                  <li><strong>Landfall:</strong> Northern coast at the borders of Desolation (Alma 22:30)</li>
+                  <li><strong>Inland Migration:</strong> Journeyed 'up into the south wilderness' along River Sidon to Zarahemla</li>
+                  <li><strong>Meeting:</strong> Discovered the last Jaredite king, Coriantumr (Omni 1:21)</li>
+                </ul>
+              </div>
+              <button class="btn-jump-landfall" data-target-id="land_of_desolation">
+                📍 View Landfall: Desolation Landing
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Application Scripts -->
-  <script src="map-data.js?v=4.5"></script>
-  <script src="app.js?v=4.5"></script>
+  <script src="map-data.js?v=4.6"></script>
+  <script src="app.js?v=4.6"></script>
 </body>
 </html>
