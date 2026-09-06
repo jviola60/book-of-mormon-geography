@@ -1476,7 +1476,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Setup Journey Selector & Path Rendering
    */
   function setupJourneys() {
-    journeySelect.innerHTML = '<option value="">-- Scriptural Journeys (12) --</option>';
+    journeySelect.innerHTML = `<option value="">-- Scriptural Journeys (${mapJourneys.length}) --</option>`;
     mapJourneys.forEach(journey => {
       const option = document.createElement('option');
       option.value = journey.id;

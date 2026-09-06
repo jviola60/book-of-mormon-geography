@@ -243,25 +243,28 @@ const mapLocations = {
 
   "land_of_desolation": {
     id: "land_of_desolation",
-    name: "Land of Desolation",
-    title: "Ruins of the Jaredite Empire",
+    name: "Land of Desolation (Mulekite First Landing)",
+    title: "Ruins of the Jaredites & Site of Mulekite First Landfall",
     category: "regions",
     region: "Land Northward (Above the Narrow Neck)",
     coords: { x: 52.0, y: 26.5 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "ruins",
-    summary: "The vast northern territory where the Jaredite nation perished. Called Desolation by the Nephites because of the immense destruction and bones of men and beasts strewn upon the land.",
+    summary: "The vast northern territory where the Jaredite nation perished. Alma 22:30 explicitly identifies this northern coastal territory as the 'place of their first landing' for the people of Zarahemla (Mulekites), after which they migrated southward into the wilderness along the River Sidon to establish the City of Zarahemla.",
     refs: [
       { ref: "Alma 22:30", text: "And it bordered upon the land which they called Desolation, it being so far northward that it came into the land which had been peopled and been destroyed, of whose bones we have spoken, which was discovered by the people of Zarahemla, it being the place of their first landing." },
-      { ref: "Alma 22:31", text: "And they came from there up into the south wilderness. Thus the land on the northward was called Desolation, and the land on the southward was called Bountiful." }
+      { ref: "Alma 22:31", text: "And they came from there up into the south wilderness. Thus the land on the northward was called Desolation, and the land on the southward was called Bountiful." },
+      { ref: "Helaman 6:10", text: "Now the land south was called Lehi, and the land north was called Mulek, which was after the son of Zedekiah; for the Lord did bring Mulek into the land north, and Lehi into the land south." },
+      { ref: "Omni 1:14-16", text: "Mosiah discovered that the people of Zarahemla came out from Jerusalem at the time that Zedekiah, king of Judah, was carried away captive into Babylon, and were brought by the hand of the Lord across the great waters." }
     ],
     historicalEvents: [
-      "Destruction of the Jaredite empire",
-      "Discovery of the 24 gold plates by Limhi's 43 explorers",
-      "Late Nephite defensive retreat"
+      "Place of first landing for Prince Mulek and the people of Zarahemla (Alma 22:30)",
+      "Mulekites discover the ruins and bones of the extinct Jaredite civilization",
+      "Mulekites migrate 'up into the south wilderness' along River Sidon to found Zarahemla",
+      "Discovery of the 24 gold plates by King Limhi's 43 explorers (Mosiah 8:7-12)"
     ],
-    notablePeople: ["Limhi's Explorers", "Mormon", "Ether"]
+    notablePeople: ["Mulek", "Zarahemla", "Limhi's Explorers", "Mormon", "Ether"]
   },
 
   // ==========================================
@@ -1459,23 +1462,27 @@ const mapLocations = {
 
   "land_first_inheritance": {
     id: "land_first_inheritance",
-    name: "Land of First Inheritance",
-    title: "Lehite Arrival Shoreline",
+    name: "Land of First Inheritance (Lehite / Nephite Landing)",
+    title: "Lehite Arrival Shoreline on Sea West",
     category: "sacred",
     region: "Southwest Coast by Sea West",
     coords: { x: 11.5, y: 84.0 },
-    highlightSize: "small",
+    highlightSize: "medium",
     glowColor: "gold",
     icon: "temple",
-    summary: "The coastal area along the West Sea where Father Lehi's vessel originally made landfall after crossing the great deep from the Old World.",
+    summary: "The coastal area along the West Sea, west of the Land of Nephi in the Land Southward, where Father Lehi's vessel made landfall after crossing the ocean from the Old World. Here the colony first pitched their tents, planted seeds brought from Jerusalem, and began their civilization before Nephi fled inland into the wilderness to escape Laman and Lemuel.",
     refs: [
-      { ref: "Alma 22:28", text: "Now, the more idle part of the Lamanites lived in the wilderness, and dwelt in tents; and they were spread through the wilderness on the west, in the land of Nephi; yea, and also on the west of the land of Zarahemla, in the borders by the seashore, and on the west in the land of Antionum, in the land of their fathers' first inheritance, and thus bordering along by the seashore." }
+      { ref: "1 Nephi 18:23", text: "And it came to pass that after we had sailed for the space of many days we did arrive at the promised land; and we went forth upon the land, and did pitch our tents; and we did call it the promised land." },
+      { ref: "Alma 22:28", text: "Now, the more idle part of the Lamanites lived in the wilderness, and dwelt in tents; and they were spread through the wilderness on the west, in the land of Nephi; yea, and also on the west of the land of Zarahemla, in the borders by the seashore, and on the west in the land of Antionum, in the land of their fathers' first inheritance, and thus bordering along by the seashore." },
+      { ref: "Helaman 6:10", text: "Now the land south was called Lehi, and the land north was called Mulek, which was after the son of Zedekiah; for the Lord did bring Mulek into the land north, and Lehi into the land south." }
     ],
     historicalEvents: [
-      "Landing of Father Lehi, Sariah, Nephi, and their families",
-      "Pitching of initial tents and planting of seeds from Jerusalem"
+      "First landfall of Father Lehi, Sariah, Nephi, Sam, Laman, and Lemuel (1 Nephi 18:23)",
+      "Pitching of initial tents and first agricultural cultivation with Jerusalem seeds (1 Nephi 18:24)",
+      "Discovery of domestic animals, beasts, gold, silver, and copper ore in the wilderness (1 Nephi 18:25)",
+      "Death of Patriarch Lehi and subsequent division leading to Nephi's flight inland (2 Nephi 4-5)"
     ],
-    notablePeople: ["Lehi", "Sariah", "Nephi", "Laman"]
+    notablePeople: ["Lehi", "Sariah", "Nephi", "Sam", "Laman", "Lemuel"]
   },
 
   "place_of_ogath": {
@@ -1503,25 +1510,26 @@ const mapLocations = {
 
   "land_of_moron": {
     id: "land_of_moron",
-    name: "Land & City of Moron",
-    title: "Ancient Jaredite Capital",
+    name: "Land & City of Moron (Jaredite First Settlement & Capital)",
+    title: "Ancestral Jaredite Homeland Near Desolation",
     category: "capitals",
     region: "Land Northward (Near Desolation)",
     coords: { x: 42.0, y: 15.0 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "crown",
-    summary: "The principal ancestral seat and royal capital of the Jaredite kings throughout generations, situated near the land called Desolation by the Nephites.",
+    summary: "The principal ancestral seat and royal capital established by the first Jaredite kings upon arriving in the promised land, situated in the Land Northward near the land called Desolation by the Nephites. Here the Jaredites established their first dynasty under King Orihah, and successive kings reigned until the final civil wars.",
     refs: [
-      { ref: "Ether 7:5", text: "And he came to the hill Ephraim, and he did molten out of the hill, and made swords out of steel for those whom he had drawn away with him; and after he had armed them with swords he returned to the city of Nehor and gave battle unto his brother Corihor; and by this means he obtained the kingdom and restored it unto his father Kib." },
-      { ref: "Ether 7:6", text: "Now the land of Moron, where the king dwelt, was near the land which is called Desolation by the Nephites." },
+      { ref: "Ether 6:12", text: "And they did land upon the shore of the promised land. And when they had set their feet upon the shores of the promised land they bowed themselves down upon the face of the land, and did humble themselves before the Lord, and did shed tears of joy before the Lord, because of the multitude of his tender mercies over them." },
+      { ref: "Ether 7:5-6", text: "Now the land of Moron, where the king dwelt, was near the land which is called Desolation by the Nephites... and Corihor came unto the land of Moron where the king dwelt, and took him captive." },
       { ref: "Ether 14:6", text: "And it came to pass that the brother of Shared did come to battle against him in the wilderness of Akish... and Shared did beat him that he did come again even to the land of Moron." }
     ],
     historicalEvents: [
-      "Ancestral throne of the Jaredite dynasty established near Desolation (Ether 7:6)",
+      "Arrival of the 8 Jaredite barges upon the shore of the promised land (Ether 6:11-12)",
+      "Orihah anointed first king; royal capital established at Moron near Desolation (Ether 6:27; 7:1-6)",
       "Successive rebellions, overthrows, and royal restorations throughout Jaredite history (Ether 7, 14)"
     ],
-    notablePeople: ["Kib", "Corihor", "Shule", "Coriantumr"]
+    notablePeople: ["Jared", "Brother of Jared", "Orihah", "Kib", "Corihor", "Shule", "Coriantumr"]
   },
 
   "valley_of_corihor": {
@@ -2282,6 +2290,21 @@ const mapLocations = {
  * Scriptural Expeditions and Historical Journeys (12 Comprehensive Tours)
  */
 const mapJourneys = [
+  {
+    id: "the_three_ancient_landings",
+    name: "The Three Ancient Landings & Beginnings",
+    subtitle: "Jaredites (c. 2200 BC), Nephites (c. 589 BC), & Mulekites (c. 586 BC)",
+    color: "#f39c12",
+    description: "The Book of Mormon explicitly records the landfall and starting locations of all three civilizations: 1) The Jaredites land upon the northern shore and establish their royal seat in the Land of Moron near Desolation (Ether 6:12; 7:6); 2) Lehi's colony lands on the southwest shore at the Land of First Inheritance on the West Sea (Alma 22:28; Helaman 6:10); 3) Prince Mulek's company lands in the Land Northward at Desolation before journeying south into the wilderness to found Zarahemla (Alma 22:30-31; Helaman 6:10).",
+    stages: [
+      { locId: "land_of_moron", note: "1. Jaredite Landing & Capital (c. 2200 BC): After 344 days in 8 barges, the Jaredites disembark upon the northern promised land and establish their throne at Moron near Desolation (Ether 6:11-12; 7:5-6)." },
+      { locId: "land_first_inheritance", note: "2. Lehi / Nephite Landing (c. 589 BC): Lehi's vessel sails across the ocean and makes landfall on the West Sea at the Land of First Inheritance in the Land Southward (1 Nephi 18:23; Alma 22:28; Helaman 6:10)." },
+      { locId: "lehi_nephi", note: "3. Nephite Separation (c. 588 BC): Nephi flees Laman's threats, journeying inland into the wilderness to establish the City of Lehi-Nephi and build a temple (2 Nephi 5:5-16)." },
+      { locId: "land_of_desolation", note: "4. Mulekite Landing (c. 586 BC): Escaping the Babylonian destruction of Jerusalem, Prince Mulek's party lands in the Land Northward at the borders of Desolation (Alma 22:30; Helaman 6:10)." },
+      { locId: "zarahemla", note: "5. Mulekite Migration to Zarahemla: Journeying 'up into the south wilderness' along the River Sidon, the Mulekites build the City of Zarahemla, later uniting with Mosiah I (Omni 1:14-21; Alma 22:31)." }
+    ],
+    waypoints: ["land_of_moron", "land_first_inheritance", "lehi_nephi", "land_of_desolation", "zarahemla"]
+  },
   {
     id: "alma_covenant",
     name: "Alma's Flight & Covenant at Mormon",
