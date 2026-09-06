@@ -297,9 +297,17 @@ document.addEventListener('DOMContentLoaded', () => {
       polygon.dataset.id = loc.id;
       polygon.dataset.category = loc.category;
 
-      polygon.addEventListener('click', (e) => {
+      const handlePolygonSelect = (e) => {
         e.stopPropagation();
         openCodex(loc.id);
+      };
+
+      polygon.addEventListener('click', handlePolygonSelect);
+      polygon.addEventListener('pointerdown', (e) => e.stopPropagation());
+      polygon.addEventListener('touchend', (e) => {
+        if (!isDragging) {
+          handlePolygonSelect(e);
+        }
       });
 
       polygon.addEventListener('mouseenter', () => {
@@ -358,14 +366,21 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Marker click event
-      marker.addEventListener('click', (e) => {
+      // Marker selection event
+      const handleMarkerSelect = (e) => {
         e.stopPropagation();
-        // If searching, reset search to view marker clearly
         if (searchInput.value.trim().length > 0) {
           clearSearch();
         }
         openCodex(loc.id);
+      };
+
+      marker.addEventListener('click', handleMarkerSelect);
+      marker.addEventListener('pointerdown', (e) => e.stopPropagation());
+      marker.addEventListener('touchend', (e) => {
+        if (!isDragging) {
+          handleMarkerSelect(e);
+        }
       });
 
       markersLayer.appendChild(marker);
@@ -509,15 +524,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Close Codex Drawer
+   * Close Codex Drawer (Flyout Panel)
    */
   function closeCodex() {
+    if (!codexDrawer) return;
     codexDrawer.classList.remove('open');
     activeLocationId = null;
     document.querySelectorAll('.map-marker').forEach(m => m.classList.remove('active'));
+    document.querySelectorAll('.territory-polygon').forEach(p => p.classList.remove('active'));
   }
 
-  drawerCloseBtn.addEventListener('click', closeCodex);
+  if (drawerCloseBtn) {
+    drawerCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeCodex();
+    });
+  }
+
+  // Prevent interactions inside the drawer from triggering click-away
+  if (codexDrawer) {
+    codexDrawer.addEventListener('click', (e) => e.stopPropagation());
+    codexDrawer.addEventListener('pointerdown', (e) => e.stopPropagation());
+    codexDrawer.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+  }
+
+  // Flyout Panel Click-Away: Disappears when clicking away anywhere on the map or page
+  document.addEventListener('pointerdown', (e) => {
+    if (!codexDrawer || !codexDrawer.classList.contains('open')) return;
+    if (
+      e.target.closest('#codexDrawer') ||
+      e.target.closest('.map-marker') ||
+      e.target.closest('.territory-polygon') ||
+      e.target.closest('.terrain-feature') ||
+      e.target.closest('.scripture-modal') ||
+      e.target.closest('#scriptureModal') ||
+      e.target.closest('.hud-btn')
+    ) {
+      return;
+    }
+    closeCodex();
+  });
 
   /**
    * Setup Quick Jump Selector & Autocomplete Datalist for All Landmarks
@@ -775,13 +821,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cataclysmTerrainGroup.innerHTML = featuresHtml;
 
-    // Attach click listeners to terrain features to open Codex
+    // Attach click and touch listeners to terrain features to open Codex
     cataclysmTerrainGroup.querySelectorAll('.terrain-feature').forEach(el => {
-      el.addEventListener('click', (e) => {
+      const handleTerrainSelect = (e) => {
         e.stopPropagation();
         const id = el.dataset.id;
         if (id) {
           openCodex(id);
+        }
+      };
+      el.addEventListener('click', handleTerrainSelect);
+      el.addEventListener('pointerdown', (e) => e.stopPropagation());
+      el.addEventListener('touchend', (e) => {
+        if (!isDragging) {
+          handleTerrainSelect(e);
         }
       });
     });
@@ -1608,11 +1661,19 @@ document.addEventListener('DOMContentLoaded', () => {
   viewport.addEventListener('pointerdown', (e) => {
     if (
       e.target.closest('.cataclysm-hud') ||
+      e.target.closest('#codexDrawer') ||
       e.target.closest('.hud-btn') ||
       e.target.closest('.map-marker') ||
+      e.target.closest('.territory-polygon') ||
+      e.target.closest('.terrain-feature') ||
       e.target.closest('.expedition-player-bar') ||
       e.target.closest('.coords-inspector-badge')
     ) return;
+
+    // If flyout codex panel is open and user clicks or begins dragging the map, dismiss the flyout
+    if (codexDrawer && codexDrawer.classList.contains('open')) {
+      closeCodex();
+    }
 
     isDragging = true;
     viewport.classList.add('panning');
