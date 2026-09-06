@@ -1466,7 +1466,7 @@ const mapLocations = {
     title: "Lehite Arrival Shoreline on Sea West",
     category: "sacred",
     region: "Southwest Coast by Sea West",
-    coords: { x: 11.5, y: 84.0 },
+    coords: { x: 6.8, y: 84.0 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "temple",
