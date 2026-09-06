@@ -1631,6 +1631,26 @@ html, body {
     max-width: 92vw;
   }
 
+  .cataclysm-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .cataclysm-hud.collapsed .cataclysm-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cataclysm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 6px;
+  }
+
   .cataclysm-title {
     font-size: 0.84rem;
   }
@@ -1639,8 +1659,41 @@ html, body {
     font-size: 0.68rem;
   }
 
+  .timeline-year-badge {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+  }
+
+  .timeline-site-counter {
+    font-size: 0.68rem;
+    padding: 1px 6px;
+  }
+
+  .timeline-playback-group {
+    padding: 1px 3px;
+  }
+
+  .btn-timeline-nav {
+    width: 22px;
+    height: 22px;
+    font-size: 0.65rem;
+  }
+
+  .btn-timeline-play {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    height: 22px;
+  }
+
+  .timeline-added-bar {
+    font-size: 0.66rem;
+    padding: 3px 6px;
+    gap: 5px;
+  }
+
   .era-step-label {
-    font-size: 0.62rem;
+    font-size: 0.58rem;
+    line-height: 1.1;
   }
 
   .btn-cataclysm-trigger {
@@ -1726,33 +1779,153 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .cataclysm-title-group {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+}
+
+.cataclysm-titles-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cataclysm-heading-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.timeline-year-badge {
+  background: linear-gradient(135deg, #d4af37, #f39c12);
+  color: #1a1208;
+  font-family: var(--font-serif-heading);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.45);
+  white-space: nowrap;
+  display: inline-block;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.timeline-site-counter {
+  font-size: 0.72rem;
+  color: var(--gold-light);
+  background: rgba(197, 160, 89, 0.14);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+  font-weight: 600;
 }
 
 .cataclysm-icon {
   font-size: 1.6rem;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .cataclysm-title {
   font-family: var(--font-serif-heading);
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 700;
   color: var(--gold-light);
-  margin: 0 0 2px 0;
+  margin: 0;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cataclysm-subtitle {
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   color: var(--text-parchment-muted);
   margin: 0;
+  line-height: 1.35;
+}
+
+.cataclysm-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Timeline Playback Controls */
+.timeline-playback-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(12, 9, 6, 0.6);
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+
+.btn-timeline-nav {
+  background: transparent;
+  border: none;
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-timeline-nav:hover:not(:disabled) {
+  background: rgba(197, 160, 89, 0.25);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.btn-timeline-nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-timeline-play {
+  background: rgba(197, 160, 89, 0.18);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  color: var(--gold-light);
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-timeline-play:hover {
+  background: var(--gold-primary);
+  color: #17110c;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
+}
+
+.btn-timeline-play.playing {
+  background: #27ae60;
+  border-color: #2ecc71;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
 }
 
 .btn-cataclysm-trigger {
@@ -1809,7 +1982,7 @@ html, body {
   padding: 7px 16px;
   bottom: 14px;
   width: auto;
-  max-width: 90vw;
+  max-width: 92vw;
   border-radius: 24px;
   background: rgba(22, 17, 13, 0.94);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(197, 160, 89, 0.25);
@@ -1822,8 +1995,10 @@ html, body {
 
 .cataclysm-hud.collapsed .cataclysm-subtitle,
 .cataclysm-hud.collapsed .cataclysm-slider-track-wrapper,
+.cataclysm-hud.collapsed .timeline-added-bar,
+.cataclysm-hud.collapsed .timeline-playback-group,
 .cataclysm-hud.collapsed #cataclysmQuickToggle {
-  display: none;
+  display: none !important;
 }
 
 .cataclysm-hud.collapsed .cataclysm-title-group {
@@ -1848,6 +2023,65 @@ html, body {
   position: relative;
   width: 100%;
   padding: 0 6px;
+}
+
+/* Recently Added Cities Strip */
+.timeline-added-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 5px 10px;
+  background: rgba(12, 9, 6, 0.65);
+  border-left: 3px solid var(--gold-primary);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.72rem;
+  overflow: hidden;
+}
+
+.timeline-added-bar .added-label {
+  font-weight: 700;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.65rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.timeline-added-bar .added-cities-list {
+  color: var(--text-parchment-light);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Newly Established Landmark Pulse Animation */
+@keyframes markerSpawnGlow {
+  0% {
+    transform: scale(2.2);
+    filter: drop-shadow(0 0 25px #f1c40f) brightness(1.9);
+  }
+  40% {
+    transform: scale(1.6);
+    filter: drop-shadow(0 0 18px #f39c12) brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: none;
+  }
+}
+
+.map-marker.newly-founded .marker-pin {
+  animation: markerSpawnGlow 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.map-marker.newly-founded .marker-label {
+  border-color: #f1c40f !important;
+  box-shadow: 0 0 14px rgba(241, 196, 15, 0.8) !important;
+  color: #fff9db !important;
+  font-weight: 800 !important;
 }
 
 .era-slider-range {

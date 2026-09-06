@@ -62,6 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const eraSteps = document.querySelectorAll('.era-step');
   const drawerFateSection = document.getElementById('drawerFateSection');
   const drawerFateCard = document.getElementById('drawerFateCard');
+  const timelineYearBadge = document.getElementById('timelineYearBadge');
+  const timelineSiteCounter = document.getElementById('timelineSiteCounter');
+  const timelinePrevBtn = document.getElementById('timelinePrevBtn');
+  const timelinePlayBtn = document.getElementById('timelinePlayBtn');
+  const timelinePlayIcon = document.getElementById('timelinePlayIcon');
+  const timelinePlayText = document.getElementById('timelinePlayText');
+  const timelineNextBtn = document.getElementById('timelineNextBtn');
+  const addedCitiesList = document.getElementById('addedCitiesList');
 
   // Zoom control buttons
   const zoomInBtn = document.getElementById('zoomInBtn');
@@ -327,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (loc.fate3Nephi) {
         marker.dataset.fate = loc.fate3Nephi.type;
       }
+      marker.dataset.foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
       marker.style.left = `${loc.coords.x}%`;
       marker.style.top = `${loc.coords.y}%`;
 
@@ -838,7 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  function updateMarkerLabelsForEra(step) {
+  function updateMarkerLabelsForEra(mode) {
     document.querySelectorAll('.map-marker').forEach(marker => {
       const locId = marker.dataset.id;
       const loc = mapLocations[locId];
@@ -847,9 +856,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!labelEl) return;
 
       const override = cataclysmNameOverrides[locId];
-      if (step === 3 && override && override.era3) {
+      if (mode === 3 && override && override.era3) {
         labelEl.textContent = override.era3;
-      } else if (step === 4 && override && override.era4) {
+      } else if (mode === 4 && override && override.era4) {
         labelEl.textContent = override.era4;
       } else {
         labelEl.textContent = loc.name;
@@ -858,120 +867,208 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Setup Scriptural Era & 3 Nephi Cataclysm Destruction Slider
+   * Setup Chronological Slider & 3 Nephi Cataclysm HUD (2200 BC - AD 421)
    */
   function setupCataclysmHud() {
     if (!eraSlider) return;
 
-    function applyEra(step) {
-      step = parseInt(step, 10);
+    let isPlaying = false;
+    let playInterval = null;
+
+    function stopAutoplay() {
+      if (playInterval) {
+        clearInterval(playInterval);
+        playInterval = null;
+      }
+      isPlaying = false;
+      if (timelinePlayBtn) timelinePlayBtn.classList.remove('playing');
+      if (timelinePlayIcon) timelinePlayIcon.textContent = '▶';
+      if (timelinePlayText) timelinePlayText.textContent = 'Play';
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      isPlaying = true;
+      if (timelinePlayBtn) timelinePlayBtn.classList.add('playing');
+      if (timelinePlayIcon) timelinePlayIcon.textContent = '⏸';
+      if (timelinePlayText) timelinePlayText.textContent = 'Pause';
+
+      if (parseInt(eraSlider.value, 10) >= chronologicalMilestones.length - 1) {
+        applyChronologicalStep(0);
+      }
+
+      playInterval = setInterval(() => {
+        const current = parseInt(eraSlider.value, 10);
+        if (current < chronologicalMilestones.length - 1) {
+          applyChronologicalStep(current + 1, true);
+        } else {
+          stopAutoplay();
+        }
+      }, 1800);
+    }
+
+    function applyChronologicalStep(step, fromAdvance = false) {
+      step = Math.max(0, Math.min(chronologicalMilestones.length - 1, parseInt(step, 10)));
+      eraSlider.value = step;
+
+      const milestone = chronologicalMilestones[step] || chronologicalMilestones[19];
+
+      // Update milestone markers on slider track
       eraSteps.forEach(el => {
-        el.classList.toggle('active', parseInt(el.dataset.step, 10) === step);
+        const targetStep = parseInt(el.dataset.step, 10);
+        el.classList.toggle('active', targetStep === step);
       });
 
-      if (step === 1) {
-        // Jaredite Age (2200 BC - 600 BC)
-        stage.classList.remove('cataclysm-mode', 'post-cataclysm-mode');
-        if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.remove('visible');
-        updateMarkerLabelsForEra(1);
+      // Update Header Badges & Labels
+      if (timelineYearBadge) {
+        timelineYearBadge.textContent = milestone.yearLabel;
+      }
+      if (timelineSiteCounter) {
+        timelineSiteCounter.textContent = `${milestone.totalCumulativeSites} / 94 Sites Active`;
+      }
+      if (cataclysmIcon) {
+        cataclysmIcon.textContent = milestone.icon;
+      }
+      if (cataclysmTitle) {
+        cataclysmTitle.textContent = `Era: ${milestone.title}`;
+      }
+      if (cataclysmSubtitle) {
+        cataclysmSubtitle.textContent = milestone.subtitle;
+      }
 
-        if (cataclysmIcon) cataclysmIcon.textContent = '👑';
-        if (cataclysmTitle) cataclysmTitle.textContent = 'Era: Jaredite Age (c. 2200 BC – 600 BC)';
-        if (cataclysmSubtitle) cataclysmSubtitle.textContent = 'Tower of Babel Exodus, Northern Kingdoms, Ripliancum & Ramah';
-        if (cataclysmQuickToggle) {
-          cataclysmQuickToggle.classList.remove('active');
-          cataclysmQuickToggle.innerHTML = '🔥 <span>Trigger 3 Nephi Cataclysm (AD 34)</span>';
+      // Update Recently Established Strip
+      if (addedCitiesList) {
+        if (milestone.newCityNames && milestone.newCityNames.length > 0) {
+          addedCitiesList.textContent = milestone.newCityNames.join(', ');
+          addedCitiesList.title = milestone.newCityNames.join(', ');
+        } else if (milestone.isCataclysm) {
+          addedCitiesList.textContent = 'Crucifixion Cataclysm: 16 Cities Sunk, Burned, and Shaken';
+          addedCitiesList.title = 'Crucifixion Cataclysm: 16 Cities Sunk, Burned, and Shaken';
+        } else if (milestone.isPostCataclysm) {
+          addedCitiesList.textContent = 'All 88 Active Sites (Post-Cataclysm Alterations & Zionic Peace)';
+          addedCitiesList.title = 'All 88 Active Sites (Post-Cataclysm Alterations & Zionic Peace)';
+        } else {
+          addedCitiesList.textContent = 'Civilization Growth (All established sites active)';
+          addedCitiesList.title = 'Civilization Growth (All established sites active)';
         }
+      }
 
-        const jarediteKeywords = ['jaredite', 'ripliancum', 'moron', 'nehor', 'ephraim', 'corihor', 'shurr', 'agosh', 'heshlon', 'akish', 'ramah', 'nimrod', 'moriancumer', 'ogath'];
-        document.querySelectorAll('.map-marker').forEach(marker => {
-          const loc = mapLocations[marker.dataset.id];
-          if (!loc) return;
-          const isJaredite = jarediteKeywords.some(k => 
-            loc.id.includes(k) || 
-            (loc.region || '').toLowerCase().includes(k) || 
-            (loc.summary || '').toLowerCase().includes(k)
-          );
-          marker.classList.toggle('dimmed', !isJaredite);
-        });
-      } else if (step === 2) {
-        // Pre-Destruction (AD 1-33)
-        stage.classList.remove('cataclysm-mode', 'post-cataclysm-mode');
-        if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.remove('visible');
-        updateMarkerLabelsForEra(2);
+      // Update Navigation Buttons state
+      if (timelinePrevBtn) timelinePrevBtn.disabled = (step === 0);
+      if (timelineNextBtn) timelineNextBtn.disabled = (step === chronologicalMilestones.length - 1);
 
-        if (cataclysmIcon) cataclysmIcon.textContent = '🏛️';
-        if (cataclysmTitle) cataclysmTitle.textContent = 'Era: Pre-Destruction (Golden Age of the Republic)';
-        if (cataclysmSubtitle) cataclysmSubtitle.textContent = 'Circa 90 BC – AD 33 • Thriving Cities, Strongholds & Coastal Sanctuaries';
-        if (cataclysmQuickToggle) {
-          cataclysmQuickToggle.classList.remove('active');
-          cataclysmQuickToggle.innerHTML = '🔥 <span>Trigger 3 Nephi Cataclysm (AD 34)</span>';
-        }
-        document.querySelectorAll('.map-marker').forEach(marker => {
-          marker.classList.remove('dimmed');
-        });
-      } else if (step === 3) {
-        // The 3 Nephi Cataclysm (AD 34)
+      // Handle Cataclysm Physical Transformations & Sounds
+      if (milestone.isCataclysm) {
+        // Step 20: AD 34
         stage.classList.add('cataclysm-mode');
         stage.classList.remove('post-cataclysm-mode');
         if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.add('visible');
         updateMarkerLabelsForEra(3);
-
-        if (cataclysmIcon) cataclysmIcon.textContent = '🔥';
-        if (cataclysmTitle) cataclysmTitle.textContent = 'Era: The 3 Nephi Cataclysm (Crucifixion Upheaval)';
-        if (cataclysmSubtitle) cataclysmSubtitle.textContent = 'AD 34 • Sunk Harbors, Mountains Formed, Waters Cast Up & Fire from Heaven';
         if (cataclysmQuickToggle) {
           cataclysmQuickToggle.classList.add('active');
           cataclysmQuickToggle.innerHTML = '🕊️ <span>Reset to Pre-Destruction</span>';
         }
-
-        document.querySelectorAll('.map-marker').forEach(marker => {
-          marker.classList.remove('dimmed');
-        });
-
-        // Subtle seismic rumble Web Audio feedback
         playCataclysmRumble();
-      } else if (step === 4) {
-        // Post-Destruction Universal Peace (AD 35-200)
+      } else if (milestone.isPostCataclysm) {
+        // Steps 21-29: AD 50 - AD 421
         stage.classList.remove('cataclysm-mode');
         stage.classList.add('post-cataclysm-mode');
-        // Keep physical terrain transformations visible as permanent geographic reality
         if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.add('visible');
         updateMarkerLabelsForEra(4);
-
-        if (cataclysmIcon) cataclysmIcon.textContent = '🕊️';
-        if (cataclysmTitle) cataclysmTitle.textContent = 'Era: The Golden Century of Peace (4 Nephi)';
-        if (cataclysmSubtitle) cataclysmSubtitle.textContent = 'AD 35 – 200 • Permanent Transformed Topography, Healing & Universal Peace';
         if (cataclysmQuickToggle) {
           cataclysmQuickToggle.classList.remove('active');
-          cataclysmQuickToggle.innerHTML = '🔥 <span>Trigger 3 Nephi Cataclysm (AD 34)</span>';
+          cataclysmQuickToggle.innerHTML = '🔥 <span>Cataclysm (AD 34)</span>';
         }
-        document.querySelectorAll('.map-marker').forEach(marker => {
+      } else {
+        // Steps 0-19: 2200 BC - AD 1
+        stage.classList.remove('cataclysm-mode', 'post-cataclysm-mode');
+        if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.remove('visible');
+        updateMarkerLabelsForEra(1);
+        if (cataclysmQuickToggle) {
+          cataclysmQuickToggle.classList.remove('active');
+          cataclysmQuickToggle.innerHTML = '🔥 <span>Cataclysm (AD 34)</span>';
+        }
+      }
+
+      // Filter Markers Chronologically
+      const activeCatBtn = document.querySelector('.filter-btn.active');
+      const currentCat = activeCatBtn ? activeCatBtn.dataset.category : 'all';
+
+      document.querySelectorAll('.map-marker').forEach(marker => {
+        const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
+        const isChronologicallyFounded = (foundedStep <= step);
+        const matchesCategory = (currentCat === 'all' || marker.dataset.category === currentCat);
+
+        if (isChronologicallyFounded && matchesCategory) {
+          marker.style.display = 'block';
           marker.classList.remove('dimmed');
-        });
+
+          // Highlight newly established markers in this step
+          if (foundedStep === step && milestone.newIds && milestone.newIds.includes(marker.dataset.id)) {
+            marker.classList.remove('newly-founded');
+            void marker.offsetWidth; // Trigger reflow for CSS animation
+            marker.classList.add('newly-founded');
+          } else {
+            marker.classList.remove('newly-founded');
+          }
+        } else {
+          marker.style.display = 'none';
+          marker.classList.remove('newly-founded');
+        }
+      });
+
+      // Update collapsed mobile pill text
+      if (hudToggleLabel && cataclysmHud && cataclysmHud.classList.contains('collapsed')) {
+        hudToggleLabel.textContent = `${milestone.yearLabel} • ${milestone.totalCumulativeSites}`;
       }
     }
 
     eraSlider.addEventListener('input', (e) => {
-      applyEra(e.target.value);
+      stopAutoplay();
+      applyChronologicalStep(e.target.value);
     });
 
     eraSteps.forEach(stepEl => {
       stepEl.addEventListener('click', () => {
-        const val = stepEl.dataset.step;
-        eraSlider.value = val;
-        applyEra(val);
+        stopAutoplay();
+        const val = parseInt(stepEl.dataset.step, 10);
+        applyChronologicalStep(val);
       });
     });
 
+    if (timelinePrevBtn) {
+      timelinePrevBtn.addEventListener('click', () => {
+        stopAutoplay();
+        const current = parseInt(eraSlider.value, 10);
+        if (current > 0) applyChronologicalStep(current - 1);
+      });
+    }
+
+    if (timelineNextBtn) {
+      timelineNextBtn.addEventListener('click', () => {
+        stopAutoplay();
+        const current = parseInt(eraSlider.value, 10);
+        if (current < chronologicalMilestones.length - 1) applyChronologicalStep(current + 1);
+      });
+    }
+
+    if (timelinePlayBtn) {
+      timelinePlayBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      });
+    }
+
     if (cataclysmQuickToggle) {
       cataclysmQuickToggle.addEventListener('click', () => {
-        if (eraSlider.value === '3') {
-          eraSlider.value = '2';
-          applyEra(2);
+        stopAutoplay();
+        if (parseInt(eraSlider.value, 10) === 20) {
+          applyChronologicalStep(19);
         } else {
-          eraSlider.value = '3';
-          applyEra(3);
+          applyChronologicalStep(20);
           focusLocation(64.4, 39.7, 1.25);
         }
       });
@@ -985,7 +1082,9 @@ document.addEventListener('DOMContentLoaded', () => {
         hudToggleArrow.textContent = collapsed ? '▲' : '▼';
       }
       if (hudToggleLabel) {
-        hudToggleLabel.textContent = collapsed ? 'Timeline' : 'Minimize';
+        const step = parseInt(eraSlider.value, 10);
+        const milestone = chronologicalMilestones[step] || chronologicalMilestones[19];
+        hudToggleLabel.textContent = collapsed ? `${milestone.yearLabel} • ${milestone.totalCumulativeSites}` : 'Minimize';
       }
     }
 
@@ -1010,8 +1109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setHudCollapsed(true);
     }
 
-    // Initialize era on load (defaults to Era 2 - Pre-Destruction)
-    applyEra(eraSlider.value || 2);
+    // Initialize era on load (defaults to Era 19 - AD 1, Birth of Christ)
+    applyChronologicalStep(eraSlider.value || 19);
   }
 
   function playCataclysmRumble() {
@@ -1309,8 +1408,11 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.add('active');
       const category = btn.dataset.category;
 
+      const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 29;
+
       document.querySelectorAll('.map-marker').forEach(marker => {
-        const matches = category === 'all' || marker.dataset.category === category;
+        const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
+        const matches = (category === 'all' || marker.dataset.category === category) && (foundedStep <= currentStep);
         marker.style.display = matches ? 'block' : 'none';
         marker.classList.remove('dimmed', 'search-match');
       });
@@ -1453,9 +1555,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function clearSearch() {
     searchInput.value = '';
     clearSearchBtn.style.display = 'none';
+    const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 29;
+    const activeCatBtn = document.querySelector('.filter-btn.active');
+    const currentCat = activeCatBtn ? activeCatBtn.dataset.category : 'all';
+
     document.querySelectorAll('.map-marker').forEach(marker => {
       marker.classList.remove('dimmed', 'search-match');
-      marker.style.display = 'block';
+      const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
+      const matchesCategory = (currentCat === 'all' || marker.dataset.category === currentCat);
+      marker.style.display = (foundedStep <= currentStep && matchesCategory) ? 'block' : 'none';
     });
   }
 

@@ -183,19 +183,36 @@
         <span class="badge-copy-hint">(Click to copy)</span>
       </div>
 
-      <!-- Scriptural Era & 3 Nephi Cataclysm Destruction Slider HUD -->
+      <!-- Scriptural Chronological Timeline & 3 Nephi Cataclysm HUD -->
       <section class="cataclysm-hud" id="cataclysmHud">
         <div class="cataclysm-header">
           <div class="cataclysm-title-group" id="cataclysmTitleGroup">
-            <span class="cataclysm-icon" id="cataclysmIcon">🏛️</span>
-            <div>
-              <h4 class="cataclysm-title" id="cataclysmTitle">Era: Pre-Destruction (Golden Age of the Republic)</h4>
-              <p class="cataclysm-subtitle" id="cataclysmSubtitle">Circa 90 BC – AD 33 • Thriving Cities, Strongholds & Coastal Sanctuaries</p>
+            <span class="cataclysm-icon" id="cataclysmIcon">⭐</span>
+            <div class="cataclysm-titles-col">
+              <div class="cataclysm-heading-row">
+                <span class="timeline-year-badge" id="timelineYearBadge">AD 1</span>
+                <h4 class="cataclysm-title" id="cataclysmTitle">Era: Birth of Christ (Zionic Hope & Peace)</h4>
+                <span class="timeline-site-counter" id="timelineSiteCounter">88 / 94 Sites Active</span>
+              </div>
+              <p class="cataclysm-subtitle" id="cataclysmSubtitle">Day, night, and day as one; Nephites and Lamanites unite against secret combinations; thriving civilization</p>
             </div>
           </div>
           <div class="cataclysm-actions">
-            <button id="cataclysmQuickToggle" class="btn-cataclysm-trigger" title="Jump directly to the 3 Nephi Cataclysm at Christ's Death">
-              🔥 <span>Trigger 3 Nephi Cataclysm (AD 34)</span>
+            <!-- Timeline Playback Controls -->
+            <div class="timeline-playback-group">
+              <button id="timelinePrevBtn" class="btn-timeline-nav" title="Step Back (~50 yrs) [◄]" aria-label="Previous Era">
+                <span>◄</span>
+              </button>
+              <button id="timelinePlayBtn" class="btn-timeline-play" title="Auto-Play Timeline Chronology [Space]" aria-label="Play Timeline">
+                <span id="timelinePlayIcon">▶</span> <span id="timelinePlayText">Play</span>
+              </button>
+              <button id="timelineNextBtn" class="btn-timeline-nav" title="Advance (~50 yrs) [►]" aria-label="Next Era">
+                <span>►</span>
+              </button>
+            </div>
+
+            <button id="cataclysmQuickToggle" class="btn-cataclysm-trigger" title="Jump directly to the 3 Nephi Cataclysm at Christ's Death (AD 34)">
+              🔥 <span>Cataclysm (AD 34)</span>
             </button>
             <button id="hudToggleBtn" class="btn-hud-toggle" aria-label="Toggle Timeline Slider" title="Collapse or Expand Timeline Slider">
               <span id="hudToggleArrow">▼</span>
@@ -203,31 +220,58 @@
             </button>
           </div>
         </div>
+
         <div class="cataclysm-slider-track-wrapper">
-          <input type="range" id="eraSlider" min="1" max="4" value="2" step="1" class="era-slider-range" list="eraTickMarks" title="Historical Era Slider" aria-label="Historical Era Slider" />
-          <datalist id="eraTickMarks">
-            <option value="1" label="2200 BC Jaredites"></option>
-            <option value="2" label="AD 1-33 Pre-Destruction"></option>
-            <option value="3" label="AD 34 The Cataclysm"></option>
-            <option value="4" label="AD 35+ Post-Destruction Peace"></option>
-          </datalist>
-          <div class="era-step-markers">
-            <div class="era-step" data-step="1">
+          <input type="range" id="eraSlider" min="0" max="29" value="19" step="1" class="era-slider-range" title="Historical Chronology Slider (2200 BC - AD 421)" aria-label="Historical Chronology Slider" />
+          
+          <!-- Key milestone markers along the chronological track -->
+          <div class="era-step-markers" id="eraStepMarkers">
+            <div class="era-step" data-step="0" title="2200 BC: Babel Dispersion">
               <span class="era-step-dot"></span>
-              <span class="era-step-label">2200 BC<br>Jaredite Age</span>
+              <span class="era-step-label">2200 BC<br>Jaredites</span>
             </div>
-            <div class="era-step active" data-step="2">
+            <div class="era-step" data-step="5" title="600 BC: Lehi Arrival & City of Nephi">
               <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 1–33<br>Pre-Destruction</span>
+              <span class="era-step-label">600 BC<br>Lehi</span>
             </div>
-            <div class="era-step cataclysm-step" data-step="3">
+            <div class="era-step" data-step="13" title="200 BC: Mosiah Discovers Zarahemla">
               <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 34<br>3 Nephi Cataclysm</span>
+              <span class="era-step-label">200 BC<br>Zarahemla</span>
             </div>
-            <div class="era-step" data-step="4">
+            <div class="era-step" data-step="15" title="100 BC: Reign of Judges Republic">
               <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 35–200<br>Universal Peace</span>
+              <span class="era-step-label">100 BC<br>Republic</span>
             </div>
+            <div class="era-step" data-step="17" title="50 BC: Captain Moroni Fortifications">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">50 BC<br>Moroni Line</span>
+            </div>
+            <div class="era-step active" data-step="19" title="AD 1: Birth of Christ">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 1<br>Christ Birth</span>
+            </div>
+            <div class="era-step cataclysm-step" data-step="20" title="AD 34: 3 Nephi Cataclysm">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 34<br>Cataclysm</span>
+            </div>
+            <div class="era-step" data-step="22" title="AD 100: Golden Century of Peace">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 100<br>4 Nephi</span>
+            </div>
+            <div class="era-step" data-step="27" title="AD 350: Mormon's Northern Retreat">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 350<br>Retreat</span>
+            </div>
+            <div class="era-step" data-step="29" title="AD 421: Moroni Seals Sacred Record">
+              <span class="era-step-dot"></span>
+              <span class="era-step-label">AD 421<br>Moroni Seal</span>
+            </div>
+          </div>
+
+          <!-- Recently Established Landmarks Strip -->
+          <div class="timeline-added-bar" id="timelineAddedBar">
+            <span class="added-label">Newly Established:</span>
+            <span class="added-cities-list" id="addedCitiesList">All 88 Pre-Destruction Settlements Active</span>
           </div>
         </div>
       </section>
