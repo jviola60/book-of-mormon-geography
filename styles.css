@@ -208,8 +208,13 @@ html, body {
   color: #fff;
 }
 
-.fate-section-hidden {
-  display: none;
+.fate-section-hidden,
+#drawerFateSection.fate-section-hidden {
+  display: none !important;
+}
+
+.drawer-fate-card:empty {
+  display: none !important;
 }
 
 .filter-group {

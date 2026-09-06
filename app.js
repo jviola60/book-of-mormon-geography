@@ -460,9 +460,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 3 Nephi Cataclysm Fate Card
+    // 3 Nephi Cataclysm Fate Card (Only show for cities affected in 3 Nephi)
+    const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
+    const isCataclysmEraOrLater = (currentStep >= 20);
+
     if (loc.fate3Nephi && drawerFateSection && drawerFateCard) {
+      drawerFateSection.style.display = 'flex';
       drawerFateSection.classList.remove('fate-section-hidden');
+
+      const fateLabelEl = drawerFateSection.querySelector('.section-label');
+      if (fateLabelEl) {
+        fateLabelEl.textContent = isCataclysmEraOrLater 
+          ? '3 Nephi Cataclysm Record (AD 34)' 
+          : 'Prophesied 3 Nephi Cataclysm (AD 34)';
+      }
+
       const fateIcons = {
         burned: '🔥',
         sunk_sea: '🌊',
@@ -482,7 +494,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
     } else if (drawerFateSection) {
+      drawerFateSection.style.display = 'none';
       drawerFateSection.classList.add('fate-section-hidden');
+      if (drawerFateCard) drawerFateCard.innerHTML = '';
     }
 
     // References
