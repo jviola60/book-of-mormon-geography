@@ -1028,8 +1028,29 @@ document.addEventListener('DOMContentLoaded', () => {
       applyChronologicalStep(e.target.value);
     });
 
+    // Universal instant-response button binder (handles touch, pointer, and click reliably)
+    function bindInstantButton(btn, action) {
+      if (!btn) return;
+      let lastActionTime = 0;
+      const execute = (e) => {
+        if (e) {
+          e.stopPropagation();
+        }
+        const now = Date.now();
+        if (now - lastActionTime < 280) return;
+        lastActionTime = now;
+        action(e);
+      };
+
+      btn.addEventListener('click', execute);
+      btn.addEventListener('touchend', (e) => {
+        e.stopPropagation();
+        execute(e);
+      }, { passive: false });
+    }
+
     eraSteps.forEach(stepEl => {
-      stepEl.addEventListener('click', () => {
+      bindInstantButton(stepEl, () => {
         stopAutoplay();
         const val = parseInt(stepEl.dataset.step, 10);
         applyChronologicalStep(val);
@@ -1049,54 +1070,35 @@ document.addEventListener('DOMContentLoaded', () => {
       eraSlider.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
     }
 
-    if (timelinePrevBtn) {
-      const triggerPrev = (e) => {
-        if (e) e.stopPropagation();
-        stopAutoplay();
-        const current = parseInt(eraSlider.value, 10);
-        if (current > 0) applyChronologicalStep(current - 1);
-      };
-      timelinePrevBtn.addEventListener('click', triggerPrev);
-      timelinePrevBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
-    }
+    bindInstantButton(timelinePrevBtn, () => {
+      stopAutoplay();
+      const current = parseInt(eraSlider.value, 10);
+      if (current > 0) applyChronologicalStep(current - 1);
+    });
 
-    if (timelineNextBtn) {
-      const triggerNext = (e) => {
-        if (e) e.stopPropagation();
-        stopAutoplay();
-        const current = parseInt(eraSlider.value, 10);
-        if (current < chronologicalMilestones.length - 1) applyChronologicalStep(current + 1);
-      };
-      timelineNextBtn.addEventListener('click', triggerNext);
-      timelineNextBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
-    }
+    bindInstantButton(timelineNextBtn, () => {
+      stopAutoplay();
+      const current = parseInt(eraSlider.value, 10);
+      if (current < chronologicalMilestones.length - 1) applyChronologicalStep(current + 1);
+    });
 
-    if (timelinePlayBtn) {
-      const triggerPlay = (e) => {
-        if (e) e.stopPropagation();
-        if (isPlaying) {
-          stopAutoplay();
-        } else {
-          startAutoplay();
-        }
-      };
-      timelinePlayBtn.addEventListener('click', triggerPlay);
-      timelinePlayBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
-    }
-
-    if (cataclysmQuickToggle) {
-      cataclysmQuickToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
-      cataclysmQuickToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
+    bindInstantButton(timelinePlayBtn, () => {
+      if (isPlaying) {
         stopAutoplay();
-        if (parseInt(eraSlider.value, 10) === 20) {
-          applyChronologicalStep(19);
-        } else {
-          applyChronologicalStep(20);
-          focusLocation(64.4, 39.7, 1.25);
-        }
-      });
-    }
+      } else {
+        startAutoplay();
+      }
+    });
+
+    bindInstantButton(cataclysmQuickToggle, () => {
+      stopAutoplay();
+      if (parseInt(eraSlider.value, 10) === 20) {
+        applyChronologicalStep(19);
+      } else {
+        applyChronologicalStep(20);
+        focusLocation(64.4, 39.7, 1.25);
+      }
+    });
 
     // Collapse / Expand toggle functionality
     function setHudCollapsed(collapsed) {
