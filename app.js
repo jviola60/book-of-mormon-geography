@@ -1036,34 +1036,58 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    // Isolate all clicks, touches, and pointer interactions from stage panning
+    if (cataclysmHud) {
+      cataclysmHud.addEventListener('pointerdown', (e) => e.stopPropagation());
+      cataclysmHud.addEventListener('mousedown', (e) => e.stopPropagation());
+      cataclysmHud.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    }
+
+    if (eraSlider) {
+      eraSlider.addEventListener('pointerdown', (e) => e.stopPropagation());
+      eraSlider.addEventListener('mousedown', (e) => e.stopPropagation());
+      eraSlider.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    }
+
     if (timelinePrevBtn) {
-      timelinePrevBtn.addEventListener('click', () => {
+      const triggerPrev = (e) => {
+        if (e) e.stopPropagation();
         stopAutoplay();
         const current = parseInt(eraSlider.value, 10);
         if (current > 0) applyChronologicalStep(current - 1);
-      });
+      };
+      timelinePrevBtn.addEventListener('click', triggerPrev);
+      timelinePrevBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
     }
 
     if (timelineNextBtn) {
-      timelineNextBtn.addEventListener('click', () => {
+      const triggerNext = (e) => {
+        if (e) e.stopPropagation();
         stopAutoplay();
         const current = parseInt(eraSlider.value, 10);
         if (current < chronologicalMilestones.length - 1) applyChronologicalStep(current + 1);
-      });
+      };
+      timelineNextBtn.addEventListener('click', triggerNext);
+      timelineNextBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
     }
 
     if (timelinePlayBtn) {
-      timelinePlayBtn.addEventListener('click', () => {
+      const triggerPlay = (e) => {
+        if (e) e.stopPropagation();
         if (isPlaying) {
           stopAutoplay();
         } else {
           startAutoplay();
         }
-      });
+      };
+      timelinePlayBtn.addEventListener('click', triggerPlay);
+      timelinePlayBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
     }
 
     if (cataclysmQuickToggle) {
-      cataclysmQuickToggle.addEventListener('click', () => {
+      cataclysmQuickToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
+      cataclysmQuickToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         stopAutoplay();
         if (parseInt(eraSlider.value, 10) === 20) {
           applyChronologicalStep(19);
@@ -1580,7 +1604,13 @@ document.addEventListener('DOMContentLoaded', () => {
    * Pointer & Drag Panning Listeners
    */
   viewport.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.hud-btn') || e.target.closest('.map-marker') || e.target.closest('.expedition-player-bar') || e.target.closest('.coords-inspector-badge')) return;
+    if (
+      e.target.closest('.cataclysm-hud') ||
+      e.target.closest('.hud-btn') ||
+      e.target.closest('.map-marker') ||
+      e.target.closest('.expedition-player-bar') ||
+      e.target.closest('.coords-inspector-badge')
+    ) return;
 
     isDragging = true;
     viewport.classList.add('panning');
@@ -1747,11 +1777,17 @@ document.addEventListener('DOMContentLoaded', () => {
       fitMapToScreen();
     } else if (e.key === 'f' && document.activeElement !== searchInput) {
       e.preventDefault();
-      searchInput.focus();
+    } else if (e.key === ' ' && document.activeElement !== searchInput) {
+      e.preventDefault();
+      if (timelinePlayBtn) timelinePlayBtn.click();
     } else if (currentJourney && e.key === 'ArrowRight') {
       goToJourneyStage(currentStageIndex + 1);
     } else if (currentJourney && e.key === 'ArrowLeft') {
       goToJourneyStage(currentStageIndex - 1);
+    } else if (!currentJourney && e.key === 'ArrowRight') {
+      if (timelineNextBtn) timelineNextBtn.click();
+    } else if (!currentJourney && e.key === 'ArrowLeft') {
+      if (timelinePrevBtn) timelinePrevBtn.click();
     }
   });
 

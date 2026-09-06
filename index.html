@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4.0">
 </head>
 <body>
 
@@ -200,21 +200,21 @@
           <div class="cataclysm-actions">
             <!-- Timeline Playback Controls -->
             <div class="timeline-playback-group">
-              <button id="timelinePrevBtn" class="btn-timeline-nav" title="Step Back (~50 yrs) [◄]" aria-label="Previous Era">
+              <button id="timelinePrevBtn" type="button" class="btn-timeline-nav" title="Step Back (~50 yrs) [◄]" aria-label="Previous Era">
                 <span>◄</span>
               </button>
-              <button id="timelinePlayBtn" class="btn-timeline-play" title="Auto-Play Timeline Chronology [Space]" aria-label="Play Timeline">
+              <button id="timelinePlayBtn" type="button" class="btn-timeline-play" title="Auto-Play Timeline Chronology [Space]" aria-label="Play Timeline">
                 <span id="timelinePlayIcon">▶</span> <span id="timelinePlayText">Play</span>
               </button>
-              <button id="timelineNextBtn" class="btn-timeline-nav" title="Advance (~50 yrs) [►]" aria-label="Next Era">
+              <button id="timelineNextBtn" type="button" class="btn-timeline-nav" title="Advance (~50 yrs) [►]" aria-label="Next Era">
                 <span>►</span>
               </button>
             </div>
 
-            <button id="cataclysmQuickToggle" class="btn-cataclysm-trigger" title="Jump directly to the 3 Nephi Cataclysm at Christ's Death (AD 34)">
+            <button id="cataclysmQuickToggle" type="button" class="btn-cataclysm-trigger" title="Jump directly to the 3 Nephi Cataclysm at Christ's Death (AD 34)">
               🔥 <span>Cataclysm (AD 34)</span>
             </button>
-            <button id="hudToggleBtn" class="btn-hud-toggle" aria-label="Toggle Timeline Slider" title="Collapse or Expand Timeline Slider">
+            <button id="hudToggleBtn" type="button" class="btn-hud-toggle" aria-label="Toggle Timeline Slider" title="Collapse or Expand Timeline Slider">
               <span id="hudToggleArrow">▼</span>
               <span id="hudToggleLabel">Minimize</span>
             </button>
@@ -380,7 +380,7 @@
   </div>
 
   <!-- Application Scripts -->
-  <script src="map-data.js?v=3.2"></script>
-  <script src="app.js?v=3.2"></script>
+  <script src="map-data.js?v=4.0"></script>
+  <script src="app.js?v=4.0"></script>
 </body>
 </html>
