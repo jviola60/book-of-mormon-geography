@@ -2485,8 +2485,8 @@ const chronologicalMilestones = [
     "year": -2200,
     "yearLabel": "2200 BC",
     "title": "The Great Dispersion & Jaredite Exodus",
-    "subtitle": "Tower of Babel dispersion, Valley of Nimrod, Moriancumer, Waters of Ripliancum & primordial continental geography",
-    "icon": "👑",
+    "subtitle": "Tower of Babel language confusion; Brother of Jared leads families across ancient wilderness",
+    "icon": "🌊",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
@@ -2522,7 +2522,7 @@ const chronologicalMilestones = [
     "year": -2000,
     "yearLabel": "2000 BC",
     "title": "Early Jaredite Kingdom",
-    "subtitle": "Reigns of Orihah, Kib, and Shule; settlement of Moron near Desolation, Plains of Heshlon & Gilgal",
+    "subtitle": "Jaredites settle in the Land of Moron near Desolation; King Orihah reigns in righteousness",
     "icon": "👑",
     "isCataclysm": false,
     "isPostCataclysm": false,
@@ -2533,7 +2533,7 @@ const chronologicalMilestones = [
     ],
     "newCityNames": [
       "Land & City of Moron",
-      "Valley of Gilgal",
+      "Valley of Gilgal (Jaredite)",
       "Plains of Heshlon"
     ],
     "totalCumulativeSites": 14
@@ -2543,7 +2543,7 @@ const chronologicalMilestones = [
     "year": -1800,
     "yearLabel": "1800 BC",
     "title": "Jaredite Dynastic Wars",
-    "subtitle": "Corihor rebellion; molten steel weapons forged at Hill Ephraim; settlement of City of Nehor",
+    "subtitle": "Rebellion of Corihor; City of Nehor founded; steel swords manufactured at Hill Ephraim",
     "icon": "⚔️",
     "isCataclysm": false,
     "isPostCataclysm": false,
@@ -2554,7 +2554,7 @@ const chronologicalMilestones = [
     ],
     "newCityNames": [
       "City of Nehor",
-      "Hill Ephraim",
+      "Hill Ephraim (Iron Ore Mine)",
       "Valley of Corihor"
     ],
     "totalCumulativeSites": 17
@@ -2564,7 +2564,7 @@ const chronologicalMilestones = [
     "year": -1500,
     "yearLabel": "1500 BC",
     "title": "Mid-Jaredite Dynasties & Secret Oaths",
-    "subtitle": "Reign of King Akish, secret combinations, battles near Hill Comnor and Valley of Shurr",
+    "subtitle": "Rise of secret combinations; Wilderness of Akish fortified; battles in Valley of Shurr",
     "icon": "🗡️",
     "isCataclysm": false,
     "isPostCataclysm": false,
@@ -2583,8 +2583,8 @@ const chronologicalMilestones = [
     "year": -1000,
     "yearLabel": "1000 BC",
     "title": "Era of King Lib & Northern Exploration",
-    "subtitle": "Serpents hedge southern borders; northern game preserves and land of Desolation chartered",
-    "icon": "🏹",
+    "subtitle": "Serpents seal the south; Lib builds a great city by the narrow neck for hunting and metallurgy",
+    "icon": "🐍",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
@@ -2600,7 +2600,7 @@ const chronologicalMilestones = [
     "year": -600,
     "yearLabel": "600 BC",
     "title": "Jaredite Final War & Lehi's Arrival",
-    "subtitle": "Coriantumr vs Shiz at Plains of Agosh, Ogath & Ramah; Lehi lands on West Sea and settles City of Lehi-Nephi",
+    "subtitle": "Shiz and Coriantumr clash at Ramah; Lehi lands in the south; City of Lehi-Nephi founded",
     "icon": "⛵",
     "isCataclysm": false,
     "isPostCataclysm": false,
@@ -2627,8 +2627,8 @@ const chronologicalMilestones = [
     "year": -550,
     "yearLabel": "550 BC",
     "title": "Nephite & Lamanite Separation",
-    "subtitle": "Nephi builds temple in City of Nephi; Lamanites occupy Shemlon and southern watering borders",
-    "icon": "🏛️",
+    "subtitle": "Nephi flees southward into the wilderness; Lamanites occupy Shemlon and Waters of Sebus",
+    "icon": "🏹",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
@@ -2646,8 +2646,8 @@ const chronologicalMilestones = [
     "year": -500,
     "yearLabel": "500 BC",
     "title": "Lamanite Southern Expansion",
-    "subtitle": "Lamanite regional dynasties establish kingdoms in the southern territory of Middoni",
-    "icon": "🛡️",
+    "subtitle": "Sub-kingdoms established in the south; Land and royal fortress of Middoni constructed",
+    "icon": "⛺",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
@@ -2663,8 +2663,8 @@ const chronologicalMilestones = [
     "year": -450,
     "yearLabel": "450 BC",
     "title": "Age of Enos & Pastoral Growth",
-    "subtitle": "Flocks and pastures expand across southern valleys; Kingdom of Ishmael established",
-    "icon": "📜",
+    "subtitle": "Enos wrestles in prayer; pastoral Lamanite lands flourish around the Land of Ishmael",
+    "icon": "🐑",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
@@ -2680,8 +2680,8 @@ const chronologicalMilestones = [
     "year": -400,
     "yearLabel": "400 BC",
     "title": "Mid-Nephite Epoch (Jarom)",
-    "subtitle": "Nephites fortify cities against frequent Lamanite raids; southern wilderness trade communities arise",
-    "icon": "🌲",
+    "subtitle": "Nephites fortify cities against repeated invasions; Amalekite village of Ani-Anti settled",
+    "icon": "🛡️",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
@@ -2784,7 +2784,7 @@ const chronologicalMilestones = [
     "year": -100,
     "yearLabel": "100 BC",
     "title": "Golden Age of the Republic (Reign of Judges)",
-    "subtitle": "Mosiah initiates constitutional reign of judges; Amlicite war at Amnihu; cities of Melek and Sidom founded",
+    "subtitle": "Mosiah initiates constitutional reign of judges; Amlicite war at Amnihu; cities of Melek, Sidom, and Ammonihah founded",
     "icon": "⚖️",
     "isCataclysm": false,
     "isPostCataclysm": false,
@@ -2794,8 +2794,7 @@ const chronologicalMilestones = [
       "valley_of_gideon",
       "melek",
       "ammonihah",
-      "city_of_sidom",
-      "city_of_noah"
+      "city_of_sidom"
     ],
     "newCityNames": [
       "Land & City of Minon",
@@ -2803,17 +2802,16 @@ const chronologicalMilestones = [
       "Valley of Gideon (East Bank)",
       "Land & City of Melek",
       "City of Ammonihah",
-      "City & Land of Sidom",
-      "City & Land of Noah"
+      "City & Land of Sidom"
     ],
-    "totalCumulativeSites": 46
+    "totalCumulativeSites": 45
   },
   {
     "step": 16,
     "year": -75,
     "yearLabel": "75 BC",
     "title": "Sons of Mosiah Missions & Zoramite Crisis",
-    "subtitle": "Anti-Nephi-Lehies given Jershon; Zoramite apostasy at Antionum; Moroni defends southern border at Manti",
+    "subtitle": "Anti-Nephi-Lehies given Jershon; Zoramites apostatize at Antionum; Moroni defends southern border at Manti; Bountiful safeguarded",
     "icon": "⚔️",
     "isCataclysm": false,
     "isPostCataclysm": false,
@@ -2825,7 +2823,9 @@ const chronologicalMilestones = [
       "mount_antipas",
       "hill_riplah",
       "manti",
-      "hill_manti"
+      "hill_manti",
+      "bountiful",
+      "land_bountiful"
     ],
     "newCityNames": [
       "Land & City of Jershon",
@@ -2835,31 +2835,32 @@ const chronologicalMilestones = [
       "Mount Antipas & Onidah",
       "Hill Riplah",
       "City & Hill of Manti",
-      "Hill Manti"
+      "Hill Manti",
+      "City of Bountiful",
+      "Land Bountiful"
     ],
-    "totalCumulativeSites": 54
+    "totalCumulativeSites": 55
   },
   {
     "step": 17,
-    "year": -50,
-    "yearLabel": "50 BC",
-    "title": "Captain Moroni's Fortifications & Stripling Defense",
-    "subtitle": "Moroni fortifies Eastern Sea line (Moroni, Nephihah, Bountiful); Helaman's 2,000 striplings defend Judea and Cumeni",
+    "year": -70,
+    "yearLabel": "70 BC",
+    "title": "Captain Moroni's Fortifications & Morianton Dispute",
+    "subtitle": "Alma 50: Moroni fortifies eastern sea line (Moroni, Nephihah, Lehi, Morianton, Mulek); Teancum slays Morianton at narrow pass; Helaman's stripling warriors defend southwest (Judea, Cumeni)",
     "icon": "🛡️",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
-      "bountiful",
-      "land_bountiful",
-      "mulek",
-      "gid",
-      "omner",
       "morianton",
       "city_of_lehi",
       "nephihah",
-      "aaron_coastal",
       "city_of_moroni",
+      "aaron_coastal",
       "aaron_inland",
+      "city_of_noah",
+      "mulek",
+      "gid",
+      "omner",
       "judea",
       "antiparah",
       "cumeni",
@@ -2867,17 +2868,16 @@ const chronologicalMilestones = [
       "helamans_chain"
     ],
     "newCityNames": [
-      "City of Bountiful",
-      "Land Bountiful",
-      "City of Mulek",
-      "City of Gid",
-      "City of Omner",
       "City & Land of Morianton",
       "City of Lehi",
       "City of Nephihah",
-      "City of Aaron (Coastal)",
       "City of Moroni",
+      "City of Aaron (Coastal)",
       "Land & City of Aaron (Inland)",
+      "City & Land of Noah",
+      "City of Mulek",
+      "City of Gid",
+      "City of Omner",
       "City of Judea",
       "City of Antiparah",
       "City of Cumeni",
@@ -2890,17 +2890,12 @@ const chronologicalMilestones = [
     "step": 18,
     "year": -25,
     "yearLabel": "25 BC",
-    "title": "Northern Migrations & Dissident Strongholds",
-    "subtitle": "Hagoth's ships sail north; northern cities Teancum & Boaz established; Gadianton robber strongholds multiply",
+    "title": "Late Republic & Secret Combinations",
+    "subtitle": "Dissident factions build up northern and inland strongholds; cities multiplying prior to the crucifixion cataclysm",
     "icon": "🚩",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [
-      "teancum",
-      "boaz",
-      "city_of_jordan",
-      "land_of_antum",
-      "hill_shim",
       "city_of_kishkumen",
       "city_of_gadiandi",
       "city_of_gadiomnah",
@@ -2916,11 +2911,6 @@ const chronologicalMilestones = [
       "city_of_gad"
     ],
     "newCityNames": [
-      "City of Teancum",
-      "City of Boaz",
-      "City of Jordan",
-      "Land of Antum",
-      "Hill Shim (in Antum)",
       "City of Kishkumen",
       "City of Gadiandi",
       "City of Gadiomnah",
@@ -2935,46 +2925,46 @@ const chronologicalMilestones = [
       "City of Josh",
       "City of Gad"
     ],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 19,
     "year": 1,
     "yearLabel": "AD 1",
     "title": "Birth of Christ (Zionic Hope & Peace)",
-    "subtitle": "New star appears and night with no darkness; all 88 cities thrive across northern and southern lands",
+    "subtitle": "New star appears and night with no darkness; all 83 established cities thrive across northern and southern lands",
     "icon": "⭐",
     "isCataclysm": false,
     "isPostCataclysm": false,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 20,
     "year": 34,
     "yearLabel": "AD 34",
     "title": "The 3 Nephi Cataclysm & Savior's Visit",
-    "subtitle": "Crucifixion upheaval: cities sunk, burned, and shaken; Resurrected Lord descends at the Temple in Bountiful",
+    "subtitle": "Crucifixion upheaval: 16 wicked cities sunk, burned, and shaken; Resurrected Lord descends at the Temple in Bountiful",
     "icon": "🔥",
     "isCataclysm": true,
     "isPostCataclysm": false,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 21,
     "year": 50,
     "yearLabel": "AD 50",
     "title": "Post-Cataclysm Reconstruction",
-    "subtitle": "Zarahemla rebuilt from ashes; permanent altered geography; churches established throughout the land",
+    "subtitle": "Zarahemla rebuilt from ashes; permanent altered geography; righteous order throughout the land",
     "icon": "🕊️",
     "isCataclysm": false,
     "isPostCataclysm": true,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 22,
@@ -2987,7 +2977,7 @@ const chronologicalMilestones = [
     "isPostCataclysm": true,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 23,
@@ -3000,7 +2990,7 @@ const chronologicalMilestones = [
     "isPostCataclysm": true,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 24,
@@ -3013,7 +3003,7 @@ const chronologicalMilestones = [
     "isPostCataclysm": true,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 25,
@@ -3026,27 +3016,33 @@ const chronologicalMilestones = [
     "isPostCataclysm": true,
     "newIds": [],
     "newCityNames": [],
-    "totalCumulativeSites": 88
+    "totalCumulativeSites": 83
   },
   {
     "step": 26,
-    "year": 300,
-    "yearLabel": "AD 300",
-    "title": "Apostasy & Warfare Rekindled",
-    "subtitle": "Mormon visits Hill Shim as a youth; Ammaron hides the sacred records",
+    "year": 325,
+    "yearLabel": "AD 325",
+    "title": "Ammaron's Charge & Hill Shim",
+    "subtitle": "Ammaron charges 10-year-old Mormon to safeguard sacred records deposited in Hill Shim in the Land of Antum (Mormon 1:3)",
     "icon": "📜",
     "isCataclysm": false,
     "isPostCataclysm": true,
-    "newIds": [],
-    "newCityNames": [],
-    "totalCumulativeSites": 88
+    "newIds": [
+      "land_of_antum",
+      "hill_shim"
+    ],
+    "newCityNames": [
+      "Land of Antum",
+      "Hill Shim (in Antum)"
+    ],
+    "totalCumulativeSites": 85
   },
   {
     "step": 27,
     "year": 350,
     "yearLabel": "AD 350",
     "title": "Mormon's Defense & Northern Retreat",
-    "subtitle": "General Mormon leads retreating Nephite armies through Joshua, David, Jashon, and Shem",
+    "subtitle": "General Mormon leads retreating Nephite armies through Joshua, David, Jashon, and Shem (Mormon 2)",
     "icon": "⚔️",
     "isCataclysm": false,
     "isPostCataclysm": true,
@@ -3062,14 +3058,35 @@ const chronologicalMilestones = [
       "City of Jashon",
       "City of Shem"
     ],
-    "totalCumulativeSites": 92
+    "totalCumulativeSites": 89
   },
   {
     "step": 28,
+    "year": 365,
+    "yearLabel": "AD 365",
+    "title": "Northern Coastal Battles (Teancum, Boaz & Jordan)",
+    "subtitle": "Nephite armies make desperate stands at coastal fortified cities Teancum, Boaz, and Jordan (Mormon 4-5)",
+    "icon": "🛡️",
+    "isCataclysm": false,
+    "isPostCataclysm": true,
+    "newIds": [
+      "teancum",
+      "boaz",
+      "city_of_jordan"
+    ],
+    "newCityNames": [
+      "City of Teancum",
+      "City of Boaz",
+      "City of Jordan"
+    ],
+    "totalCumulativeSites": 92
+  },
+  {
+    "step": 29,
     "year": 385,
     "yearLabel": "AD 385",
-    "title": "Final Stand at Hill Cumorah",
-    "subtitle": "Tragedies at Sherrizah and Moriantum; 230,000 Nephites slain in the final battle of Cumorah",
+    "title": "Final Stand at Cumorah & Moroni's Seal",
+    "subtitle": "Tragedies of Sherrizah and Moriantum (Moroni 9); 230,000 Nephites slain at Cumorah; Moroni seals the golden plates (AD 421)",
     "icon": "💀",
     "isCataclysm": false,
     "isPostCataclysm": true,
@@ -3081,19 +3098,6 @@ const chronologicalMilestones = [
       "City & Tower of Sherrizah",
       "City of Moriantum"
     ],
-    "totalCumulativeSites": 94
-  },
-  {
-    "step": 29,
-    "year": 421,
-    "yearLabel": "AD 421",
-    "title": "Moroni's Final Seal (End of the Nephite Record)",
-    "subtitle": "Moroni finishes the golden plates, seals the sacred record in Hill Cumorah, and bids farewell",
-    "icon": "📖",
-    "isCataclysm": false,
-    "isPostCataclysm": true,
-    "newIds": [],
-    "newCityNames": [],
     "totalCumulativeSites": 94
   }
 ];

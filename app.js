@@ -358,10 +358,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="hover-card">
           <div class="hover-card-title">${loc.name}</div>
           <div class="hover-card-subtitle">${loc.title}</div>
+          <div class="hover-card-era-badge" style="display: none;"></div>
           <div class="hover-card-text">${loc.summary.substring(0, 140)}...</div>
           <div class="hover-card-footer">
-            <span>${loc.region}</span>
-            <span>Click for Codex</span>
+            <span class="hover-card-region">${loc.region}</span>
+            <span class="hover-card-action">Click for Codex</span>
           </div>
         </div>
       `;
@@ -406,6 +407,58 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('drawerTitle').innerText = loc.name;
     document.getElementById('drawerSubtitle').innerText = loc.title;
     document.getElementById('drawerSummary').innerText = loc.summary;
+
+    // Chronological Era Settlement Status Banner
+    const drawerTimelineStatus = document.getElementById('drawerTimelineStatus');
+    if (drawerTimelineStatus) {
+      const eraSlider = document.getElementById('eraSlider');
+      const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
+      const foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
+      const foundingMilestone = chronologicalMilestones[foundedStep] || chronologicalMilestones[0];
+      const currentMilestone = chronologicalMilestones[currentStep] || chronologicalMilestones[19];
+
+      if (foundedStep > currentStep) {
+        // Future Settlement in currently viewed era
+        drawerTimelineStatus.innerHTML = `
+          <div class="drawer-status-card future-status">
+            <div class="status-badge-row">
+              <span class="status-badge">⏳ Future Settlement</span>
+              <span class="status-era-pill">Founded ${loc.foundedYearLabel || 'Later Era'}</span>
+            </div>
+            <p class="status-explanation">
+              <strong>${loc.name}</strong> appears in the Book of Mormon around <strong>${loc.foundedYearLabel || 'a later era'}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). It is not yet established in the currently viewed <strong>${currentMilestone.yearLabel}</strong> era.
+            </p>
+            <button class="btn-advance-drawer" id="btnDrawerAdvance" data-step="${foundedStep}">
+              ⏩ Advance Timeline to ${loc.foundedYearLabel}
+            </button>
+          </div>
+        `;
+
+        const advanceBtn = drawerTimelineStatus.querySelector('#btnDrawerAdvance');
+        if (advanceBtn) {
+          advanceBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.applyChronologicalStepGlobal === 'function') {
+              window.applyChronologicalStepGlobal(foundedStep, true);
+            }
+            openCodex(id);
+          });
+        }
+      } else {
+        // Fully established in current era
+        drawerTimelineStatus.innerHTML = `
+          <div class="drawer-status-card established-status">
+            <div class="status-badge-row">
+              <span class="status-badge active-badge">🏛️ Established Settlement</span>
+              <span class="status-era-pill">${loc.foundedYearLabel || 'Ancient'}</span>
+            </div>
+            <p class="status-explanation">
+              Founded around <strong>${loc.foundedYearLabel}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). Fully active and established in the <strong>${currentMilestone.yearLabel}</strong> era.
+            </p>
+          </div>
+        `;
+      }
+    }
 
     // 3 Nephi Cataclysm Fate Card
     if (loc.fate3Nephi && drawerFateSection && drawerFateCard) {
@@ -963,6 +1016,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function applyChronologicalStep(step, fromAdvance = false) {
       step = Math.max(0, Math.min(chronologicalMilestones.length - 1, parseInt(step, 10)));
       eraSlider.value = step;
+      window.applyChronologicalStepGlobal = applyChronologicalStep;
 
       const milestone = chronologicalMilestones[step] || chronologicalMilestones[19];
 
@@ -1043,21 +1097,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // Filter Markers Chronologically
+      // Filter Markers Chronologically & Keep Future Settlements Fully Responsive
       const activeCatBtn = document.querySelector('.filter-btn.active');
       const currentCat = activeCatBtn ? activeCatBtn.dataset.category : 'all';
 
       document.querySelectorAll('.map-marker').forEach(marker => {
+        const locId = marker.dataset.id;
+        const loc = mapLocations[locId];
         const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
         const isChronologicallyFounded = (foundedStep <= step);
         const matchesCategory = (currentCat === 'all' || marker.dataset.category === currentCat);
 
-        if (isChronologicallyFounded && matchesCategory) {
-          marker.style.display = 'block';
-          marker.classList.remove('dimmed');
+        if (!matchesCategory) {
+          marker.style.display = 'none';
+          marker.classList.remove('newly-founded', 'future-settlement', 'established-settlement');
+          return;
+        }
 
-          // Highlight newly established markers in this step
-          if (foundedStep === step && milestone.newIds && milestone.newIds.includes(marker.dataset.id)) {
+        // All markers matching the active category remain displayed so there are NO dead spots on the parchment
+        marker.style.display = 'block';
+        marker.classList.remove('dimmed');
+
+        const eraBadgeEl = marker.querySelector('.hover-card-era-badge');
+        const actionEl = marker.querySelector('.hover-card-action');
+
+        if (isChronologicallyFounded) {
+          marker.classList.remove('future-settlement');
+          marker.classList.add('established-settlement');
+
+          if (eraBadgeEl) {
+            eraBadgeEl.style.display = 'none';
+            eraBadgeEl.textContent = '';
+          }
+          if (actionEl) {
+            actionEl.textContent = 'Click for Codex';
+          }
+
+          // Highlight newly established markers in this specific step
+          if (foundedStep === step && milestone.newIds && milestone.newIds.includes(locId)) {
             marker.classList.remove('newly-founded');
             void marker.offsetWidth; // Trigger reflow for CSS animation
             marker.classList.add('newly-founded');
@@ -1065,10 +1142,66 @@ document.addEventListener('DOMContentLoaded', () => {
             marker.classList.remove('newly-founded');
           }
         } else {
-          marker.style.display = 'none';
-          marker.classList.remove('newly-founded');
+          // Future settlement in this timeline era: remains fully hoverable & clickable
+          marker.classList.remove('established-settlement', 'newly-founded');
+          marker.classList.add('future-settlement');
+
+          if (eraBadgeEl && loc) {
+            eraBadgeEl.style.display = 'inline-block';
+            eraBadgeEl.textContent = `⏳ Future Settlement (${loc.foundedYearLabel || 'Later Era'})`;
+          }
+          if (actionEl && loc) {
+            actionEl.textContent = `Click for Codex • ⏩ Advance to ${loc.foundedYearLabel}`;
+          }
         }
       });
+
+      // If codex drawer is currently open, refresh its settlement status banner in real-time
+      if (codexDrawer && codexDrawer.classList.contains('open') && activeLocationId) {
+        const currentLoc = mapLocations[activeLocationId];
+        const drawerTimelineStatus = document.getElementById('drawerTimelineStatus');
+        if (currentLoc && drawerTimelineStatus) {
+          const foundedStep = currentLoc.foundedStep !== undefined ? currentLoc.foundedStep : 0;
+          const foundingMilestone = chronologicalMilestones[foundedStep] || chronologicalMilestones[0];
+          const currentMilestone = milestone;
+
+          if (foundedStep > step) {
+            drawerTimelineStatus.innerHTML = `
+              <div class="drawer-status-card future-status">
+                <div class="status-badge-row">
+                  <span class="status-badge">⏳ Future Settlement</span>
+                  <span class="status-era-pill">Founded ${currentLoc.foundedYearLabel || 'Later Era'}</span>
+                </div>
+                <p class="status-explanation">
+                  <strong>${currentLoc.name}</strong> appears in the Book of Mormon around <strong>${currentLoc.foundedYearLabel || 'a later era'}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). It is not yet established in the currently viewed <strong>${currentMilestone.yearLabel}</strong> era.
+                </p>
+                <button class="btn-advance-drawer" id="btnDrawerAdvance" data-step="${foundedStep}">
+                  ⏩ Advance Timeline to ${currentLoc.foundedYearLabel}
+                </button>
+              </div>
+            `;
+            const advanceBtn = drawerTimelineStatus.querySelector('#btnDrawerAdvance');
+            if (advanceBtn) {
+              advanceBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                applyChronologicalStep(foundedStep, true);
+              });
+            }
+          } else {
+            drawerTimelineStatus.innerHTML = `
+              <div class="drawer-status-card established-status">
+                <div class="status-badge-row">
+                  <span class="status-badge active-badge">🏛️ Established Settlement</span>
+                  <span class="status-era-pill">${currentLoc.foundedYearLabel || 'Ancient'}</span>
+                </div>
+                <p class="status-explanation">
+                  Founded around <strong>${currentLoc.foundedYearLabel}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). Fully active and established in the <strong>${currentMilestone.yearLabel}</strong> era.
+                </p>
+              </div>
+            `;
+          }
+        }
+      }
 
       // Update collapsed mobile pill text
       if (hudToggleLabel && cataclysmHud && cataclysmHud.classList.contains('collapsed')) {
@@ -1487,12 +1620,20 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.add('active');
       const category = btn.dataset.category;
 
-      const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 29;
+      const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
 
       document.querySelectorAll('.map-marker').forEach(marker => {
         const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
-        const matches = (category === 'all' || marker.dataset.category === category) && (foundedStep <= currentStep);
-        marker.style.display = matches ? 'block' : 'none';
+        const matchesCategory = (category === 'all' || marker.dataset.category === category);
+        const isChronologicallyFounded = (foundedStep <= currentStep);
+
+        if (!matchesCategory) {
+          marker.style.display = 'none';
+        } else {
+          marker.style.display = 'block';
+          marker.classList.toggle('future-settlement', !isChronologicallyFounded);
+          marker.classList.toggle('established-settlement', isChronologicallyFounded);
+        }
         marker.classList.remove('dimmed', 'search-match');
       });
 
@@ -1634,7 +1775,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function clearSearch() {
     searchInput.value = '';
     clearSearchBtn.style.display = 'none';
-    const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 29;
+    const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
     const activeCatBtn = document.querySelector('.filter-btn.active');
     const currentCat = activeCatBtn ? activeCatBtn.dataset.category : 'all';
 
@@ -1642,7 +1783,15 @@ document.addEventListener('DOMContentLoaded', () => {
       marker.classList.remove('dimmed', 'search-match');
       const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
       const matchesCategory = (currentCat === 'all' || marker.dataset.category === currentCat);
-      marker.style.display = (foundedStep <= currentStep && matchesCategory) ? 'block' : 'none';
+      const isChronologicallyFounded = (foundedStep <= currentStep);
+
+      if (!matchesCategory) {
+        marker.style.display = 'none';
+      } else {
+        marker.style.display = 'block';
+        marker.classList.toggle('future-settlement', !isChronologicallyFounded);
+        marker.classList.toggle('established-settlement', isChronologicallyFounded);
+      }
     });
   }
 
