@@ -1,5 +1,9 @@
 # The Comprehensive Textual Architecture of the Book of Mormon - Interactive Atlas
 
+> 🌐 **Live Website Link:** **[https://jviola60.github.io/book-of-mormon-geography/](https://jviola60.github.io/book-of-mormon-geography/)**
+>
+> Click the link above to view and interact with the full high-resolution map and scriptural codex.
+
 An interactive, high-resolution cartographic atlas and scriptural codex rigorously calibrated to the internal text, travel times, day journeys, and geographical relationships of the Book of Mormon.
 
 ![Book of Mormon Geography Atlas Preview](Book%20of%20Mormon%20Geography%20Clean.jpg)
