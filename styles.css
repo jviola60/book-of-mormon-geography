@@ -2546,6 +2546,14 @@ html, body {
   filter: drop-shadow(0 2px 6px #590d22) drop-shadow(0 0 8px #000000);
 }
 
+.terrain-label.fault-label {
+  fill: #ffb8b8;
+  font-size: 15px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  filter: drop-shadow(0 2px 5px #3a0007) drop-shadow(0 0 10px rgba(255, 71, 87, 0.85));
+}
+
 /* ==========================================================================
    8. POST-CATACLYSM ERA OF PEACE (AD 35–200) PERMANENT TRANSFORMATION STYLES
    ========================================================================== */

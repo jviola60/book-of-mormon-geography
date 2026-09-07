@@ -3115,8 +3115,8 @@ const chronologicalMilestones = [
   },
   {
     "step": 29,
-    "year": 385,
-    "yearLabel": "AD 385",
+    "year": 421,
+    "yearLabel": "AD 421",
     "title": "Final Stand at Cumorah & Moroni's Seal",
     "subtitle": "Tragedies of Sherrizah and Moriantum (Moroni 9); 230,000 Nephites slain at Cumorah; Moroni seals the golden plates (AD 421)",
     "icon": "💀",

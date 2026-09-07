@@ -914,11 +914,14 @@ document.addEventListener('DOMContentLoaded', () => {
       </g>
 
       <!-- Continental Seismic Fault Lines & Rifts (3 Nephi 8:18 - Rocks Rent in Twain) -->
-      <g class="terrain-feature terrain-feature-faults">
+      <g class="terrain-feature terrain-feature-faults" title="Seismic Fault Line & Fissures (3 Nephi 8:18: 'The rocks were rent in twain... in seams and in cracks upon all the face of the land')">
         <path d="M ${px(20)},${py(56)} L ${px(26)},${py(61)} L ${px(32)},${py(59)} L ${px(38)},${py(66)} L ${px(46)},${py(63)} L ${px(52)},${py(70)} L ${px(60)},${py(68)}" class="terrain-fault-line" />
         <path d="M ${px(20)},${py(56)} L ${px(26)},${py(61)} L ${px(32)},${py(59)} L ${px(38)},${py(66)} L ${px(46)},${py(63)} L ${px(52)},${py(70)} L ${px(60)},${py(68)}" class="terrain-fault-glow" />
+        <text x="${px(38)}" y="${py(63.2)}" class="terrain-label fault-label" transform="rotate(15 ${px(38)} ${py(63.2)})">CONTINENTAL FISSURE • ROCKS RENT IN TWAIN (3 NEPHI 8:18)</text>
+
         <path d="M ${px(50)},${py(44)} L ${px(56)},${py(48)} L ${px(62)},${py(45)} L ${px(68)},${py(51)} L ${px(76)},${py(47)} L ${px(84)},${py(54)}" class="terrain-fault-line" />
         <path d="M ${px(50)},${py(44)} L ${px(56)},${py(48)} L ${px(62)},${py(45)} L ${px(68)},${py(51)} L ${px(76)},${py(47)} L ${px(84)},${py(54)}" class="terrain-fault-glow" />
+        <text x="${px(67)}" y="${py(47.2)}" class="terrain-label fault-label" transform="rotate(16 ${px(67)} ${py(47.2)})">SEISMIC FAULT LINE (3 NEPHI 8:18)</text>
       </g>
 
       <!-- Scorched Foundations & Ash Footprints (3 Nephi 9:9-10) -->
