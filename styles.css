@@ -2951,3 +2951,195 @@ html, body {
   transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   OFFICIAL CHURCH GEOGRAPHY DISCLAIMER MODAL & BUTTON
+   ========================================================================== */
+.disclaimer-btn {
+  background: linear-gradient(135deg, rgba(212, 163, 89, 0.15), rgba(160, 110, 45, 0.25)) !important;
+  border: 1px solid rgba(212, 163, 89, 0.5) !important;
+  color: #faebd7 !important;
+  font-family: var(--font-serif-heading);
+  letter-spacing: 0.03em;
+  transition: all 0.25s ease;
+}
+
+.disclaimer-btn:hover {
+  background: linear-gradient(135deg, rgba(212, 163, 89, 0.35), rgba(180, 125, 55, 0.45)) !important;
+  border-color: #f1c40f !important;
+  box-shadow: 0 0 12px rgba(241, 196, 15, 0.35);
+  transform: translateY(-1px);
+}
+
+.disclaimer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.disclaimer-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.disclaimer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 6, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.disclaimer-dialog {
+  position: relative;
+  width: 92%;
+  max-width: 660px;
+  max-height: 88vh;
+  background: linear-gradient(145deg, #241a13, #17100b);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(223, 186, 84, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.disclaimer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+  background: rgba(30, 23, 17, 0.95);
+}
+
+.disclaimer-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.disclaimer-icon {
+  font-size: 2rem;
+}
+
+.disclaimer-title {
+  font-family: var(--font-serif-heading);
+  font-size: 1.25rem;
+  color: var(--gold-light);
+  margin: 0;
+}
+
+.disclaimer-body {
+  padding: 24px 28px;
+  color: #dfd7cb;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.disclaimer-quote {
+  margin: 0 0 20px 0;
+  padding: 16px 20px;
+  background: rgba(212, 163, 89, 0.08);
+  border-left: 4px solid #d4a359;
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-serif-body, 'Cormorant Garamond', serif);
+  font-size: 1.12rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: #fff4e0;
+}
+
+.disclaimer-quote footer {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  font-style: normal;
+  font-family: var(--font-body);
+  color: #c9b08a;
+  font-weight: 600;
+  text-align: right;
+}
+
+.disclaimer-body p {
+  margin-bottom: 16px;
+}
+
+.disclaimer-body strong {
+  color: #f3dfba;
+}
+
+.disclaimer-links {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.church-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #2b4c6f 0%, #1a3048 100%);
+  border: 1px solid rgba(100, 180, 246, 0.5);
+  border-radius: 6px;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: var(--font-serif-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.church-link-btn:hover {
+  background: linear-gradient(135deg, #376494 0%, #224164 100%);
+  border-color: #90caf9;
+  box-shadow: 0 6px 18px rgba(33, 150, 243, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   RIVER SIDON CONTINUOUS PATH & FLOW ANIMATIONS
+   ========================================================================== */
+@keyframes flowSidon {
+  from {
+    stroke-dashoffset: 30;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.river-sidon-group {
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.river-sidon-path {
+  animation: flowSidon 12s linear infinite;
+  transition: stroke-width 0.25s ease, stroke 0.25s ease;
+}
+
+.river-sidon-glow {
+  transition: stroke 0.25s ease, stroke-width 0.25s ease;
+}
+
+.river-sidon-group:hover .river-sidon-path {
+  stroke: #bae6fd;
+  stroke-width: 0.55;
+}
+
+.river-sidon-group:hover .river-sidon-glow {
+  stroke: rgba(56, 189, 248, 0.85);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 3px #38bdf8);
+}
+
+

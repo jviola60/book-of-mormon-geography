@@ -421,12 +421,12 @@ const mapLocations = {
     name: "Land & City of Jershon",
     title: "Sanctuary of the Anti-Nephi-Lehies",
     category: "cities",
-    region: "East Coastal Plain (East of River Sidon)",
-    coords: { x: 72.1, y: 39.2 },
+    region: "East Coast (South of Land Bountiful)",
+    coords: { x: 74.5, y: 44.5 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "covenant",
-    summary: "A territory on the east by the sea given by the Nephites as an inheritance to the converted Lamanites (People of Ammon) who had buried their weapons of war. Protected by the Nephite armies.",
+    summary: "A coastal territory on the east by the sea, situated south of the land Bountiful (Alma 27:22), ceded by the Nephites as an inheritance of peace to the converted Lamanites (People of Ammon).",
     refs: [
       { ref: "Alma 27:22", text: "And it came to pass that the voice of the people came, saying: Behold, we will give up the land of Jershon, which is on the east by the sea, which joins the land Bountiful, which is on the south of the land Bountiful; and this land Jershon is the land which we will give unto our brethren for an inheritance." },
       { ref: "Alma 43:15", text: "And it came to pass that the Lamanites came with their thousands; and they came into the land of Antionum, which is the land of the Zoramites; and a man by the name of Zerahemnah was their leader." }
@@ -574,16 +574,16 @@ const mapLocations = {
   "nephihah": {
     id: "nephihah",
     name: "City of Nephihah",
-    title: "Inland Eastern Stronghold",
+    title: "Seashore Corridor Stronghold Between Moroni and Aaron",
     category: "fortresses",
-    region: "Inland Plains between Zarahemla and East Sea",
-    coords: { x: 69.7, y: 58.7 },
+    region: "East Sea Corridor (Between Moroni & Aaron)",
+    coords: { x: 89.8, y: 64.5 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "fort",
-    summary: "A major fortified hub founded between the city of Moroni and the city of Aaron, named in honor of the second Chief Judge Nephihah. Captured by Lamanites due to government treason, and later retaken by Moroni scaling the walls at night with cords and ladders.",
+    summary: "A major fortified Nephite bastion established along the eastern seashore corridor directly between the city of Moroni and the city of Aaron (Alma 50:14). Named after Chief Judge Nephihah, it later withstood severe war before being retaken by Moroni scaling its walls with cords and ladders.",
     refs: [
-      { ref: "Alma 50:14", text: "And they also began a foundation for a city between the city of Moroni and the city of Aaron, coordinating the borders of Aaron and Moroni; and they called the name of the city, or the land, Nephihah." },
+      { ref: "Alma 50:14", text: "And they also began a foundation for a city between the city of Moroni and the city of Aaron, joining the borders of Aaron and Moroni; and they called the name of the city, or the land, Nephihah." },
       { ref: "Alma 51:26", text: "Amalickiah marches against Nephihah and takes possession of it." },
       { ref: "Alma 62:18-26", text: "And it came to pass that Moroni caused that his men should march forth and come upon the top of the wall, and let themselves down into that part of the city, yea, even on the west, where the Lamanites did not camp with their armies... and when the Lamanites awoke and saw that the armies of Moroni were within the walls, they were affrighted exceedingly." }
     ],
@@ -644,18 +644,19 @@ const mapLocations = {
 
   "aaron_coastal": {
     id: "aaron_coastal",
-    name: "City of Aaron (Coastal)",
-    title: "Southeastern Coastal Hub",
+    name: "City of Aaron (Eastern Seashore)",
+    title: "Eastern Coastal Bulwark Bordering Nephihah & Moroni",
     category: "cities",
-    region: "Near City of Moroni by the East Sea",
+    region: "East Sea Corridor (North of Moroni & Nephihah)",
     coords: { x: 88.5, y: 62.2 },
     highlightSize: "small",
     glowColor: "gold",
     icon: "fort",
-    summary: "A strategic Nephite fortified city situated along the southeastern seashore corridor north of the City of Moroni, serving as a vital defensive garrison against Lamanite incursions along the coast.",
+    summary: "A strategic fortified city situated along the eastern seashore corridor. Formed the northern boundary of the defensive line joining Nephihah and Moroni (Alma 50:14). (Note: Textual commentators distinguish this eastern coastal Aaron from Alma 8:13 where Alma departed from western Ammonihah toward a city called Aaron).",
     refs: [
       { ref: "Alma 50:14", text: "And they also began a foundation for a city between the city of Moroni and the city of Aaron, joining the borders of Aaron and Moroni; and they called the name of the city, or the land, Nephihah." },
-      { ref: "Alma 51:26", text: "And thus he went on, taking possession of many cities, the city of Nephihah, and the city of Lehi, and the city of Morianton, and the city of Omner, and the city of Gid, and the city of Mulek, all of which were on the east borders by the seashore." }
+      { ref: "Alma 8:13", text: "Alma departed thence and took his journey towards the city which was called Aaron [scholarly note: an inland or western route, distinct from this eastern coastal fortress]." },
+      { ref: "Alma 51:26", text: "Fortified eastern cities along the seashore corridor." }
     ],
     historicalEvents: [
       "Border defense along the southeastern perimeter"
@@ -850,12 +851,12 @@ const mapLocations = {
     name: "Land & City of Melek",
     title: "Western Evangelical Refuge",
     category: "cities",
-    region: "West of River Sidon (West of Zarahemla)",
+    region: "West of River Sidon (Borders of the Wilderness)",
     coords: { x: 39.6, y: 58.8 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "temple",
-    summary: "A peaceful city west of Sidon where Alma taught the people with tremendous success before traveling northward to wicked Ammonihah.",
+    summary: "A righteous city situated on the west of the river Sidon along the borders of the western wilderness (Alma 8:3), where Alma taught the gospel with great success before traveling three days north to Ammonihah.",
     refs: [
       { ref: "Alma 8:3-4", text: "And Alma departed and took his journey over into the land of Melek, on the west of the river Sidon, on the west by the borders of the wilderness. And he began to teach the people in the land of Melek according to the holy order of God." },
       { ref: "Alma 35:13", text: "And the people of Ammon departed out of the land of Jershon, and came over into the land of Melek, and gave place in the land of Jershon for the armies of the Nephites." }
@@ -1081,17 +1082,17 @@ const mapLocations = {
 
   "manti": {
     id: "manti",
-    name: "City & Hill of Manti",
+    name: "City & Land of Manti (Southern Headwaters Fortress)",
     title: "Southwestern Headwaters Bastion",
     category: "fortresses",
-    region: "Head of River Sidon (Near Narrow Strip of Wilderness)",
+    region: "Head of River Sidon (Southern Border Fortress)",
     coords: { x: 25.4, y: 87.7 },
     highlightSize: "large",
     glowColor: "gold",
     icon: "fort",
-    summary: "The southernmost military pillar defending the central valley of Zarahemla from southern Lamanite invasion. Situated near the head of River Sidon beside Hill Manti.",
+    summary: "The prime southern Nephite military bulwark defending the central valley of Zarahemla from southern Lamanite invasion. Situated near the head of River Sidon (Alma 16:6; 43:22; 58:13). Distinct from the Hill Manti near Zarahemla where Nehor was executed.",
     refs: [
-      { ref: "Alma 16:6-7", text: "Zoram and his sons knew that Alma was high priest over the church... therefore they went unto him to desire of him that he should inquire of the Lord whether they should go into the wilderness in search of their brethren, who had been taken captive by the Lamanites... and Alma returned and said: Behold, the Lamanites will cross the river Sidon in the south wilderness, away up beyond the borders of the land of Manti." },
+      { ref: "Alma 16:6-7", text: "Zoram and his sons knew that Alma was high priest over the church... therefore they went unto him to desire of him that he should inquire of the Lord whether they should go into the wilderness in search of their brethren... and Alma returned and said: Behold, the Lamanites will cross the river Sidon in the south wilderness, away up beyond the borders of the land of Manti." },
       { ref: "Alma 43:22-42", text: "And Moroni placed spies round about, that he might know when the camp of the Lamanites should come... and Moroni came and placed his armies in the valley of Manti, on the borders of the river Sidon." },
       { ref: "Alma 58:13-28", text: "Helaman and his stripling warriors liberate Manti through an ingenious feigned retreat, decoying the entire Lamanite army out of the city." }
     ],
@@ -1105,31 +1106,32 @@ const mapLocations = {
 
   "hill_manti": {
     id: "hill_manti",
-    name: "Hill Manti",
-    title: "Watchpost at River Sidon Headwaters",
+    name: "Hill Manti (Near Zarahemla)",
+    title: "Site of Nehor's Execution",
     category: "wilderness",
-    region: "Headwaters of River Sidon",
-    coords: { x: 24.5, y: 94.2 },
+    region: "Land of Zarahemla (Near Judgment Seat)",
+    coords: { x: 48.5, y: 53.5 },
     highlightSize: "small",
     glowColor: "gold",
     icon: "mountain",
-    summary: "A commanding hill guarding the upper mountain pass into the land of Zarahemla near the River Sidon head.",
+    summary: "A prominent hill situated near the capital city of Zarahemla where the false priestcraft teacher and murderer Nehor was taken to be executed between heaven and earth after acknowledging his sins before Chief Judge Alma.",
+    description: "Alma 1:15 records that after murdering the venerable Gideon and being condemned for priestcraft and murder, Nehor was carried to the top of the hill Manti, where he acknowledged between the heavens and the earth that what he had taught was contrary to God, suffering an ignominious death. Book of Mormon geographers recognize this Hill Manti near the judicial seat of Zarahemla as distinct from the southern frontier city and hill of Manti at the head of River Sidon.",
     refs: [
-      { ref: "Alma 56:14", text: "Surrounding mountainous topography near the southern border." }
+      { ref: "Alma 1:15", text: "And they carried him upon the top of the hill Manti, and there he was caused, or rather did acknowledge, between the heavens and the earth, that what he had taught to the people was contrary to the word of God; and there he suffered an ignominious death." }
     ],
     historicalEvents: [
-      "Tactical observation post used by Nephite scouts"
+      "Public confession and execution of Nehor for the murder of Gideon (Alma 1:15)"
     ],
-    notablePeople: ["Helaman", "Antipus"]
+    notablePeople: ["Alma the Younger", "Nehor", "Gideon"]
   },
 
   "hill_riplah": {
     id: "hill_riplah",
     name: "Hill Riplah",
-    title: "Site of Moroni's Pincer Ambush",
+    title: "Site of Moroni's Pincer Ambush East of Sidon",
     category: "wilderness",
-    region: "East Bank of River Sidon (Near Manti)",
-    coords: { x: 31.0, y: 85.0 },
+    region: "East Bank of River Sidon (Valley East of Sidon)",
+    coords: { x: 37.5, y: 83.0 },
     highlightSize: "small",
     glowColor: "gold",
     icon: "mountain",
@@ -1225,15 +1227,15 @@ const mapLocations = {
     name: "Forest of Mormon",
     title: "Sacred Woodlands of the Covenant",
     category: "wilderness",
-    region: "Border of the Land of Nephi",
-    coords: { x: 49.0, y: 79.5 },
+    region: "Border of the Land of Nephi (Adjacent Waters of Mormon)",
+    coords: { x: 52.0, y: 76.5 },
     highlightSize: "large",
     glowColor: "gold",
     icon: "covenant",
     territoryPolygon: [
-      { x: 39, y: 76 }, { x: 57, y: 76 }, { x: 58, y: 82 }, { x: 38, y: 82 }
+      { x: 48, y: 74 }, { x: 56, y: 74 }, { x: 56, y: 79 }, { x: 48, y: 79 }
     ],
-    summary: "The secluded thicket of small trees adjacent to the Waters of Mormon where Alma hid by day from the spies of King Noah while teaching the doctrine of Christ.",
+    summary: "The secluded thicket of small trees directly adjacent to the Waters of Mormon where Alma hid by day from the spies of King Noah while teaching the doctrine of Christ.",
     refs: [
       { ref: "Mosiah 18:5", text: "Now, there was in Mormon a fountain of pure water, and Alma resorted thither, there being near the water a thicket of small trees, where he did hide himself in the daytime from the searches of the king." },
       { ref: "Mosiah 18:30", text: "And now it came to pass that all this was done in Mormon, yea, by the waters of Mormon, in the forest that was near the waters of Mormon; yea, the place of Mormon, the waters of Mormon, the forest of Mormon, how beautiful are they to the eyes of them who there came to the knowledge of their Redeemer; yea, and how blessed are they, for they shall sing to his praise forever." }
@@ -1250,18 +1252,19 @@ const mapLocations = {
     name: "Waters of Mormon",
     title: "Sanctuary of Covenant & Baptism",
     category: "sacred",
-    region: "Border of the Land of Nephi / Forest of Mormon",
-    coords: { x: 66.5, y: 78.8 },
+    region: "Border of the Land of Nephi (Adjacent Forest of Mormon)",
+    coords: { x: 61.5, y: 76.5 },
     highlightSize: "large",
     glowColor: "azure",
     icon: "fountain",
     territoryPolygon: [
-      { x: 60, y: 76 }, { x: 72, y: 76 }, { x: 72, y: 82 }, { x: 61, y: 82 }
+      { x: 58, y: 74 }, { x: 66, y: 74 }, { x: 66, y: 79 }, { x: 58, y: 79 }
     ],
-    summary: "A beautiful, secluded spring of pure water near a thicket of small trees. Having fled the court of wicked King Noah, Alma gathered believers here to secretly teach the doctrine of Christ and institute the baptismal covenant.",
+    summary: "A beautiful, secluded fountain and spring of pure water immediately adjacent to the Forest of Mormon. Having fled the court of wicked King Noah, Alma gathered believers here to secretly teach the doctrine of Christ and institute the baptismal covenant.",
     refs: [
       { ref: "Mosiah 18:8-10", text: "And it came to pass that he said unto them: Behold, here are the waters of Mormon... and now, as ye are desirous to come into the fold of God, and to be called his people, and are willing to bear one another's burdens, that they may be light; yea, and are willing to mourn with those that mourn; yea, and comfort those that stand in need of comfort, and to stand as witnesses of God at all times and in all things, and in all places that ye may be in, even until death... what have you against being baptized in the name of the Lord?" },
-      { ref: "Mosiah 18:12-16", text: "And now it came to pass that Alma took Helam, he being one of the first, and went and stood forth in the water, and cried, saying: O Lord, pour out thy Spirit upon thy servant... and he baptized him, and they were filled with the Holy Spirit... and after this manner he did baptize every one that went forth to the place of Mormon; and they were in number about two hundred and four souls." }
+      { ref: "Mosiah 18:12-16", text: "And now it came to pass that Alma took Helam, he being one of the first, and went and stood forth in the water, and cried, saying: O Lord, pour out thy Spirit upon thy servant... and he baptized him, and they were filled with the Holy Spirit... and after this manner he did baptize every one that went forth to the place of Mormon; and they were in number about two hundred and four souls." },
+      { ref: "Mosiah 18:30", text: "Yea, the place of Mormon, the waters of Mormon, the forest of Mormon, how beautiful are they to the eyes of them who there came to the knowledge of their Redeemer." }
     ],
     historicalEvents: [
       "Alma the Elder preaches in secret after Abinadi's martyrdom",
@@ -1412,11 +1415,11 @@ const mapLocations = {
 
   "city_of_jerusalem": {
     id: "city_of_jerusalem",
-    name: "City of Jerusalem",
-    title: "Apostate Stronghold of the Amalekites",
+    name: "City of Jerusalem (New World)",
+    title: "Apostate Stronghold Bordering Mormon",
     category: "cities",
-    region: "Land of Nephi (Bordering Waters of Mormon)",
-    coords: { x: 44.2, y: 92.0 },
+    region: "Land of Nephi (Joining Borders of Mormon)",
+    coords: { x: 48.2, y: 88.2 },
     highlightSize: "medium",
     glowColor: "gold",
     icon: "ruins",
@@ -1425,9 +1428,9 @@ const mapLocations = {
       label: "Covered by Inundating Waters",
       verse: "3 Nephi 9:7"
     },
-    summary: "A prominent city built by Lamanites, Amalekites, and Amulonites, named after the ancient city in the Old World. Deeply hardened against the gospel; sunk beneath the waters during the 3 Nephi destruction.",
+    summary: "A prominent New World city built in the Land of Nephi by Lamanites, Amalekites, and Amulonites, named after the ancient Old World city of their fathers (Alma 21:1–2). Situated adjoining the borders of Mormon; submerged beneath inundating waters during the 3 Nephi destruction.",
     refs: [
-      { ref: "Alma 21:1-2", text: "Now when Ammon and his brethren separated themselves in the borders of the land of the Lamanites, behold Aaron took his journey towards the land which was called by the Lamanites, Jerusalem, calling it after the land of their fathers' nativity; and it was situated adjoining the borders of Mormon. Now the Lamanites and the Amalekites and the people of Amulon had built a great city, which was called Jerusalem." },
+      { ref: "Alma 21:1-2", text: "Now when Ammon and his brethren separated themselves in the borders of the land of the Lamanites, behold Aaron took his journey towards the land which was called by the Lamanites, Jerusalem, calling it after the land of their fathers' nativity; and it was away joining the borders of Mormon. Now the Lamanites and the Amalekites and the people of Amulon had built a great city, which was called Jerusalem." },
       { ref: "3 Nephi 9:7", text: "And behold, the city of Jerusalem, and the waters thereof, have I caused to come up in the stead thereof, to hide their wickedness and abominations from before my face." }
     ],
     historicalEvents: [

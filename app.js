@@ -1527,6 +1527,60 @@ document.addEventListener('DOMContentLoaded', () => {
     oldWorldModalBackdrop.addEventListener('click', closeOldWorldModal);
   }
 
+  /**
+   * Official Church Gospel Topics Geography Disclaimer Modal
+   */
+  const disclaimerModal = document.getElementById('disclaimerModal');
+  const disclaimerModalBackdrop = document.getElementById('disclaimerModalBackdrop');
+  const openDisclaimerBtn = document.getElementById('openDisclaimerBtn');
+  const closeDisclaimerBtn = document.getElementById('closeDisclaimerBtn');
+
+  function openDisclaimerModal() {
+    if (disclaimerModal) {
+      disclaimerModal.classList.add('open');
+      disclaimerModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function closeDisclaimerModal() {
+    if (disclaimerModal) {
+      disclaimerModal.classList.remove('open');
+      disclaimerModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  if (openDisclaimerBtn) {
+    openDisclaimerBtn.addEventListener('click', openDisclaimerModal);
+  }
+  if (closeDisclaimerBtn) {
+    closeDisclaimerBtn.addEventListener('click', closeDisclaimerModal);
+  }
+  if (disclaimerModalBackdrop) {
+    disclaimerModalBackdrop.addEventListener('click', closeDisclaimerModal);
+  }
+  if (disclaimerModal) {
+    disclaimerModal.addEventListener('click', (e) => {
+      if (e.target === disclaimerModal) {
+        closeDisclaimerModal();
+      }
+    });
+  }
+
+  /**
+   * Interactive Continuous River Sidon Path
+   */
+  const riverSidonGroup = document.getElementById('riverSidonGroup');
+  if (riverSidonGroup) {
+    riverSidonGroup.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openCodex('river_sidon');
+      const loc = mapLocations['river_sidon'];
+      if (loc) {
+        focusLocation(loc.coords.x, loc.coords.y, 1.25);
+      }
+    });
+  }
+
   // Handle jump-landfall buttons inside the Old World modal
   document.querySelectorAll('.btn-jump-landfall').forEach(btn => {
     btn.addEventListener('click', (e) => {
