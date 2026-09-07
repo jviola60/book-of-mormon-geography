@@ -567,6 +567,33 @@ html, body {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* Marker Label Directional Offsets */
+.map-marker[data-label-pos="top"] .marker-label {
+  top: auto;
+  bottom: 100%;
+  transform: translateX(-50%) translateY(-6px);
+}
+.map-marker[data-label-pos="bottom"] .marker-label {
+  top: 100%;
+  bottom: auto;
+  transform: translateX(-50%) translateY(4px);
+}
+.map-marker[data-label-pos="left"] .marker-label {
+  top: 50%;
+  left: auto;
+  right: 100%;
+  transform: translateY(-50%) translateX(-6px);
+}
+.map-marker[data-label-pos="right"] .marker-label {
+  top: 50%;
+  left: 100%;
+  right: auto;
+  transform: translateY(-50%) translateX(6px);
+}
+.map-marker[data-label-pos="none"] .marker-label {
+  display: none !important;
+}
+
 /* Scriptural additions not baked into the original artwork are always prominently labelled */
 .map-marker[data-addition="true"] .marker-label {
   opacity: 1 !important;
@@ -595,6 +622,11 @@ html, body {
   opacity: 1 !important;
   visibility: visible !important;
   transform: translateX(-50%) translateY(6px) !important;
+}
+
+.map-marker[data-label-pos="top"]:hover .marker-label,
+.map-marker[data-label-pos="top"].search-match .marker-label {
+  transform: translateX(-50%) translateY(-6px) !important;
 }
 
 .map-marker.search-match {

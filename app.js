@@ -343,6 +343,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (loc.fate3Nephi) {
         marker.dataset.fate = loc.fate3Nephi.type;
       }
+      if (loc.labelPosition) {
+        marker.dataset.labelPos = loc.labelPosition;
+      }
       marker.dataset.foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
       marker.style.left = `${loc.coords.x}%`;
       marker.style.top = `${loc.coords.y}%`;

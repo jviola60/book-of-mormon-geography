@@ -159,10 +159,11 @@ const mapLocations = {
     title: "Nephite Fortress City of the Late Wars",
     category: "fortresses",
     region: "Land Northward (Near Hill Shim & Valley of Gilgal)",
-    coords: { x: 64.9, y: 20.3 },
-    highlightSize: "medium",
+    coords: { x: 64.9, y: 19.2 },
+    highlightSize: "small",
     glowColor: "gold",
     icon: "fort",
+    labelPosition: "top",
     summary: "The heavily fortified Nephite bastion in the Land Northward along the river valley by Hill Shim, where Mormon retreated and successfully repulsed repeated Lamanite assaults during the late wars (Mormon 5:3-4). Note: The map artwork marks this primary fortified bastion, with a secondary northern encampment along the Waters of Ripliancum.",
     refs: [
       { ref: "Mormon 5:3-4", text: "And it came to pass that we did fly to the city of Jordan... and the Nephites did maintain the city of Jordan and repulse the Lamanites." }
