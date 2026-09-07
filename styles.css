@@ -3341,7 +3341,7 @@ html, body {
   backdrop-filter: blur(8px);
   z-index: 45;
   cursor: pointer;
-  transition: all 0.22s ease;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -3436,6 +3436,10 @@ html, body {
   flex-direction: column;
   gap: 12px;
   margin-top: 12px;
+}
+
+.distance-modal-actions {
+  margin-top: 14px;
 }
 
 .metric-card {
