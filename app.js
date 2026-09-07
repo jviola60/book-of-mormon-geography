@@ -664,6 +664,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!id) return;
         const loc = mapLocations[id];
         if (!loc) return;
+        const eraSlider = document.getElementById('eraSlider');
+        const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
+        const foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
+        if (foundedStep > currentStep && typeof applyChronologicalStep === 'function') {
+          applyChronologicalStep(foundedStep, true);
+        }
         focusLocation(loc.coords.x, loc.coords.y, 1.6);
         openCodex(id);
       });
@@ -1552,6 +1558,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (openDisclaimerBtn) {
     openDisclaimerBtn.addEventListener('click', openDisclaimerModal);
   }
+  const bannerOpenDisclaimerBtn = document.getElementById('bannerOpenDisclaimerBtn');
+  if (bannerOpenDisclaimerBtn) {
+    bannerOpenDisclaimerBtn.addEventListener('click', openDisclaimerModal);
+  }
+  const drawerOpenDisclaimerBtn = document.getElementById('drawerOpenDisclaimerBtn');
+  if (drawerOpenDisclaimerBtn) {
+    drawerOpenDisclaimerBtn.addEventListener('click', openDisclaimerModal);
+  }
+  const dismissChurchBannerBtn = document.getElementById('dismissChurchBannerBtn');
+  if (dismissChurchBannerBtn) {
+    dismissChurchBannerBtn.addEventListener('click', () => {
+      const banner = document.getElementById('churchStanceBanner');
+      if (banner) banner.style.display = 'none';
+    });
+  }
   if (closeDisclaimerBtn) {
     closeDisclaimerBtn.addEventListener('click', closeDisclaimerModal);
   }
@@ -1893,6 +1914,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (matchCount === 1 && firstMatch && term.length > 2) {
       focusLocation(firstMatch.coords.x, firstMatch.coords.y);
+      openCodex(firstMatch.id);
     }
   }
 

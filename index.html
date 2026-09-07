@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=7.0">
+  <link rel="stylesheet" href="styles.css?v=7.2">
 </head>
 <body>
 
@@ -91,12 +91,24 @@
         </button>
 
         <!-- Official Church Gospel Topics Geography Disclaimer Button -->
-        <button id="openDisclaimerBtn" class="tool-btn disclaimer-btn" title="Official Church Gospel Topics Geography Notice">
+        <button id="openDisclaimerBtn" class="tool-btn disclaimer-btn prominent-disclaimer" title="Official Church Gospel Topics Geography Notice">
           <span>📜</span>
-          <span>Church Notice</span>
+          <span>Church Stance on Geography</span>
         </button>
       </div>
     </header>
+
+    <!-- Official Church Stance Banner -->
+    <aside class="church-stance-banner" id="churchStanceBanner">
+      <div class="church-stance-content">
+        <span class="church-stance-badge">📜 Church Stance</span>
+        <span class="church-stance-text">
+          <strong>Official Church Stance:</strong> "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas... the best guide is the text of the Book of Mormon itself." — First Presidency
+        </span>
+        <button id="bannerOpenDisclaimerBtn" class="church-stance-cta">Read Full Statement &rarr;</button>
+      </div>
+      <button id="dismissChurchBannerBtn" class="church-stance-dismiss" title="Dismiss">&times;</button>
+    </aside>
 
     <!-- Welcome Toast Hint -->
     <aside class="intro-toast" id="introToast">
@@ -112,8 +124,8 @@
       <div class="map-stage" id="mapStage">
         <!-- High-Resolution Main Map Artwork with mobile-optimized responsive source (2120x3160 canvas) -->
         <picture>
-          <source media="(max-width: 768px)" srcset="map-mobile.jpg?v=7.0">
-          <img src="map-highres.jpg?v=7.0" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="async">
+          <source media="(max-width: 768px)" srcset="map-v7-mobile.jpg?v=7.2">
+          <img src="map-v7-cleaned.jpg?v=7.2" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="async">
         </picture>
         
         <!-- SVG Layer for Territory Overlays, Cataclysm Physical Terrain Transformations & Scriptural Journeys -->
@@ -330,6 +342,18 @@
       </div>
 
       <div class="drawer-body">
+        <!-- Official Church Stance Notice in Codex -->
+        <div class="drawer-church-stance-card">
+          <div class="church-stance-mini-header">
+            <span class="church-stance-mini-icon">📜</span>
+            <span class="church-stance-mini-title">Official Church Stance on Geography</span>
+          </div>
+          <p class="church-stance-mini-desc">
+            The Church takes no official position on specific Book of Mormon geography in the Americas, teaching that the scriptures' purpose is spiritual rather than geographic.
+          </p>
+          <button class="church-stance-mini-btn" id="drawerOpenDisclaimerBtn">Read Full Gospel Topics Statement &rarr;</button>
+        </div>
+
         <!-- Chronological Settlement Era Status -->
         <div class="drawer-timeline-status" id="drawerTimelineStatus"></div>
 
@@ -531,8 +555,7 @@
   </div>
 
   <!-- Application Scripts -->
-  <script src="map-data.js?v=7.0"></script>
-  <script src="app.js?v=7.0"></script>
-  <link rel="stylesheet" href="styles.css?v=7.0">
+  <script src="map-data.js?v=7.2"></script>
+  <script src="app.js?v=7.2"></script>
 </body>
 </html>

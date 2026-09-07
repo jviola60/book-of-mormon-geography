@@ -3142,4 +3142,188 @@ html, body {
   filter: drop-shadow(0 0 3px #38bdf8);
 }
 
+/* ==========================================================================
+   OFFICIAL CHURCH STANCE ON BOOK OF MORMON GEOGRAPHY - BANNER & CONTROLS
+   ========================================================================== */
+.church-stance-banner {
+  background: linear-gradient(90deg, #1c140c 0%, #2e2013 40%, #2e2013 60%, #1c140c 100%);
+  border-bottom: 1.5px solid #d4af37;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65), 0 0 12px rgba(212, 175, 55, 0.25);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  z-index: 50;
+  position: relative;
+}
+
+.church-stance-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: #eeddbb;
+}
+
+.church-stance-badge {
+  background: linear-gradient(135deg, #d4af37 0%, #997316 100%);
+  color: #120b05;
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.church-stance-text {
+  line-height: 1.35;
+}
+
+.church-stance-text strong {
+  color: #fce899;
+}
+
+.church-stance-text em {
+  color: #f7dfaa;
+}
+
+.church-stance-cta {
+  background: rgba(212, 175, 55, 0.18);
+  border: 1px solid #d4af37;
+  color: #ffd700;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.church-stance-cta:hover {
+  background: #d4af37;
+  color: #1a1005;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  transform: translateY(-1px);
+}
+
+.church-stance-dismiss {
+  background: transparent;
+  border: none;
+  color: #b39b70;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0 6px;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.church-stance-dismiss:hover {
+  color: #ffffff;
+}
+
+/* Header Prominent Disclaimer Button */
+.tool-btn.prominent-disclaimer {
+  background: linear-gradient(135deg, rgba(65, 45, 20, 0.9) 0%, rgba(35, 25, 12, 0.9) 100%);
+  border: 1.5px solid #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+  color: #fce899;
+  font-weight: 600;
+  padding: 5px 12px;
+}
+
+.tool-btn.prominent-disclaimer:hover {
+  background: linear-gradient(135deg, #d4af37 0%, #997316 100%);
+  color: #120b05;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.8);
+}
+
+/* Drawer Church Stance Notice Card */
+.drawer-church-stance-card {
+  background: linear-gradient(135deg, rgba(38, 28, 18, 0.95) 0%, rgba(24, 18, 12, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-left: 4px solid #d4af37;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.church-stance-mini-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.church-stance-mini-icon {
+  font-size: 1rem;
+}
+
+.church-stance-mini-title {
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fce899;
+  letter-spacing: 0.03em;
+}
+
+.church-stance-mini-desc {
+  font-size: 0.78rem;
+  color: #d1bfa0;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+}
+
+.church-stance-mini-btn {
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: #f7dfaa;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.church-stance-mini-btn:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: #d4af37;
+  color: #ffffff;
+}
+
+/* Active Marker Focus Guarantee */
+.map-marker.active {
+  opacity: 1 !important;
+  z-index: 999 !important;
+}
+
+.map-marker.active .marker-pulse {
+  display: block !important;
+  animation: markerPulseAnim 1.6s ease-out infinite !important;
+}
+
+.map-marker.active .marker-pin {
+  transform: scale(1.4) !important;
+  background: radial-gradient(circle at 35% 35%, #ffffff, #e6b845 70%, #915a13 100%) !important;
+  box-shadow: 0 0 25px rgba(255, 230, 140, 1), 0 0 10px rgba(0,0,0,0.8) !important;
+  border: 2px solid #fff !important;
+  filter: none !important;
+}
+
+.map-marker.active .marker-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) translateY(6px) !important;
+  border-color: var(--gold-primary) !important;
+  background: rgba(26, 18, 12, 0.98) !important;
+  color: #ffffff !important;
+}
+
+
 
