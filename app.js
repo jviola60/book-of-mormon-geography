@@ -252,6 +252,44 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   function applyTransform() {
     stage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    updateMapScale();
+  }
+
+  /**
+   * Dynamic Cartographic Distance Scale Bar
+   * Calibrated to Alma 22:32 (Narrow Neck = 1.5 days' journey ~ 27 mi / 43 km = ~212 px on map)
+   * 1 mile = ~7.85 map pixels at 1.0 scale
+   */
+  function updateMapScale() {
+    const scaleBarRuler = document.getElementById('scaleBarRuler');
+    const scaleTickMid = document.getElementById('scaleTickMid');
+    const scaleTickEnd = document.getElementById('scaleTickEnd');
+    const scaleNephiteDay = document.getElementById('scaleNephiteDay');
+    if (!scaleBarRuler) return;
+
+    const pxPerMile = 7.85 * scale;
+    const maxBarPx = window.innerWidth <= 768 ? 110 : 180;
+
+    const intervals = [2, 5, 10, 15, 20, 25, 30, 50, 75, 100, 150, 200, 300, 500];
+    let chosenMiles = intervals[0];
+    for (const intv of intervals) {
+      if (intv * pxPerMile <= maxBarPx) {
+        chosenMiles = intv;
+      }
+    }
+
+    const actualRulerWidth = Math.max(50, chosenMiles * pxPerMile);
+    scaleBarRuler.style.width = `${Math.round(actualRulerWidth)}px`;
+
+    const km = Math.round(chosenMiles * 1.60934);
+    const days = (chosenMiles / 18).toFixed(1).replace('.0', '');
+    const halfMiles = Math.round(chosenMiles / 2);
+
+    if (scaleTickMid) scaleTickMid.textContent = `${halfMiles} mi`;
+    if (scaleTickEnd) scaleTickEnd.textContent = `${chosenMiles} mi (${km} km)`;
+    if (scaleNephiteDay) {
+      scaleNephiteDay.textContent = `${days} ${days === '1' ? "Day's" : "Days'"} Journey (~18 mi/day)`;
+    }
   }
 
   /**
@@ -1350,8 +1388,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setHudCollapsed(true);
     }
 
-    // Initialize era on load (defaults to Era 19 - AD 1, Birth of Christ)
-    applyChronologicalStep(eraSlider.value || 19);
+    // Initialize era on load (starts at Step 0: 2200 BC, The Great Dispersion & Jaredite Exodus)
+    applyChronologicalStep(0);
   }
 
   function playCataclysmRumble() {
@@ -1583,6 +1621,47 @@ document.addEventListener('DOMContentLoaded', () => {
     disclaimerModal.addEventListener('click', (e) => {
       if (e.target === disclaimerModal) {
         closeDisclaimerModal();
+      }
+    });
+  }
+
+  // Interactive Scriptural Distance Scale Modal
+  const mapScaleContainer = document.getElementById('mapScaleContainer');
+  const distanceScaleModal = document.getElementById('distanceScaleModal');
+  const distanceModalBackdrop = document.getElementById('distanceModalBackdrop');
+  const closeDistanceModalBtn = document.getElementById('closeDistanceModalBtn');
+  const closeDistanceModalCta = document.getElementById('closeDistanceModalCta');
+
+  function openDistanceModal() {
+    if (distanceScaleModal) {
+      distanceScaleModal.classList.add('open');
+      distanceScaleModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function closeDistanceModal() {
+    if (distanceScaleModal) {
+      distanceScaleModal.classList.remove('open');
+      distanceScaleModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  if (mapScaleContainer) {
+    mapScaleContainer.addEventListener('click', openDistanceModal);
+  }
+  if (closeDistanceModalBtn) {
+    closeDistanceModalBtn.addEventListener('click', closeDistanceModal);
+  }
+  if (closeDistanceModalCta) {
+    closeDistanceModalCta.addEventListener('click', closeDistanceModal);
+  }
+  if (distanceModalBackdrop) {
+    distanceModalBackdrop.addEventListener('click', closeDistanceModal);
+  }
+  if (distanceScaleModal) {
+    distanceScaleModal.addEventListener('click', (e) => {
+      if (e.target === distanceScaleModal) {
+        closeDistanceModal();
       }
     });
   }

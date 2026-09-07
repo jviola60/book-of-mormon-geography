@@ -3325,5 +3325,174 @@ html, body {
   color: #ffffff !important;
 }
 
+/* ==========================================================================
+   CARTOGRAPHIC DISTANCE SCALE BAR (Alma 22:32, Helaman 4:7)
+   ========================================================================== */
+.map-scale-bar-container {
+  position: absolute;
+  left: 20px;
+  bottom: 24px;
+  background: rgba(20, 15, 11, 0.94);
+  border: 1.5px solid #d4af37;
+  border-radius: 8px;
+  padding: 8px 14px 9px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(212, 175, 55, 0.25);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  z-index: 45;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  user-select: none;
+}
+
+.map-scale-bar-container:hover {
+  background: rgba(32, 24, 17, 0.98);
+  border-color: #ffd700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.scale-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+
+.scale-bar-title {
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #d4af37;
+  letter-spacing: 0.08em;
+}
+
+.scale-nephite-day {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffd700;
+  white-space: nowrap;
+}
+
+.scale-bar-graphic {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.scale-bar-ruler {
+  height: 6px;
+  border: 1.5px solid #d4af37;
+  border-radius: 2px;
+  display: flex;
+  width: 140px;
+  background: #140d07;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.85);
+  transition: width 0.12s ease-out;
+}
+
+.scale-segment {
+  flex: 1;
+}
+
+.scale-segment:nth-child(odd) {
+  background: #d4af37;
+}
+
+.scale-segment:nth-child(even) {
+  background: #2b1f13;
+}
+
+.scale-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #eeddbb;
+  padding: 0 1px;
+}
+
+.scale-footnote {
+  margin-top: 5px;
+  border-top: 1px dashed rgba(197, 160, 89, 0.35);
+  padding-top: 4px;
+}
+
+.scale-verse-ref {
+  font-size: 0.64rem;
+  color: #c4ad87;
+  font-style: italic;
+  display: block;
+  white-space: nowrap;
+}
+
+/* Metric Explanatory Cards */
+.distance-metric-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.metric-card {
+  background: rgba(32, 24, 16, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+
+.metric-card h4 {
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  color: #ffd700;
+  font-size: 0.85rem;
+  margin: 0 0 6px 0;
+}
+
+.metric-card p {
+  font-size: 0.82rem;
+  color: #eeddbb;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.metric-stat {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: #fce899;
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+@media (max-width: 900px) {
+  .map-scale-bar-container {
+    left: 8px;
+    bottom: auto;
+    top: 60px;
+    padding: 5px 8px;
+  }
+  .scale-bar-title,
+  .scale-footnote {
+    display: none;
+  }
+  .scale-bar-ruler {
+    width: 90px;
+    height: 5px;
+  }
+  .scale-nephite-day {
+    font-size: 0.65rem;
+  }
+  .scale-ticks {
+    font-size: 0.6rem;
+  }
+}
+
+
 
 

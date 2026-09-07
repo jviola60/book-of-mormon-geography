@@ -215,18 +215,42 @@
         <span class="badge-copy-hint">(Click to copy)</span>
       </div>
 
+      <!-- Interactive Scriptural Distance Scale Bar (Alma 22:32, Helaman 4:7) -->
+      <div class="map-scale-bar-container" id="mapScaleContainer" title="Click for Book of Mormon distance & travel time metrics">
+        <div class="scale-bar-header">
+          <span class="scale-bar-title">DISTANCE SCALE</span>
+          <span class="scale-nephite-day" id="scaleNephiteDay">1 Day's Journey (~18 mi)</span>
+        </div>
+        <div class="scale-bar-graphic">
+          <div class="scale-bar-ruler" id="scaleBarRuler">
+            <div class="scale-segment seg-1"></div>
+            <div class="scale-segment seg-2"></div>
+            <div class="scale-segment seg-3"></div>
+            <div class="scale-segment seg-4"></div>
+          </div>
+          <div class="scale-ticks">
+            <span>0</span>
+            <span id="scaleTickMid">25 mi</span>
+            <span id="scaleTickEnd">50 mi (80 km)</span>
+          </div>
+        </div>
+        <div class="scale-footnote">
+          <span class="scale-verse-ref">Alma 22:32 • 1.5 Days (~27 mi) across Narrow Neck</span>
+        </div>
+      </div>
+
       <!-- Scriptural Chronological Timeline & 3 Nephi Cataclysm HUD -->
       <section class="cataclysm-hud" id="cataclysmHud">
         <div class="cataclysm-header">
           <div class="cataclysm-title-group" id="cataclysmTitleGroup">
-            <span class="cataclysm-icon" id="cataclysmIcon">⭐</span>
+            <span class="cataclysm-icon" id="cataclysmIcon">🌊</span>
             <div class="cataclysm-titles-col">
               <div class="cataclysm-heading-row">
-                <span class="timeline-year-badge" id="timelineYearBadge">AD 1</span>
-                <h4 class="cataclysm-title" id="cataclysmTitle">Era: Birth of Christ (Zionic Hope & Peace)</h4>
-                <span class="timeline-site-counter" id="timelineSiteCounter">88 / 94 Sites Active</span>
+                <span class="timeline-year-badge" id="timelineYearBadge">2200 BC</span>
+                <h4 class="cataclysm-title" id="cataclysmTitle">Era: The Great Dispersion & Jaredite Exodus</h4>
+                <span class="timeline-site-counter" id="timelineSiteCounter">6 / 94 Sites Active</span>
               </div>
-              <p class="cataclysm-subtitle" id="cataclysmSubtitle">Day, night, and day as one; Nephites and Lamanites unite against secret combinations; thriving civilization</p>
+              <p class="cataclysm-subtitle" id="cataclysmSubtitle">Tower of Babel language confusion; Brother of Jared leads families across ancient wilderness</p>
             </div>
           </div>
           <div class="cataclysm-actions">
@@ -254,7 +278,7 @@
         </div>
 
         <div class="cataclysm-slider-track-wrapper">
-          <input type="range" id="eraSlider" min="0" max="29" value="19" step="1" class="era-slider-range" title="Historical Chronology Slider (2200 BC - AD 421)" aria-label="Historical Chronology Slider" />
+          <input type="range" id="eraSlider" min="0" max="29" value="0" step="1" class="era-slider-range" title="Historical Chronology Slider (2200 BC - AD 421)" aria-label="Historical Chronology Slider" />
           
           <!-- Key milestone markers along the chronological track -->
           <div class="era-step-markers" id="eraStepMarkers">
@@ -552,10 +576,55 @@
       </div>
     </div>
 
+    <!-- Scriptural Distance & Day-Journeys Explanatory Modal -->
+    <div id="distanceScaleModal" class="disclaimer-modal" role="dialog" aria-modal="true" aria-labelledby="distanceModalTitle" aria-hidden="true">
+      <div class="disclaimer-backdrop" id="distanceModalBackdrop"></div>
+      <div class="disclaimer-dialog">
+        <div class="disclaimer-header">
+          <div class="disclaimer-title-group">
+            <div class="disclaimer-icon">📐</div>
+            <div>
+              <span class="modal-badge">Scriptural Cartography</span>
+              <h3 id="distanceModalTitle" class="disclaimer-title">Book of Mormon Distances & Day-Journeys</h3>
+            </div>
+          </div>
+          <button id="closeDistanceModalBtn" class="btn-old-world-close" title="Close Distance Guide">✕</button>
+        </div>
+        <div class="modal-body disclaimer-body">
+          <p>
+            The Book of Mormon expresses geographic distances in terms of <strong>travel time</strong>—principally the <em>"day's journey for a Nephite"</em> on foot through rugged terrain.
+          </p>
+          <div class="distance-metric-grid">
+            <div class="metric-card">
+              <h4>1. The Narrow Neck of Land</h4>
+              <p><strong>Alma 22:32:</strong> <em>"And now, it was only the distance of a day and a half's journey for a Nephite, on the line Bountiful and the land Desolation, from the east to the west sea."</em></p>
+              <p><strong>Helaman 4:7:</strong> Fortified line across the neck was <em>"a day's journey for a Nephite."</em></p>
+              <span class="metric-stat">Estimated Distance: ~18 to 27 Miles (29–43 km)</span>
+            </div>
+            <div class="metric-card">
+              <h4>2. The Standard "Day's Journey"</h4>
+              <p>In ancient near-eastern and pre-Columbian foot travel over trails, an unencumbered scout or runner covered approximately <strong>18–22 miles per day</strong>, while armies or colonies with flocks traveled <strong>10–14 miles per day</strong>.</p>
+              <span class="metric-stat">Scout / Courier Rate: ~18 Miles / Day</span>
+            </div>
+            <div class="metric-card">
+              <h4>3. Nephi to Zarahemla Wilderness Exodus</h4>
+              <p><strong>Mosiah 23:3 & 24:20–25:</strong> Alma's colony traveled 8 days from the Waters of Mormon to the Land of Helam, and later 12 days from the Valley of Alma to the Land of Zarahemla.</p>
+              <span class="metric-stat">Total Transit: 20–21 Days with Families & Flocks (~220–260 Miles)</span>
+            </div>
+          </div>
+          <div class="disclaimer-links" style="margin-top: 14px;">
+            <button class="church-link-btn" id="closeDistanceModalCta">
+              <span>Return to Interactive Map &rarr;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Application Scripts -->
-  <script src="map-data.js?v=7.2"></script>
-  <script src="app.js?v=7.2"></script>
+  <script src="map-data.js?v=7.3"></script>
+  <script src="app.js?v=7.3"></script>
 </body>
 </html>
