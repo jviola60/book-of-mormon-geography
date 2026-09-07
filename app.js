@@ -1647,7 +1647,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (mapScaleContainer) {
-    mapScaleContainer.addEventListener('click', openDistanceModal);
+    mapScaleContainer.addEventListener('pointerdown', (e) => e.stopPropagation());
+    mapScaleContainer.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDistanceModal();
+    });
   }
   if (closeDistanceModalBtn) {
     closeDistanceModalBtn.addEventListener('click', closeDistanceModal);
@@ -2041,7 +2045,9 @@ document.addEventListener('DOMContentLoaded', () => {
       e.target.closest('.territory-polygon') ||
       e.target.closest('.terrain-feature') ||
       e.target.closest('.expedition-player-bar') ||
-      e.target.closest('.coords-inspector-badge')
+      e.target.closest('.coords-inspector-badge') ||
+      e.target.closest('.map-scale-bar-container') ||
+      e.target.closest('#mapScaleContainer')
     ) return;
 
     // If flyout codex panel is open and user clicks or begins dragging the map, dismiss the flyout
@@ -2198,6 +2204,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') {
       if (scriptureModal && scriptureModal.classList.contains('open')) {
         closeScriptureModal();
+        return;
+      }
+      if (distanceScaleModal && distanceScaleModal.classList.contains('open')) {
+        closeDistanceModal();
+        return;
+      }
+      if (disclaimerModal && disclaimerModal.classList.contains('open')) {
+        closeDisclaimerModal();
         return;
       }
       closeCodex();

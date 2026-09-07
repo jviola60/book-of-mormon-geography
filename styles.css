@@ -431,6 +431,21 @@ html, body {
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
 }
 
+/* Generous invisible hitbox for effortless hover & click without deep zoom */
+.map-marker::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 15;
+}
+
 .map-marker.dimmed {
   opacity: 0.15;
   pointer-events: auto; /* Still clickable to switch focus! */
@@ -451,6 +466,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* Pulsing halo around highlighted locations */
@@ -462,15 +479,15 @@ html, body {
 }
 
 .map-marker[data-size="large"] .marker-pulse {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border: 2px solid var(--gold-primary);
   background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
 }
 
 .map-marker[data-size="medium"] .marker-pulse {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border: 1.5px solid var(--gold-primary);
   background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
 }
@@ -489,10 +506,10 @@ html, body {
   background: radial-gradient(circle, rgba(217, 119, 54, 0.4) 0%, transparent 70%);
 }
 
-/* Central Pin / Beacon */
+/* Central Pin / Beacon - enlarged for effortless visibility and clickability */
 .marker-pin {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background: radial-gradient(circle at 35% 35%, #fff1c7, #cfa03c 70%, #684811 100%);
   border: 1.5px solid #fff;
   border-radius: 50%;
@@ -501,22 +518,25 @@ html, body {
   align-items: center;
   justify-content: center;
   color: #1a120b;
-  font-size: 11px;
+  font-size: 12px;
   transition: all 0.22s ease;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 16;
 }
 
 .map-marker[data-size="large"] .marker-pin {
-  width: 28px;
-  height: 28px;
-  font-size: 14px;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
   border-width: 2px;
 }
 
 .map-marker[data-size="small"] .marker-pin {
-  width: 14px;
-  height: 14px;
-  font-size: 8px;
-  border-width: 1px;
+  width: 19px;
+  height: 19px;
+  font-size: 9.5px;
+  border-width: 1.2px;
   background: radial-gradient(circle at 35% 35%, #f7dca8, #af7f24 80%);
 }
 
@@ -545,26 +565,35 @@ html, body {
   border-color: #fff;
 }
 
-/* Marker Label Badge */
+/* Marker Label Badge - Clickable & Responsive */
 .marker-label {
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(4px);
-  background: rgba(22, 17, 13, 0.92);
+  background: rgba(22, 17, 13, 0.94);
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-sm);
-  padding: 2px 6px;
+  padding: 2px 7px;
   font-family: var(--font-serif-heading);
-  font-size: 0.68rem;
+  font-size: 0.70rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--gold-light);
   white-space: nowrap;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  opacity: 0.92;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0.94;
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  z-index: 17;
+}
+
+.marker-label:hover {
+  background: rgba(42, 30, 20, 0.98);
+  border-color: var(--gold-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), 0 0 10px rgba(223, 186, 84, 0.4);
 }
 
 /* Marker Label Directional Offsets */
@@ -677,7 +706,8 @@ html, body {
   border: 2px solid var(--gold-dark);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -3339,10 +3369,11 @@ html, body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(212, 175, 55, 0.25);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  z-index: 45;
+  z-index: 95;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
+  pointer-events: auto;
 }
 
 .map-scale-bar-container:hover {
