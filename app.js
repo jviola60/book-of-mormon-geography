@@ -892,9 +892,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const refs = (loc && loc.refs && loc.refs.length > 0) ? loc.refs : [
       { ref: "1 Nephi 3:7", text: "And it came to pass that I, Nephi, said unto my father: I will go and do the things which the Lord hath commanded, for I know that the Lord giveth no commandments unto the children of men, save he shall prepare a way for them that they may accomplish the thing which he commandeth them." },
+      { ref: "2 Nephi 2:25", text: "Adam fell that men might be; and men are, that they might have joy." },
+      { ref: "2 Nephi 31:20", text: "Wherefore, ye must press forward with a steadfastness in Christ, having a perfect brightness of hope, and a love of God and of all men. Wherefore, if ye shall press forward, feasting upon the word of Christ, and endure to the end, behold, thus saith the Father: Ye shall have eternal life." },
       { ref: "Mosiah 2:17", text: "And behold, I tell you these things that ye may learn wisdom; that ye may learn that when ye are in the service of your fellow beings ye are only in the service of your God." },
-      { ref: "3 Nephi 11:10", text: "Behold, I am Jesus Christ, whom the prophets testified shall come into the world." }
+      { ref: "Mosiah 18:8–10", text: "And now, as ye are desirous to come into the fold of God, and to be called his people, and are willing to bear one another's burdens, that they may be light; yea, and are willing to mourn with those that mourn; yea, and comfort those that stand in need of comfort, and to stand as witnesses of God at all times and in all things, and in all places that ye may be in, even until death... what have you against being baptized in the name of the Lord?" },
+      { ref: "Alma 32:21", text: "And now as I said concerning faith—faith is not to have a perfect knowledge of things; therefore if ye have faith ye hope for things which are not seen, which are true." },
+      { ref: "Alma 46:12", text: "And it came to pass that he rent his coat; and he took a piece thereof, and wrote upon it—In memory of our God, our religion, and freedom, and our peace, our wives, and our children—and he fastened it upon the end of a pole." },
+      { ref: "Helaman 5:12", text: "And now, my sons, remember, remember that it is upon the rock of our Redeemer, who is Christ, the Son of God, that ye must build your foundation; that when the devil shall send forth his mighty winds, yea, his shafts in the whirlwind, yea, when all his hail and his mighty storm shall beat upon you, it shall have no power over you to drag you down to the gulf of misery and endless wo, because of the rock upon which ye are built, which is a sure foundation, a foundation whereon if men build they cannot fall." },
+      { ref: "3 Nephi 11:10–11", text: "Behold, I am Jesus Christ, whom the prophets testified shall come into the world. And behold, I am the light and the life of the world; and I have drunk out of that bitter cup which the Father hath given me, and have glorified the Father in taking upon me the sins of the world, in the which I have suffered the will of the Father in all things from the beginning." },
+      { ref: "Ether 12:27", text: "And if men come unto me I will show unto them their weakness. I give unto men weakness that they may be humble; and my grace is sufficient for all men that humble themselves before me; for if they humble themselves before me, and have faith in me, then will I make weak things become strong unto them." },
+      { ref: "Moroni 7:47", text: "But charity is the pure love of Christ, and it endureth forever; and whoso is found possessed of it at the last day, it shall be well with him." },
+      { ref: "Moroni 10:4–5", text: "And when ye shall receive these things, I would exhort you that ye would ask God, the Eternal Father, in the name of Christ, if these things are not true; and if ye shall ask with a sincere heart, with real intent, having faith in Christ, he will manifest the truth of it unto you, by the power of the Holy Ghost. And by the power of the Holy Ghost ye may know the truth of all things." }
     ];
+
+    const sectionTitle = loc ? `Book of Mormon Scriptural Citations (${refs.length})` : `Core Book of Mormon Passages Across All Dispensations (${refs.length})`;
 
     sidebarContent.innerHTML = `
       <div class="kjv-translation-notice">
@@ -907,7 +918,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <div class="drawer-section">
-        <div class="section-label">Book of Mormon Scriptural Citations (${refs.length})</div>
+        <div class="section-label">${sectionTitle}</div>
         <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:0.4rem;" id="scriptureCardsContainer">
           ${refs.map((r, idx) => {
             const trans = (typeof SCRIPTURE_TRANSLATIONS !== 'undefined')
@@ -1048,20 +1059,20 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderTeachingsTab(loc) {
     if (!sidebarContent) return;
 
-    const locId = loc ? loc.id : 'zarahemla';
+    const locId = loc ? loc.id : 'global_bom';
     const dossier = (typeof getPlaceDossier === 'function')
       ? getPlaceDossier(locId, loc)
       : {
-          teacher: (loc && loc.notablePeople) ? loc.notablePeople.join(', ') : 'Book of Mormon Prophets',
-          audience: 'Assembled Believers and Citizens',
-          whatWasTaught: (loc && loc.summary) || 'The Gospel of Jesus Christ.',
-          whyTaught: 'To turn hearts unto Christ and keep the commandments.',
-          context: (loc && loc.region) || 'The Promised Land.',
-          howAccepted: 'Many believed and were baptized, while others resisted.',
+          teacher: (loc && loc.notablePeople) ? loc.notablePeople.join(', ') : 'The Resurrected Lord Jesus Christ, Lehi, Nephi, Jacob, Enos, Jarom, Omni, King Mosiah I, King Benjamin, Abinadi, Alma the Elder, King Mosiah II, Alma the Younger, Amulek, Zeezrom, Sons of Mosiah, Captain Moroni, Helaman, Shiblon, Corianton, Nephi & Lehi, Samuel the Lamanite, Mormon, Moroni, The Brother of Jared, & Ether',
+          audience: 'Nephite, Lamanite, Mulekite, Jaredite & Zoramite Nations; Kings, Judges, Soldiers, Covenant Families, Little Children, and All Future Readers in the Latter Days',
+          whatWasTaught: (loc && loc.summary) || 'The Fulness of the Everlasting Gospel of Jesus Christ: the reality of His Resurrection and Atonement; faith, repentance, baptism, and the Holy Ghost; moral agency and the Fall of Adam; and enduring in holiness to the end.',
+          whyTaught: 'To show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God.',
+          context: (loc && loc.region) || 'Over 2,600 years of sacred history across ancient America (~2200 BC to AD 421).',
+          howAccepted: 'Produced golden eras of peace in 4 Nephi, alongside solemn warnings of apostasy when covenants were broken.',
           passages: []
         };
 
-    const placeTitle = loc ? (loc.name || loc.title) : 'the Book of Mormon';
+    const placeTitle = loc ? (loc.name || loc.title) : 'All Lands of the Book of Mormon';
 
     sidebarContent.innerHTML = `
       <div class="teachings-role-grid">
@@ -1250,16 +1261,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (activeTab === 'teachings') {
-      if (sidebarEyebrow) sidebarEyebrow.textContent = 'DOCTRINAL OVERVIEW';
-      if (sidebarTitle) sidebarTitle.textContent = 'Teachings & Context of the Book of Mormon';
-      renderTeachingsTab(mapLocations['zarahemla'] || null);
+      renderGlobalTeachingsTab();
       return;
     }
 
     if (activeTab === 'scriptures') {
-      if (sidebarEyebrow) sidebarEyebrow.textContent = 'KEY PASSAGES (DUAL TRANSLATION)';
-      if (sidebarTitle) sidebarTitle.textContent = 'Book of Mormon Scriptures';
-      renderScripturesTab(mapLocations['zarahemla'] || null);
+      renderGlobalScripturesTab();
       return;
     }
 
@@ -1331,9 +1338,272 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function switchTab(tabName) {
+    const target = Array.from(sidebarTabs).find(t => t.getAttribute('data-tab') === tabName);
+    if (target) {
+      target.click();
+    }
+  }
+
   // ==========================================================================
   // GLOBAL WELCOME TAB RENDERERS (Ensuring all 8 tabs have unique rich content)
   // ==========================================================================
+  function renderGlobalTeachingsTab() {
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'DOCTRINAL OVERVIEW';
+    if (sidebarTitle) sidebarTitle.textContent = 'Teachings & Context of the Book of Mormon';
+
+    const globalDossier = (typeof getPlaceDossier === 'function')
+      ? getPlaceDossier('global_bom')
+      : null;
+
+    const teacherList = (globalDossier && globalDossier.teacher)
+      ? globalDossier.teacher
+      : 'The Resurrected Lord Jesus Christ, The Brother of Jared, Lehi, Nephi, Jacob, Enos, Jarom, Omni, King Mosiah I, King Benjamin, Abinadi, Alma the Elder, King Mosiah II, Alma the Younger, Amulek, Zeezrom, Sons of Mosiah (Ammon, Aaron, Omner, Himni), Captain Moroni, Helaman, Shiblon, Corianton, Nephi & Lehi (sons of Helaman), Samuel the Lamanite, Lachoneus, The Twelve Nephite Disciples, Mormon, Moroni, & Ether';
+
+    const audienceList = (globalDossier && globalDossier.audience)
+      ? globalDossier.audience
+      : 'Nephite, Lamanite, Mulekite, Jaredite & Zoramite Nations; Kings, Judges, Soldiers, Covenant Families, Little Children, and All Future Readers in the Latter Days';
+
+    const keyDiscourses = [
+      {
+        icon: "🕊️",
+        prophet: "The Resurrected Lord Jesus Christ",
+        ref: "3 Nephi 11–27",
+        title: "Ministry at the Temple in Bountiful",
+        summary: "The Beatitudes, the Higher Law, baptismal authority, healing the sick, blessing children in circles of fire, and instituting the holy Sacrament.",
+        locId: "bountiful",
+        locName: "City of Bountiful"
+      },
+      {
+        icon: "👑",
+        prophet: "Patriarch Lehi & Nephi",
+        ref: "2 Nephi 2; 2 Nephi 31",
+        title: "Agency, the Fall & the Doctrine of Christ",
+        summary: "Adam fell that men might be; moral freedom to choose eternal life; the straight and narrow path of faith, repentance, baptism, and enduring to the end.",
+        locId: "land_first_inheritance",
+        locName: "Land of First Inheritance"
+      },
+      {
+        icon: "📖",
+        prophet: "Jacob & Enos",
+        ref: "2 Nephi 9; Jacob 2; Enos 1",
+        title: "The Infinite Atonement, Pride & Mighty Prayer",
+        summary: "Deliverance from the monster of death and hell; condemning pride and unauthorized polygamy; wrestling before God in the forest for remission of sins.",
+        locId: "lehi_nephi",
+        locName: "City of Nephi"
+      },
+      {
+        icon: "🏰",
+        prophet: "King Benjamin",
+        ref: "Mosiah 2–5",
+        title: "The Coronation Address from the Tower",
+        summary: "Serving God by serving fellow beings; yielding to the enticings of the Holy Spirit; retaining a remission of sins from day to day through Christ.",
+        locId: "zarahemla",
+        locName: "City of Zarahemla"
+      },
+      {
+        icon: "🔥",
+        prophet: "Abinadi & Alma the Elder",
+        ref: "Mosiah 12–16; Mosiah 18",
+        title: "The Suffering Servant & Waters of Mormon",
+        summary: "Standing fearlessly before King Noah; Isaiah 53 expounded; the baptismal covenant of bearing burdens, mourning with those that mourn, and comforting the afflicted.",
+        locId: "waters_of_mormon",
+        locName: "Waters of Mormon"
+      },
+      {
+        icon: "⚖️",
+        prophet: "Alma the Younger & Amulek",
+        ref: "Alma 5; Alma 32; Alma 34",
+        title: "The Mighty Change of Heart & Faith as a Seed",
+        summary: "Have ye received His image in your countenances; planting and nourishing the word like an expanding seed; the Infinite and Eternal Atonement.",
+        locId: "zarahemla",
+        locName: "City of Zarahemla"
+      },
+      {
+        icon: "🛡️",
+        prophet: "Captain Moroni & Sons of Mosiah",
+        ref: "Alma 17–22; Alma 46",
+        title: "Lamanite Conversion & The Title of Liberty",
+        summary: "Ammon at the Waters of Sebus; Aaron converting the Great King; Moroni raising the Title of Liberty in defense of faith, family, and freedom.",
+        locId: "waters_of_sebus",
+        locName: "Waters of Sebus"
+      },
+      {
+        icon: "🧱",
+        prophet: "Samuel the Lamanite",
+        ref: "Helaman 13–16",
+        title: "Prophecies upon the Walls of Zarahemla",
+        summary: "Boldly proclaiming the five-year sign of the Savior's birth (light without darkness) and the three days of vapor of darkness at His crucifixion.",
+        locId: "zarahemla",
+        locName: "City of Zarahemla"
+      },
+      {
+        icon: "⛵",
+        prophet: "The Brother of Jared & Ether",
+        ref: "Ether 3; Ether 12",
+        title: "Piercing the Veil & Faith in Weakness",
+        summary: "Beholding the premortal spirit body of Christ; molten stones; divine grace turning weakness into strength; prophecies of the New Jerusalem.",
+        locId: "moriancumer_shore",
+        locName: "Moriancumer Shore"
+      },
+      {
+        icon: "📜",
+        prophet: "Mormon & Moroni",
+        ref: "Mormon 8–9; Moroni 7; Moroni 10",
+        title: "Faith, Hope, Charity & The Final Promise",
+        summary: "Charity as the pure love of Christ that never fails; abridging a thousand years of history; sealing the gold plates; knowing truth by the Holy Ghost.",
+        locId: "cumorah",
+        locName: "Hill Cumorah"
+      }
+    ];
+
+    sidebarContent.innerHTML = `
+      <div class="kjv-translation-notice">
+        <span class="kjv-badge">Full Prophetic Ministry</span>
+        <span style="font-size:0.75rem; color:var(--text-secondary); margin-left:6px;">Covering all major dispensations and witnesses (~2200 BC – AD 421).</span>
+      </div>
+
+      <div class="teachings-role-grid">
+        <div class="teachings-stat-box" style="border-left: 3px solid var(--color-crimson);">
+          <span class="teachings-stat-label">Who Was Teaching</span>
+          <span class="teachings-stat-value" style="font-size: 0.8rem; line-height: 1.45;">${teacherList}</span>
+        </div>
+        <div class="teachings-stat-box" style="border-left: 3px solid var(--color-gold);">
+          <span class="teachings-stat-label">Who Was Being Taught</span>
+          <span class="teachings-stat-value" style="font-size: 0.8rem; line-height: 1.45;">${audienceList}</span>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-gold">
+        <div class="teachings-card-title">
+          <span>📜</span>
+          <span>What Was Taught Across the Book of Mormon</span>
+        </div>
+        <div class="teachings-card-body">
+          ${globalDossier ? globalDossier.whatWasTaught : 'The Fulness of the Everlasting Gospel of Jesus Christ: the reality of His Resurrection and Atonement; faith, repentance, baptism, and the Holy Ghost; moral agency and the Fall of Adam; and enduring in holiness to the end.'}
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-crimson">
+        <div class="teachings-card-title">
+          <span>🎯</span>
+          <span>Why It Was Taught (Title Page Covenant Mandate)</span>
+        </div>
+        <div class="teachings-card-body">
+          ${globalDossier ? globalDossier.whyTaught : 'To show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God.'}
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-bronze">
+        <div class="teachings-card-title">
+          <span>🏛️</span>
+          <span>Historical, Geographic & Cultural Context</span>
+        </div>
+        <div class="teachings-card-body">
+          ${globalDossier ? globalDossier.context : 'Over 2,600 years of sacred history (~2200 BC to AD 421) across the ancient Americas—spanning ocean crossings, temple-building, river valleys, the Narrow Neck, and the Hill Cumorah.'}
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-sage">
+        <div class="teachings-card-title">
+          <span>🤝</span>
+          <span>How the Teachings Were Accepted & Societal Impact</span>
+        </div>
+        <div class="teachings-card-body">
+          ${globalDossier ? globalDossier.howAccepted : 'Produced the golden era of 4 Nephi (200 years of unbroken peace and unity) and the covenant pacifism of the Anti-Nephi-Lehies, while warning against the destruction caused by pride and secret combinations.'}
+        </div>
+      </div>
+
+      <div class="feature-card" style="margin-top: 0.8rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+          <h4 style="font-family: var(--font-serif-title); font-size: 0.9rem; margin: 0; color: var(--color-crimson);">
+            Major Prophetic Discourses Across Eras
+          </h4>
+          <span style="font-size:0.72rem; color:var(--text-secondary);">10 Key Sermons</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          ${keyDiscourses.map(d => {
+            const churchUrl = getChurchScriptureUrl(d.ref);
+            return `
+              <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.65rem 0.75rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+                  <span style="font-family:var(--font-serif-title); font-weight:700; font-size:0.86rem; color:var(--text-primary);">
+                    ${d.icon} ${d.prophet}
+                  </span>
+                  <span style="font-size:0.7rem; font-weight:700; color:var(--color-crimson); background:rgba(163,40,34,0.08); padding:1px 6px; border-radius:4px;">
+                    ${d.ref}
+                  </span>
+                </div>
+                <div style="font-size:0.78rem; font-weight:600; color:var(--color-gold-dark); margin:0.2rem 0;">
+                  ${d.title}
+                </div>
+                <p style="font-size:0.77rem; color:var(--text-secondary); line-height:1.35; margin:0 0 0.45rem 0;">
+                  ${d.summary}
+                </p>
+                <div style="display:flex; gap:0.4rem;">
+                  <a href="${churchUrl || '#'}" class="church-scripture-btn teachings-scripture-link" data-ref="${d.ref}" data-url="${churchUrl || ''}" style="flex:1; font-size:0.73rem; padding:0.35rem 0.5rem; justify-content:center;">
+                    <span>📖 Read ${d.ref}</span>
+                    <span class="btn-arrow">↗</span>
+                  </a>
+                  ${d.locId ? `
+                    <button class="fly-to-person-btn global-disc-fly-btn" data-loc="${d.locId}" style="flex:1; font-size:0.73rem; padding:0.35rem 0.5rem; justify-content:center;">
+                      <span>📍 ${d.locName}</span>
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.45rem; margin-top:0.85rem;">
+        <button id="btnSwitchToPeopleTab" class="church-scripture-btn" style="background:var(--color-parchment-light); border:1px solid var(--color-crimson); font-weight:700; color:var(--color-crimson); justify-content:center; padding:0.55rem;">
+          <span>👤 View All 96 Prophets & Leaders in Chronological Roll ➔</span>
+        </button>
+        <button id="btnSwitchToScripturesTab" class="church-scripture-btn" style="background:var(--color-parchment-light); border:1px solid var(--color-gold); font-weight:700; color:var(--color-gold-dark); justify-content:center; padding:0.55rem;">
+          <span>📖 Read Core Scriptures in Dual Translation ➔</span>
+        </button>
+      </div>
+    `;
+
+    // Connect chapter reading buttons to scripture reader modal
+    sidebarContent.querySelectorAll('.teachings-scripture-link').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ref = btn.getAttribute('data-ref');
+        const url = btn.getAttribute('data-url');
+        if (url) openScriptureModal(ref, url);
+      });
+    });
+
+    // Connect fly-to buttons
+    sidebarContent.querySelectorAll('.global-disc-fly-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const locId = btn.getAttribute('data-loc');
+        if (locId && mapLocations[locId]) selectLocation(locId);
+      });
+    });
+
+    // Connect bottom tab switcher buttons
+    const btnPeople = document.getElementById('btnSwitchToPeopleTab');
+    if (btnPeople) {
+      btnPeople.addEventListener('click', () => switchTab('people'));
+    }
+
+    const btnScriptures = document.getElementById('btnSwitchToScripturesTab');
+    if (btnScriptures) {
+      btnScriptures.addEventListener('click', () => switchTab('scriptures'));
+    }
+  }
+
+  function renderGlobalScripturesTab() {
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'KEY PASSAGES (DUAL TRANSLATION)';
+    if (sidebarTitle) sidebarTitle.textContent = 'Book of Mormon Scriptures';
+    renderScripturesTab(null);
+  }
+
   function renderGlobalPeopleTab() {
     if (sidebarEyebrow) sidebarEyebrow.textContent = 'CHRONOLOGICAL ROLL OF PROPHETS';
     if (sidebarTitle) sidebarTitle.textContent = 'Prophets & Leaders of the Book of Mormon';

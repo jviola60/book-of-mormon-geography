@@ -151,9 +151,44 @@ const BOOK_OF_MORMON_TRANSLATIONS = {
     plainEnglish: "The Lamanite army came expecting to easily capture the city of Ammonihah as they had in previous years. But to their utter amazement, Moroni had built immense earth ramparts, deep trenches, and timber parapets. When the attackers tried to leap the ditches and climb the walls, the Nephite guards shot them down with arrows and stones, driving the invaders away in complete defeat.",
     insight: "Moroni's revolutionary defense engineering: prepared physical fortifications mirrored spiritual defenses against evil."
   },
-  "Alma 53:20-21": {
-    plainEnglish: "The 2,000 young men who marched under Helaman were exceptionally brave, strong, and active. More than that, they were young men of absolute integrity who kept all of God's commandments with strict obedience at all times.",
-    insight: "The Stripling Warriors: moral integrity, exact obedience, and mothers' faith formed an impenetrable spiritual shield on the battlefield."
+  // =========================================================================
+  // CORE DISPENSATIONAL SCRIPTURES ACROSS THE BOOK OF MORMON
+  // =========================================================================
+  "1 Nephi 3:7": {
+    plainEnglish: "I told my father: I will go and do whatever the Lord commands, because I know that God never gives a commandment without preparing a way for us to accomplish it.",
+    insight: "Nephi's foundational motto of obedience and unwavering faith that God empowers those who follow His voice."
+  },
+  "2 Nephi 2:25": {
+    plainEnglish: "Adam fell so that humans could exist on earth; and humans exist so that they might experience true joy.",
+    insight: "Lehi's revolutionary doctrine on the purpose of mortal existence: happiness, agency, and eternal growth through Christ."
+  },
+  "2 Nephi 31:20": {
+    plainEnglish: "You must press forward with total steadfastness in Christ, filled with bright hope and genuine love for God and all people. If you keep pressing forward, feasting on Christ's words, and endure to the very end, the Father promises you will receive eternal life.",
+    insight: "Nephi's final summation of the Doctrine of Christ: lifelong faith, feasting on scripture, and love for all humanity."
+  },
+  "Alma 32:21": {
+    plainEnglish: "Faith does not mean knowing everything with 100% certainty. Having faith means having hope in things that are true even though you cannot physically see them yet.",
+    insight: "Alma's definition of faith as an active experiment: testing the spiritual seed by planting it in your heart."
+  },
+  "Alma 46:12": {
+    plainEnglish: "Moroni tore a piece of his military coat and wrote on it: 'In memory of our God, our religion, and freedom, and our peace, our wives, and our children.' He tied the cloth to a pole and raised it as the Title of Liberty.",
+    insight: "The standard of liberty: defending home, family, and religious freedom against tyrannical usurpation."
+  },
+  "Helaman 5:12": {
+    plainEnglish: "Remember, my sons, remember that you must build your life's foundation upon the rock of our Redeemer, who is Jesus Christ. When the devil unleashes his fiercest storms and whirlwinds, they will have no power to drag you down, because you are anchored on a solid rock that cannot fall.",
+    insight: "Helaman's charge to his sons: Christ as our only immovable foundation against moral whirlwinds and spiritual temptation."
+  },
+  "Ether 12:27": {
+    plainEnglish: "If people come to Me, I will show them their weaknesses. I allow people to experience weakness so they will be humble. My grace is completely enough for anyone who humbles themselves before Me; if they humble themselves and trust Me, I will turn their weaknesses into strengths.",
+    insight: "Divine grace transforms human limitation: weakness acknowledged in humility becomes divine strength through Christ."
+  },
+  "Moroni 7:47": {
+    plainEnglish: "Charity is the pure, unconditional love of Christ, and it never fails. Whoever possesses this love at the final judgment will be blessed and safe with Him forever.",
+    insight: "Mormon's greatest sermon: pure charity as the highest Christian virtue and the defining attribute of discipleship."
+  },
+  "Moroni 10:4-5": {
+    plainEnglish: "When you read these records, I urge you to ask God, the Eternal Father, in the name of Christ, if they are true. If you ask with an honest heart, real intent, and faith in Christ, He will prove the truth of it to you through the power of the Holy Ghost. And by the Holy Ghost, you can know the truth of all things.",
+    insight: "Moroni's timeless promise: personal spiritual revelation through the Holy Ghost confirms the truth of the Book of Mormon."
   }
 };
 

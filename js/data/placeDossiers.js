@@ -6,6 +6,40 @@
 
 const PLACE_DOSSIERS = {
   // =========================================================================
+  // 0. GLOBAL BOOK OF MORMON OVERVIEW (ALL PROPHETS & DISPENSATIONS)
+  // =========================================================================
+  "global_bom": {
+    teacher: "The Resurrected Lord Jesus Christ, The Brother of Jared, Lehi, Nephi, Jacob, Enos, Jarom, Omni, King Mosiah I, King Benjamin, Abinadi, Alma the Elder, King Mosiah II, Alma the Younger, Amulek, Zeezrom, Sons of Mosiah (Ammon, Aaron, Omner, Himni), Captain Moroni, Helaman, Shiblon, Corianton, Nephi & Lehi (sons of Helaman), Samuel the Lamanite, Lachoneus, The Twelve Nephite Disciples, Mormon, Moroni, & Ether",
+    audience: "Nephite, Lamanite, Mulekite, Jaredite & Zoramite Nations; Kings, Judges, Soldiers, Covenant Families, Little Children, and All Future Readers in the Latter Days",
+    whatWasTaught: "The Fulness of the Everlasting Gospel: the divine reality and Infinite Atonement of Jesus Christ; the Doctrine of Christ (faith in Jesus Christ, repentance from sin, baptism by immersion for the remission of sins, receiving the gift of the Holy Ghost, and enduring in holiness to the end); moral agency and the Fall of Adam ('Adam fell that men might be; and men are, that they might have joy'); the literal bodily resurrection and final judgment of all mankind; the Abrahamic covenant promises to the House of Israel; Christian discipleship, pure charity, and selfless service; warning against secret combinations, pride, and priestcraft; and the divine promise that all who ask God with a sincere heart can know the truth of these things by the power of the Holy Ghost.",
+    whyTaught: "As declared on the Title Page of the Book of Mormon: 'To show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and that they may know the covenants of the Lord, that they are not cast off forever—And also to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God, manifesting himself unto all nations.'",
+    context: "Over 2,600 years of sacred prophetic history (~2200 BC to AD 421) across the ancient Americas—spanning the Jaredite migration across the great sea, Lehi's journey to the Promised Land, the construction of temples modeled after Solomon's, the Sidon river basin, the strategic Narrow Neck of Land, the great destructions at Christ's death, His personal post-resurrection ministry at the Temple in Bountiful, and the final sealing of the gold plates at Hill Cumorah.",
+    howAccepted: "Produced the highest peaks of spiritual civilization—including 200 years of universal peace and brotherhood in 4 Nephi, the total conversion and covenant pacifism of the Anti-Nephi-Lehies, and humble national revivals under King Benjamin and Alma—alongside tragic lessons of societal collapse when generations rejected prophetic warnings, succumbed to pride and secret combinations, and abandoned their covenants with God.",
+    passages: [
+      "2 Nephi 2:1–29",
+      "2 Nephi 31:1–21",
+      "Jacob 2:12–28",
+      "Enos 1:1–18",
+      "Mosiah 2–5",
+      "Mosiah 12–16",
+      "Mosiah 18:8–10",
+      "Alma 5:1–62",
+      "Alma 32:21–43",
+      "Alma 34:8–16",
+      "Alma 46:11–22",
+      "Helaman 5:12",
+      "Helaman 13–16",
+      "3 Nephi 11:1–17",
+      "3 Nephi 17:1–25",
+      "3 Nephi 27:13–22",
+      "Ether 12:27–41",
+      "Mormon 8:26–35",
+      "Moroni 7:45–48",
+      "Moroni 10:3–5"
+    ]
+  },
+
+  // =========================================================================
   // 1. ZARAHEMLA & CENTRAL SIDON BASIN
   // =========================================================================
   "zarahemla": {
@@ -390,6 +424,11 @@ const PROPHET_ROLES = {
  */
 function getPlaceDossier(locId, loc) {
   const key = String(locId || "").toLowerCase();
+
+  // Return global Book of Mormon dossier if no specific location or global requested
+  if (!locId || key === "global" || key === "global_bom" || key === "introduction" || key === "book_of_mormon") {
+    return PLACE_DOSSIERS["global_bom"];
+  }
 
   // Check direct match in curated dossiers
   if (PLACE_DOSSIERS[key]) {
