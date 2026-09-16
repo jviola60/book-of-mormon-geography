@@ -1,44 +1,100 @@
 /**
- * Book of Mormon Interactive Cartography Engine
- * Handles smooth pan & zoom, 50+ scriptural locations, territory polygons, and 12-tour expedition player
+ * Book of Mormon Geography - Interactive Cartography Engine & Scriptural Codex
+ * Formatted and structured to match the New Testament Geography Interactive Atlas
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Elements
+  // ==========================================================================
+  // DOM ELEMENT SELECTIONS
+  // ==========================================================================
+  
+  // Header Elements
+  const brandLogoBtn = document.getElementById('brandLogoBtn');
+  const globalSearchInput = document.getElementById('globalSearchInput');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const searchResultsDropdown = document.getElementById('searchResultsDropdown');
+  const regionSelectBtn = document.getElementById('regionSelectBtn');
+  const regionDropdown = document.getElementById('regionDropdown');
+  const storyToursBtn = document.getElementById('storyToursBtn');
+  const quickJumpSelect = document.getElementById('quickJumpSelect');
+  const toggleInspectorBtn = document.getElementById('toggleInspectorBtn');
+  const inspectorBtnText = document.getElementById('inspectorBtnText');
+  const openOldWorldBtn = document.getElementById('openOldWorldBtn');
+  const openDisclaimerBtn = document.getElementById('openDisclaimerBtn');
+  const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+
+  // Layer Filter Bar Elements
+  const filterChips = document.querySelectorAll('#filterBar .filter-chip');
+  const statSitesCount = document.getElementById('statSitesCount');
+  const statToursCount = document.getElementById('statToursCount');
+  const statErasCount = document.getElementById('statErasCount');
+
+  // Main Map Viewport & Canvas
   const viewport = document.getElementById('mapViewport');
   const stage = document.getElementById('mapStage');
   const mapImage = document.getElementById('mapImage');
-  const markersLayer = document.getElementById('markersLayer');
   const journeySvg = document.getElementById('journeySvg');
   const territoryGroup = document.getElementById('territoryGroup');
-  const pathsGroup = document.getElementById('pathsGroup');
   const cataclysmTerrainGroup = document.getElementById('cataclysmTerrainGroup');
-  const codexDrawer = document.getElementById('codexDrawer');
-  const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+  const riverSidonGroup = document.getElementById('riverSidonGroup');
+  const pathsGroup = document.getElementById('pathsGroup');
+  const markersLayer = document.getElementById('markersLayer');
+
+  // Floating Overlays & HUD Controls
+  const floatingEraBadge = document.getElementById('floatingEraBadge');
+  const floatingEraTag = document.getElementById('floatingEraTag');
+  const floatingEraTitle = document.getElementById('floatingEraTitle');
+  const floatingEraDesc = document.getElementById('floatingEraDesc');
+  const recenterBtn = document.getElementById('recenterBtn');
+  const quickSouthwardBtn = document.getElementById('quickSouthwardBtn');
+  const quickZarahemlaBtn = document.getElementById('quickZarahemlaBtn');
+  const quickNorthwardBtn = document.getElementById('quickNorthwardBtn');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const mapLegend = document.getElementById('mapLegend');
+  const legendToggleHeader = document.getElementById('legendToggleHeader');
+  const legendCollapseBtn = document.getElementById('legendCollapseBtn');
+  const legendBody = document.getElementById('legendBody');
   const coordsInspectorBadge = document.getElementById('coordsInspectorBadge');
   const coordsBadgeText = document.getElementById('coordsBadgeText');
-  const toggleInspectorBtn = document.getElementById('toggleInspectorBtn');
-  const inspectorBtnText = document.getElementById('inspectorBtnText');
-  const copyToast = document.getElementById('copyToast');
-  const searchInput = document.getElementById('searchInput');
-  const clearSearchBtn = document.getElementById('clearSearchBtn');
-  const journeySelect = document.getElementById('journeySelect');
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const introToast = document.getElementById('introToast');
-  const dismissIntroBtn = document.getElementById('dismissIntroBtn');
-  const siteCountBadge = document.getElementById('siteCountBadge');
+  const mapScaleContainer = document.getElementById('mapScaleContainer');
 
-  // Expedition Player Elements
-  const expeditionPlayerBar = document.getElementById('expeditionPlayerBar');
-  const expeditionTitle = document.getElementById('expeditionTitle');
-  const expeditionSubtitle = document.getElementById('expeditionSubtitle');
-  const expeditionStepNote = document.getElementById('expeditionStepNote');
-  const expStepIndicator = document.getElementById('expStepIndicator');
-  const expPrevBtn = document.getElementById('expPrevBtn');
-  const expNextBtn = document.getElementById('expNextBtn');
-  const expExitBtn = document.getElementById('expExitBtn');
+  // Active Tour Stepper Player Bar
+  const tourStepperBar = document.getElementById('tourStepperBar');
+  const stepperTourName = document.getElementById('stepperTourName');
+  const stepperStepCount = document.getElementById('stepperStepCount');
+  const stepperStepNote = document.getElementById('stepperStepNote');
+  const tourPrevStepBtn = document.getElementById('tourPrevStepBtn');
+  const tourNextStepBtn = document.getElementById('tourNextStepBtn');
+  const tourExitBtn = document.getElementById('tourExitBtn');
 
-  // Scripture Reader Modal Elements (Church of Jesus Christ Official Scriptures)
+  // Detail Sidebar / Ancient Codex
+  const detailSidebar = document.getElementById('detailSidebar');
+  const sidebarEyebrow = document.getElementById('sidebarEyebrow');
+  const sidebarTitle = document.getElementById('sidebarTitle');
+  const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+  const sidebarTabs = document.querySelectorAll('#sidebarTabs .tab-btn');
+  const sidebarContent = document.getElementById('sidebarContent');
+
+  // Timeline Footer Elements
+  const timelineFooter = document.getElementById('timelineFooter');
+  const stepBackBtn = document.getElementById('stepBackBtn');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const stepForwardBtn = document.getElementById('stepForwardBtn');
+  const speedButtons = document.querySelectorAll('#speedSelector .speed-btn');
+  const cataclysmQuickToggle = document.getElementById('cataclysmQuickToggle');
+  const displayYear = document.getElementById('displayYear');
+  const displaySeason = document.getElementById('displaySeason');
+  const eraTabs = document.querySelectorAll('#eraTabs .era-tab');
+  const eraSlider = document.getElementById('eraSlider');
+
+  // Modals
+  const tourModal = document.getElementById('tourModal');
+  const toursGrid = document.getElementById('toursGrid');
+  const closeTourModalBtn = document.getElementById('closeTourModalBtn');
+
   const scriptureModal = document.getElementById('scriptureModal');
   const scriptureModalBackdrop = document.getElementById('scriptureModalBackdrop');
   const closeScriptureModalBtn = document.getElementById('closeScriptureModal');
@@ -48,56 +104,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const scriptureIframe = document.getElementById('scriptureIframe');
   const scriptureLoading = document.getElementById('scriptureLoading');
 
-  // Cataclysm HUD & Era Slider Elements
-  const cataclysmHud = document.getElementById('cataclysmHud');
-  const cataclysmTitleGroup = document.getElementById('cataclysmTitleGroup');
-  const cataclysmIcon = document.getElementById('cataclysmIcon');
-  const cataclysmTitle = document.getElementById('cataclysmTitle');
-  const cataclysmSubtitle = document.getElementById('cataclysmSubtitle');
-  const cataclysmQuickToggle = document.getElementById('cataclysmQuickToggle');
-  const hudToggleBtn = document.getElementById('hudToggleBtn');
-  const hudToggleArrow = document.getElementById('hudToggleArrow');
-  const hudToggleLabel = document.getElementById('hudToggleLabel');
-  const eraSlider = document.getElementById('eraSlider');
-  const eraSteps = document.querySelectorAll('.era-step');
-  const drawerFateSection = document.getElementById('drawerFateSection');
-  const drawerFateCard = document.getElementById('drawerFateCard');
-  const timelineYearBadge = document.getElementById('timelineYearBadge');
-  const timelineSiteCounter = document.getElementById('timelineSiteCounter');
-  const timelinePrevBtn = document.getElementById('timelinePrevBtn');
-  const timelinePlayBtn = document.getElementById('timelinePlayBtn');
-  const timelinePlayIcon = document.getElementById('timelinePlayIcon');
-  const timelinePlayText = document.getElementById('timelinePlayText');
-  const timelineNextBtn = document.getElementById('timelineNextBtn');
-  const addedCitiesList = document.getElementById('addedCitiesList');
+  const oldWorldModal = document.getElementById('oldWorldModal');
+  const closeOldWorldModal = document.getElementById('closeOldWorldModal');
 
-  // Zoom control buttons
-  const zoomInBtn = document.getElementById('zoomInBtn');
-  const zoomOutBtn = document.getElementById('zoomOutBtn');
-  const resetZoomBtn = document.getElementById('resetZoomBtn');
+  const disclaimerModal = document.getElementById('disclaimerModal');
+  const closeDisclaimerModal = document.getElementById('closeDisclaimerModal');
 
-  // Base Canvas Dimension Constants (Unified Coordinate System)
+  const copyToast = document.getElementById('copyToast');
+
+  // ==========================================================================
+  // CONFIGURATION CONSTANTS & STATE
+  // ==========================================================================
   const MAP_BASE_WIDTH = 2120;
   const MAP_BASE_HEIGHT = 3160;
 
-  // Transform State
+  // Viewport Transform State
   let scale = 1;
   let translateX = 0;
   let translateY = 0;
   let minScale = 0.05;
   const maxScale = 4.0;
 
-  // Dragging State
+  // Pan & Drag State
   let isDragging = false;
   let startPointerX = 0;
   let startPointerY = 0;
   let startTranslateX = 0;
   let startTranslateY = 0;
   let activeLocationId = null;
+  let activeTab = 'overview';
+
+  // Multi-Select Layer Overlays
+  const ALL_LAYERS = ['capitals', 'cities', 'fortresses', 'sacred', 'waters', 'wilderness', 'cataclysm'];
+  const activeLayers = new Set(ALL_LAYERS);
+
+  // Coordinate Inspector
   let isInspectorActive = false;
   let lastHoveredPct = { x: 50.0, y: 50.0 };
 
-  // Active Journey State
+  // Chronology & Playback State
+  let currentEraStep = 0;
+  let isPlaying = false;
+  let playbackTimer = null;
+  let playbackSpeed = 1; // 1x, 2x, 5x
+
+  // Active Journey / Tour State
   let currentJourney = null;
   let currentStageIndex = 0;
 
@@ -105,7 +156,28 @@ document.addEventListener('DOMContentLoaded', () => {
   let touchStartDist = 0;
   let touchStartScale = 1;
 
-  // Gentle Audio Feedback
+  // ==========================================================================
+  // MODAL UTILITIES (Reliable Display & Fade)
+  // ==========================================================================
+  function openModal(modalEl) {
+    if (!modalEl) return;
+    modalEl.style.display = 'flex';
+    requestAnimationFrame(() => {
+      modalEl.classList.add('show');
+    });
+  }
+
+  function closeModal(modalEl) {
+    if (!modalEl) return;
+    modalEl.classList.remove('show');
+    setTimeout(() => {
+      modalEl.style.display = 'none';
+    }, 250);
+  }
+
+  // ==========================================================================
+  // AUDIO EFFECTS
+  // ==========================================================================
   function playGentleChime() {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -114,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-      osc.frequency.exponentialRampToValueAtTime(880.0, ctx.currentTime + 0.15); // A5
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880.0, ctx.currentTime + 0.15);
       gain.gain.setValueAtTime(0.08, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
       osc.connect(gain);
@@ -125,105 +197,57 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 
-  // Robust Clipboard Copy Function
-  function copyCoordinatesToClipboard(x, y) {
-    const coordString = `{ x: ${x}, y: ${y} }`;
-
-    const triggerToast = () => {
-      playGentleChime();
-      copyToast.textContent = `Copied ${coordString} to clipboard!`;
-      copyToast.classList.add('show');
-      if (coordsBadgeText) {
-        coordsBadgeText.innerHTML = `<strong>Copied!</strong> ${coordString}`;
-      }
-      setTimeout(() => {
-        copyToast.classList.remove('show');
-        if (coordsBadgeText && isInspectorActive) {
-          coordsBadgeText.innerHTML = `<strong>Map Pos:</strong> X: ${lastHoveredPct.x}% | Y: ${lastHoveredPct.y}%`;
-        }
-      }, 2200);
-    };
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(coordString)
-        .then(triggerToast)
-        .catch(() => {
-          fallbackCopyText(coordString, triggerToast);
-        });
-    } else {
-      fallbackCopyText(coordString, triggerToast);
-    }
-  }
-
-  function fallbackCopyText(text, callback) {
+  function playCataclysmRumble() {
     try {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed";
-      textArea.style.top = "0";
-      textArea.style.left = "0";
-      textArea.style.opacity = "0";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      const successful = document.execCommand('copy');
-      document.body.removeChild(textArea);
-      if (successful && callback) callback();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(65, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(28, ctx.currentTime + 1.2);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 1.2);
     } catch (_) {}
   }
 
-  // Icons SVG map
-  const icons = {
-    temple: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 9h3v11h4v-6h6v6h4V9h3L12 2zm0 3.5l4.5 3.15H7.5L12 5.5z"/></svg>`,
-    records: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 2H6c-1.2 0-2 .8-2 2v16c0 1.2.8 2 2 2h13c1.1 0 2-.9 2-2V4c0-1.2-.9-2-2-2zm0 18H6V4h2v8l2.5-1.5L13 12V4h6v16z"/></svg>`,
-    christ: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.93V18h-2v-1.07c-1.32-.25-2.45-.98-3-2.14l1.66-1.11c.36.77 1.05 1.25 1.84 1.31v-3.03l-2-.52C8.36 11.15 7.5 10.15 7.5 9c0-1.74 1.3-3.17 3-3.43V4h2v1.57c1.3.25 2.37.95 2.92 2.05l-1.66 1.11c-.34-.67-.93-1.12-1.68-1.2v2.85l2 .53c1.23.33 2.12 1.38 2.12 2.59 0 1.76-1.35 3.2-3.2 3.43z"/></svg>`,
-    shield: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 2.18l6 2.25v4.66c0 4.1-2.67 7.9-6 8.91-3.33-1.01-6-4.81-6-8.91V6.43l6-2.25z"/></svg>`,
-    fort: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 4h-3V2h-2v2h-2V2h-2v2h-2V2H8v2H6V2H4v2H3c-1.1 0-2 .9-2 2v15h22V6c0-1.1-.9-2-2-2zm0 15H3V6h18v13z"/></svg>`,
-    fountain: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C10.5 5.5 8 9.5 8 13c0 2.21 1.79 4 4 4s4-1.79 4-4c0-3.5-2.5-7.5-4-10zm0 18c-4.41 0-8-1.79-8-4 0-.96.67-1.84 1.8-2.5l1.07 1.68C6.31 16.5 6 16.74 6 17c0 .93 2.51 2 6 2s6-1.07 6-2c0-.26-.31-.5-.87-.82l1.07-1.68c1.13.66 1.8 1.54 1.8 2.5 0 2.21-3.59 4-8 4z"/></svg>`,
-    crown: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg>`,
-    ruins: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-4L12 2 9 4H5c-1.1 0-2 .9-2 2v14h18V6c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V8h12v2z"/></svg>`,
-    mountain: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2L9 12.67 4 19h16L14 6z"/></svg>`,
-    chokepoint: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3L5 7h3v6H5l4 4 4-4h-3V7h3L9 3zm6 18l4-4h-3v-6h3l-4-4-4 4h3v6h-3l4 4z"/></svg>`,
-    waves: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4c-2.8 0-4.2 1.5-6.5 1.5C3.2 5.5 2 4.4 2 4.4L1 6s1.6 1.5 4.5 1.5c2.8 0 4.2-1.5 6.5-1.5 2.3 0 3.7 1.5 6.5 1.5 2.9 0 4.5-1.5 4.5-1.5l-1-1.6s-1.2 1.1-3.5 1.1c-2.3 0-3.7-1.5-6.5-1.5zm0 6c-2.8 0-4.2 1.5-6.5 1.5C3.2 11.5 2 10.4 2 10.4L1 12s1.6 1.5 4.5 1.5c2.8 0 4.2-1.5 6.5-1.5 2.3 0 3.7 1.5 6.5 1.5 2.9 0 4.5-1.5 4.5-1.5l-1-1.6s-1.2 1.1-3.5 1.1c-2.3 0-3.7-1.5-6.5-1.5zm0 6c-2.8 0-4.2 1.5-6.5 1.5-2.3 0-3.5-1.1-3.5-1.1L1 18s1.6 1.5 4.5 1.5c2.8 0 4.2-1.5 6.5-1.5 2.3 0 3.7 1.5 6.5 1.5 2.9 0 4.5-1.5 4.5-1.5l-1-1.6s-1.2 1.1-3.5 1.1c-2.3 0-3.7-1.5-6.5-1.5z"/></svg>`,
-    divider: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h18c.55 0 1-.45 1-1s-.45-1-1-1H3c-.55 0-1 .45-1 1s.45 1 1 1zm3-6l-3 4 3 4V7zm12 0v8l3-4-3-4z"/></svg>`,
-    sword: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.92 5h2.16L19 14.92V17l-2.08 2.08L14.84 17l-1.42 1.41-1.41-1.41 1.41-1.42-2.12-2.12L7 17.66l-2-2 4.24-4.24L7.12 9.3 5.71 10.71 4.29 9.3l1.42-1.41L3.63 5.81 5.71 3.73l2.08 2.08H6.92z"/></svg>`,
-    covenant: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
-    default: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`
-  };
-
-  /**
-   * Initialize and center map
-   */
+  // ==========================================================================
+  // MAP INITIALIZATION & PROJECTION ENGINE
+  // ==========================================================================
   function initMap() {
     const totalCount = Object.keys(mapLocations).length;
-    if (siteCountBadge) {
-      siteCountBadge.textContent = `${totalCount} Sites`;
-    }
+    if (statSitesCount) statSitesCount.textContent = totalCount;
+    if (statToursCount) statToursCount.textContent = mapJourneys.length;
+    if (statErasCount) statErasCount.textContent = chronologicalMilestones.length;
 
     if (mapImage.complete) {
       fitMapToScreen();
       renderTerritoryPolygons();
       renderCataclysmTerrain();
       renderMarkers();
-      setupJourneys();
-      setupLandmarksQuickJump();
-      setupCataclysmHud();
+      setupQuickJumpSelect();
+      setupToursGrid();
+      applyChronologicalStep(0);
+      renderWelcomeSidebar();
     } else {
       mapImage.onload = () => {
         fitMapToScreen();
         renderTerritoryPolygons();
         renderCataclysmTerrain();
         renderMarkers();
-        setupJourneys();
-        setupLandmarksQuickJump();
-        setupCataclysmHud();
+        setupQuickJumpSelect();
+        setupToursGrid();
+        applyChronologicalStep(0);
+        renderWelcomeSidebar();
       };
     }
   }
 
-  /**
-   * Fit map nicely to the center of the viewport
-   */
   function fitMapToScreen() {
     const vWidth = viewport.clientWidth || window.innerWidth;
     const vHeight = viewport.clientHeight || window.innerHeight;
@@ -231,14 +255,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgHeight = MAP_BASE_HEIGHT;
 
     const isMobile = window.innerWidth <= 768;
-    const paddingX = isMobile ? 0.96 : 0.90;
-    const paddingY = isMobile ? 0.94 : 0.88;
+    const paddingX = isMobile ? 0.98 : 0.92;
+    const paddingY = isMobile ? 0.96 : 0.90;
 
     const scaleX = (vWidth * paddingX) / imgWidth;
     const scaleY = (vHeight * paddingY) / imgHeight;
     scale = Math.min(scaleX, scaleY);
 
-    // Dynamically calculate minScale so users can zoom out to 60% of fitted screen or 0.04
     minScale = Math.min(0.04, scale * 0.6);
 
     translateX = (vWidth - (imgWidth * scale)) / 2;
@@ -247,73 +270,40 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTransform();
   }
 
-  /**
-   * Apply CSS transform to the map stage
-   */
   function applyTransform() {
     stage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    updateMapScale();
   }
 
-  /**
-   * Dynamic Cartographic Distance Scale Bar
-   * Calibrated to Alma 22:32 (Narrow Neck = 1.5 days' journey ~ 27 mi / 43 km = ~212 px on map)
-   * 1 mile = ~7.85 map pixels at 1.0 scale
-   */
-  function updateMapScale() {
-    const scaleBarRuler = document.getElementById('scaleBarRuler');
-    const scaleTickMid = document.getElementById('scaleTickMid');
-    const scaleTickEnd = document.getElementById('scaleTickEnd');
-    const scaleNephiteDay = document.getElementById('scaleNephiteDay');
-    if (!scaleBarRuler) return;
+  function focusLocation(targetPctX, targetPctY, customScale) {
+    const vWidth = viewport.clientWidth;
+    const vHeight = viewport.clientHeight;
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
 
-    const pxPerMile = 7.85 * scale;
-    const maxBarPx = window.innerWidth <= 768 ? 110 : 180;
+    const targetX = (targetPctX / 100) * imgWidth;
+    const targetY = (targetPctY / 100) * imgHeight;
 
-    const intervals = [2, 5, 10, 15, 20, 25, 30, 50, 75, 100, 150, 200, 300, 500];
-    let chosenMiles = intervals[0];
-    for (const intv of intervals) {
-      if (intv * pxPerMile <= maxBarPx) {
-        chosenMiles = intv;
-      }
+    const isDesktop = window.innerWidth > 900;
+    const offsetX = isDesktop ? vWidth * 0.38 : vWidth * 0.5;
+    const offsetY = vHeight * 0.5;
+
+    if (customScale) {
+      scale = customScale;
+    } else if (scale < 1.4) {
+      scale = 1.4;
     }
 
-    const actualRulerWidth = Math.max(50, chosenMiles * pxPerMile);
-    scaleBarRuler.style.width = `${Math.round(actualRulerWidth)}px`;
-
-    const km = Math.round(chosenMiles * 1.60934);
-    const days = (chosenMiles / 18).toFixed(1).replace('.0', '');
-    const halfMiles = Math.round(chosenMiles / 2);
-
-    if (scaleTickMid) scaleTickMid.textContent = `${halfMiles} mi`;
-    if (scaleTickEnd) scaleTickEnd.textContent = `${chosenMiles} mi (${km} km)`;
-    if (scaleNephiteDay) {
-      scaleNephiteDay.textContent = `${days} ${days === '1' ? "Day's" : "Days'"} Journey (~18 mi/day)`;
-    }
-  }
-
-  /**
-   * Zoom by delta at a specific pivot screen coordinate
-   */
-  function zoomAtPoint(delta, clientX, clientY) {
-    const rect = viewport.getBoundingClientRect();
-    const pivotX = clientX - rect.left;
-    const pivotY = clientY - rect.top;
-
-    const newScale = Math.max(minScale, Math.min(maxScale, scale * delta));
-    if (newScale === scale) return;
-
-    translateX = pivotX - (pivotX - translateX) * (newScale / scale);
-    translateY = pivotY - (pivotY - translateY) * (newScale / scale);
-    scale = newScale;
+    translateX = offsetX - (targetX * scale);
+    translateY = offsetY - (targetY * scale);
 
     applyTransform();
   }
 
-  /**
-   * Render Interactive Territory Polygons
-   */
+  // ==========================================================================
+  // TERRITORIES & SVG CARTOGRAPHY
+  // ==========================================================================
   function renderTerritoryPolygons() {
+    if (!territoryGroup) return;
     territoryGroup.innerHTML = '';
     const imgWidth = MAP_BASE_WIDTH;
     const imgHeight = MAP_BASE_HEIGHT;
@@ -324,460 +314,45 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!loc.territoryPolygon || loc.territoryPolygon.length < 3) return;
 
       const pointsStr = loc.territoryPolygon.map(p => {
-        const x = (p.x / 100) * imgWidth;
-        const y = (p.y / 100) * imgHeight;
-        return `${x},${y}`;
+        const px = (p.x / 100) * imgWidth;
+        const py = (p.y / 100) * imgHeight;
+        return `${px},${py}`;
       }).join(' ');
 
       const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
       polygon.setAttribute('points', pointsStr);
-      polygon.setAttribute('class', 'territory-polygon');
-      polygon.dataset.id = loc.id;
-      polygon.dataset.category = loc.category;
+      polygon.setAttribute('class', `territory-polygon territory-${loc.category}`);
+      polygon.setAttribute('data-id', loc.id);
+      polygon.setAttribute('data-category', loc.category);
+      polygon.setAttribute('title', `${loc.name} Territory`);
 
-      const handlePolygonSelect = (e) => {
+      polygon.style.fill = loc.category === 'waters' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(197, 160, 89, 0.12)';
+      polygon.style.stroke = loc.category === 'waters' ? '#38bdf8' : 'rgba(197, 160, 89, 0.5)';
+      polygon.style.strokeWidth = '2';
+      polygon.style.strokeDasharray = '6 4';
+      polygon.style.cursor = 'pointer';
+
+      polygon.addEventListener('click', (e) => {
         e.stopPropagation();
-        openCodex(loc.id);
-      };
-
-      polygon.addEventListener('click', handlePolygonSelect);
-      polygon.addEventListener('pointerdown', (e) => e.stopPropagation());
-      polygon.addEventListener('touchend', (e) => {
-        if (!isDragging) {
-          handlePolygonSelect(e);
-        }
-      });
-
-      polygon.addEventListener('mouseenter', () => {
-        const marker = document.querySelector(`.map-marker[data-id="${loc.id}"]`);
-        if (marker) marker.classList.add('active');
-      });
-
-      polygon.addEventListener('mouseleave', () => {
-        const marker = document.querySelector(`.map-marker[data-id="${loc.id}"]`);
-        if (marker && activeLocationId !== loc.id) marker.classList.remove('active');
+        selectLocation(loc.id);
       });
 
       territoryGroup.appendChild(polygon);
     });
   }
 
-  /**
-   * Render markers onto the markersLayer
-   */
-  function renderMarkers() {
-    markersLayer.innerHTML = '';
-
-    Object.values(mapLocations).forEach(loc => {
-      const marker = document.createElement('div');
-      marker.className = 'map-marker';
-      marker.dataset.id = loc.id;
-      marker.dataset.category = loc.category;
-      marker.dataset.size = loc.highlightSize || 'medium';
-      marker.dataset.glow = loc.glowColor || 'gold';
-      if (loc.isScripturalAddition) {
-        marker.dataset.addition = 'true';
-      }
-      if (loc.fate3Nephi) {
-        marker.dataset.fate = loc.fate3Nephi.type;
-      }
-      if (loc.labelPosition) {
-        marker.dataset.labelPos = loc.labelPosition;
-      }
-      marker.dataset.foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
-      marker.style.left = `${loc.coords.x}%`;
-      marker.style.top = `${loc.coords.y}%`;
-
-      const iconSvg = icons[loc.icon] || icons.default;
-
-      marker.innerHTML = `
-        <div class="marker-inner">
-          <div class="marker-pulse"></div>
-          <div class="marker-pin">${iconSvg}</div>
-          <div class="marker-label">${loc.name}</div>
-        </div>
-        <div class="hover-card">
-          <div class="hover-card-title">${loc.name}</div>
-          <div class="hover-card-subtitle">${loc.title}</div>
-          <div class="hover-card-era-badge" style="display: none;"></div>
-          <div class="hover-card-text">${loc.summary.substring(0, 140)}...</div>
-          <div class="hover-card-footer">
-            <span class="hover-card-region">${loc.region}</span>
-            <span class="hover-card-action">Click for Codex</span>
-          </div>
-        </div>
-      `;
-
-      // Marker selection event
-      const handleMarkerSelect = (e) => {
-        e.stopPropagation();
-        if (searchInput.value.trim().length > 0) {
-          clearSearch();
-        }
-        openCodex(loc.id);
-      };
-
-      marker.addEventListener('click', handleMarkerSelect);
-      marker.addEventListener('pointerdown', (e) => e.stopPropagation());
-      marker.addEventListener('touchend', (e) => {
-        if (!isDragging) {
-          handleMarkerSelect(e);
-        }
-      });
-
-      markersLayer.appendChild(marker);
-    });
-  }
-
-  /**
-   * Open Codex Drawer with details
-   */
-  function openCodex(id) {
-    const loc = mapLocations[id];
-    if (!loc) return;
-
-    activeLocationId = id;
-
-    // Update active marker styling
-    document.querySelectorAll('.map-marker').forEach(m => {
-      m.classList.toggle('active', m.dataset.id === id);
-    });
-
-    // Populate drawer contents
-    document.getElementById('drawerCategory').innerText = loc.category.toUpperCase();
-    document.getElementById('drawerTitle').innerText = loc.name;
-    document.getElementById('drawerSubtitle').innerText = loc.title;
-    document.getElementById('drawerSummary').innerText = loc.summary;
-
-    // Chronological Era Settlement Status Banner
-    const drawerTimelineStatus = document.getElementById('drawerTimelineStatus');
-    if (drawerTimelineStatus) {
-      const eraSlider = document.getElementById('eraSlider');
-      const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
-      const foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
-      const foundingMilestone = chronologicalMilestones[foundedStep] || chronologicalMilestones[0];
-      const currentMilestone = chronologicalMilestones[currentStep] || chronologicalMilestones[19];
-
-      if (foundedStep > currentStep) {
-        // Future Settlement in currently viewed era
-        drawerTimelineStatus.innerHTML = `
-          <div class="drawer-status-card future-status">
-            <div class="status-badge-row">
-              <span class="status-badge">⏳ Future Settlement</span>
-              <span class="status-era-pill">Founded ${loc.foundedYearLabel || 'Later Era'}</span>
-            </div>
-            <p class="status-explanation">
-              <strong>${loc.name}</strong> appears in the Book of Mormon around <strong>${loc.foundedYearLabel || 'a later era'}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). It is not yet established in the currently viewed <strong>${currentMilestone.yearLabel}</strong> era.
-            </p>
-            <button class="btn-advance-drawer" id="btnDrawerAdvance" data-step="${foundedStep}">
-              ⏩ Advance Timeline to ${loc.foundedYearLabel}
-            </button>
-          </div>
-        `;
-
-        const advanceBtn = drawerTimelineStatus.querySelector('#btnDrawerAdvance');
-        if (advanceBtn) {
-          advanceBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (typeof window.applyChronologicalStepGlobal === 'function') {
-              window.applyChronologicalStepGlobal(foundedStep, true);
-            }
-            openCodex(id);
-          });
-        }
-      } else {
-        // Fully established in current era
-        drawerTimelineStatus.innerHTML = `
-          <div class="drawer-status-card established-status">
-            <div class="status-badge-row">
-              <span class="status-badge active-badge">🏛️ Established Settlement</span>
-              <span class="status-era-pill">${loc.foundedYearLabel || 'Ancient'}</span>
-            </div>
-            <p class="status-explanation">
-              Founded around <strong>${loc.foundedYearLabel}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). Fully active and established in the <strong>${currentMilestone.yearLabel}</strong> era.
-            </p>
-          </div>
-        `;
-      }
-    }
-
-    // 3 Nephi Cataclysm Fate Card (Strictly only show for cities affected in 3 Nephi)
-    const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
-    const isCataclysmEraOrLater = (currentStep >= 20);
-
-    if (loc.fate3Nephi && loc.fate3Nephi.type && drawerFateSection && drawerFateCard) {
-      drawerFateSection.classList.add('active-fate-section');
-      drawerFateSection.classList.remove('fate-section-hidden');
-      drawerFateSection.style.setProperty('display', 'flex', 'important');
-
-      const fateLabelEl = drawerFateSection.querySelector('.section-label');
-      if (fateLabelEl) {
-        fateLabelEl.textContent = isCataclysmEraOrLater 
-          ? '3 Nephi Cataclysm Record (AD 34)' 
-          : 'Prophesied 3 Nephi Cataclysm (AD 34)';
-      }
-
-      const fateIcons = {
-        burned: '🔥',
-        sunk_sea: '🌊',
-        waters: '💧',
-        mountain: '⛰️',
-        sunk_earth: '🕳️',
-        earth: '🌋',
-        sanctuary: '☀️'
-      };
-      const fateIcon = fateIcons[loc.fate3Nephi.type] || '⚡';
-      drawerFateCard.className = `drawer-fate-card ${loc.fate3Nephi.type === 'sanctuary' ? 'sanctuary' : ''}`;
-      drawerFateCard.innerHTML = `
-        <div class="fate-icon">${fateIcon}</div>
-        <div class="fate-details">
-          <div class="fate-badge">${loc.fate3Nephi.label}</div>
-          <div class="fate-verse">Recorded in <strong>${loc.fate3Nephi.verse}</strong> at the Crucifixion of Christ.</div>
-        </div>
-      `;
-    } else {
-      if (drawerFateSection) {
-        drawerFateSection.classList.remove('active-fate-section');
-        drawerFateSection.classList.add('fate-section-hidden');
-        drawerFateSection.style.setProperty('display', 'none', 'important');
-      }
-      if (drawerFateCard) {
-        drawerFateCard.innerHTML = '';
-      }
-    }
-
-    // References
-    const refsList = document.getElementById('drawerRefs');
-    refsList.innerHTML = '';
-    if (loc.refs && loc.refs.length > 0) {
-      loc.refs.forEach(ref => {
-        const item = document.createElement('div');
-        item.className = 'ref-item';
-        const churchUrl = getChurchScriptureUrl(ref.ref);
-        
-        item.innerHTML = `
-          <div class="ref-header">
-            <div class="ref-citation" title="Click to read chapter on Church of Jesus Christ website">
-              ${ref.ref}
-            </div>
-            ${churchUrl ? `<button class="btn-read-scripture" title="Read in context on Church of Jesus Christ website">📖 Read Chapter</button>` : ''}
-          </div>
-          <div class="ref-text">"${ref.text}"</div>
-        `;
-
-        if (churchUrl) {
-          const btn = item.querySelector('.btn-read-scripture');
-          const citation = item.querySelector('.ref-citation');
-          const openHandler = (e) => {
-            e.stopPropagation();
-            openScriptureModal(ref.ref, ref.text, churchUrl);
-          };
-          if (btn) btn.addEventListener('click', openHandler);
-          if (citation) citation.addEventListener('click', openHandler);
-        }
-        refsList.appendChild(item);
-      });
-    }
-
-    // Historical Events
-    const eventsList = document.getElementById('drawerEvents');
-    eventsList.innerHTML = '';
-    if (loc.historicalEvents && loc.historicalEvents.length > 0) {
-      loc.historicalEvents.forEach(evt => {
-        const bullet = document.createElement('div');
-        bullet.className = 'event-bullet';
-        bullet.innerText = evt;
-        eventsList.appendChild(bullet);
-      });
-    }
-
-    // Notable People
-    const peopleTags = document.getElementById('drawerPeople');
-    peopleTags.innerHTML = '';
-    if (loc.notablePeople && loc.notablePeople.length > 0) {
-      loc.notablePeople.forEach(person => {
-        const tag = document.createElement('span');
-        tag.className = 'person-tag';
-        tag.innerText = person;
-        peopleTags.appendChild(tag);
-      });
-    }
-
-    // Open drawer
-    codexDrawer.classList.add('open');
-
-    // Pan map to bring landmark toward comfortable view
-    focusLocation(loc.coords.x, loc.coords.y);
-  }
-
-  /**
-   * Smoothly pan to focus a location
-   */
-  function focusLocation(targetPctX, targetPctY, customScale) {
-    const vWidth = viewport.clientWidth;
-    const vHeight = viewport.clientHeight;
-    const imgWidth = MAP_BASE_WIDTH;
-    const imgHeight = MAP_BASE_HEIGHT;
-
-    const targetX = (targetPctX / 100) * imgWidth;
-    const targetY = (targetPctY / 100) * imgHeight;
-
-    const offsetX = window.innerWidth > 900 ? vWidth * 0.35 : vWidth * 0.5;
-    const offsetY = vHeight * 0.5;
-
-    if (customScale) {
-      scale = customScale;
-    } else if (scale < 1.35) {
-      scale = 1.35;
-    }
-
-    translateX = offsetX - (targetX * scale);
-    translateY = offsetY - (targetY * scale);
-
-    applyTransform();
-  }
-
-  /**
-   * Close Codex Drawer (Flyout Panel)
-   */
-  function closeCodex() {
-    if (!codexDrawer) return;
-    codexDrawer.classList.remove('open');
-    activeLocationId = null;
-    document.querySelectorAll('.map-marker').forEach(m => m.classList.remove('active'));
-    document.querySelectorAll('.territory-polygon').forEach(p => p.classList.remove('active'));
-  }
-
-  if (drawerCloseBtn) {
-    drawerCloseBtn.addEventListener('click', (e) => {
+  // River Sidon click handler
+  if (riverSidonGroup) {
+    riverSidonGroup.style.cursor = 'pointer';
+    riverSidonGroup.addEventListener('click', (e) => {
       e.stopPropagation();
-      closeCodex();
+      selectLocation('river_sidon');
     });
   }
 
-  // Prevent interactions inside the drawer from triggering click-away
-  if (codexDrawer) {
-    codexDrawer.addEventListener('click', (e) => e.stopPropagation());
-    codexDrawer.addEventListener('pointerdown', (e) => e.stopPropagation());
-    codexDrawer.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
-  }
-
-  // Flyout Panel Click-Away: Disappears when clicking away anywhere on the map or page
-  document.addEventListener('pointerdown', (e) => {
-    if (!codexDrawer || !codexDrawer.classList.contains('open')) return;
-    if (
-      e.target.closest('#codexDrawer') ||
-      e.target.closest('.map-marker') ||
-      e.target.closest('.territory-polygon') ||
-      e.target.closest('.terrain-feature') ||
-      e.target.closest('.scripture-modal') ||
-      e.target.closest('#scriptureModal') ||
-      e.target.closest('.hud-btn')
-    ) {
-      return;
-    }
-    closeCodex();
-  });
-
-  /**
-   * Setup Quick Jump Selector & Autocomplete Datalist for All Landmarks
-   */
-  const landmarkQuickJump = document.getElementById('landmarkQuickJump');
-  const landmarksList = document.getElementById('landmarksList');
-
-  function setupLandmarksQuickJump() {
-    const sortedLocs = Object.values(mapLocations).sort((a, b) => a.name.localeCompare(b.name));
-
-    if (landmarkQuickJump) {
-      landmarkQuickJump.innerHTML = `<option value="">-- Jump to Landmark (${sortedLocs.length}) --</option>`;
-      sortedLocs.forEach(loc => {
-        const opt = document.createElement('option');
-        opt.value = loc.id;
-        opt.textContent = `${loc.name} (${loc.region || loc.category})`;
-        landmarkQuickJump.appendChild(opt);
-      });
-
-      landmarkQuickJump.addEventListener('change', (e) => {
-        const id = e.target.value;
-        if (!id) return;
-        const loc = mapLocations[id];
-        if (!loc) return;
-        const eraSlider = document.getElementById('eraSlider');
-        const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
-        const foundedStep = loc.foundedStep !== undefined ? loc.foundedStep : 0;
-        if (foundedStep > currentStep && typeof applyChronologicalStep === 'function') {
-          applyChronologicalStep(foundedStep, true);
-        }
-        focusLocation(loc.coords.x, loc.coords.y, 1.6);
-        openCodex(id);
-      });
-    }
-
-    if (landmarksList) {
-      landmarksList.innerHTML = '';
-      // 1. Add all location names
-      sortedLocs.forEach(loc => {
-        const opt = document.createElement('option');
-        opt.value = loc.name;
-        landmarksList.appendChild(opt);
-      });
-
-      // 2. Add notable scriptural groups and peoples
-      const scripturalSuggestions = [
-        "Anti-Nephi-Lehies (People of Ammon)",
-        "Anti-Lehi-Nephites (People of Ammon)",
-        "2,000 Stripling Warriors (Sons of Helaman)",
-        "People of Ammon (Ammonites)",
-        "Nephites",
-        "Lamanites",
-        "Jaredites",
-        "Zoramites",
-        "Amlicites",
-        "Amalekites",
-        "Gadianton Robbers",
-        "Captain Moroni",
-        "Helaman",
-        "Ammon",
-        "King Anti-Nephi-Lehi",
-        "Alma the Younger",
-        "Amulek",
-        "King Benjamin",
-        "King Mosiah",
-        "King Noah",
-        "Abinadi",
-        "Mormon",
-        "Moroni",
-        "Coriantumr",
-        "Ether",
-        "Shiz",
-        "Brother of Jared (Maholnahri Moriancumer)",
-        "Lehi",
-        "Nephi",
-        "Samuel the Lamanite",
-        "Zeezrom",
-        "Waters of Jerusalem (3 Nephi 9:7)",
-        "Mount Moronihah (3 Nephi 9:5)",
-        "Waters of Ripliancum (Ether 15:8)",
-        "Hill Ramah / Cumorah (Ether 15:11)"
-      ];
-
-      scripturalSuggestions.forEach(item => {
-        const opt = document.createElement('option');
-        opt.value = item;
-        landmarksList.appendChild(opt);
-      });
-    }
-  }
-
-  /**
-   * Render dynamic physical terrain transformations (3 Nephi 8–10 Cataclysm)
-   * Waters cast up in place of Jerusalem, Onihah, Mocum;
-   * Sunk into the sea at Moroni;
-   * Earth carried up forming a great mountain at Moronihah;
-   * Sunken earth chasms & valleys at Gilgal, Gadiandi, Gadiomnah, Jacob, Gimgimno;
-   * Scorched ruins at Zarahemla, Jacobugath, Kishkumen;
-   * Sanctuary at Bountiful.
-   */
+  // ==========================================================================
+  // 3 NEPHI CATACLYSM REAL-TIME TERRAIN TRANSFORMATIONS (AD 34)
+  // ==========================================================================
   function renderCataclysmTerrain() {
     if (!cataclysmTerrainGroup) return;
     cataclysmTerrainGroup.innerHTML = '';
@@ -787,645 +362,1917 @@ document.addEventListener('DOMContentLoaded', () => {
     const px = pct => (pct / 100) * imgW;
     const py = pct => (pct / 100) * imgH;
 
-    // Dynamically retrieve exact coordinates from mapLocations
-    const getCoords = (id, defaultX, defaultY) => {
-      const loc = (typeof mapLocations !== 'undefined' && mapLocations[id]) ? mapLocations[id] : null;
-      if (loc && loc.coords) return { x: px(loc.coords.x), y: py(loc.coords.y) };
-      return { x: px(defaultX), y: py(defaultY) };
+    const getCoords = (id, defX, defY) => {
+      if (mapLocations[id] && mapLocations[id].coords) {
+        return { x: px(mapLocations[id].coords.x), y: py(mapLocations[id].coords.y) };
+      }
+      return { x: px(defX), y: py(defY) };
     };
 
-    // Waters of Jerusalem (3 Nephi 9:7)
-    const jCoords = getCoords('city_of_jerusalem', 46.1, 94.0);
-    const jx = jCoords.x, jy = jCoords.y;
-    // Waters of Onihah (3 Nephi 9:7)
-    const oCoords = getCoords('city_of_onihah', 47.0, 64.0);
-    const ox = oCoords.x, oy = oCoords.y;
-    // Waters of Mocum (3 Nephi 9:7)
-    const mCoords = getCoords('city_of_mocum', 38.5, 68.0);
-    const mx = mCoords.x, my = mCoords.y;
-    // Moroni Sunk in Sea (3 Nephi 8:9, 9:4)
-    const mrCoords = getCoords('city_of_moroni', 91.0, 66.8);
-    const mrx = mrCoords.x, mry = mrCoords.y;
-    // Mount Moronihah (3 Nephi 8:10, 9:5)
-    const mhCoords = getCoords('city_of_moronihah', 58.5, 56.5);
-    const mhx = mhCoords.x, mhy = mhCoords.y;
-    // Chasms & Sunken Valleys (3 Nephi 9:6, 8):
-    const gCoords = getCoords('city_of_gilgal', 71.0, 16.5);
-    const gx = gCoords.x, gy = gCoords.y;
-    const gdCoords = getCoords('city_of_gadiandi', 35.0, 48.0);
-    const gdx = gdCoords.x, gdy = gdCoords.y;
-    const goCoords = getCoords('city_of_gadiomnah', 31.0, 52.0);
-    const gox = goCoords.x, goy = goCoords.y;
-    const jcCoords = getCoords('city_of_jacob', 40.0, 57.0);
-    const jcx = jcCoords.x, jcy = jcCoords.y;
-    const ggCoords = getCoords('city_of_gimgimno', 44.0, 54.0);
-    const ggx = ggCoords.x, ggy = ggCoords.y;
-    // Scorched Ruin Sites (3 Nephi 9:9-10):
-    const zCoords = getCoords('zarahemla', 45.5, 51.3);
-    const zx = zCoords.x, zy = zCoords.y;
-    const juCoords = getCoords('city_of_jacobugath', 68.0, 11.0);
-    const jux = juCoords.x, juy = juCoords.y;
-    const kCoords = getCoords('city_of_kishkumen', 58.0, 64.5);
-    const kx = kCoords.x, ky = kCoords.y;
-    // Bountiful Sanctuary (3 Nephi 11:1):
-    const bCoords = getCoords('bountiful', 64.4, 39.7);
-    const bx = bCoords.x, by = bCoords.y;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'cataclysm-elements-wrapper');
 
-    const featuresHtml = `
-      <!-- Waters of Jerusalem (3 Nephi 9:7 - Waters cast up in place thereof) -->
-      <g class="terrain-feature terrain-feature-jerusalem" data-id="city_of_jerusalem" style="cursor: pointer;">
-        <ellipse cx="${jx}" cy="${jy}" rx="110" ry="75" fill="#f4ebd9" stroke="#bfa074" stroke-width="4" />
-        <ellipse cx="${jx}" cy="${jy}" rx="130" ry="90" class="terrain-water-ripple" />
-        <path d="M ${jx - 105},${jy - 12} C ${jx - 110},${jy - 60} ${jx - 40},${jy - 70} ${jx + 30},${jy - 62} C ${jx + 88},${jy - 66} ${jx + 110},${jy - 26} ${jx + 104},${jy + 26} C ${jx + 94},${jy + 66} ${jx + 18},${jy + 75} ${jx - 52},${jy + 66} C ${jx - 96},${jy + 54} ${jx - 102},${jy + 18} ${jx - 105},${jy - 12} Z" class="terrain-water-body" />
-        <path d="M ${jx - 55},${jy - 22} Q ${jx},${jy - 35} ${jx + 55},${jy - 22}" stroke="#caf0f8" stroke-width="3.5" fill="none" opacity="0.9" />
-        <path d="M ${jx - 65},${jy + 18} Q ${jx - 8},${jy + 5} ${jx + 50},${jy + 18}" stroke="#caf0f8" stroke-width="3.5" fill="none" opacity="0.85" />
-        <text x="${jx}" y="${jy + 42}" class="terrain-label water-label">WATERS OF JERUSALEM</text>
-      </g>
+    // 1. Water Inundation: City of Jerusalem (3 Nephi 9:7)
+    const jerusalemPos = getCoords('jerusalem_city', 42.0, 78.5);
+    const jerusalemLake = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    jerusalemLake.setAttribute('cx', jerusalemPos.x);
+    jerusalemLake.setAttribute('cy', jerusalemPos.y);
+    jerusalemLake.setAttribute('rx', px(2.8));
+    jerusalemLake.setAttribute('ry', py(2.3));
+    jerusalemLake.setAttribute('fill', 'url(#inundatedWaterGrad)');
+    jerusalemLake.setAttribute('stroke', '#38bdf8');
+    jerusalemLake.setAttribute('stroke-width', '2.5');
+    g.appendChild(jerusalemLake);
 
-      <!-- Waters of Onihah (3 Nephi 9:7 - Inundated with waters) -->
-      <g class="terrain-feature terrain-feature-onihah" data-id="city_of_onihah" style="cursor: pointer;">
-        <ellipse cx="${ox}" cy="${oy}" rx="85" ry="58" fill="#f4ebd9" stroke="#bfa074" stroke-width="4" />
-        <ellipse cx="${ox}" cy="${oy}" rx="102" ry="72" class="terrain-water-ripple" />
-        <path d="M ${ox - 80},${oy - 10} C ${ox - 85},${oy - 48} ${ox - 35},${oy - 56} ${ox + 18},${oy - 50} C ${ox + 62},${oy - 54} ${ox + 84},${oy - 22} ${ox + 78},${oy + 22} C ${ox + 70},${oy + 54} ${ox + 14},${oy + 60} ${ox - 40},${oy + 52} C ${ox - 74},${oy + 42} ${ox - 78},${oy + 16} ${ox - 80},${oy - 10} Z" class="terrain-water-body" />
-        <path d="M ${ox - 42},${oy - 18} Q ${ox},${oy - 28} ${ox + 42},${oy - 18}" stroke="#caf0f8" stroke-width="3" fill="none" opacity="0.9" />
-        <path d="M ${ox - 48},${oy + 14} Q ${ox - 6},${oy + 3} ${ox + 36},${oy + 14}" stroke="#caf0f8" stroke-width="3" fill="none" opacity="0.85" />
-        <text x="${ox}" y="${oy + 34}" class="terrain-label water-label">WATERS OF ONIHAH</text>
-      </g>
+    // 2. Waters of Onihah (3 Nephi 9:7)
+    const onihahPos = getCoords('onihah', 48.5, 83.2);
+    const onihahLake = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    onihahLake.setAttribute('cx', onihahPos.x);
+    onihahLake.setAttribute('cy', onihahPos.y);
+    onihahLake.setAttribute('rx', px(2.4));
+    onihahLake.setAttribute('ry', py(2.0));
+    onihahLake.setAttribute('fill', 'url(#inundatedWaterGrad)');
+    onihahLake.setAttribute('stroke', '#0a9396');
+    onihahLake.setAttribute('stroke-width', '2');
+    g.appendChild(onihahLake);
 
-      <!-- Waters of Mocum (3 Nephi 9:7 - Inundated with waters) -->
-      <g class="terrain-feature terrain-feature-mocum" data-id="city_of_mocum" style="cursor: pointer;">
-        <ellipse cx="${mx}" cy="${my}" rx="78" ry="54" fill="#f4ebd9" stroke="#bfa074" stroke-width="4" />
-        <ellipse cx="${mx}" cy="${my}" rx="94" ry="68" class="terrain-water-ripple" />
-        <path d="M ${mx - 74},${my - 8} C ${mx - 78},${my - 44} ${mx - 30},${my - 52} ${mx + 16},${my - 46} C ${mx + 58},${my - 50} ${mx + 76},${my - 20} ${mx + 72},${my + 20} C ${mx + 64},${my + 48} ${mx + 12},${my + 54} ${mx - 36},${my + 48} C ${mx - 68},${my + 38} ${mx - 72},${my + 14} ${mx - 74},${my - 8} Z" class="terrain-water-body" />
-        <path d="M ${mx - 36},${my - 16} Q ${mx},${my - 25} ${mx + 36},${my - 16}" stroke="#caf0f8" stroke-width="3" fill="none" opacity="0.9" />
-        <path d="M ${mx - 44},${my + 12} Q ${mx - 4},${my + 3} ${mx + 32},${my + 12}" stroke="#caf0f8" stroke-width="3" fill="none" opacity="0.85" />
-        <text x="${mx}" y="${my + 32}" class="terrain-label water-label">WATERS OF MOCUM</text>
-      </g>
+    // 3. Waters of Mocum (3 Nephi 9:7)
+    const mocumPos = getCoords('mocum', 45.0, 87.0);
+    const mocumLake = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    mocumLake.setAttribute('cx', mocumPos.x);
+    mocumLake.setAttribute('cy', mocumPos.y);
+    mocumLake.setAttribute('rx', px(2.5));
+    mocumLake.setAttribute('ry', py(2.1));
+    mocumLake.setAttribute('fill', 'url(#inundatedWaterGrad)');
+    mocumLake.setAttribute('stroke', '#0a9396');
+    mocumLake.setAttribute('stroke-width', '2');
+    g.appendChild(mocumLake);
 
-      <!-- City of Moroni Sunk into Depths of the Sea (3 Nephi 8:9, 9:4) -->
-      <g class="terrain-feature terrain-feature-moroni" data-id="moroni" style="cursor: pointer;">
-        <ellipse cx="${mrx}" cy="${mry}" rx="130" ry="95" class="terrain-water-ripple" />
-        <path d="M ${mrx - 120},${mry - 30} C ${mrx - 110},${mry - 95} ${mrx - 30},${mry - 105} ${mrx + 50},${mry - 90} C ${mrx + 140},${mry - 80} ${mrx + 210},${mry - 40} ${mrx + 210},${mry + 70} C ${mrx + 190},${mry + 110} ${mrx + 100},${mry + 120} ${mrx + 10},${mry + 110} C ${mrx - 70},${mry + 100} ${mrx - 115},${mry + 60} ${mrx - 120},${mry - 30} Z" class="terrain-ocean-swell" />
-        <path d="M ${mrx - 75},${mry - 18} Q ${mrx - 10},${mry - 40} ${mrx + 70},${mry - 18}" stroke="#ade8f4" stroke-width="4" fill="none" />
-        <path d="M ${mrx - 95},${mry + 30} Q ${mrx},${mry + 8} ${mrx + 85},${mry + 30}" stroke="#ade8f4" stroke-width="4" fill="none" />
-        <text x="${mrx}" y="${mry + 52}" class="terrain-label ocean-label">MORONI (SUNK IN SEA)</text>
-      </g>
+    // 4. Ocean Inundation: City of Moroni (3 Nephi 8:9; 9:4)
+    const moroniPos = getCoords('city_of_moroni', 82.5, 78.5);
+    const moroniOcean = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    moroniOcean.setAttribute('d', `
+      M ${moroniPos.x - px(2.5)} ${moroniPos.y - py(2.2)}
+      Q ${moroniPos.x + px(2.2)} ${moroniPos.y - py(3.0)} ${moroniPos.x + px(3.6)} ${moroniPos.y}
+      Q ${moroniPos.x + px(2.5)} ${moroniPos.y + py(3.5)} ${moroniPos.x - px(1.8)} ${moroniPos.y + py(2.5)}
+      Q ${moroniPos.x - px(3.6)} ${moroniPos.y} ${moroniPos.x - px(2.5)} ${moroniPos.y - py(2.2)} Z
+    `);
+    moroniOcean.setAttribute('fill', 'url(#oceanSubmergeGrad)');
+    moroniOcean.setAttribute('stroke', '#0582ca');
+    moroniOcean.setAttribute('stroke-width', '3');
+    g.appendChild(moroniOcean);
 
-      <!-- Mount Moronihah (Mountain Formed in Place of City - 3 Nephi 8:10, 9:5) -->
-      <g class="terrain-feature terrain-feature-moronihah" data-id="city_of_moronihah" style="cursor: pointer;">
-        <polygon points="${mhx},${mhy - 120} ${mhx - 130},${mhy + 55} ${mhx + 130},${mhy + 55}" class="terrain-mountain-peak" />
-        <polygon points="${mhx - 70},${mhy - 75} ${mhx - 150},${mhy + 55} ${mhx - 10},${mhy + 55}" class="terrain-mountain-peak" />
-        <polygon points="${mhx + 70},${mhy - 85} ${mhx + 10},${mhy + 55} ${mhx + 150},${mhy + 55}" class="terrain-mountain-peak" />
-        <polyline points="${mhx},${mhy - 120} ${mhx - 22},${mhy - 25} ${mhx - 130},${mhy + 55}" class="terrain-mountain-ridge" />
-        <polyline points="${mhx},${mhy - 120} ${mhx + 28},${mhy - 20} ${mhx + 130},${mhy + 55}" class="terrain-mountain-ridge" />
-        <line x1="${mhx}" y1="${mhy - 120}" x2="${mhx}" y2="${mhy + 55}" stroke="#fefae0" stroke-width="3" opacity="0.8" />
-        <text x="${mhx}" y="${mhy + 80}" class="terrain-label mountain-label">MOUNT MORONIHAH</text>
-      </g>
+    // 5. Mount Moronihah Uplift (3 Nephi 8:10)
+    const moronihahPos = getCoords('moronihah', 58.2, 59.5);
+    const mountainPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    mountainPoly.setAttribute('points', `
+      ${moronihahPos.x},${moronihahPos.y - py(4.2)}
+      ${moronihahPos.x + px(3.8)},${moronihahPos.y + py(2.6)}
+      ${moronihahPos.x - px(3.8)},${moronihahPos.y + py(2.6)}
+    `);
+    mountainPoly.setAttribute('fill', 'url(#mountainRidgeGrad)');
+    mountainPoly.setAttribute('stroke', '#dfb15b');
+    mountainPoly.setAttribute('stroke-width', '2.5');
+    g.appendChild(mountainPoly);
 
-      <!-- Sunken Valleys & Earth Chasms (3 Nephi 9:6, 8) -->
-      <g class="terrain-feature terrain-feature-gilgal" data-id="city_of_gilgal" style="cursor: pointer;">
-        <polygon points="${gx},${gy - 45} ${gx + 70},${gy - 18} ${gx + 55},${gy + 35} ${gx - 45},${gy + 30} ${gx - 65},${gy - 12}" class="terrain-earth-chasm" />
-        <polyline points="${gx - 55},${gy - 6} ${gx},${gy + 12} ${gx + 50},${gy + 24}" class="terrain-chasm-crack" />
-        <text x="${gx}" y="${gy + 55}" class="terrain-label chasm-label">VALLEY OF GILGAL</text>
-      </g>
+    // 6. Scorched Ruins: Zarahemla, Jacobugath, Laman, Josh, Gad, Kishkumen
+    const burnedSites = [
+      getCoords('zarahemla', 46.2, 52.8),
+      getCoords('city_of_jacobugath', 55.4, 21.0),
+      getCoords('city_of_laman', 49.5, 77.0),
+      getCoords('city_of_josh', 52.0, 80.0),
+      getCoords('city_of_gad', 47.0, 79.5),
+      getCoords('city_of_kishkumen', 44.0, 76.5)
+    ];
 
-      <g class="terrain-feature terrain-feature-gadiandi" data-id="city_of_gadiandi" style="cursor: pointer;">
-        <polygon points="${gdx},${gdy - 40} ${gdx + 60},${gdy - 12} ${gdx + 45},${gdy + 30} ${gdx - 40},${gdy + 25} ${gdx - 55},${gdy - 12}" class="terrain-earth-chasm" />
-        <polyline points="${gdx - 45},${gdy} ${gdx},${gdy + 10} ${gdx + 40},${gdy + 18}" class="terrain-chasm-crack" />
-        <text x="${gdx}" y="${gdy + 48}" class="terrain-label chasm-label">GADIANDI CHASM</text>
-      </g>
+    burnedSites.forEach(pos => {
+      const crater = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      crater.setAttribute('cx', pos.x);
+      crater.setAttribute('cy', pos.y);
+      crater.setAttribute('r', px(1.6));
+      crater.setAttribute('fill', 'url(#scorchedEarthGrad)');
+      crater.setAttribute('stroke', '#c1440e');
+      crater.setAttribute('stroke-width', '1.5');
+      crater.setAttribute('stroke-dasharray', '3 2');
+      g.appendChild(crater);
+    });
 
-      <g class="terrain-feature terrain-feature-gadiomnah" data-id="city_of_gadiomnah" style="cursor: pointer;">
-        <polygon points="${gox},${goy - 40} ${gox + 60},${goy - 12} ${gox + 45},${goy + 30} ${gox - 40},${goy + 25} ${gox - 55},${goy - 12}" class="terrain-earth-chasm" />
-        <polyline points="${gox - 45},${goy} ${gox},${goy + 10} ${gox + 40},${goy + 18}" class="terrain-chasm-crack" />
-        <text x="${gox}" y="${goy + 48}" class="terrain-label chasm-label">GADIOMNAH VALLEY</text>
-      </g>
+    cataclysmTerrainGroup.appendChild(g);
+  }
 
-      <g class="terrain-feature terrain-feature-jacob" data-id="city_of_jacob" style="cursor: pointer;">
-        <polygon points="${jcx},${jcy - 40} ${jcx + 60},${jcy - 12} ${jcx + 45},${jcy + 30} ${jcx - 40},${jcy + 25} ${jcx - 55},${jcy - 12}" class="terrain-earth-chasm" />
-        <polyline points="${jcx - 45},${jcy} ${jcx},${jcy + 10} ${jcx + 40},${jcy + 18}" class="terrain-chasm-crack" />
-        <text x="${jcx}" y="${jcy + 48}" class="terrain-label chasm-label">JACOB CHASM</text>
-      </g>
+  // ==========================================================================
+  // LANDMARK MARKERS RENDERING
+  // ==========================================================================
+  function renderMarkers() {
+    markersLayer.innerHTML = '';
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
 
-      <g class="terrain-feature terrain-feature-gimgimno" data-id="city_of_gimgimno" style="cursor: pointer;">
-        <polygon points="${ggx},${ggy - 40} ${ggx + 60},${ggy - 12} ${ggx + 45},${ggy + 30} ${ggx - 40},${ggy + 25} ${ggx - 55},${ggy - 12}" class="terrain-earth-chasm" />
-        <polyline points="${ggx - 45},${ggy} ${ggx},${ggy + 10} ${ggx + 40},${ggy + 18}" class="terrain-chasm-crack" />
-        <text x="${ggx}" y="${ggy + 48}" class="terrain-label chasm-label">GIMGIMNO VALLEY</text>
-      </g>
+    Object.values(mapLocations).forEach(loc => {
+      const pin = document.createElement('div');
+      pin.className = `map-pin pin-${loc.category}`;
+      pin.setAttribute('data-id', loc.id);
+      pin.setAttribute('data-category', loc.category);
 
-      <!-- Continental Seismic Fault Lines & Rifts (3 Nephi 8:18 - Rocks Rent in Twain) -->
-      <g class="terrain-feature terrain-feature-faults" title="Seismic Fault Line & Fissures (3 Nephi 8:18: 'The rocks were rent in twain... in seams and in cracks upon all the face of the land')">
-        <path d="M ${px(20)},${py(56)} L ${px(26)},${py(61)} L ${px(32)},${py(59)} L ${px(38)},${py(66)} L ${px(46)},${py(63)} L ${px(52)},${py(70)} L ${px(60)},${py(68)}" class="terrain-fault-line" />
-        <path d="M ${px(20)},${py(56)} L ${px(26)},${py(61)} L ${px(32)},${py(59)} L ${px(38)},${py(66)} L ${px(46)},${py(63)} L ${px(52)},${py(70)} L ${px(60)},${py(68)}" class="terrain-fault-glow" />
-        <text x="${px(38)}" y="${py(63.2)}" class="terrain-label fault-label" transform="rotate(15 ${px(38)} ${py(63.2)})">CONTINENTAL FISSURE • ROCKS RENT IN TWAIN (3 NEPHI 8:18)</text>
+      const pxX = (loc.coords.x / 100) * imgWidth;
+      const pxY = (loc.coords.y / 100) * imgHeight;
+      pin.style.left = `${pxX}px`;
+      pin.style.top = `${pxY}px`;
 
-        <path d="M ${px(50)},${py(44)} L ${px(56)},${py(48)} L ${px(62)},${py(45)} L ${px(68)},${py(51)} L ${px(76)},${py(47)} L ${px(84)},${py(54)}" class="terrain-fault-line" />
-        <path d="M ${px(50)},${py(44)} L ${px(56)},${py(48)} L ${px(62)},${py(45)} L ${px(68)},${py(51)} L ${px(76)},${py(47)} L ${px(84)},${py(54)}" class="terrain-fault-glow" />
-        <text x="${px(67)}" y="${py(47.2)}" class="terrain-label fault-label" transform="rotate(16 ${px(67)} ${py(47.2)})">SEISMIC FAULT LINE (3 NEPHI 8:18)</text>
-      </g>
+      const isCapital = loc.category === 'capitals' || loc.id === 'zarahemla' || loc.id === 'lehi_nephi';
 
-      <!-- Scorched Foundations & Ash Footprints (3 Nephi 9:9-10) -->
-      <g class="terrain-feature terrain-feature-zarahemla" data-id="zarahemla" style="cursor: pointer;">
-        <circle cx="${zx}" cy="${zy}" r="45" class="terrain-scorched-ruin" />
-      </g>
-      <g class="terrain-feature terrain-feature-jacobugath" data-id="city_of_jacobugath" style="cursor: pointer;">
-        <circle cx="${jux}" cy="${juy}" r="45" class="terrain-scorched-ruin" />
-      </g>
-      <g class="terrain-feature terrain-feature-kishkumen" data-id="city_of_kishkumen" style="cursor: pointer;">
-        <circle cx="${kx}" cy="${ky}" r="40" class="terrain-scorched-ruin" />
-      </g>
+      // Pin icon symbol
+      let iconSymbol = '📍';
+      if (isCapital) iconSymbol = '👑';
+      else if (loc.category === 'fortresses') iconSymbol = '🛡️';
+      else if (loc.category === 'sacred') iconSymbol = '🏛️';
+      else if (loc.category === 'waters') iconSymbol = '🌊';
+      else if (loc.category === 'wilderness') iconSymbol = '⛰️';
+      else if (loc.category === 'cities') iconSymbol = '🏘️';
 
-      <!-- Sanctuary at Bountiful (3 Nephi 11:1) -->
-      <g class="terrain-feature terrain-feature-bountiful" data-id="bountiful" style="cursor: pointer;">
-        <circle cx="${bx}" cy="${by}" r="55" stroke="#f1c40f" stroke-width="4.5" fill="none" stroke-dasharray="14 8" opacity="0.95" />
-        <text x="${bx}" y="${by + 72}" class="terrain-label" font-size="20px" fill="#fff9db" filter="drop-shadow(0 0 6px #744210)">TEMPLE SANCTUARY</text>
-      </g>
+      pin.innerHTML = `
+        <div class="pin-icon-wrap ${loc.category} ${isCapital ? 'capital' : ''}">
+          <span>${iconSymbol}</span>
+        </div>
+        <span class="pin-label ${isCapital ? 'capital-label' : ''}">${loc.name}</span>
+      `;
+
+      pin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectLocation(loc.id);
+      });
+
+      markersLayer.appendChild(pin);
+    });
+
+    updateLayerVisibility();
+  }
+
+  // ==========================================================================
+  // MULTI-SELECT OVERLAY FILTER ENGINE
+  // ==========================================================================
+  function toggleLayer(layerKey) {
+    if (layerKey === 'all') {
+      const allActive = activeLayers.size === ALL_LAYERS.length;
+      if (allActive) {
+        activeLayers.clear();
+      } else {
+        ALL_LAYERS.forEach(k => activeLayers.add(k));
+      }
+    } else {
+      if (activeLayers.has(layerKey)) {
+        activeLayers.delete(layerKey);
+      } else {
+        activeLayers.add(layerKey);
+      }
+    }
+
+    // Sync chip classes
+    filterChips.forEach(chip => {
+      const k = chip.getAttribute('data-filter');
+      if (k === 'all') {
+        chip.classList.toggle('active', activeLayers.size === ALL_LAYERS.length);
+      } else {
+        chip.classList.toggle('active', activeLayers.has(k));
+      }
+    });
+
+    updateLayerVisibility();
+  }
+
+  function updateLayerVisibility() {
+    let visibleCount = 0;
+
+    document.querySelectorAll('.map-pin').forEach(pin => {
+      const cat = pin.getAttribute('data-category');
+      const isVisible = activeLayers.has(cat);
+      pin.style.display = isVisible ? 'flex' : 'none';
+      if (isVisible) visibleCount++;
+    });
+
+    if (statSitesCount) {
+      statSitesCount.textContent = visibleCount;
+    }
+
+    // Synchronize Territory Polygons
+    document.querySelectorAll('.territory-polygon').forEach(poly => {
+      const cat = poly.getAttribute('data-category');
+      poly.style.display = activeLayers.has(cat) ? 'block' : 'none';
+    });
+
+    // Synchronize River Sidon
+    if (riverSidonGroup) {
+      riverSidonGroup.style.display = activeLayers.has('waters') ? 'block' : 'none';
+    }
+
+    // Synchronize Cataclysm Terrain
+    if (cataclysmTerrainGroup) {
+      const isEraCataclysm = currentEraStep >= 20;
+      cataclysmTerrainGroup.style.display = (isEraCataclysm && activeLayers.has('cataclysm')) ? 'block' : 'none';
+    }
+  }
+
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      toggleLayer(chip.getAttribute('data-filter'));
+    });
+  });
+
+  // ==========================================================================
+  // LOCATION SELECTION & RICH FLYOUT CODEX (Matching New Testament Atlas)
+  // ==========================================================================
+  function selectLocation(locId) {
+    const loc = mapLocations[locId];
+    if (!loc) return;
+
+    activeLocationId = locId;
+    playGentleChime();
+
+    // Highlight active pin
+    document.querySelectorAll('.map-pin').forEach(p => {
+      p.classList.toggle('active', p.getAttribute('data-id') === locId);
+    });
+
+    // Update Sidebar Header
+    if (sidebarEyebrow) {
+      sidebarEyebrow.textContent = `${loc.category.toUpperCase()} • ${loc.region.toUpperCase()}`;
+    }
+    if (sidebarTitle) {
+      sidebarTitle.textContent = loc.name;
+    }
+
+    // Render Tab Content
+    renderSidebarContent(loc);
+
+    // Open Sidebar if closed
+    if (detailSidebar) {
+      detailSidebar.classList.remove('closed');
+    }
+
+    // Pan map to location
+    focusLocation(loc.coords.x, loc.coords.y);
+  }
+
+  function renderSidebarContent(loc) {
+    if (!sidebarContent) return;
+    sidebarContent.innerHTML = '';
+
+    const firstRef = (loc.refs && loc.refs.length > 0) ? loc.refs[0] : null;
+
+    // Helper to estimate jurisdiction & fortifications
+    const isNephite = !loc.region.toLowerCase().includes('lamanite') && !loc.region.toLowerCase().includes('jaredite');
+    const jurisdiction = loc.region.toLowerCase().includes('jaredite') || loc.region.toLowerCase().includes('northward') 
+      ? 'Jaredite Dynasty / Land Northward'
+      : (loc.region.toLowerCase().includes('lamanite') || loc.region.toLowerCase().includes('nephi') 
+          ? 'Lamanite Dominion / Ancient First Inheritance' 
+          : 'Nephite Republic / Reign of Judges');
+
+    const fortification = loc.category === 'fortresses'
+      ? "Captain Moroni's Earth Banks, Deep Ditches & Timbers (Alma 50:1-6)"
+      : (loc.category === 'capitals' 
+          ? "Massive Urban Defensive Walls & Fortified Gateways"
+          : (loc.category === 'waters' 
+              ? "Natural Hydrographic Barrier & River Crossing Defenses"
+              : "Open Settlement & Outlying Agricultural Border"));
+
+    // -------------------------------------------------------------------------
+    // TAB 1: OVERVIEW
+    // -------------------------------------------------------------------------
+    if (activeTab === 'overview') {
+      sidebarContent.innerHTML = `
+        <div class="city-detail-badge-row">
+          <span class="city-badge badge-region">${loc.region}</span>
+          <span class="city-badge badge-category">${loc.category.toUpperCase()}</span>
+          <span class="city-badge badge-period">Scripturally Verified</span>
+        </div>
+
+        ${firstRef ? `
+          <div class="hero-quote">
+            <div class="quote-text">"${firstRef.text}"</div>
+            <span class="quote-ref">${firstRef.ref}</span>
+          </div>
+        ` : ''}
+
+        <div class="history-block">
+          <h4>Historical & Scriptural Overview</h4>
+          <p>${loc.summary || 'A primary landmark recorded in the internal textual architecture of the Book of Mormon.'}</p>
+        </div>
+
+        <div class="demographic-stats-grid">
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Scriptural Jurisdiction</span>
+            <span class="demographic-value">${jurisdiction}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Defensive Structure</span>
+            <span class="demographic-value">${fortification}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Geographic Region</span>
+            <span class="demographic-value">${loc.region}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Internal Coordinates</span>
+            <span class="demographic-value">X: ${loc.coords.x}% | Y: ${loc.coords.y}%</span>
+          </div>
+        </div>
+
+        ${loc.refs && loc.refs.length > 0 ? `
+          <div class="feature-card">
+            <h3>Scriptures Recorded at this Site</h3>
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.6rem;">
+              Documented across ${loc.refs.length} verified Book of Mormon passages:
+            </p>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              ${loc.refs.slice(0, 4).map(r => {
+                const churchUrl = getChurchScriptureUrl(r.ref);
+                return `
+                  <a href="${churchUrl || '#'}" class="church-scripture-btn" data-url="${churchUrl}" data-ref="${r.ref}">
+                    <span>📖 Read ${r.ref} (Official Scripture)</span>
+                    <span class="btn-arrow">↗</span>
+                  </a>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <div class="drawer-church-stance-card">
+          <div class="church-stance-mini-header">
+            <span style="font-size: 1.1rem;">📜</span>
+            <span class="church-stance-mini-title">Official Church Stance on Geography</span>
+          </div>
+          <p class="church-stance-mini-desc">
+            "The Church does not take a position on specific geographic locations in the Americas... the best guide is the text of the Book of Mormon itself."
+          </p>
+          <button class="church-stance-mini-btn" id="codexDisclaimerBtn">Read Full Gospel Topics Statement &rarr;</button>
+        </div>
+      `;
+
+      const codexDisclaimerBtn = document.getElementById('codexDisclaimerBtn');
+      if (codexDisclaimerBtn) {
+        codexDisclaimerBtn.addEventListener('click', () => openModal(disclaimerModal));
+      }
+
+      sidebarContent.querySelectorAll('.church-scripture-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openScriptureModal(btn.getAttribute('data-ref'), btn.getAttribute('data-url'));
+        });
+      });
+
+    // -------------------------------------------------------------------------
+    // TAB 2: SCRIPTURES (MULTI-VERSION & 7TH-GRADE PLAIN ENGLISH)
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'scriptures') {
+      renderScripturesTab(loc);
+
+    // -------------------------------------------------------------------------
+    // TAB 2.5: VIDEOS (OFFICIAL CHURCH OF JESUS CHRIST COLLECTION)
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'videos') {
+      renderVideosTab(loc);
+
+    // -------------------------------------------------------------------------
+    // TAB 3: TEACHINGS & CONTEXT (DEEP SCRIPTURAL DOSSIERS)
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'teachings') {
+      renderTeachingsTab(loc);
+
+    // -------------------------------------------------------------------------
+    // TAB 4: PEOPLE & LEADERS
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'people') {
+      sidebarContent.innerHTML = `
+        <div class="drawer-section">
+          <div class="section-label">Scriptural Figures & Leaders</div>
+          <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:0.4rem;" id="peopleCardsContainer"></div>
+        </div>
+
+        <div class="drawer-section" style="margin-top:0.75rem;">
+          <div class="section-label">All Indexed Figures</div>
+          <div class="people-tags" id="peopleTagsContainer"></div>
+        </div>
+      `;
+
+      const cardsContainer = document.getElementById('peopleCardsContainer');
+      const tagsContainer = document.getElementById('peopleTagsContainer');
+
+      if (loc.notablePeople && loc.notablePeople.length > 0) {
+        loc.notablePeople.forEach(person => {
+          const roleDesc = (typeof PROPHET_ROLES !== 'undefined' && PROPHET_ROLES[person])
+            ? PROPHET_ROLES[person]
+            : `Prominent scriptural figure, prophet, or leader associated with ${loc.name} in the sacred record of the Book of Mormon.`;
+
+          // Card
+          const card = document.createElement('div');
+          card.className = 'person-card';
+          card.innerHTML = `
+            <span class="person-card-name">👤 ${person}</span>
+            <span class="person-card-role">${roleDesc}</span>
+          `;
+          cardsContainer.appendChild(card);
+
+          // Tag
+          const tag = document.createElement('span');
+          tag.className = 'person-tag';
+          tag.textContent = person;
+          tagsContainer.appendChild(tag);
+        });
+      } else {
+        cardsContainer.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Inhabitants of ancient America recorded in sacred history.</p>`;
+      }
+
+    // -------------------------------------------------------------------------
+    // TAB 5: MILITARY & STRATEGY
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'military') {
+      sidebarContent.innerHTML = `
+        <div class="military-strategy-card">
+          <div class="insight-header">
+            <span class="insight-icon">⚔️</span>
+            <h3 style="margin:0; font-family:var(--font-serif-title); font-size:0.95rem; color:var(--color-crimson);">
+              Strategic Geography & Defenses
+            </h3>
+          </div>
+          <p style="font-size:0.84rem; line-height:1.55; color:var(--text-primary); margin-top:0.6rem;">
+            <strong>Defensive Classification:</strong> ${fortification}
+          </p>
+          <p style="font-size:0.82rem; line-height:1.5; color:var(--text-secondary); margin-top:0.4rem;">
+            In Nephite military science, cities along the borders were fortified with Captain Moroni's revolutionary architecture: deep exterior trenches, timber breastworks, towers, and parapets (Alma 49–53).
+          </p>
+        </div>
+
+        <div class="history-block" style="margin-top:0.6rem;">
+          <h4>Military Campaigns & Movements</h4>
+          <p>
+            ${loc.historicalEvents && loc.historicalEvents.length > 0 ? loc.historicalEvents.join(' • ') : 'Key fortress maintaining the defensive perimeter of the nation.'}
+          </p>
+        </div>
+
+        <div class="demographic-stats-grid" style="margin-top:0.6rem;">
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Tactical Terrain</span>
+            <span class="demographic-value">${loc.category.toUpperCase()}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Border Line</span>
+            <span class="demographic-value">${loc.region}</span>
+          </div>
+        </div>
+      `;
+
+    // -------------------------------------------------------------------------
+    // TAB 6: AD 34 CATACLYSM
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'cataclysm') {
+      sidebarContent.innerHTML = `
+        <div class="drawer-fate-card">
+          <div class="drawer-fate-header">
+            <span>🔥</span>
+            <span>3 Nephi Physical Transformation Record (AD 34)</span>
+          </div>
+          <p class="drawer-fate-body">
+            ${loc.fate3Nephi ? loc.fate3Nephi : 'This territory underwent profound physical alterations during the great storms, earthquakes, and fires at the crucifixion of Jesus Christ (3 Nephi 8–10).'}
+          </p>
+        </div>
+
+        <div class="history-block" style="margin-top:0.75rem;">
+          <h4>Chronological Historical Timeline</h4>
+          <div class="events-timeline" style="margin-top:0.5rem;" id="codexEventsTimeline"></div>
+        </div>
+      `;
+
+      const eventsTimeline = document.getElementById('codexEventsTimeline');
+      if (loc.historicalEvents && loc.historicalEvents.length > 0) {
+        loc.historicalEvents.forEach(evt => {
+          const item = document.createElement('div');
+          item.className = 'event-item';
+          item.innerHTML = `<div class="event-desc">${evt}</div>`;
+          eventsTimeline.appendChild(item);
+        });
+      } else {
+        eventsTimeline.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted);">Historical sequence documented in the Book of Mormon.</div>`;
+      }
+
+    // -------------------------------------------------------------------------
+    // TAB 7: CHURCH STANCE
+    // -------------------------------------------------------------------------
+    } else if (activeTab === 'church') {
+      sidebarContent.innerHTML = `
+        <div class="drawer-church-stance-card">
+          <div class="church-stance-mini-header">
+            <span style="font-size: 1.3rem;">📜</span>
+            <span class="church-stance-mini-title">Official First Presidency Declaration</span>
+          </div>
+          <p class="church-stance-mini-desc" style="font-family: var(--font-scripture); font-size: 1.02rem; font-style: italic; line-height:1.5;">
+            "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas... The best guide to Book of Mormon geography is the text of the Book of Mormon itself."
+          </p>
+          <p style="font-size: 0.82rem; line-height: 1.5; color: var(--text-secondary); margin-top: 0.6rem;">
+            This interactive atlas is designed as a study aid to understand the internal textual relationships, day-journeys, river flows, and directionalities described in the scriptures.
+          </p>
+          <button class="btn btn-primary glow-gold" id="openFullStanceBtn" style="margin-top: 0.75rem; justify-content: center; width: 100%;">
+            Open Full Gospel Topics Statement
+          </button>
+        </div>
+      `;
+
+      const openFullStanceBtn = document.getElementById('openFullStanceBtn');
+      if (openFullStanceBtn) {
+        openFullStanceBtn.addEventListener('click', () => openModal(disclaimerModal));
+      }
+    }
+  }
+
+  // ==========================================================================
+  // MULTI-TRANSLATION SCRIPTURES TAB (Standard + 7th-Grade Plain English)
+  // ==========================================================================
+  function renderScripturesTab(loc) {
+    if (!sidebarContent) return;
+
+    const refs = (loc && loc.refs && loc.refs.length > 0) ? loc.refs : [
+      { ref: "1 Nephi 3:7", text: "And it came to pass that I, Nephi, said unto my father: I will go and do the things which the Lord hath commanded, for I know that the Lord giveth no commandments unto the children of men, save he shall prepare a way for them that they may accomplish the thing which he commandeth them." },
+      { ref: "Mosiah 2:17", text: "And behold, I tell you these things that ye may learn wisdom; that ye may learn that when ye are in the service of your fellow beings ye are only in the service of your God." },
+      { ref: "3 Nephi 11:10", text: "Behold, I am Jesus Christ, whom the prophets testified shall come into the world." }
+    ];
+
+    sidebarContent.innerHTML = `
+      <div class="kjv-translation-notice">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+          <div>
+            <span class="kjv-badge">Dual-Translation Active</span>
+            <span style="font-size:0.75rem; color:var(--text-secondary); margin-left:6px;">Standard text + <strong>Plain English (7th Grade Level)</strong>.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="section-label">Book of Mormon Scriptural Citations (${refs.length})</div>
+        <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:0.4rem;" id="scriptureCardsContainer">
+          ${refs.map((r, idx) => {
+            const trans = (typeof SCRIPTURE_TRANSLATIONS !== 'undefined')
+              ? SCRIPTURE_TRANSLATIONS.get(r.ref, r.text)
+              : { standard: r.text, plainEnglish: r.text, insight: '' };
+
+            const churchUrl = getChurchScriptureUrl(r.ref);
+            const enc = (val) => encodeURIComponent(val || '');
+
+            return `
+              <div class="scripture-verse-card"
+                   id="verseCard_${idx}"
+                   data-ref="${r.ref}"
+                   data-bom="${enc(trans.standard)}"
+                   data-plain="${enc(trans.plainEnglish)}"
+                   data-insight="${enc(trans.insight)}">
+                <div class="scripture-card-top">
+                  <span class="scripture-citation">📖 ${r.ref}</span>
+                  <div class="scripture-card-top-right">
+                    <span class="version-badge">Standard Text</span>
+                    <button class="scripture-card-menu-btn" title="Choose Version" aria-label="Version options">⋮</button>
+                    <div class="scripture-version-dropdown">
+                      <button class="scripture-version-item selected" data-version="bom">
+                        <span>Standard Text</span>
+                        <span style="font-size:0.65rem; color:var(--color-crimson); font-weight:700;">DEFAULT</span>
+                      </button>
+                      <button class="scripture-version-item" data-version="plain">
+                        <span>Plain English (7th Grade Level)</span>
+                        <span style="font-size:0.65rem; color:#0284C7; font-weight:700;">EASY READING</span>
+                      </button>
+                      <button class="scripture-version-item" data-version="insight">
+                        <span>Study Note & Meaning</span>
+                        <span style="font-size:0.65rem; color:#854D0E; font-weight:700;">CONTEXT</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="version-toggle-pills">
+                  <button class="version-pill active" data-version="bom">Standard Text</button>
+                  <button class="version-pill" data-version="plain">Plain English (7th Grade)</button>
+                  <button class="version-pill" data-version="insight">Study Note</button>
+                </div>
+
+                <p class="scripture-body">"${trans.standard}"</p>
+
+                <div class="scripture-action-row">
+                  ${churchUrl ? `
+                    <a href="${churchUrl}" target="_blank" rel="noopener noreferrer" class="church-scripture-btn ref-church-btn" data-url="${churchUrl}" data-ref="${r.ref}" style="font-size:0.76rem; padding:0.4rem 0.65rem;" title="Read Chapter on ChurchofJesusChrist.org">
+                      <span>📖 Read Chapter on ChurchofJesusChrist.org</span>
+                      <span class="btn-arrow">↗</span>
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
     `;
 
-    cataclysmTerrainGroup.innerHTML = featuresHtml;
+    // Connect pill & dropdown version switchers
+    const cards = sidebarContent.querySelectorAll('.scripture-verse-card');
+    cards.forEach(card => {
+      const body = card.querySelector('.scripture-body');
+      const badge = card.querySelector('.version-badge');
+      const pills = card.querySelectorAll('.version-pill');
+      const menuBtn = card.querySelector('.scripture-card-menu-btn');
+      const dropdown = card.querySelector('.scripture-version-dropdown');
+      const menuItems = card.querySelectorAll('.scripture-version-item');
 
-    // Attach click and touch listeners to terrain features to open Codex
-    cataclysmTerrainGroup.querySelectorAll('.terrain-feature').forEach(el => {
-      const handleTerrainSelect = (e) => {
-        e.stopPropagation();
-        const id = el.dataset.id;
-        if (id) {
-          openCodex(id);
-        }
-      };
-      el.addEventListener('click', handleTerrainSelect);
-      el.addEventListener('pointerdown', (e) => e.stopPropagation());
-      el.addEventListener('touchend', (e) => {
-        if (!isDragging) {
-          handleTerrainSelect(e);
-        }
-      });
-    });
-  }
+      const dec = (attr) => decodeURIComponent(card.getAttribute(attr) || '');
+      const bomText = dec('data-bom');
+      const plainText = dec('data-plain');
+      const insightText = dec('data-insight');
 
-  // Name overrides for markers during and after the 3 Nephi destruction
-  const cataclysmNameOverrides = {
-    "city_of_jerusalem": {
-      era3: "🌊 Waters of Jerusalem (Replaced by Waters)",
-      era4: "🌊 Waters of Jerusalem (Submerged Lake)"
-    },
-    "city_of_onihah": {
-      era3: "💧 Waters of Onihah (Inundated)",
-      era4: "💧 Waters of Onihah (Inundated Lake)"
-    },
-    "city_of_mocum": {
-      era3: "💧 Waters of Mocum (Inundated)",
-      era4: "💧 Waters of Mocum (Inundated Waters)"
-    },
-    "moroni": {
-      era3: "🌊 Moroni (Sunk into Depths of Sea)",
-      era4: "🌊 Moroni (Sunken in Ocean Depths)"
-    },
-    "city_of_moronihah": {
-      era3: "🏔️ Mount Moronihah (Mountain in place of City)",
-      era4: "🏔️ Mount Moronihah (Great Mountain Peak)"
-    },
-    "city_of_gilgal": {
-      era3: "🕳️ Sunken Valley of Gilgal (Sunk into Earth)",
-      era4: "🕳️ Sunken Valley of Gilgal"
-    },
-    "city_of_gadiandi": {
-      era3: "🕳️ Gadiandi Earth Chasm",
-      era4: "🕳️ Gadiandi Earth Chasm"
-    },
-    "city_of_gadiomnah": {
-      era3: "🕳️ Gadiomnah Sunken Valley",
-      era4: "🕳️ Gadiomnah Sunken Valley"
-    },
-    "city_of_jacob": {
-      era3: "🕳️ Jacob Earth Chasm",
-      era4: "🕳️ Jacob Earth Chasm"
-    },
-    "city_of_gimgimno": {
-      era3: "🕳️ Gimgimno Sunken Valley",
-      era4: "🕳️ Gimgimno Sunken Valley"
-    },
-    "city_of_kishkumen": {
-      era3: "🔥 Kishkumen (Burned by Fire)",
-      era4: "🔥 Kishkumen (Scorched Ruins)"
-    },
-    "city_of_jacobugath": {
-      era3: "🔥 Jacobugath (Burned by Fire)",
-      era4: "🔥 Jacobugath (Scorched Ruins)"
-    },
-    "zarahemla": {
-      era3: "🔥 Zarahemla (Burned by Fire)",
-      era4: "🏛️ Zarahemla (Rebuilt in Righteousness)"
-    },
-    "bountiful": {
-      era3: "☀️ Temple in Bountiful (Preserved Sanctuary)",
-      era4: "☀️ Temple in Bountiful (Where Christ Appeared)"
-    }
-  };
+      function switchVersion(ver) {
+        pills.forEach(p => p.classList.toggle('active', p.getAttribute('data-version') === ver));
+        menuItems.forEach(m => m.classList.toggle('selected', m.getAttribute('data-version') === ver));
+        if (dropdown) dropdown.classList.remove('open');
 
-  function updateMarkerLabelsForEra(mode) {
-    document.querySelectorAll('.map-marker').forEach(marker => {
-      const locId = marker.dataset.id;
-      const loc = mapLocations[locId];
-      if (!loc) return;
-      const labelEl = marker.querySelector('.marker-label');
-      if (!labelEl) return;
+        body.classList.remove('plain-english', 'study-insight');
 
-      const override = cataclysmNameOverrides[locId];
-      if (mode === 3 && override && override.era3) {
-        labelEl.textContent = override.era3;
-      } else if (mode === 4 && override && override.era4) {
-        labelEl.textContent = override.era4;
-      } else {
-        labelEl.textContent = loc.name;
-      }
-    });
-  }
-
-  /**
-   * Setup Chronological Slider & 3 Nephi Cataclysm HUD (2200 BC - AD 421)
-   */
-  function setupCataclysmHud() {
-    if (!eraSlider) return;
-
-    let isPlaying = false;
-    let playInterval = null;
-
-    function stopAutoplay() {
-      if (playInterval) {
-        clearInterval(playInterval);
-        playInterval = null;
-      }
-      isPlaying = false;
-      if (timelinePlayBtn) timelinePlayBtn.classList.remove('playing');
-      if (timelinePlayIcon) timelinePlayIcon.textContent = '▶';
-      if (timelinePlayText) timelinePlayText.textContent = 'Play';
-    }
-
-    function startAutoplay() {
-      stopAutoplay();
-      isPlaying = true;
-      if (timelinePlayBtn) timelinePlayBtn.classList.add('playing');
-      if (timelinePlayIcon) timelinePlayIcon.textContent = '⏸';
-      if (timelinePlayText) timelinePlayText.textContent = 'Pause';
-
-      if (parseInt(eraSlider.value, 10) >= chronologicalMilestones.length - 1) {
-        applyChronologicalStep(0);
-      }
-
-      playInterval = setInterval(() => {
-        const current = parseInt(eraSlider.value, 10);
-        if (current < chronologicalMilestones.length - 1) {
-          applyChronologicalStep(current + 1, true);
+        if (ver === 'plain') {
+          body.textContent = `"${plainText}"`;
+          body.classList.add('plain-english');
+          if (badge) badge.textContent = 'Plain English (7th Grade)';
+        } else if (ver === 'insight') {
+          body.textContent = insightText ? `Insight: ${insightText}` : `Doctrinal context recorded for this passage.`;
+          body.classList.add('study-insight');
+          if (badge) badge.textContent = 'Study Note';
         } else {
-          stopAutoplay();
+          body.textContent = `"${bomText}"`;
+          if (badge) badge.textContent = 'Standard Text';
         }
-      }, 1800);
-    }
+      }
 
-    function applyChronologicalStep(step, fromAdvance = false) {
-      step = Math.max(0, Math.min(chronologicalMilestones.length - 1, parseInt(step, 10)));
-      eraSlider.value = step;
-      window.applyChronologicalStepGlobal = applyChronologicalStep;
-
-      const milestone = chronologicalMilestones[step] || chronologicalMilestones[19];
-
-      // Update milestone markers on slider track
-      eraSteps.forEach(el => {
-        const targetStep = parseInt(el.dataset.step, 10);
-        el.classList.toggle('active', targetStep === step);
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          switchVersion(pill.getAttribute('data-version'));
+        });
       });
 
-      // Update Header Badges & Labels
-      if (timelineYearBadge) {
-        timelineYearBadge.textContent = milestone.yearLabel;
-      }
-      if (timelineSiteCounter) {
-        timelineSiteCounter.textContent = `${milestone.totalCumulativeSites} / 94 Sites Active`;
-      }
-      if (cataclysmIcon) {
-        cataclysmIcon.textContent = milestone.icon;
-      }
-      if (cataclysmTitle) {
-        cataclysmTitle.textContent = `Era: ${milestone.title}`;
-      }
-      if (cataclysmSubtitle) {
-        cataclysmSubtitle.textContent = milestone.subtitle;
-      }
-
-      // Update Recently Established Strip
-      if (addedCitiesList) {
-        if (milestone.newCityNames && milestone.newCityNames.length > 0) {
-          addedCitiesList.textContent = milestone.newCityNames.join(', ');
-          addedCitiesList.title = milestone.newCityNames.join(', ');
-        } else if (milestone.isCataclysm) {
-          addedCitiesList.textContent = 'Crucifixion Cataclysm: 16 Cities Sunk, Burned, and Shaken';
-          addedCitiesList.title = 'Crucifixion Cataclysm: 16 Cities Sunk, Burned, and Shaken';
-        } else if (milestone.isPostCataclysm) {
-          addedCitiesList.textContent = 'All 88 Active Sites (Post-Cataclysm Alterations & Zionic Peace)';
-          addedCitiesList.title = 'All 88 Active Sites (Post-Cataclysm Alterations & Zionic Peace)';
-        } else {
-          addedCitiesList.textContent = 'Civilization Growth (All established sites active)';
-          addedCitiesList.title = 'Civilization Growth (All established sites active)';
-        }
-      }
-
-      // Update Navigation Buttons state
-      if (timelinePrevBtn) timelinePrevBtn.disabled = (step === 0);
-      if (timelineNextBtn) timelineNextBtn.disabled = (step === chronologicalMilestones.length - 1);
-
-      // Handle Cataclysm Physical Transformations & Sounds
-      if (milestone.isCataclysm) {
-        // Step 20: AD 34
-        stage.classList.add('cataclysm-mode');
-        stage.classList.remove('post-cataclysm-mode');
-        if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.add('visible');
-        updateMarkerLabelsForEra(3);
-        if (cataclysmQuickToggle) {
-          cataclysmQuickToggle.classList.add('active');
-          cataclysmQuickToggle.innerHTML = '🕊️ <span>Reset to Pre-Destruction</span>';
-        }
-        playCataclysmRumble();
-      } else if (milestone.isPostCataclysm) {
-        // Steps 21-29: AD 50 - AD 421
-        stage.classList.remove('cataclysm-mode');
-        stage.classList.add('post-cataclysm-mode');
-        if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.add('visible');
-        updateMarkerLabelsForEra(4);
-        if (cataclysmQuickToggle) {
-          cataclysmQuickToggle.classList.remove('active');
-          cataclysmQuickToggle.innerHTML = '🔥 <span>Cataclysm (AD 34)</span>';
-        }
-      } else {
-        // Steps 0-19: 2200 BC - AD 1
-        stage.classList.remove('cataclysm-mode', 'post-cataclysm-mode');
-        if (cataclysmTerrainGroup) cataclysmTerrainGroup.classList.remove('visible');
-        updateMarkerLabelsForEra(1);
-        if (cataclysmQuickToggle) {
-          cataclysmQuickToggle.classList.remove('active');
-          cataclysmQuickToggle.innerHTML = '🔥 <span>Cataclysm (AD 34)</span>';
-        }
-      }
-
-      // Filter Markers Chronologically & Keep Future Settlements Fully Responsive
-      const activeCatBtn = document.querySelector('.filter-btn.active');
-      const currentCat = activeCatBtn ? activeCatBtn.dataset.category : 'all';
-
-      document.querySelectorAll('.map-marker').forEach(marker => {
-        const locId = marker.dataset.id;
-        const loc = mapLocations[locId];
-        const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
-        const isChronologicallyFounded = (foundedStep <= step);
-        const matchesCategory = (currentCat === 'all' || marker.dataset.category === currentCat);
-
-        if (!matchesCategory) {
-          marker.style.display = 'none';
-          marker.classList.remove('newly-founded', 'future-settlement', 'established-settlement');
-          return;
-        }
-
-        // All markers matching the active category remain displayed so there are NO dead spots on the parchment
-        marker.style.display = 'block';
-        marker.classList.remove('dimmed');
-
-        const eraBadgeEl = marker.querySelector('.hover-card-era-badge');
-        const actionEl = marker.querySelector('.hover-card-action');
-
-        if (isChronologicallyFounded) {
-          marker.classList.remove('future-settlement');
-          marker.classList.add('established-settlement');
-
-          if (eraBadgeEl) {
-            eraBadgeEl.style.display = 'none';
-            eraBadgeEl.textContent = '';
-          }
-          if (actionEl) {
-            actionEl.textContent = 'Click for Codex';
-          }
-
-          // Highlight newly established markers in this specific step
-          if (foundedStep === step && milestone.newIds && milestone.newIds.includes(locId)) {
-            marker.classList.remove('newly-founded');
-            void marker.offsetWidth; // Trigger reflow for CSS animation
-            marker.classList.add('newly-founded');
-          } else {
-            marker.classList.remove('newly-founded');
-          }
-        } else {
-          // Future settlement in this timeline era: remains fully hoverable & clickable
-          marker.classList.remove('established-settlement', 'newly-founded');
-          marker.classList.add('future-settlement');
-
-          if (eraBadgeEl && loc) {
-            eraBadgeEl.style.display = 'inline-block';
-            eraBadgeEl.textContent = `⏳ Future Settlement (${loc.foundedYearLabel || 'Later Era'})`;
-          }
-          if (actionEl && loc) {
-            actionEl.textContent = `Click for Codex • ⏩ Advance to ${loc.foundedYearLabel}`;
-          }
-        }
-      });
-
-      // If codex drawer is currently open, refresh its settlement status banner in real-time
-      if (codexDrawer && codexDrawer.classList.contains('open') && activeLocationId) {
-        const currentLoc = mapLocations[activeLocationId];
-        const drawerTimelineStatus = document.getElementById('drawerTimelineStatus');
-        if (currentLoc && drawerTimelineStatus) {
-          const foundedStep = currentLoc.foundedStep !== undefined ? currentLoc.foundedStep : 0;
-          const foundingMilestone = chronologicalMilestones[foundedStep] || chronologicalMilestones[0];
-          const currentMilestone = milestone;
-
-          if (foundedStep > step) {
-            drawerTimelineStatus.innerHTML = `
-              <div class="drawer-status-card future-status">
-                <div class="status-badge-row">
-                  <span class="status-badge">⏳ Future Settlement</span>
-                  <span class="status-era-pill">Founded ${currentLoc.foundedYearLabel || 'Later Era'}</span>
-                </div>
-                <p class="status-explanation">
-                  <strong>${currentLoc.name}</strong> appears in the Book of Mormon around <strong>${currentLoc.foundedYearLabel || 'a later era'}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). It is not yet established in the currently viewed <strong>${currentMilestone.yearLabel}</strong> era.
-                </p>
-                <button class="btn-advance-drawer" id="btnDrawerAdvance" data-step="${foundedStep}">
-                  ⏩ Advance Timeline to ${currentLoc.foundedYearLabel}
-                </button>
-              </div>
-            `;
-            const advanceBtn = drawerTimelineStatus.querySelector('#btnDrawerAdvance');
-            if (advanceBtn) {
-              advanceBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                applyChronologicalStep(foundedStep, true);
-              });
-            }
-          } else {
-            drawerTimelineStatus.innerHTML = `
-              <div class="drawer-status-card established-status">
-                <div class="status-badge-row">
-                  <span class="status-badge active-badge">🏛️ Established Settlement</span>
-                  <span class="status-era-pill">${currentLoc.foundedYearLabel || 'Ancient'}</span>
-                </div>
-                <p class="status-explanation">
-                  Founded around <strong>${currentLoc.foundedYearLabel}</strong> (Step ${foundedStep}: <em>${foundingMilestone.title}</em>). Fully active and established in the <strong>${currentMilestone.yearLabel}</strong> era.
-                </p>
-              </div>
-            `;
-          }
-        }
-      }
-
-      // Update collapsed mobile pill text
-      if (hudToggleLabel && cataclysmHud && cataclysmHud.classList.contains('collapsed')) {
-        hudToggleLabel.textContent = `${milestone.yearLabel} • ${milestone.totalCumulativeSites}`;
-      }
-    }
-
-    eraSlider.addEventListener('input', (e) => {
-      stopAutoplay();
-      applyChronologicalStep(e.target.value);
-    });
-
-    // Universal instant-response button binder (handles touch, pointer, and click reliably)
-    function bindInstantButton(btn, action) {
-      if (!btn) return;
-      let lastActionTime = 0;
-      const execute = (e) => {
-        if (e) {
+      menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
           e.stopPropagation();
-        }
-        const now = Date.now();
-        if (now - lastActionTime < 280) return;
-        lastActionTime = now;
-        action(e);
-      };
+          switchVersion(item.getAttribute('data-version'));
+        });
+      });
 
-      btn.addEventListener('click', execute);
-      btn.addEventListener('touchend', (e) => {
-        e.stopPropagation();
-        execute(e);
-      }, { passive: false });
-    }
+      if (menuBtn && dropdown) {
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+        });
+      }
+    });
 
-    eraSteps.forEach(stepEl => {
-      bindInstantButton(stepEl, () => {
-        stopAutoplay();
-        const val = parseInt(stepEl.dataset.step, 10);
-        applyChronologicalStep(val);
+    // Close dropdowns on outside click
+    document.addEventListener('click', () => {
+      sidebarContent.querySelectorAll('.scripture-version-dropdown.open').forEach(d => d.classList.remove('open'));
+    });
+
+    // Connect reader modal buttons
+    sidebarContent.querySelectorAll('.ref-church-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ref = btn.getAttribute('data-ref');
+        const url = btn.getAttribute('data-url');
+        if (url) openScriptureModal(ref, url);
       });
     });
+  }
 
-    // Isolate all clicks, touches, and pointer interactions from stage panning
-    if (cataclysmHud) {
-      cataclysmHud.addEventListener('pointerdown', (e) => e.stopPropagation());
-      cataclysmHud.addEventListener('mousedown', (e) => e.stopPropagation());
-      cataclysmHud.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+  // ==========================================================================
+  // RICH TEACHINGS & CONTEXT TAB (Modeled after New Testament Geography)
+  // ==========================================================================
+  function renderTeachingsTab(loc) {
+    if (!sidebarContent) return;
+
+    const locId = loc ? loc.id : 'zarahemla';
+    const dossier = (typeof getPlaceDossier === 'function')
+      ? getPlaceDossier(locId, loc)
+      : {
+          teacher: (loc && loc.notablePeople) ? loc.notablePeople.join(', ') : 'Book of Mormon Prophets',
+          audience: 'Assembled Believers and Citizens',
+          whatWasTaught: (loc && loc.summary) || 'The Gospel of Jesus Christ.',
+          whyTaught: 'To turn hearts unto Christ and keep the commandments.',
+          context: (loc && loc.region) || 'The Promised Land.',
+          howAccepted: 'Many believed and were baptized, while others resisted.',
+          passages: []
+        };
+
+    const placeTitle = loc ? (loc.name || loc.title) : 'the Book of Mormon';
+
+    sidebarContent.innerHTML = `
+      <div class="teachings-role-grid">
+        <div class="teachings-stat-box" style="border-left: 3px solid var(--color-crimson);">
+          <span class="teachings-stat-label">Who Was Teaching</span>
+          <span class="teachings-stat-value">${dossier.teacher}</span>
+        </div>
+        <div class="teachings-stat-box" style="border-left: 3px solid var(--color-gold);">
+          <span class="teachings-stat-label">Who Was Being Taught</span>
+          <span class="teachings-stat-value">${dossier.audience}</span>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-gold">
+        <div class="teachings-card-title">
+          <span>📜</span>
+          <span>What Was Taught at ${placeTitle}</span>
+        </div>
+        <div class="teachings-card-body">
+          ${dossier.whatWasTaught}
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-crimson">
+        <div class="teachings-card-title">
+          <span>🎯</span>
+          <span>Why It Was Taught</span>
+        </div>
+        <div class="teachings-card-body">
+          ${dossier.whyTaught}
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-bronze">
+        <div class="teachings-card-title">
+          <span>🏛️</span>
+          <span>Historical, Geographic & Cultural Context</span>
+        </div>
+        <div class="teachings-card-body">
+          ${dossier.context}
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-sage">
+        <div class="teachings-card-title">
+          <span>🤝</span>
+          <span>How the Teachings Were Accepted & Community Response</span>
+        </div>
+        <div class="teachings-card-body">
+          ${dossier.howAccepted}
+        </div>
+      </div>
+
+      ${dossier.passages && dossier.passages.length > 0 ? `
+        <div class="feature-card" style="margin-top: 0.5rem;">
+          <h4 style="font-family: var(--font-serif-title); font-size: 0.88rem; margin: 0 0 0.5rem 0; color: var(--color-crimson);">
+            Key Scriptural Passages & Discourses
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            ${dossier.passages.map(ref => {
+              const url = getChurchScriptureUrl(ref);
+              return `
+                <a href="${url || '#'}" class="church-scripture-btn teachings-scripture-link" data-ref="${ref}" data-url="${url || ''}">
+                  <span>📖 Read ${ref} (Official Scripture)</span>
+                  <span class="btn-arrow">↗</span>
+                </a>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      ` : ''}
+    `;
+
+    // Connect chapter reading buttons to scripture reader modal
+    sidebarContent.querySelectorAll('.teachings-scripture-link').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ref = btn.getAttribute('data-ref');
+        const url = btn.getAttribute('data-url');
+        if (url) openScriptureModal(ref, url);
+      });
+    });
+  }
+
+  // ==========================================================================
+  // OFFICIAL BOOK OF MORMON VIDEOS TAB (ChurchofJesusChrist.org)
+  // ==========================================================================
+  function renderVideosTab(loc) {
+    if (!sidebarContent) return;
+
+    const placeName = loc ? (loc.name || loc.title) : "the Book of Mormon";
+    const locId = loc ? loc.id : null;
+    const region = loc ? loc.region : null;
+
+    let videoList = [];
+    if (typeof findChurchVideosForLocation === 'function') {
+      videoList = findChurchVideosForLocation(locId, region);
+    } else if (typeof BOOK_OF_MORMON_VIDEOS !== 'undefined' && BOOK_OF_MORMON_VIDEOS) {
+      videoList = BOOK_OF_MORMON_VIDEOS.slice(0, 6);
     }
 
-    if (eraSlider) {
-      eraSlider.addEventListener('pointerdown', (e) => e.stopPropagation());
-      eraSlider.addEventListener('mousedown', (e) => e.stopPropagation());
-      eraSlider.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+    const isWelcome = !loc;
+
+    sidebarContent.innerHTML = `
+      <div class="video-tab-header">
+        <div class="video-tab-title">
+          <span>🎬</span>
+          <span>${isWelcome ? "Official Book of Mormon Videos Collection" : `Book of Mormon Videos for ${placeName}`}</span>
+        </div>
+        <div class="video-tab-subtitle">
+          Produced by The Church of Jesus Christ of Latter-day Saints. These videos faithfully portray the prophetic narratives, sacred events, revelations, and ministry of Jesus Christ in the ancient Americas.
+        </div>
+        <div style="margin-top:0.75rem;">
+          <a href="https://www.churchofjesuschrist.org/media/collection/book-of-mormon-videos?lang=eng" target="_blank" rel="noopener noreferrer" class="video-directory-btn" title="Browse Full Collection on ChurchofJesusChrist.org">
+            <span>🎬 Browse Full Book of Mormon Videos Index (ChurchofJesusChrist.org)</span>
+            <span class="btn-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.9rem;">
+        ${videoList.map(v => {
+          const scriptureUrl = getChurchScriptureUrl(v.scriptureRef);
+          return `
+            <div class="video-card">
+              <a href="${v.churchUrl}" target="_blank" rel="noopener noreferrer" class="video-preview-banner" title="Watch '${v.title}' on ChurchofJesusChrist.org">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span class="video-category-pill">${v.category || "BOOK OF MORMON VIDEO"}</span>
+                  <span style="font-size:0.72rem; color:#FDE68A; opacity:0.85;">ChurchofJesusChrist.org</span>
+                </div>
+                <div class="video-play-overlay" title="Watch on ChurchofJesusChrist.org">
+                  ▶
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                  <span style="font-size:0.74rem; color:rgba(255,255,255,0.8); font-style:italic;">${v.thumbnailText || placeName}</span>
+                  <span class="video-duration-pill">⏱️ ${v.duration || "Video"}</span>
+                </div>
+              </a>
+
+              <div class="video-card-body">
+                <h4 class="video-title">${v.title}</h4>
+                <div class="video-scripture-ref">
+                  <span>📖</span>
+                  <span>${v.scriptureRef}</span>
+                </div>
+                <p class="video-description">${v.description}</p>
+
+                <div class="video-action-row">
+                  <a href="${v.churchUrl}" target="_blank" rel="noopener noreferrer" class="video-watch-btn" title="Watch Video on ChurchofJesusChrist.org">
+                    <span>▶ Watch Video on ChurchofJesusChrist.org</span>
+                    <span class="btn-arrow">↗</span>
+                  </a>
+                  ${scriptureUrl ? `
+                    <a href="${scriptureUrl}" class="church-scripture-btn video-read-scripture-btn" data-ref="${v.scriptureRef}" data-url="${scriptureUrl}" style="font-size:0.76rem; padding:0.4rem 0.65rem;" title="Read Scripture Context in Study Modal">
+                      <span>📖 Read Chapter Context (${v.scriptureRef})</span>
+                      <span class="btn-arrow">↗</span>
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    // Connect scripture modal click handlers
+    sidebarContent.querySelectorAll('.video-read-scripture-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ref = btn.getAttribute('data-ref');
+        const url = btn.getAttribute('data-url');
+        if (url) openScriptureModal(ref, url);
+      });
+    });
+  }
+
+  function renderWelcomeSidebar() {
+    activeLocationId = null;
+
+    if (activeTab === 'videos') {
+      if (sidebarEyebrow) sidebarEyebrow.textContent = 'OFFICIAL CHURCH MEDIA';
+      if (sidebarTitle) sidebarTitle.textContent = 'Book of Mormon Videos';
+      renderVideosTab(null);
+      return;
     }
 
-    bindInstantButton(timelinePrevBtn, () => {
-      stopAutoplay();
-      const current = parseInt(eraSlider.value, 10);
-      if (current > 0) applyChronologicalStep(current - 1);
+    if (activeTab === 'teachings') {
+      if (sidebarEyebrow) sidebarEyebrow.textContent = 'DOCTRINAL OVERVIEW';
+      if (sidebarTitle) sidebarTitle.textContent = 'Teachings & Context of the Book of Mormon';
+      renderTeachingsTab(mapLocations['zarahemla'] || null);
+      return;
+    }
+
+    if (activeTab === 'scriptures') {
+      if (sidebarEyebrow) sidebarEyebrow.textContent = 'KEY PASSAGES (DUAL TRANSLATION)';
+      if (sidebarTitle) sidebarTitle.textContent = 'Book of Mormon Scriptures';
+      renderScripturesTab(mapLocations['zarahemla'] || null);
+      return;
+    }
+
+    if (activeTab === 'people') {
+      renderGlobalPeopleTab();
+      return;
+    }
+
+    if (activeTab === 'military') {
+      renderGlobalMilitaryTab();
+      return;
+    }
+
+    if (activeTab === 'cataclysm') {
+      renderGlobalCataclysmTab();
+      return;
+    }
+
+    if (activeTab === 'church') {
+      renderGlobalChurchStanceTab();
+      return;
+    }
+
+    // Default Overview Tab
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'WELCOME TO THE SCRIPTURAL ATLAS';
+    if (sidebarTitle) sidebarTitle.textContent = 'Book of Mormon Geography';
+
+    sidebarContent.innerHTML = `
+      <div class="hero-quote">
+        <p class="quote-text">"And they did look forth upon the land of promise; and behold, it was a land choice above all other lands."</p>
+        <span class="quote-ref">— 1 Nephi 18:25</span>
+      </div>
+
+      <div class="feature-card">
+        <h3>How to Explore the Atlas</h3>
+        <ul class="feature-steps">
+          <li><strong>Toggle Multiple Overlays:</strong> Click any layer chip above the map (Capitals, Cities, Fortresses, Waters) to combine multiple views.</li>
+          <li><strong>Scrub the Timeline:</strong> Drag the slider from <strong>2200 BC to AD 421</strong> to witness the rise, dispersion, cataclysm, and final battles.</li>
+          <li><strong>Click Any Landmark:</strong> Open deep scriptural dossiers with verbatim verses, military fortifications, and leaders.</li>
+          <li><strong>Launch Guided Tours:</strong> Follow Lehi's landing, Alma's flight to Mormon, and Captain Moroni's campaigns step-by-step.</li>
+        </ul>
+      </div>
+
+      <div class="curated-shortcut-grid">
+        <h4 style="font-family: var(--font-serif-title); font-size: 0.85rem; color: var(--color-crimson); margin-bottom: 0.4rem;">
+          Featured Scriptural Expeditions
+        </h4>
+        <div class="tour-mini-cards" id="welcomeTourShortcuts"></div>
+      </div>
+    `;
+
+    const shortcutsWrap = document.getElementById('welcomeTourShortcuts');
+    if (shortcutsWrap && mapJourneys) {
+      mapJourneys.slice(0, 4).forEach(tour => {
+        const card = document.createElement('div');
+        card.className = 'tour-mini-card';
+        card.innerHTML = `
+          <div class="tour-icon">🧭</div>
+          <div class="tour-meta">
+            <span class="tour-name">${tour.name}</span>
+            <span class="tour-era">${tour.subtitle || `${tour.stages.length} Waypoints`}</span>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          startTour(tour.id);
+        });
+        shortcutsWrap.appendChild(card);
+      });
+    }
+  }
+
+  // ==========================================================================
+  // GLOBAL WELCOME TAB RENDERERS (Ensuring all 8 tabs have unique rich content)
+  // ==========================================================================
+  function renderGlobalPeopleTab() {
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'CHRONOLOGICAL ROLL OF PROPHETS';
+    if (sidebarTitle) sidebarTitle.textContent = 'Prophets & Leaders of the Book of Mormon';
+
+    sidebarContent.innerHTML = `
+      <div class="kjv-translation-notice">
+        <span class="kjv-badge">Prophetic Succession</span>
+        <span style="font-size:0.75rem; color:var(--text-secondary); margin-left:6px;">From the Tower of Babel to the sealing of the plates (~2200 BC – AD 421).</span>
+      </div>
+
+      <div class="people-dispensations-list" style="display:flex; flex-direction:column; gap:0.9rem; margin-top:0.4rem;">
+        
+        <!-- 1. Jaredite Patriarchs -->
+        <div class="teachings-card teachings-card-gold">
+          <div class="teachings-card-title">
+            <span>⛵</span>
+            <span>Jaredite Dispensational Witnesses (~2200 BC – ~600 BC)</span>
+          </div>
+          <div class="teachings-card-body">
+            <p style="margin-bottom:0.5rem; font-size:0.83rem;">Preserved their pure language at the Great Tower, crossed the ocean in eight tight barges, and left a solemn witness of Christ's premortal glory.</p>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 The Brother of Jared (Moriancumer)</span>
+                <span class="person-card-role">Mighty prophet who saw the premortal body of Christ; molten sixteen stones to light the eight barges (Ether 1–3).</span>
+                <button class="fly-to-person-btn" data-loc="moriancumer_shore">📍 View Moriancumer Shore</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Ether</span>
+                <span class="person-card-role">Final prophet of the Jaredites; dwelt in the cavity of a rock, cried repentance to Coriantumr, and hid twenty-four gold plates (Ether 12–15).</span>
+                <button class="fly-to-person-btn" data-loc="cumorah">📍 View Hill Ramah / Cumorah</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Early Nephite Patriarchs -->
+        <div class="teachings-card teachings-card-bronze">
+          <div class="teachings-card-title">
+            <span>📜</span>
+            <span>Early Nephite Patriarchs & Record Keepers (~600 BC – ~200 BC)</span>
+          </div>
+          <div class="teachings-card-body">
+            <p style="margin-bottom:0.5rem; font-size:0.83rem;">Departed Jerusalem before the Babylonian captivity, established the Land of First Inheritance and City of Nephi, and inscribed the Small Plates.</p>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Lehi & Sariah</span>
+                <span class="person-card-role">Patriarch and matriarch; received the Tree of Life vision and blessed all posterity upon the choice land (1 & 2 Nephi).</span>
+                <button class="fly-to-person-btn" data-loc="land_first_inheritance">📍 View Land of First Inheritance</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Nephi</span>
+                <span class="person-card-role">Prophet-builder; fabricated the tools, built the ship, constructed the temple after Solomon's manner, and recorded the doctrine of Christ (1 & 2 Nephi).</span>
+                <button class="fly-to-person-btn" data-loc="lehi_nephi">📍 View City of Nephi</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Jacob</span>
+                <span class="person-card-role">Nephi's brother; consecrated priest who preached against pride and unchastity at the temple; expounded Zenos's Olive Tree allegory (2 Nephi 9; Jacob 1–7).</span>
+                <button class="fly-to-person-btn" data-loc="lehi_nephi">📍 View Temple of Nephi</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Enos, Jarom, & Omni</span>
+                <span class="person-card-role">Enos wrestled in mighty prayer in the forests; Jarom and Omni kept the genealogy and small plates over centuries of warfare (Enos, Jarom, Omni).</span>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 King Mosiah I</span>
+                <span class="person-card-role">Warned of God to flee the Land of Nephi; led the righteous down to discover the Mulekites at Zarahemla (Omni 1:12–19).</span>
+                <button class="fly-to-person-btn" data-loc="zarahemla">📍 View Zarahemla</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Era of Kings & Abinadi's Witness -->
+        <div class="teachings-card teachings-card-crimson">
+          <div class="teachings-card-title">
+            <span>🔥</span>
+            <span>Kings, Martyrs & Covenant Restorers (~160 BC – 91 BC)</span>
+          </div>
+          <div class="teachings-card-body">
+            <p style="margin-bottom:0.5rem; font-size:0.83rem;">Confronted royal corruption, gave life-changing temple sermons, and restored baptismal covenants in the wilderness.</p>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 King Benjamin</span>
+                <span class="person-card-role">Beloved prophet-king who labored with his own hands; addressed his nation from a wooden tower on service, charity, and taking Christ's name (Mosiah 1–6).</span>
+                <button class="fly-to-person-btn" data-loc="zarahemla">📍 View Tower Site at Zarahemla</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Abinadi</span>
+                <span class="person-card-role">Prophet martyr whose face shone like Moses; testified of Christ's suffering servant role (Isaiah 53) before King Noah and sealed his words with fire (Mosiah 11–17).</span>
+                <button class="fly-to-person-btn" data-loc="lehi_nephi">📍 View Noah's Palace (Nephi)</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Alma the Elder</span>
+                <span class="person-card-role">Priest of Noah converted by Abinadi; established baptismal covenants at the Waters of Mormon; led believers through bondage to Zarahemla (Mosiah 18; 23–24).</span>
+                <button class="fly-to-person-btn" data-loc="waters_of_mormon">📍 View Waters of Mormon</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 King Mosiah II</span>
+                <span class="person-card-role">Abolished monarchy to establish constitutional Judges; translated 24 Jaredite gold plates with Urim and Thummim (Mosiah 28–29).</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Republic of Judges & Great Missionaries -->
+        <div class="teachings-card teachings-card-sage">
+          <div class="teachings-card-title">
+            <span>⚔️</span>
+            <span>The Republic of Judges & Missionary Surge (91 BC – AD 1)</span>
+          </div>
+          <div class="teachings-card-body">
+            <p style="margin-bottom:0.5rem; font-size:0.83rem;">Renounced political power for missionary labor, defended liberties with the Title of Liberty, and prophesied the coming Messiah.</p>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Alma the Younger</span>
+                <span class="person-card-role">First Chief Judge turned High Priest; preached across Zarahemla, Gideon, Melek, Ammonihah, Sidom, and Antionum; taught the word as a seed (Alma 1–44).</span>
+                <button class="fly-to-person-btn" data-loc="ammonihah">📍 View Ammonihah</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Amulek & Zeezrom</span>
+                <span class="person-card-role">Amulek hosted Alma and testified of Christ's infinite Atonement; Zeezrom repented from bribery to become a valiant missionary companion (Alma 8–15; 34).</span>
+                <button class="fly-to-person-btn" data-loc="sidom">📍 View Sidom</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 The Sons of Mosiah (Ammon, Aaron, Omner, Himni)</span>
+                <span class="person-card-role">14-year mission among the Lamanites; defended flocks at Sebus, converted King Lamoni, Queen, and King's father; established the Anti-Nephi-Lehies (Alma 17–25).</span>
+                <button class="fly-to-person-btn" data-loc="waters_of_sebus">📍 View Waters of Sebus</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Captain Moroni & Pahoran</span>
+                <span class="person-card-role">Moroni raised the Title of Liberty, designed earthen fortifications, and corresponded with Pahoran to defend constitutional government (Alma 46; 48–62).</span>
+                <button class="fly-to-person-btn" data-loc="city_of_moroni">📍 View City of Moroni</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Helaman & the 2,060 Stripling Warriors</span>
+                <span class="person-card-role">Led the sons of the Anti-Nephi-Lehies on the southwest front; all preserved alive through miraculous faith taught by their mothers (Alma 53; 56–58).</span>
+                <button class="fly-to-person-btn" data-loc="judea">📍 View Fortress Judea</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Nephi & Lehi (Sons of Helaman)</span>
+                <span class="person-card-role">Surrounded by heavenly pillar of fire in prison; converted 8,000 Lamanites; Nephi prophesied on his garden tower of Seezoram's murder (Helaman 5–9).</span>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Samuel the Lamanite</span>
+                <span class="person-card-role">Preached from the stone walls of Zarahemla; prophesied exact signs of Christ's birth (light without dark) and death (3 days of vapor of dark) (Helaman 13–16).</span>
+                <button class="fly-to-person-btn" data-loc="zarahemla">📍 View Walls of Zarahemla</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Christ's Visit, Disciples & Final Witnesses -->
+        <div class="teachings-card teachings-card-gold">
+          <div class="teachings-card-title">
+            <span>✨</span>
+            <span>The Resurrected Lord & Final Solitary Prophets (AD 34 – AD 421)</span>
+          </div>
+          <div class="teachings-card-body">
+            <p style="margin-bottom:0.5rem; font-size:0.83rem;">The mortal culmination and eternal purpose of the Book of Mormon: the personal ministry of Jesus Christ and the preservation of sacred records for the latter days.</p>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 The Resurrected Jesus Christ</span>
+                <span class="person-card-role">Descended out of heaven at the Temple in Bountiful; invited 2,500 souls to feel His wounds; healed the sick; instituted sacrament; blessed little children (3 Nephi 11–28).</span>
+                <button class="fly-to-person-btn" data-loc="bountiful">📍 View Temple at Bountiful</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 The Twelve Nephite Disciples</span>
+                <span class="person-card-role">Nephi, Timothy, Jonas, Mathoni, Mathonihah, Kumen, Kumenonhi, Jeremiah, Shemnon, Jonas, Zedekiah, Isaiah. Established 200 years of peace (3 Nephi 19; 4 Nephi 1).</span>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Mormon</span>
+                <span class="person-card-role">Prophet-general and chief abridger; led armies from age 16; compiled the golden plates; delivered final lamentation at Cumorah (Mormon 1–7; Moroni 7–9).</span>
+                <button class="fly-to-person-btn" data-loc="cumorah">📍 View Hill Cumorah</button>
+              </div>
+              <div class="person-card" style="margin:0;">
+                <span class="person-card-name">👤 Moroni</span>
+                <span class="person-card-role">Final prophet who wandered solitary for decades; abridged the book of Ether; sealed the sacred records into the hill; gave the Moroni 10:4 promise (Mormon 8–9; Moroni 1–10).</span>
+                <button class="fly-to-person-btn" data-loc="cumorah">📍 View Gold Plates Depository</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    // Connect fly-to buttons
+    sidebarContent.querySelectorAll('.fly-to-person-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const locId = btn.getAttribute('data-loc');
+        if (locId && mapLocations[locId]) {
+          selectLocation(locId);
+        }
+      });
+    });
+  }
+
+  function renderGlobalMilitaryTab() {
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'NEPHITE & JAREDITE TACTICS';
+    if (sidebarTitle) sidebarTitle.textContent = 'Military Geography & Ancient Defense Systems';
+
+    sidebarContent.innerHTML = `
+      <div class="military-strategy-card">
+        <div class="insight-header">
+          <span class="insight-icon">🛡️</span>
+          <h3 style="margin:0; font-family:var(--font-serif-title); font-size:0.95rem; color:var(--color-crimson);">
+            Captain Moroni's Defensive Revolution (74–60 BC)
+          </h3>
+        </div>
+        <p style="font-size:0.84rem; line-height:1.55; color:var(--text-primary); margin-top:0.6rem;">
+          Prior to Captain Moroni, Nephite warfare consisted of open-field clashes with skin girdles, bows, and scimitars. Moroni engineered a continental defensive system combining individual armor (breastplates, shields, head-plates) with civil fortifications that completely neutralized Lamanite superiority in numbers (Alma 48–53).
+        </p>
+      </div>
+
+      <div class="teachings-card teachings-card-crimson">
+        <div class="teachings-card-title">
+          <span>🏰</span>
+          <span>Fortification Architecture</span>
+        </div>
+        <div class="teachings-card-body">
+          <ul style="padding-left:1.1rem; margin:0; font-size:0.83rem; line-height:1.5;">
+            <li><strong>Deep Exterior Moats & Trenches:</strong> Dug around every border city, preventing enemy charges and trapping attackers under missile fire.</li>
+            <li><strong>High Earthen Banks:</strong> Earth from the trenches heaped up into immense ramparts that elevated the defenders.</li>
+            <li><strong>Timber Breastworks & Parapets:</strong> Wooden palisades anchored atop the earth banks with framed towers overlooking the fields.</li>
+            <li><strong>Security Entrances:</strong> Only one narrow, guarded gateway per city, turning any attempted assault into a deadly choke point (Alma 49:18–25).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-bronze">
+        <div class="teachings-card-title">
+          <span>📍</span>
+          <span>Strategic Continental Choke Points</span>
+        </div>
+        <div class="teachings-card-body">
+          <p style="font-size:0.83rem; line-height:1.5; margin-bottom:0.5rem;">The Book of Mormon military narrative centers on three critical geographical axes:</p>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <div style="background:#FFFDF9; padding:0.5rem; border:1px solid var(--border-parchment); border-radius:4px;">
+              <strong style="color:var(--color-crimson); font-size:0.82rem;">1. The Narrow Pass & Narrow Neck:</strong>
+              <p style="margin:0.2rem 0 0.3rem 0; font-size:0.79rem; color:var(--text-secondary);">The 1.5-day corridor connecting Northward and Southward lands. He who controlled Bountiful and the Narrow Pass controlled the entire continent.</p>
+              <button class="fly-to-person-btn" data-loc="narrow_pass" style="font-size:0.7rem; padding:0.2rem 0.4rem;">📍 Inspect Narrow Pass</button>
+            </div>
+            <div style="background:#FFFDF9; padding:0.5rem; border:1px solid var(--border-parchment); border-radius:4px;">
+              <strong style="color:var(--color-crimson); font-size:0.82rem;">2. East Sea Seashore Line:</strong>
+              <p style="margin:0.2rem 0 0.3rem 0; font-size:0.79rem; color:var(--text-secondary);">The line of fortresses: Moroni, Lehi, Morianton, Omner, Gid, Mulek, anchored by Bountiful in the north (Alma 51–53).</p>
+              <button class="fly-to-person-btn" data-loc="city_of_moroni" style="font-size:0.7rem; padding:0.2rem 0.4rem;">📍 Inspect City of Moroni</button>
+            </div>
+            <div style="background:#FFFDF9; padding:0.5rem; border:1px solid var(--border-parchment); border-radius:4px;">
+              <strong style="color:var(--color-crimson); font-size:0.82rem;">3. Southwest Frontier Line:</strong>
+              <p style="margin:0.2rem 0 0.3rem 0; font-size:0.79rem; color:var(--text-secondary);">The western garrison chain: Manti, Cumeni, Zeezrom, Antiparah, Judea, guarded by Antipus and Helaman's 2,060 Stripling Warriors.</p>
+              <button class="fly-to-person-btn" data-loc="judea" style="font-size:0.7rem; padding:0.2rem 0.4rem;">📍 Inspect Fortress Judea</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-gold">
+        <div class="teachings-card-title">
+          <span>📜</span>
+          <span>The Title of Liberty (Alma 46:12–13)</span>
+        </div>
+        <div class="teachings-card-body">
+          <p style="font-family:var(--font-scripture); font-size:0.95rem; font-style:italic; line-height:1.45; color:var(--text-primary); margin:0;">
+            "In memory of our God, our religion, and freedom, and our peace, our wives, and our children..."
+          </p>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.4rem;">Captain Moroni tore his coat to raise this standard upon every tower in all the land, rallying the citizens to defend their constitutional republic.</p>
+        </div>
+      </div>
+    `;
+
+    sidebarContent.querySelectorAll('.fly-to-person-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const locId = btn.getAttribute('data-loc');
+        if (locId && mapLocations[locId]) selectLocation(locId);
+      });
+    });
+  }
+
+  function renderGlobalCataclysmTab() {
+    if (sidebarEyebrow) sidebarEyebrow.textContent = '3 NEPHI TOPOGRAPHICAL ALTERATIONS';
+    if (sidebarTitle) sidebarTitle.textContent = 'The AD 34 Cataclysm & Physical Destructions';
+
+    sidebarContent.innerHTML = `
+      <div class="drawer-fate-card">
+        <div class="drawer-fate-header">
+          <span>🔥</span>
+          <span>Continent-Wide Upheavals at the Crucifixion (AD 34)</span>
+        </div>
+        <p class="drawer-fate-body" style="line-height:1.55;">
+          At the death of Jesus Christ on the cross in Jerusalem, the ancient Americas experienced three hours of colossal earthquakes, volcanic tempests, and fires, followed by three days of dense, impenetrable vapor of darkness where no fire or candle could be lit (3 Nephi 8–10).
+        </p>
+        <button class="btn btn-cataclysm-trigger glow-crimson" id="triggerCataclysmViewBtn" style="margin-top:0.75rem; width:100%; justify-content:center;">
+          🔥 Activate AD 34 Cataclysm Map Layer
+        </button>
+      </div>
+
+      <div class="teachings-card teachings-card-crimson">
+        <div class="teachings-card-title">
+          <span>🔥</span>
+          <span>Cities Burned with Fire (3 Nephi 9:3, 9–10)</span>
+        </div>
+        <div class="teachings-card-body">
+          <p style="font-size:0.83rem; margin-bottom:0.4rem;">Destroyed by fire from heaven to eliminate wickedness and secret combinations:</p>
+          <div style="display:flex; flex-wrap:wrap; gap:4px;">
+            <button class="fly-to-person-btn" data-loc="zarahemla">📍 Zarahemla (Burned)</button>
+            <button class="fly-to-person-btn" data-loc="city_of_jacobugath">📍 Jacobugath</button>
+            <button class="fly-to-person-btn" data-loc="city_of_josh">📍 Josh</button>
+            <button class="fly-to-person-btn" data-loc="city_of_gad">📍 Gad</button>
+            <button class="fly-to-person-btn" data-loc="city_of_kishkumen">📍 Kishkumen</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-bronze">
+        <div class="teachings-card-title">
+          <span>🌊</span>
+          <span>Cities Sunk in the Depths of the Sea (3 Nephi 9:4, 6–7)</span>
+        </div>
+        <div class="teachings-card-body">
+          <p style="font-size:0.83rem; margin-bottom:0.4rem;">Covered by oceanic and inland waters so that waters took the place thereof:</p>
+          <div style="display:flex; flex-wrap:wrap; gap:4px;">
+            <button class="fly-to-person-btn" data-loc="city_of_moroni">📍 City of Moroni (East Sea)</button>
+            <button class="fly-to-person-btn" data-loc="city_of_onihah">📍 Onihah</button>
+            <button class="fly-to-person-btn" data-loc="city_of_mocum">📍 Mocum</button>
+            <button class="fly-to-person-btn" data-loc="city_of_jerusalem">📍 Jerusalem (Waters)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-sage">
+        <div class="teachings-card-title">
+          <span>⛰️</span>
+          <span>Cities Buried in Earth & Mountains Raised (3 Nephi 9:5, 8)</span>
+        </div>
+        <div class="teachings-card-body">
+          <p style="font-size:0.83rem; margin-bottom:0.4rem;">Earth upheavals where valleys became mountains and cities were covered:</p>
+          <div style="display:flex; flex-wrap:wrap; gap:4px;">
+            <button class="fly-to-person-btn" data-loc="city_of_moronihah">📍 Moronihah (Mountain Raised)</button>
+            <button class="fly-to-person-btn" data-loc="city_of_gadiandi">📍 Gadiandi</button>
+            <button class="fly-to-person-btn" data-loc="city_of_gadiomnah">📍 Gadiomnah</button>
+            <button class="fly-to-person-btn" data-loc="city_of_gimgimno">📍 Gimgimno</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-gold">
+        <div class="teachings-card-title">
+          <span>✨</span>
+          <span>The Surviving Remnant</span>
+        </div>
+        <div class="teachings-card-body">
+          <p style="font-size:0.83rem; line-height:1.5; margin:0;">
+            The more righteous part of the people were spared, who received the prophets and did not stone them. These were they who assembled around the Temple in Bountiful when the Resurrected Lord Jesus Christ descended from heaven (3 Nephi 10:12–19; 11:1–17).
+          </p>
+        </div>
+      </div>
+    `;
+
+    const catBtn = document.getElementById('triggerCataclysmViewBtn');
+    if (catBtn && cataclysmQuickToggle) {
+      catBtn.addEventListener('click', () => {
+        cataclysmQuickToggle.click();
+      });
+    }
+
+    sidebarContent.querySelectorAll('.fly-to-person-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const locId = btn.getAttribute('data-loc');
+        if (locId && mapLocations[locId]) selectLocation(locId);
+      });
+    });
+  }
+
+  function renderGlobalChurchStanceTab() {
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'OFFICIAL GOSPEL TOPICS STATEMENT';
+    if (sidebarTitle) sidebarTitle.textContent = 'Church Stance on Book of Mormon Geography';
+
+    sidebarContent.innerHTML = `
+      <div class="drawer-church-stance-card">
+        <div class="church-stance-mini-header">
+          <span style="font-size: 1.4rem;">📜</span>
+          <span class="church-stance-mini-title">First Presidency & Quorum of the Twelve</span>
+        </div>
+        <p class="church-stance-mini-desc" style="font-family: var(--font-scripture); font-size: 1.05rem; font-style: italic; line-height:1.55; margin-top:0.4rem;">
+          "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas... The best guide to Book of Mormon geography is the text of the Book of Mormon itself."
+        </p>
+        <strong style="display: block; text-align: right; font-size: 0.78rem; color: var(--color-crimson); margin-top:0.25rem;">
+          — Official Gospel Topics Essay
+        </strong>
+      </div>
+
+      <div class="teachings-card teachings-card-gold">
+        <div class="teachings-card-title">
+          <span>🔍</span>
+          <span>Internal Geography vs. External Theories</span>
+        </div>
+        <div class="teachings-card-body" style="font-size:0.83rem; line-height:1.55;">
+          <p style="margin-bottom:0.4rem;">
+            This interactive atlas is designed strictly around the <strong>internal textual relationships</strong>, distance metrics (e.g. 'one day and a half's journey'), directional flows (River Sidon flowing north to the sea), and topographical alterations described by the ancient prophet-historians.
+          </p>
+          <p style="margin:0;">
+            The Church emphasizes that while historical and geographic study is interesting, theories identifying external locations (such as Mesoamerica, the Heartland, or South America) are fascinating hypotheses but not official Church doctrine.
+          </p>
+        </div>
+      </div>
+
+      <div class="teachings-card teachings-card-crimson">
+        <div class="teachings-card-title">
+          <span>✝️</span>
+          <span>The True Purpose of the Sacred Record</span>
+        </div>
+        <div class="teachings-card-body" style="font-size:0.83rem; line-height:1.55;">
+          <p style="margin-bottom:0.4rem;">
+            As stated on the Title Page by the ancient prophet Moroni: the primary purpose of the Book of Mormon is to convince the Jew and Gentile that <strong>JESUS is the CHRIST, the ETERNAL GOD</strong>, manifesting Himself unto all nations.
+          </p>
+          <p style="margin:0;">
+            President Russell M. Nelson taught: <em>"The Book of Mormon is not a textbook of topography. While interesting, geographic details are secondary to the eternal message of salvation."</em>
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.4rem;">
+        <button class="btn btn-primary glow-gold" id="openFullStanceWelcomeBtn" style="justify-content:center; width:100%;">
+          📜 Read Full First Presidency Declaration
+        </button>
+        <a href="https://www.churchofjesuschrist.org/study/manual/gospel-topics/book-of-mormon-geography?lang=eng" target="_blank" rel="noopener noreferrer" class="church-scripture-btn" style="justify-content:center; text-decoration:none;">
+          <span>Open on ChurchofJesusChrist.org</span>
+          <span class="btn-arrow">↗</span>
+        </a>
+      </div>
+    `;
+
+    const openBtn = document.getElementById('openFullStanceWelcomeBtn');
+    if (openBtn && disclaimerModal) {
+      openBtn.addEventListener('click', () => openModal(disclaimerModal));
+    }
+  }
+
+  // Sidebar Tab Switching
+  sidebarTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      sidebarTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeTab = tab.getAttribute('data-tab');
+
+      if (activeLocationId && mapLocations[activeLocationId]) {
+        renderSidebarContent(mapLocations[activeLocationId]);
+      } else {
+        renderWelcomeSidebar();
+      }
+    });
+  });
+
+  // Sidebar Open/Close Toggle
+  if (sidebarToggleBtn) {
+    sidebarToggleBtn.addEventListener('click', () => {
+      detailSidebar.classList.toggle('closed');
+    });
+  }
+
+  if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', () => {
+      detailSidebar.classList.add('closed');
+    });
+  }
+
+  if (brandLogoBtn) {
+    brandLogoBtn.addEventListener('click', () => {
+      fitMapToScreen();
+      renderWelcomeSidebar();
+      detailSidebar.classList.remove('closed');
+    });
+  }
+
+  // ==========================================================================
+  // GLOBAL SEARCH & LIVE AUTOCOMPLETE
+  // ==========================================================================
+  if (globalSearchInput) {
+    globalSearchInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim().toLowerCase();
+      if (!query) {
+        clearSearchBtn.style.display = 'none';
+        searchResultsDropdown.style.display = 'none';
+        return;
+      }
+
+      clearSearchBtn.style.display = 'block';
+
+      const matches = Object.values(mapLocations).filter(loc => {
+        if (loc.name.toLowerCase().includes(query)) return true;
+        if (loc.summary && loc.summary.toLowerCase().includes(query)) return true;
+        if (loc.region && loc.region.toLowerCase().includes(query)) return true;
+        if (loc.notablePeople && loc.notablePeople.some(p => p.toLowerCase().includes(query))) return true;
+        if (loc.refs && loc.refs.some(r => r.ref.toLowerCase().includes(query) || r.text.toLowerCase().includes(query))) return true;
+        return false;
+      }).slice(0, 10);
+
+      if (matches.length === 0) {
+        searchResultsDropdown.innerHTML = `<div style="padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--text-muted);">No locations found matching "${query}"</div>`;
+      } else {
+        searchResultsDropdown.innerHTML = '';
+        matches.forEach(loc => {
+          const item = document.createElement('div');
+          item.className = 'search-result-item';
+          item.innerHTML = `
+            <div class="search-result-left">
+              <span class="search-result-title">${loc.name}</span>
+              <span class="search-result-meta">${loc.region}</span>
+            </div>
+            <span class="search-result-badge">${loc.category}</span>
+          `;
+          item.addEventListener('click', () => {
+            selectLocation(loc.id);
+            searchResultsDropdown.style.display = 'none';
+            globalSearchInput.value = loc.name;
+          });
+          searchResultsDropdown.appendChild(item);
+        });
+      }
+
+      searchResultsDropdown.style.display = 'flex';
     });
 
-    bindInstantButton(timelineNextBtn, () => {
-      stopAutoplay();
-      const current = parseInt(eraSlider.value, 10);
-      if (current < chronologicalMilestones.length - 1) applyChronologicalStep(current + 1);
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener('click', () => {
+        globalSearchInput.value = '';
+        clearSearchBtn.style.display = 'none';
+        searchResultsDropdown.style.display = 'none';
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.header-center')) {
+        searchResultsDropdown.style.display = 'none';
+      }
+    });
+  }
+
+  // ==========================================================================
+  // REGIONS FOCUS DROPDOWN
+  // ==========================================================================
+  if (regionSelectBtn && regionDropdown) {
+    regionSelectBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      regionDropdown.classList.toggle('show');
     });
 
-    bindInstantButton(timelinePlayBtn, () => {
+    document.addEventListener('click', () => {
+      regionDropdown.classList.remove('show');
+    });
+
+    regionDropdown.querySelectorAll('.dropdown-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const reg = btn.getAttribute('data-region');
+        zoomToRegion(reg);
+        regionDropdown.classList.remove('show');
+      });
+    });
+  }
+
+  function zoomToRegion(regionKey) {
+    switch (regionKey) {
+      case 'whole-land':
+        fitMapToScreen();
+        break;
+      case 'land-southward':
+        focusLocation(46.0, 68.0, 1.35);
+        break;
+      case 'zarahemla':
+        focusLocation(46.2, 52.8, 2.2);
+        selectLocation('zarahemla');
+        break;
+      case 'land-nephi':
+        focusLocation(38.0, 80.0, 2.0);
+        selectLocation('lehi_nephi');
+        break;
+      case 'narrow-neck':
+        focusLocation(56.0, 32.0, 2.0);
+        selectLocation('narrow_neck');
+        break;
+      case 'land-northward':
+        focusLocation(55.0, 14.0, 1.6);
+        selectLocation('waters_of_ripliancum');
+        break;
+      case 'east-wilderness':
+        focusLocation(68.0, 55.0, 1.8);
+        selectLocation('city_of_moroni');
+        break;
+      case 'west-coast':
+        focusLocation(26.0, 62.0, 1.8);
+        selectLocation('ammonihah');
+        break;
+      default:
+        fitMapToScreen();
+    }
+  }
+
+  // Quick navigation buttons on map
+  if (recenterBtn) recenterBtn.addEventListener('click', fitMapToScreen);
+  if (quickSouthwardBtn) quickSouthwardBtn.addEventListener('click', () => zoomToRegion('land-southward'));
+  if (quickZarahemlaBtn) quickZarahemlaBtn.addEventListener('click', () => zoomToRegion('zarahemla'));
+  if (quickNorthwardBtn) quickNorthwardBtn.addEventListener('click', () => zoomToRegion('land-northward'));
+
+  if (zoomInBtn) {
+    zoomInBtn.addEventListener('click', () => {
+      scale = Math.min(scale * 1.3, maxScale);
+      applyTransform();
+    });
+  }
+
+  if (zoomOutBtn) {
+    zoomOutBtn.addEventListener('click', () => {
+      scale = Math.max(scale / 1.3, minScale);
+      applyTransform();
+    });
+  }
+
+  // Quick Jump Select dropdown in header
+  function setupQuickJumpSelect() {
+    if (!quickJumpSelect) return;
+    const sorted = Object.values(mapLocations).sort((a, b) => a.name.localeCompare(b.name));
+    quickJumpSelect.innerHTML = `<option value="" disabled selected>Jump to Landmark (${sorted.length})...</option>`;
+    sorted.forEach(loc => {
+      const opt = document.createElement('option');
+      opt.value = loc.id;
+      opt.textContent = `${loc.name} (${loc.category})`;
+      quickJumpSelect.appendChild(opt);
+    });
+
+    quickJumpSelect.addEventListener('change', (e) => {
+      if (e.target.value) {
+        selectLocation(e.target.value);
+      }
+    });
+  }
+
+  // Collapsible Map Legend
+  if (legendToggleHeader && mapLegend) {
+    legendToggleHeader.addEventListener('click', () => {
+      const isHidden = legendBody.style.display === 'none';
+      legendBody.style.display = isHidden ? 'flex' : 'none';
+      legendCollapseBtn.textContent = isHidden ? '−' : '+';
+    });
+  }
+
+  // ==========================================================================
+  // GUIDED SCRIPTURAL TOURS / EXPEDITION SYSTEM
+  // ==========================================================================
+  function setupToursGrid() {
+    if (!toursGrid || !mapJourneys) return;
+    toursGrid.innerHTML = '';
+
+    mapJourneys.forEach(tour => {
+      const card = document.createElement('div');
+      card.className = 'tour-card';
+      card.innerHTML = `
+        <div class="tour-card-header">
+          <div class="tour-card-icon">🧭</div>
+          <div>
+            <div class="tour-card-title">${tour.name}</div>
+            <div class="tour-card-meta">${tour.subtitle || ''}</div>
+          </div>
+        </div>
+        <p class="tour-card-desc">${tour.description || ''}</p>
+        <div class="tour-card-footer">
+          <span>${tour.stages.length} Waypoints</span>
+          <span style="color: var(--color-crimson);">Start Expedition &rarr;</span>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        closeModal(tourModal);
+        startTour(tour.id);
+      });
+      toursGrid.appendChild(card);
+    });
+  }
+
+  if (storyToursBtn && tourModal) {
+    storyToursBtn.addEventListener('click', () => {
+      openModal(tourModal);
+    });
+  }
+
+  if (closeTourModalBtn && tourModal) {
+    closeTourModalBtn.addEventListener('click', () => {
+      closeModal(tourModal);
+    });
+  }
+
+  function startTour(tourId) {
+    currentJourney = mapJourneys.find(j => j.id === tourId);
+    if (!currentJourney) return;
+
+    currentStageIndex = 0;
+    renderTourPaths(currentJourney);
+
+    if (tourStepperBar) {
+      tourStepperBar.style.display = 'flex';
+    }
+
+    goToTourStage(0);
+  }
+
+  function renderTourPaths(tour) {
+    if (!pathsGroup) return;
+    pathsGroup.innerHTML = '';
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
+
+    const coordsList = tour.stages.map(stage => {
+      const loc = mapLocations[stage.locId];
+      if (loc && loc.coords) {
+        return {
+          x: (loc.coords.x / 100) * imgWidth,
+          y: (loc.coords.y / 100) * imgHeight
+        };
+      }
+      return null;
+    }).filter(c => c !== null);
+
+    if (coordsList.length < 2) return;
+
+    // Draw connecting path line
+    let d = `M ${coordsList[0].x} ${coordsList[0].y}`;
+    for (let i = 1; i < coordsList.length; i++) {
+      d += ` L ${coordsList[i].x} ${coordsList[i].y}`;
+    }
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', tour.color || '#8B5CF6');
+    path.setAttribute('stroke-width', '4');
+    path.setAttribute('stroke-dasharray', '8 6');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('class', 'active-journey-path');
+    pathsGroup.appendChild(path);
+
+    // Waypoint dots
+    coordsList.forEach((c, idx) => {
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', c.x);
+      circle.setAttribute('cy', c.y);
+      circle.setAttribute('r', '8');
+      circle.setAttribute('fill', '#FFFDF9');
+      circle.setAttribute('stroke', tour.color || '#8B5CF6');
+      circle.setAttribute('stroke-width', '3');
+      pathsGroup.appendChild(circle);
+    });
+  }
+
+  function goToTourStage(index) {
+    if (!currentJourney || index < 0 || index >= currentJourney.stages.length) return;
+    currentStageIndex = index;
+
+    const stage = currentJourney.stages[index];
+    const loc = mapLocations[stage.locId];
+
+    if (stepperTourName) stepperTourName.textContent = currentJourney.name;
+    if (stepperStepCount) stepperStepCount.textContent = `Waypoint ${index + 1} of ${currentJourney.stages.length}`;
+    if (stepperStepNote) stepperStepNote.textContent = stage.note || loc.summary;
+
+    if (tourPrevStepBtn) tourPrevStepBtn.disabled = (index === 0);
+    if (tourNextStepBtn) {
+      tourNextStepBtn.textContent = (index === currentJourney.stages.length - 1) ? 'Finish Tour' : 'Next ▶';
+    }
+
+    if (loc) {
+      selectLocation(loc.id);
+    }
+  }
+
+  if (tourPrevStepBtn) {
+    tourPrevStepBtn.addEventListener('click', () => {
+      if (currentStageIndex > 0) goToTourStage(currentStageIndex - 1);
+    });
+  }
+
+  if (tourNextStepBtn) {
+    tourNextStepBtn.addEventListener('click', () => {
+      if (currentJourney && currentStageIndex < currentJourney.stages.length - 1) {
+        goToTourStage(currentStageIndex + 1);
+      } else {
+        exitTour();
+      }
+    });
+  }
+
+  if (tourExitBtn) {
+    tourExitBtn.addEventListener('click', exitTour);
+  }
+
+  function exitTour() {
+    currentJourney = null;
+    currentStageIndex = 0;
+    if (pathsGroup) pathsGroup.innerHTML = '';
+    if (tourStepperBar) tourStepperBar.style.display = 'none';
+  }
+
+  // ==========================================================================
+  // TIMELINE SCRUBBER & CHRONOLOGICAL ENGINE (2200 BC - AD 421)
+  // ==========================================================================
+  function applyChronologicalStep(step) {
+    currentEraStep = step;
+    const milestone = chronologicalMilestones[step] || chronologicalMilestones[0];
+
+    // Sync range slider
+    if (eraSlider && parseInt(eraSlider.value, 10) !== step) {
+      eraSlider.value = step;
+    }
+
+    // Update Date badge
+    if (displayYear) displayYear.textContent = milestone.yearLabel;
+    if (displaySeason) displaySeason.textContent = milestone.title;
+
+    // Update Floating Watermark
+    if (floatingEraTag) floatingEraTag.textContent = `ERA • ${milestone.yearLabel}`;
+    if (floatingEraTitle) floatingEraTitle.textContent = milestone.title;
+    if (floatingEraDesc) floatingEraDesc.textContent = milestone.subtitle;
+
+    // Update active Era Tab
+    eraTabs.forEach(tab => {
+      const tabStep = parseInt(tab.getAttribute('data-step'), 10);
+      tab.classList.toggle('active', tabStep === step || (step >= tabStep && step < tabStep + 4));
+    });
+
+    // Cataclysm Morphing Logic at AD 34 (Step 20)
+    const isCataclysmActive = step >= 20;
+    if (cataclysmTerrainGroup) {
+      cataclysmTerrainGroup.style.display = (isCataclysmActive && activeLayers.has('cataclysm')) ? 'block' : 'none';
+    }
+
+    // Mark destroyed sites
+    document.querySelectorAll('.map-pin').forEach(pin => {
+      const pinId = pin.getAttribute('data-id');
+      const isDestroyedSite = isCataclysmActive && (
+        pinId === 'zarahemla' || pinId === 'city_of_moroni' || pinId === 'moronihah' ||
+        pinId === 'jerusalem_city' || pinId === 'onihah' || pinId === 'mocum' ||
+        pinId === 'city_of_jacobugath' || pinId === 'city_of_laman' || pinId === 'city_of_josh' ||
+        pinId === 'city_of_gad' || pinId === 'city_of_kishkumen'
+      );
+      pin.classList.toggle('destroyed-marker', isDestroyedSite);
+    });
+
+    if (milestone.isCataclysm) {
+      playCataclysmRumble();
+    }
+  }
+
+  if (eraSlider) {
+    eraSlider.addEventListener('input', (e) => {
+      applyChronologicalStep(parseInt(e.target.value, 10));
+    });
+  }
+
+  eraTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const step = parseInt(tab.getAttribute('data-step'), 10);
+      applyChronologicalStep(step);
+    });
+  });
+
+  // Playback Controls
+  function playTimeline() {
+    isPlaying = true;
+    if (playIcon) playIcon.style.display = 'none';
+    if (pauseIcon) pauseIcon.style.display = 'block';
+
+    const intervals = { 1: 1800, 2: 900, 5: 360 };
+    const delay = intervals[playbackSpeed] || 1800;
+
+    clearInterval(playbackTimer);
+    playbackTimer = setInterval(() => {
+      if (currentEraStep < chronologicalMilestones.length - 1) {
+        applyChronologicalStep(currentEraStep + 1);
+      } else {
+        pauseTimeline();
+      }
+    }, delay);
+  }
+
+  function pauseTimeline() {
+    isPlaying = false;
+    clearInterval(playbackTimer);
+    if (playIcon) playIcon.style.display = 'block';
+    if (pauseIcon) pauseIcon.style.display = 'none';
+  }
+
+  if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', () => {
+      if (isPlaying) pauseTimeline();
+      else playTimeline();
+    });
+  }
+
+  if (stepBackBtn) {
+    stepBackBtn.addEventListener('click', () => {
+      pauseTimeline();
+      if (currentEraStep > 0) applyChronologicalStep(currentEraStep - 1);
+    });
+  }
+
+  if (stepForwardBtn) {
+    stepForwardBtn.addEventListener('click', () => {
+      pauseTimeline();
+      if (currentEraStep < chronologicalMilestones.length - 1) {
+        applyChronologicalStep(currentEraStep + 1);
+      }
+    });
+  }
+
+  // Speed selection
+  speedButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      speedButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      playbackSpeed = parseInt(btn.getAttribute('data-speed'), 10);
       if (isPlaying) {
-        stopAutoplay();
-      } else {
-        startAutoplay();
+        pauseTimeline();
+        playTimeline();
       }
     });
+  });
 
-    bindInstantButton(cataclysmQuickToggle, () => {
-      stopAutoplay();
-      if (parseInt(eraSlider.value, 10) === 20) {
-        applyChronologicalStep(19);
-      } else {
-        applyChronologicalStep(20);
-        focusLocation(64.4, 39.7, 1.25);
-      }
+  // Direct Cataclysm Jump Button
+  if (cataclysmQuickToggle) {
+    cataclysmQuickToggle.addEventListener('click', () => {
+      pauseTimeline();
+      applyChronologicalStep(20);
+      focusLocation(58.2, 59.5, 1.8);
     });
-
-    // Collapse / Expand toggle functionality
-    function setHudCollapsed(collapsed) {
-      if (!cataclysmHud) return;
-      cataclysmHud.classList.toggle('collapsed', collapsed);
-      if (hudToggleArrow) {
-        hudToggleArrow.textContent = collapsed ? '▲' : '▼';
-      }
-      if (hudToggleLabel) {
-        const step = parseInt(eraSlider.value, 10);
-        const milestone = chronologicalMilestones[step] || chronologicalMilestones[19];
-        hudToggleLabel.textContent = collapsed ? `${milestone.yearLabel} • ${milestone.totalCumulativeSites}` : 'Minimize';
-      }
-    }
-
-    if (hudToggleBtn) {
-      hudToggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isCollapsed = cataclysmHud.classList.contains('collapsed');
-        setHudCollapsed(!isCollapsed);
-      });
-    }
-
-    if (cataclysmTitleGroup) {
-      cataclysmTitleGroup.addEventListener('click', () => {
-        if (cataclysmHud && cataclysmHud.classList.contains('collapsed')) {
-          setHudCollapsed(false);
-        }
-      });
-    }
-
-    // Auto-collapse on mobile devices by default so the map is completely visible!
-    if (window.innerWidth <= 768) {
-      setHudCollapsed(true);
-    }
-
-    // Initialize era on load (starts at Step 0: 2200 BC, The Great Dispersion & Jaredite Exodus)
-    applyChronologicalStep(0);
   }
 
-  function playCataclysmRumble() {
-    try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(65, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(28, audioCtx.currentTime + 1.2);
-
-      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + 1.2);
-    } catch (e) {
-      // Audio context may be restricted before gesture
-    }
-  }
-
-  /**
-   * Generates the official Church of Jesus Christ of Latter-day Saints scripture URL
-   * strictly referencing the Book of Mormon on churchofjesuschrist.org
-   */
+  // ==========================================================================
+  // SCRIPTURE READER MODAL (Church of Jesus Christ Official Integration)
+  // ==========================================================================
   function getChurchScriptureUrl(refStr) {
     if (!refStr) return null;
     const cleanRef = refStr.trim();
-    // Matches: "1 Nephi 18:23", "Alma 50:13-15", "Ether 15:8", "Words of Mormon 1:13", "Mormon 5:3"
     const match = cleanRef.match(/^(\d\s+[A-Za-z]+|[A-Za-z\s]+?)\s+(\d+)(?::(\d+)(?:-(\d+))?)?/);
     if (!match) return null;
 
@@ -1435,25 +2282,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const endVerse = match[4];
 
     const bookMap = {
-      '1 nephi': '1-ne',
-      'first nephi': '1-ne',
-      '2 nephi': '2-ne',
-      'second nephi': '2-ne',
-      'jacob': 'jacob',
-      'enos': 'enos',
-      'jarom': 'jarom',
-      'omni': 'omni',
-      'words of mormon': 'w-of-m',
-      'mosiah': 'mosiah',
-      'alma': 'alma',
-      'helaman': 'hel',
-      '3 nephi': '3-ne',
-      'third nephi': '3-ne',
-      '4 nephi': '4-ne',
-      'fourth nephi': '4-ne',
-      'mormon': 'morm',
-      'ether': 'ether',
-      'moroni': 'moro'
+      '1 nephi': '1-ne', 'first nephi': '1-ne',
+      '2 nephi': '2-ne', 'second nephi': '2-ne',
+      'jacob': 'jacob', 'enos': 'enos', 'jarom': 'jarom', 'omni': 'omni',
+      'words of mormon': 'w-of-m', 'mosiah': 'mosiah', 'alma': 'alma',
+      'helaman': 'hel', '3 nephi': '3-ne', 'third nephi': '3-ne',
+      '4 nephi': '4-ne', 'fourth nephi': '4-ne', 'mormon': 'morm',
+      'ether': 'ether', 'moroni': 'moro'
     };
 
     const slug = bookMap[rawBook];
@@ -1461,31 +2296,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let url = `https://www.churchofjesuschrist.org/study/scriptures/bofm/${slug}/${chapter}?lang=eng`;
     if (startVerse) {
-      if (endVerse) {
-        url += `&id=p${startVerse}-p${endVerse}#p${startVerse}`;
-      } else {
-        url += `&id=p${startVerse}#p${startVerse}`;
-      }
+      if (endVerse) url += `&id=p${startVerse}-p${endVerse}#p${startVerse}`;
+      else url += `&id=p${startVerse}#p${startVerse}`;
     }
     return url;
   }
 
-  /**
-   * Opens the in-app Scripture Reader Modal with official Church of Jesus Christ iframe
-   */
-  function openScriptureModal(refStr, verseText, url) {
+  function openScriptureModal(refStr, url) {
     if (!url) url = getChurchScriptureUrl(refStr);
     if (!url) return;
 
-    if (scriptureModalTitle) {
-      scriptureModalTitle.innerText = `${refStr} — Book of Mormon`;
-    }
-    if (scriptureExternalLink) {
-      scriptureExternalLink.href = url;
-    }
+    if (scriptureModalTitle) scriptureModalTitle.textContent = `${refStr} — Book of Mormon`;
+    if (scriptureExternalLink) scriptureExternalLink.href = url;
     if (scriptureFooterLink) {
       scriptureFooterLink.href = url;
-      scriptureFooterLink.innerText = url;
+      scriptureFooterLink.textContent = url;
     }
 
     if (scriptureLoading) {
@@ -1498,9 +2323,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scriptureIframe.onload = () => {
         if (scriptureLoading) {
           scriptureLoading.style.opacity = '0';
-          setTimeout(() => {
-            scriptureLoading.style.display = 'none';
-          }, 250);
+          setTimeout(() => { scriptureLoading.style.display = 'none'; }, 250);
         }
       };
     }
@@ -1510,556 +2333,113 @@ document.addEventListener('DOMContentLoaded', () => {
       scriptureModal.setAttribute('aria-hidden', 'false');
     }
 
-    // Safety fallback: dismiss loading screen after 4s so user can view whatever content arrived
     setTimeout(() => {
       if (scriptureLoading && scriptureLoading.style.display !== 'none') {
         scriptureLoading.style.opacity = '0';
-        setTimeout(() => {
-          scriptureLoading.style.display = 'none';
-        }, 250);
+        setTimeout(() => { scriptureLoading.style.display = 'none'; }, 250);
       }
     }, 4000);
   }
 
-  /**
-   * Closes the Scripture Reader Modal
-   */
   function closeScriptureModal() {
     if (!scriptureModal) return;
     scriptureModal.classList.remove('open');
     scriptureModal.setAttribute('aria-hidden', 'true');
     setTimeout(() => {
-      if (!scriptureModal.classList.contains('open') && scriptureIframe) {
-        scriptureIframe.src = 'about:blank';
-      }
+      if (scriptureIframe) scriptureIframe.src = 'about:blank';
     }, 250);
   }
 
-  if (closeScriptureModalBtn) {
-    closeScriptureModalBtn.addEventListener('click', closeScriptureModal);
-  }
-  if (scriptureModalBackdrop) {
-    scriptureModalBackdrop.addEventListener('click', closeScriptureModal);
-  }
+  if (closeScriptureModalBtn) closeScriptureModalBtn.addEventListener('click', closeScriptureModal);
+  if (scriptureModalBackdrop) scriptureModalBackdrop.addEventListener('click', closeScriptureModal);
 
-  /**
-   * Setup Old World Origins Modal & Landfall Navigation
-   */
-  const oldWorldModal = document.getElementById('oldWorldModal');
-  const openOldWorldBtn = document.getElementById('openOldWorldBtn');
-  const closeOldWorldModalBtn = document.getElementById('closeOldWorldModal');
-  const oldWorldModalBackdrop = document.getElementById('oldWorldModalBackdrop');
-
-  function openOldWorldModal() {
-    if (oldWorldModal) {
-      oldWorldModal.classList.add('open');
-      oldWorldModal.setAttribute('aria-hidden', 'false');
-    }
-  }
-
-  function closeOldWorldModal() {
-    if (oldWorldModal) {
-      oldWorldModal.classList.remove('open');
-      oldWorldModal.setAttribute('aria-hidden', 'true');
-    }
-  }
-
+  // ==========================================================================
+  // OLD WORLD ORIGINS & CHURCH DISCLAIMER MODALS (Fixing Church Stance)
+  // ==========================================================================
   if (openOldWorldBtn) {
-    openOldWorldBtn.addEventListener('click', openOldWorldModal);
+    openOldWorldBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(oldWorldModal);
+    });
   }
-  if (closeOldWorldModalBtn) {
-    closeOldWorldModalBtn.addEventListener('click', closeOldWorldModal);
-  }
-  if (oldWorldModalBackdrop) {
-    oldWorldModalBackdrop.addEventListener('click', closeOldWorldModal);
-  }
-
-  /**
-   * Official Church Gospel Topics Geography Disclaimer Modal
-   */
-  const disclaimerModal = document.getElementById('disclaimerModal');
-  const disclaimerModalBackdrop = document.getElementById('disclaimerModalBackdrop');
-  const openDisclaimerBtn = document.getElementById('openDisclaimerBtn');
-  const closeDisclaimerBtn = document.getElementById('closeDisclaimerBtn');
-
-  function openDisclaimerModal() {
-    if (disclaimerModal) {
-      disclaimerModal.classList.add('open');
-      disclaimerModal.setAttribute('aria-hidden', 'false');
-    }
-  }
-
-  function closeDisclaimerModal() {
-    if (disclaimerModal) {
-      disclaimerModal.classList.remove('open');
-      disclaimerModal.setAttribute('aria-hidden', 'true');
-    }
+  if (closeOldWorldModal) {
+    closeOldWorldModal.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeModal(oldWorldModal);
+    });
   }
 
   if (openDisclaimerBtn) {
-    openDisclaimerBtn.addEventListener('click', openDisclaimerModal);
-  }
-  const bannerOpenDisclaimerBtn = document.getElementById('bannerOpenDisclaimerBtn');
-  if (bannerOpenDisclaimerBtn) {
-    bannerOpenDisclaimerBtn.addEventListener('click', openDisclaimerModal);
-  }
-  const drawerOpenDisclaimerBtn = document.getElementById('drawerOpenDisclaimerBtn');
-  if (drawerOpenDisclaimerBtn) {
-    drawerOpenDisclaimerBtn.addEventListener('click', openDisclaimerModal);
-  }
-  const dismissChurchBannerBtn = document.getElementById('dismissChurchBannerBtn');
-  if (dismissChurchBannerBtn) {
-    dismissChurchBannerBtn.addEventListener('click', () => {
-      const banner = document.getElementById('churchStanceBanner');
-      if (banner) banner.style.display = 'none';
-    });
-  }
-  if (closeDisclaimerBtn) {
-    closeDisclaimerBtn.addEventListener('click', closeDisclaimerModal);
-  }
-  if (disclaimerModalBackdrop) {
-    disclaimerModalBackdrop.addEventListener('click', closeDisclaimerModal);
-  }
-  if (disclaimerModal) {
-    disclaimerModal.addEventListener('click', (e) => {
-      if (e.target === disclaimerModal) {
-        closeDisclaimerModal();
-      }
-    });
-  }
-
-  // Interactive Scriptural Distance Scale Modal
-  const mapScaleContainer = document.getElementById('mapScaleContainer');
-  const distanceScaleModal = document.getElementById('distanceScaleModal');
-  const distanceModalBackdrop = document.getElementById('distanceModalBackdrop');
-  const closeDistanceModalBtn = document.getElementById('closeDistanceModalBtn');
-  const closeDistanceModalCta = document.getElementById('closeDistanceModalCta');
-
-  function openDistanceModal() {
-    if (distanceScaleModal) {
-      distanceScaleModal.classList.add('open');
-      distanceScaleModal.setAttribute('aria-hidden', 'false');
-    }
-  }
-
-  function closeDistanceModal() {
-    if (distanceScaleModal) {
-      distanceScaleModal.classList.remove('open');
-      distanceScaleModal.setAttribute('aria-hidden', 'true');
-    }
-  }
-
-  if (mapScaleContainer) {
-    mapScaleContainer.addEventListener('pointerdown', (e) => e.stopPropagation());
-    mapScaleContainer.addEventListener('click', (e) => {
+    openDisclaimerBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      openDistanceModal();
+      openModal(disclaimerModal);
     });
   }
-  if (closeDistanceModalBtn) {
-    closeDistanceModalBtn.addEventListener('click', closeDistanceModal);
-  }
-  if (closeDistanceModalCta) {
-    closeDistanceModalCta.addEventListener('click', closeDistanceModal);
-  }
-  if (distanceModalBackdrop) {
-    distanceModalBackdrop.addEventListener('click', closeDistanceModal);
-  }
-  if (distanceScaleModal) {
-    distanceScaleModal.addEventListener('click', (e) => {
-      if (e.target === distanceScaleModal) {
-        closeDistanceModal();
-      }
-    });
-  }
-
-  /**
-   * Interactive Continuous River Sidon Path
-   */
-  const riverSidonGroup = document.getElementById('riverSidonGroup');
-  if (riverSidonGroup) {
-    riverSidonGroup.addEventListener('click', (e) => {
+  if (closeDisclaimerModal) {
+    closeDisclaimerModal.addEventListener('click', (e) => {
       e.stopPropagation();
-      openCodex('river_sidon');
-      const loc = mapLocations['river_sidon'];
-      if (loc) {
-        focusLocation(loc.coords.x, loc.coords.y, 1.25);
-      }
+      closeModal(disclaimerModal);
     });
   }
 
-  // Handle jump-landfall buttons inside the Old World modal
-  document.querySelectorAll('.btn-jump-landfall').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const targetId = btn.dataset.targetId;
-      if (!targetId) return;
-      closeOldWorldModal();
-      const loc = mapLocations[targetId];
-      if (loc) {
-        focusLocation(loc.coords.x, loc.coords.y, 1.55);
-        openCodex(targetId);
-      }
+  // Close modals on backdrop click
+  [tourModal, oldWorldModal, disclaimerModal].forEach(m => {
+    if (!m) return;
+    m.addEventListener('click', (e) => {
+      if (e.target === m) closeModal(m);
     });
   });
 
-  /**
-   * Setup Journey Selector & Path Rendering
-   */
-  function setupJourneys() {
-    journeySelect.innerHTML = `<option value="">-- Scriptural Journeys (${mapJourneys.length}) --</option>`;
-    mapJourneys.forEach(journey => {
-      const option = document.createElement('option');
-      option.value = journey.id;
-      option.textContent = journey.name;
-      journeySelect.appendChild(option);
-    });
-
-    journeySelect.addEventListener('change', (e) => {
-      startJourney(e.target.value);
+  // ==========================================================================
+  // COORDINATE INSPECTOR & SCALE BAR
+  // ==========================================================================
+  if (toggleInspectorBtn) {
+    toggleInspectorBtn.addEventListener('click', () => {
+      isInspectorActive = !isInspectorActive;
+      toggleInspectorBtn.classList.toggle('active', isInspectorActive);
+      coordsInspectorBadge.classList.toggle('active', isInspectorActive);
+      inspectorBtnText.textContent = isInspectorActive ? 'Inspector: ON' : 'Inspector: OFF';
     });
   }
 
-  /**
-   * Start a Scriptural Journey & activate the Expedition Player Bar
-   */
-  function startJourney(journeyId) {
-    pathsGroup.innerHTML = '';
-    if (!journeyId) {
-      currentJourney = null;
-      expeditionPlayerBar.classList.remove('active');
-      document.querySelectorAll('.map-marker').forEach(m => {
-        m.style.opacity = '1';
-        m.style.pointerEvents = 'auto';
+  viewport.addEventListener('mousemove', (e) => {
+    if (!isInspectorActive) return;
+    const rect = viewport.getBoundingClientRect();
+    const vX = e.clientX - rect.left;
+    const vY = e.clientY - rect.top;
+
+    const imgX = (vX - translateX) / scale;
+    const imgY = (vY - translateY) / scale;
+
+    const pctX = ((imgX / MAP_BASE_WIDTH) * 100).toFixed(1);
+    const pctY = ((imgY / MAP_BASE_HEIGHT) * 100).toFixed(1);
+
+    if (pctX >= 0 && pctX <= 100 && pctY >= 0 && pctY <= 100) {
+      lastHoveredPct = { x: pctX, y: pctY };
+      coordsBadgeText.innerHTML = `Map Pos: X: ${pctX}% | Y: ${pctY}%`;
+    }
+  });
+
+  if (coordsInspectorBadge) {
+    coordsInspectorBadge.addEventListener('click', () => {
+      const coordStr = `{ x: ${lastHoveredPct.x}, y: ${lastHoveredPct.y} }`;
+      navigator.clipboard.writeText(coordStr).then(() => {
+        playGentleChime();
+        copyToast.textContent = `Copied ${coordStr} to clipboard!`;
+        copyToast.classList.add('show');
+        setTimeout(() => copyToast.classList.remove('show'), 2000);
       });
-      return;
-    }
-
-    currentJourney = mapJourneys.find(j => j.id === journeyId);
-    if (!currentJourney) return;
-
-    currentStageIndex = 0;
-
-    expeditionTitle.textContent = currentJourney.name;
-    expeditionSubtitle.textContent = currentJourney.subtitle;
-    expeditionPlayerBar.classList.add('active');
-
-    drawJourneyPath(currentJourney);
-    goToJourneyStage(0);
-  }
-
-  /**
-   * Draw the glowing SVG paths for a journey
-   */
-  function drawJourneyPath(journey) {
-    pathsGroup.innerHTML = '';
-    const imgWidth = MAP_BASE_WIDTH;
-    const imgHeight = MAP_BASE_HEIGHT;
-
-    const points = journey.waypoints.map(id => {
-      const loc = mapLocations[id];
-      if (!loc) return null;
-      return {
-        x: (loc.coords.x / 100) * imgWidth,
-        y: (loc.coords.y / 100) * imgHeight,
-        id: loc.id
-      };
-    }).filter(Boolean);
-
-    if (points.length < 2) return;
-
-    let pathD = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      const prev = points[i - 1];
-      const curr = points[i];
-      const midX = (prev.x + curr.x) / 2 + (Math.random() * 16 - 8);
-      const midY = (prev.y + curr.y) / 2 - 14;
-      pathD += ` Q ${midX} ${midY}, ${curr.x} ${curr.y}`;
-    }
-
-    const glowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    glowPath.setAttribute('d', pathD);
-    glowPath.setAttribute('fill', 'none');
-    glowPath.setAttribute('stroke', journey.color);
-    glowPath.setAttribute('stroke-width', '8');
-    glowPath.setAttribute('class', 'journey-path-glow');
-    pathsGroup.appendChild(glowPath);
-
-    const mainPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    mainPath.setAttribute('d', pathD);
-    mainPath.setAttribute('fill', 'none');
-    mainPath.setAttribute('stroke', '#fff');
-    mainPath.setAttribute('stroke-width', '3');
-    mainPath.setAttribute('class', 'journey-path');
-    pathsGroup.appendChild(mainPath);
-
-    document.querySelectorAll('.map-marker').forEach(m => {
-      const isWaypoint = journey.waypoints.includes(m.dataset.id);
-      m.style.opacity = isWaypoint ? '1' : '0.2';
-      m.style.pointerEvents = isWaypoint ? 'auto' : 'none';
-      if (isWaypoint) {
-        m.style.display = 'block';
-      }
     });
   }
 
-  /**
-   * Navigate to a specific stage of the active journey
-   */
-  function goToJourneyStage(index) {
-    if (!currentJourney) return;
-    const totalStages = currentJourney.stages ? currentJourney.stages.length : currentJourney.waypoints.length;
-    if (index < 0 || index >= totalStages) return;
-
-    currentStageIndex = index;
-
-    const stageData = currentJourney.stages ? currentJourney.stages[index] : null;
-    const waypointId = stageData ? stageData.locId : currentJourney.waypoints[index];
-    const loc = mapLocations[waypointId];
-
-    expStepIndicator.textContent = `Stage ${index + 1} of ${totalStages}`;
-    if (stageData && stageData.note) {
-      expeditionStepNote.textContent = `${loc ? loc.name + ': ' : ''}${stageData.note}`;
-    } else if (loc) {
-      expeditionStepNote.textContent = `${loc.name} — ${loc.title}`;
-    }
-
-    if (loc) {
-      openCodex(loc.id);
-    }
-  }
-
-  expPrevBtn.addEventListener('click', () => {
-    goToJourneyStage(currentStageIndex - 1);
-  });
-
-  expNextBtn.addEventListener('click', () => {
-    goToJourneyStage(currentStageIndex + 1);
-  });
-
-  expExitBtn.addEventListener('click', () => {
-    journeySelect.value = '';
-    startJourney('');
-  });
-
-  /**
-   * Filter markers by category
-   */
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const category = btn.dataset.category;
-
-      const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
-
-      document.querySelectorAll('.map-marker').forEach(marker => {
-        const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
-        const matchesCategory = (category === 'all' || marker.dataset.category === category);
-        const isChronologicallyFounded = (foundedStep <= currentStep);
-
-        if (!matchesCategory) {
-          marker.style.display = 'none';
-        } else {
-          marker.style.display = 'block';
-          marker.classList.toggle('future-settlement', !isChronologicallyFounded);
-          marker.classList.toggle('established-settlement', isChronologicallyFounded);
-        }
-        marker.classList.remove('dimmed', 'search-match');
-      });
-
-      document.querySelectorAll('.territory-polygon').forEach(poly => {
-        const matches = category === 'all' || poly.dataset.category === category;
-        poly.style.display = matches ? 'block' : 'none';
-      });
-
-      if (category !== 'all' && currentJourney) {
-        journeySelect.value = '';
-        startJourney('');
-      }
-    });
-  });
-
-  /**
-   * Deep Search handler with Dimming & Clear Button
-   */
-  /**
-   * Deep Search handler with Intelligent Token & Synonym Matching
-   * Supports:
-   * - "Anti-Lehi-Nephites" / "Anti-Nephi-Lehies" / "People of Ammon" / "Ammonites"
-   * - "2,000 Stripling Warriors" / "Sons of Helaman"
-   * - Multiple query words matching anywhere in name, region, summary, people, aliases, or refs
-   */
-  function applySearch(term) {
-    const rawTerm = term.trim();
-    term = rawTerm.toLowerCase();
-    clearSearchBtn.style.display = term ? 'block' : 'none';
-
-    if (!term) {
-      document.querySelectorAll('.map-marker').forEach(marker => {
-        marker.classList.remove('dimmed', 'search-match');
-        marker.style.display = 'block';
-      });
-      return;
-    }
-
-    // Normalize query tokens (handle hyphens, apostrophes, plural endings)
-    // E.g. "Anti-Lehi-Nephites" -> tokens: ["anti", "lehi", "nephites"]
-    const cleanedTerm = term.replace(/[-_.,;:'"]/g, ' ');
-    const tokens = cleanedTerm.split(/\s+/).filter(t => t.length > 0);
-
-    // Check for common synonymous phrases:
-    const hasAnti = tokens.includes('anti');
-    const hasLehi = tokens.includes('lehi') || tokens.includes('lehies') || tokens.includes('lehites');
-    const hasNephi = tokens.includes('nephi') || tokens.includes('nephite') || tokens.includes('nephites');
-    const isAntiNephiLehiQuery = (hasAnti && (hasLehi || hasNephi)) || 
-      term.includes('ammonite') || 
-      (tokens.includes('people') && tokens.includes('ammon')) ||
-      term.includes('anti-lehi') ||
-      term.includes('anti-nephi');
-
-    const isStriplingQuery = term.includes('stripling') || 
-      term.includes('2000') || 
-      term.includes('2,000') || 
-      (tokens.includes('sons') && tokens.includes('helaman'));
-
-    let firstMatch = null;
-    let matchCount = 0;
-
-    document.querySelectorAll('.map-marker').forEach(marker => {
-      const loc = mapLocations[marker.dataset.id];
-      if (!loc) return;
-
-      const nameStr = (loc.name || '').toLowerCase();
-      const titleStr = (loc.title || '').toLowerCase();
-      const regionStr = (loc.region || '').toLowerCase();
-      const summaryStr = (loc.summary || '').toLowerCase();
-      const roleStr = (loc.strategicRole || '').toLowerCase();
-      const descStr = (loc.description || '').toLowerCase();
-      const eventsStr = (loc.historicalEvents || []).join(' ').toLowerCase();
-      const peopleStr = (loc.notablePeople || []).join(' ').toLowerCase();
-      const aliasesStr = (loc.aliases || []).join(' ').toLowerCase();
-      const refsStr = (loc.refs || []).map(r => r.ref + ' ' + r.text).join(' ').toLowerCase();
-
-      // Combined search corpus for this location
-      const corpus = `${nameStr} ${titleStr} ${regionStr} ${summaryStr} ${roleStr} ${descStr} ${eventsStr} ${peopleStr} ${aliasesStr} ${refsStr}`;
-      const normalizedCorpus = corpus.replace(/[-_.,;:'"]/g, ' ');
-
-      // 1. Direct match on full term
-      let matches = corpus.includes(term) || normalizedCorpus.includes(cleanedTerm);
-
-      // 2. Alias / Synonym expansion match for Anti-Nephi-Lehies / Anti-Lehi-Nephites
-      if (!matches && isAntiNephiLehiQuery) {
-        if (
-          corpus.includes('anti-nephi-lehi') || 
-          corpus.includes('anti-lehi-nephi') ||
-          corpus.includes('people of ammon') || 
-          corpus.includes('ammonites') ||
-          loc.id === 'jershon' ||
-          loc.id === 'melek' ||
-          loc.id === 'judea'
-        ) {
-          matches = true;
-        }
-      }
-
-      // 3. Synonym expansion for 2,000 Stripling Warriors
-      if (!matches && isStriplingQuery) {
-        if (
-          corpus.includes('stripling') || 
-          corpus.includes('2,000') || 
-          corpus.includes('two thousand') ||
-          loc.id === 'judea' ||
-          loc.id === 'cumeni' ||
-          loc.id === 'antiparah'
-        ) {
-          matches = true;
-        }
-      }
-
-      // 4. Multi-token match: every token in user query matches anywhere in corpus
-      if (!matches && tokens.length > 1) {
-        const allTokensFound = tokens.every(tok => {
-          const stem = tok.endsWith('s') && tok.length > 4 ? tok.slice(0, -1) : tok;
-          return normalizedCorpus.includes(tok) || normalizedCorpus.includes(stem);
-        });
-        if (allTokensFound) matches = true;
-      }
-
-      if (matches) {
-        marker.classList.remove('dimmed');
-        marker.classList.add('search-match');
-        marker.style.display = 'block';
-        matchCount++;
-        if (!firstMatch) firstMatch = loc;
-      } else {
-        marker.classList.add('dimmed');
-        marker.classList.remove('search-match');
-      }
-    });
-
-    if (matchCount === 1 && firstMatch && term.length > 2) {
-      focusLocation(firstMatch.coords.x, firstMatch.coords.y);
-      openCodex(firstMatch.id);
-    }
-  }
-
-  function clearSearch() {
-    searchInput.value = '';
-    clearSearchBtn.style.display = 'none';
-    const currentStep = eraSlider ? parseInt(eraSlider.value, 10) : 19;
-    const activeCatBtn = document.querySelector('.filter-btn.active');
-    const currentCat = activeCatBtn ? activeCatBtn.dataset.category : 'all';
-
-    document.querySelectorAll('.map-marker').forEach(marker => {
-      marker.classList.remove('dimmed', 'search-match');
-      const foundedStep = parseInt(marker.dataset.foundedStep !== undefined ? marker.dataset.foundedStep : '0', 10);
-      const matchesCategory = (currentCat === 'all' || marker.dataset.category === currentCat);
-      const isChronologicallyFounded = (foundedStep <= currentStep);
-
-      if (!matchesCategory) {
-        marker.style.display = 'none';
-      } else {
-        marker.style.display = 'block';
-        marker.classList.toggle('future-settlement', !isChronologicallyFounded);
-        marker.classList.toggle('established-settlement', isChronologicallyFounded);
-      }
-    });
-  }
-
-  searchInput.addEventListener('input', (e) => {
-    applySearch(e.target.value);
-  });
-
-  clearSearchBtn.addEventListener('click', () => {
-    clearSearch();
-    searchInput.focus();
-  });
-
-  /**
-   * Pointer & Drag Panning Listeners
-   */
+  // ==========================================================================
+  // PAN, ZOOM, DRAG & TOUCH INTERACTIONS
+  // ==========================================================================
   viewport.addEventListener('pointerdown', (e) => {
-    if (
-      e.target.closest('.cataclysm-hud') ||
-      e.target.closest('#codexDrawer') ||
-      e.target.closest('.hud-btn') ||
-      e.target.closest('.map-marker') ||
-      e.target.closest('.territory-polygon') ||
-      e.target.closest('.terrain-feature') ||
-      e.target.closest('.expedition-player-bar') ||
-      e.target.closest('.coords-inspector-badge') ||
-      e.target.closest('.map-scale-bar-container') ||
-      e.target.closest('#mapScaleContainer')
-    ) return;
-
-    // If flyout codex panel is open and user clicks or begins dragging the map, dismiss the flyout
-    if (codexDrawer && codexDrawer.classList.contains('open')) {
-      closeCodex();
+    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
+      return;
     }
-
     isDragging = true;
-    viewport.classList.add('panning');
     startPointerX = e.clientX;
     startPointerY = e.clientY;
     startTranslateX = translateX;
@@ -2068,19 +2448,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   viewport.addEventListener('pointermove', (e) => {
-    // Update live inspector coordinates
-    const stageRect = stage.getBoundingClientRect();
-    const xPct = Math.max(0, Math.min(100, (((e.clientX - stageRect.left) / stageRect.width) * 100))).toFixed(1);
-    const yPct = Math.max(0, Math.min(100, (((e.clientY - stageRect.top) / stageRect.height) * 100))).toFixed(1);
-
-    lastHoveredPct = { x: xPct, y: yPct };
-
-    if (isInspectorActive && coordsBadgeText) {
-      coordsBadgeText.innerHTML = `<strong>Map Pos:</strong> X: ${xPct}% | Y: ${yPct}%`;
-    }
-
     if (!isDragging) return;
-
     const dx = e.clientX - startPointerX;
     const dy = e.clientY - startPointerY;
     translateX = startTranslateX + dx;
@@ -2088,67 +2456,36 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTransform();
   });
 
-  function stopDrag(e) {
+  viewport.addEventListener('pointerup', (e) => {
     if (isDragging) {
       isDragging = false;
-      viewport.classList.remove('panning');
       try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
     }
-  }
-
-  viewport.addEventListener('pointerup', stopDrag);
-  viewport.addEventListener('pointercancel', stopDrag);
-
-  /**
-   * Viewport Click: If Inspector is Active, copy coordinates!
-   */
-  viewport.addEventListener('click', (e) => {
-    if (!isInspectorActive) return;
-    if (e.target.closest('.hud-btn') || e.target.closest('.expedition-player-bar')) return;
-
-    const stageRect = stage.getBoundingClientRect();
-    const xPct = Math.max(0, Math.min(100, (((e.clientX - stageRect.left) / stageRect.width) * 100))).toFixed(1);
-    const yPct = Math.max(0, Math.min(100, (((e.clientY - stageRect.top) / stageRect.height) * 100))).toFixed(1);
-
-    copyCoordinatesToClipboard(xPct, yPct);
   });
 
-  /**
-   * Inspector Badge Direct Click: Copy current position!
-   */
-  coordsInspectorBadge.addEventListener('click', (e) => {
-    e.stopPropagation();
-    copyCoordinatesToClipboard(lastHoveredPct.x, lastHoveredPct.y);
+  viewport.addEventListener('pointercancel', (e) => {
+    isDragging = false;
+    try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
   });
 
-  /**
-   * Toggle Coordinate Inspector Tool
-   */
-  toggleInspectorBtn.addEventListener('click', () => {
-    isInspectorActive = !isInspectorActive;
-    toggleInspectorBtn.classList.toggle('active', isInspectorActive);
-    coordsInspectorBadge.classList.toggle('visible', isInspectorActive);
-    inspectorBtnText.textContent = isInspectorActive ? 'Inspector: ON' : 'Inspector: OFF';
-    viewport.style.cursor = isInspectorActive ? 'crosshair' : '';
-    if (isInspectorActive) {
-      copyToast.textContent = "Inspector ON: Click anywhere on map or on this badge to copy coordinates!";
-      copyToast.classList.add('show');
-      setTimeout(() => copyToast.classList.remove('show'), 2600);
-    }
-  });
-
-  /**
-   * Mouse Wheel Zoom
-   */
+  // Mouse Wheel Zoom
   viewport.addEventListener('wheel', (e) => {
     e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
-    zoomAtPoint(zoomFactor, e.clientX, e.clientY);
+    const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
+    const newScale = Math.min(Math.max(scale * zoomFactor, minScale), maxScale);
+
+    const rect = viewport.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    translateX = mouseX - (mouseX - translateX) * (newScale / scale);
+    translateY = mouseY - (mouseY - translateY) * (newScale / scale);
+    scale = newScale;
+
+    applyTransform();
   }, { passive: false });
 
-  /**
-   * Touch Pinch-to-Zoom
-   */
+  // Touch Gesture Pinch
   viewport.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
       touchStartDist = Math.hypot(
@@ -2157,102 +2494,57 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       touchStartScale = scale;
     }
-  });
+  }, { passive: true });
 
   viewport.addEventListener('touchmove', (e) => {
     if (e.touches.length === 2) {
-      e.preventDefault();
-      const currentDist = Math.hypot(
+      const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
       if (touchStartDist > 0) {
-        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        const factor = currentDist / touchStartDist;
-        const targetScale = Math.max(minScale, Math.min(maxScale, touchStartScale * factor));
-        zoomAtPoint(targetScale / scale, midX, midY);
+        const factor = dist / touchStartDist;
+        scale = Math.min(Math.max(touchStartScale * factor, minScale), maxScale);
+        applyTransform();
       }
     }
-  }, { passive: false });
+  }, { passive: true });
 
-  /**
-   * HUD Zoom Buttons
-   */
-  zoomInBtn.addEventListener('click', () => {
-    const rect = viewport.getBoundingClientRect();
-    zoomAtPoint(1.25, rect.left + rect.width / 2, rect.top + rect.height / 2);
-  });
-
-  zoomOutBtn.addEventListener('click', () => {
-    const rect = viewport.getBoundingClientRect();
-    zoomAtPoint(0.8, rect.left + rect.width / 2, rect.top + rect.height / 2);
-  });
-
-  resetZoomBtn.addEventListener('click', fitMapToScreen);
-
-  /**
-   * Dismiss welcome toast
-   */
-  if (dismissIntroBtn) {
-    dismissIntroBtn.addEventListener('click', () => {
-      introToast.classList.add('hide');
-    });
-  }
-
-  /**
-   * Keyboard shortcuts
-   */
+  // Keyboard Shortcuts
   window.addEventListener('keydown', (e) => {
+    if (document.activeElement === globalSearchInput) return;
+
     if (e.key === 'Escape') {
-      if (scriptureModal && scriptureModal.classList.contains('open')) {
-        closeScriptureModal();
-        return;
+      if (detailSidebar && !detailSidebar.classList.contains('closed')) {
+        detailSidebar.classList.add('closed');
       }
-      if (distanceScaleModal && distanceScaleModal.classList.contains('open')) {
-        closeDistanceModal();
-        return;
-      }
-      if (disclaimerModal && disclaimerModal.classList.contains('open')) {
-        closeDisclaimerModal();
-        return;
-      }
-      closeCodex();
-      clearSearch();
-      if (currentJourney) {
-        startJourney('');
-        journeySelect.value = '';
-      }
+      [tourModal, oldWorldModal, disclaimerModal].forEach(m => m && closeModal(m));
+      closeScriptureModal();
+      exitTour();
+    } else if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      if (isPlaying) pauseTimeline();
+      else playTimeline();
+    } else if (e.key === 'ArrowRight') {
+      stepForwardBtn.click();
+    } else if (e.key === 'ArrowLeft') {
+      stepBackBtn.click();
     } else if (e.key === '+' || e.key === '=') {
       zoomInBtn.click();
     } else if (e.key === '-' || e.key === '_') {
       zoomOutBtn.click();
     } else if (e.key === '0') {
-      fitMapToScreen();
-    } else if (e.key === 'f' && document.activeElement !== searchInput) {
-      e.preventDefault();
-    } else if (e.key === ' ' && document.activeElement !== searchInput) {
-      e.preventDefault();
-      if (timelinePlayBtn) timelinePlayBtn.click();
-    } else if (currentJourney && e.key === 'ArrowRight') {
-      goToJourneyStage(currentStageIndex + 1);
-    } else if (currentJourney && e.key === 'ArrowLeft') {
-      goToJourneyStage(currentStageIndex - 1);
-    } else if (!currentJourney && e.key === 'ArrowRight') {
-      if (timelineNextBtn) timelineNextBtn.click();
-    } else if (!currentJourney && e.key === 'ArrowLeft') {
-      if (timelinePrevBtn) timelinePrevBtn.click();
+      recenterBtn.click();
     }
   });
 
-  let resizeDebounce = null;
+  // Resize window handler
   window.addEventListener('resize', () => {
-    clearTimeout(resizeDebounce);
-    resizeDebounce = setTimeout(() => {
+    if (scale < minScale) {
       fitMapToScreen();
-    }, 150);
+    }
   });
 
-  // Start initialization
+  // Launch initial map setup
   initMap();
 });

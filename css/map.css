@@ -1,0 +1,431 @@
+/* ==========================================================================
+   MAP VIEWPORT, CARTOGRAPHY, MARKERS & FLOATING HUDS
+   ========================================================================== */
+
+.app-main-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: calc(100vh - var(--header-height) - var(--filterbar-height) - var(--footer-height));
+  background: #1e1711;
+}
+
+.map-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.map-viewport:active {
+  cursor: grabbing;
+}
+
+.map-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.map-artwork {
+  display: block;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+/* SVG Overlay Layer */
+.journey-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.territory-group,
+.cataclysm-terrain-group,
+.paths-group,
+.river-sidon-group {
+  pointer-events: auto;
+}
+
+/* Markers Layer */
+.markers-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Individual Map Pins & Markers */
+.map-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.map-pin:hover {
+  transform: translate(-50%, -50%) scale(1.22);
+  z-index: 50;
+}
+
+.map-pin.active {
+  transform: translate(-50%, -50%) scale(1.3);
+  z-index: 60;
+}
+
+.pin-icon-wrap {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+  border: 2px solid var(--color-crimson);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.pin-icon-wrap.capital {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #FDE68A 0%, #D97706 100%);
+  border: 2px solid #FFF8EB;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.8), 0 2px 6px rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+
+.pin-icon-wrap.fortress {
+  border-color: #991B1B;
+  background: #FEF2F2;
+}
+
+.pin-icon-wrap.sacred {
+  border-color: #059669;
+  background: #ECFDF5;
+}
+
+.pin-icon-wrap.waters {
+  border-color: #0284C7;
+  background: #F0F9FF;
+}
+
+.pin-icon-wrap.wilderness {
+  border-color: #78350F;
+  background: #FEF3C7;
+}
+
+/* Pulsing effect for active marker */
+.map-pin.active .pin-icon-wrap {
+  box-shadow: 0 0 0 5px rgba(197, 160, 89, 0.5), 0 0 18px rgba(197, 160, 89, 0.9);
+  border-color: var(--color-gold);
+}
+
+.pin-label {
+  margin-top: 3px;
+  font-family: var(--font-serif-title);
+  font-size: 11px;
+  font-weight: 700;
+  color: #1F1710;
+  text-shadow:
+    -1px -1px 0 #FFFDF9,
+     1px -1px 0 #FFFDF9,
+    -1px  1px 0 #FFFDF9,
+     1px  1px 0 #FFFDF9,
+     0 0 5px rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+.pin-label.capital-label {
+  font-size: 12.5px;
+  color: #991B1B;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Cataclysm Inundation & Destruction Styles */
+.destroyed-marker .pin-icon-wrap {
+  filter: grayscale(80%) contrast(120%);
+  border-color: #450A0A;
+  background: #262626;
+  color: #F87171;
+}
+
+/* ==========================================================================
+   FLOATING ERA BADGE / WATERMARK (Top-Left of Map)
+   ========================================================================== */
+.floating-era-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(253, 250, 243, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  box-shadow: var(--shadow-md);
+  max-width: 320px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.floating-era-tag {
+  font-family: var(--font-serif-title);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-crimson);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.floating-era-title {
+  font-family: var(--font-serif-title);
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.floating-era-desc {
+  font-family: var(--font-scripture);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+/* ==========================================================================
+   FLOATING QUICK NAVIGATION BUTTONS (Top-Right of Map)
+   ========================================================================== */
+.map-floating-actions {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  z-index: 100;
+}
+
+.floating-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-parchment-dark);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.floating-btn:hover {
+  background: #F5ECD9;
+  border-color: var(--color-gold);
+  color: var(--color-crimson);
+  transform: translateY(-1px);
+}
+
+.floating-btn.text-btn {
+  width: auto;
+  padding: 0 0.65rem;
+  font-family: var(--font-serif-title);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   FLOATING COLLAPSIBLE MAP LEGEND
+   ========================================================================== */
+.map-legend-box {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(253, 250, 243, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border-parchment-dark);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  min-width: 210px;
+  max-width: 260px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.legend-header {
+  padding: 0.5rem 0.75rem;
+  background: #EBE0CC;
+  border-bottom: 1px solid var(--border-parchment-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.legend-title {
+  font-family: var(--font-serif-title);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.legend-collapse-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.legend-body {
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.legend-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid #000;
+  flex-shrink: 0;
+}
+
+.legend-line {
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   SCRIPTURAL DISTANCE SCALE BAR
+   ========================================================================== */
+.map-scale-bar-container {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(253, 250, 243, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border-parchment-dark);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  cursor: pointer;
+}
+
+.scale-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.scale-bar-ruler {
+  display: flex;
+  height: 4px;
+  border: 1px solid var(--text-primary);
+  width: 130px;
+  margin: 4px 0;
+}
+
+.scale-segment {
+  flex: 1;
+}
+
+.scale-segment.seg-1, .scale-segment.seg-3 { background: var(--text-primary); }
+.scale-segment.seg-2, .scale-segment.seg-4 { background: #FFFDF9; }
+
+.scale-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.scale-footnote {
+  font-size: 0.6rem;
+  color: var(--color-crimson);
+  font-style: italic;
+  margin-top: 2px;
+  text-align: right;
+}
+
+/* Coordinate Inspector Badge */
+.coords-inspector-badge {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(34, 27, 19, 0.88);
+  color: #FFFDF9;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 0.72rem;
+  font-family: monospace;
+  z-index: 150;
+  display: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-gold);
+}
+
+.coords-inspector-badge.active {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

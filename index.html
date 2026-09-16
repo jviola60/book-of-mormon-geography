@@ -4,79 +4,100 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>The Comprehensive Textual Architecture of the Book of Mormon - Interactive Atlas</title>
-  <meta name="description" content="Explore an interactive, high-resolution cartographic atlas of the Book of Mormon lands, scripture citations, historical timelines, and expeditions.">
+  <title>Book of Mormon Geography - Interactive Atlas & Codex (~2200 BC – AD 421)</title>
+  <meta name="description" content="An interactive cartographic atlas and scriptural codex of Book of Mormon lands, internal geography, day journeys, 3 Nephi cataclysm transformations, and military expeditions.">
+  <meta name="keywords" content="Book of Mormon Geography, Scriptural Atlas, Zarahemla, Bountiful, Land of Nephi, River Sidon, Jaredites, Nephites, Lamanites, 3 Nephi Cataclysm">
 
-  <!-- Google Fonts -->
+  <!-- Open Graph -->
+  <meta property="og:title" content="Book of Mormon Geography - Interactive Atlas & Codex">
+  <meta property="og:description" content="Interactive textual architecture, 94 scripturally attested landmarks, 12 expeditions, and 3 Nephi cataclysm transformations.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+
+  <!-- Google Fonts: Cinzel, Cormorant Garamond, Inter & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=7.6">
+  <!-- Unified Modular Stylesheets -->
+  <link rel="stylesheet" href="css/main.css?v=8.4">
+  <link rel="stylesheet" href="css/map.css?v=8.4">
+  <link rel="stylesheet" href="css/timeline.css?v=8.4">
+  <link rel="stylesheet" href="css/sidebar.css?v=8.4">
+  <link rel="stylesheet" href="css/components.css?v=8.4">
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- Top Navigation & Control Bar -->
-    <header class="app-header">
-      <div class="brand-section">
-        <div class="brand-icon" title="Book of Mormon Geography">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-          </svg>
-        </div>
-        <div class="brand-titles">
-          <h1>Book of Mormon Geography</h1>
-          <p>The Comprehensive Textual Architecture <span class="site-count-badge" id="siteCountBadge">94 Sites</span></p>
+    <!-- Top Application Header (64px) -->
+    <header class="app-header" id="appHeader">
+      <div class="header-left">
+        <div class="app-branding" id="brandLogoBtn" title="Reset view & return to Atlas Overview">
+          <div class="brand-symbol">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <h1 class="brand-title">Book of Mormon Geography</h1>
+            <span class="brand-subtitle">Interactive Scriptural Atlas & Codex • 2200 BC – AD 421</span>
+          </div>
         </div>
       </div>
 
-      <!-- Controls & Filters -->
-      <div class="header-actions">
-        <!-- Search with Clear Button -->
-        <div class="search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Center Global Search & Autocomplete -->
+      <div class="header-center">
+        <div class="search-box-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" id="searchInput" placeholder="Search cities, people, scriptures..." autocomplete="off" list="landmarksList">
-          <datalist id="landmarksList"></datalist>
-          <button id="clearSearchBtn" class="clear-search-btn" title="Clear Search">&times;</button>
+          <input type="text" id="globalSearchInput" placeholder="Search city, mountain, event, scripture, or person..." autocomplete="off" aria-label="Search Book of Mormon Geography">
+          <button id="clearSearchBtn" class="clear-search-btn" title="Clear search" aria-label="Clear search" style="display: none;">&times;</button>
+          <div id="searchResultsDropdown" class="search-results-dropdown" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-right">
+        <!-- Quick Region Focus Dropdown -->
+        <div class="dropdown-container">
+          <button id="regionSelectBtn" class="btn btn-outline" title="Zoom to scriptural region">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+            <span class="btn-text">Regions</span>
+          </button>
+          <div id="regionDropdown" class="dropdown-menu">
+            <button data-region="whole-land" class="dropdown-item">🗺️ Entire Promised Land</button>
+            <button data-region="land-southward" class="dropdown-item">📍 Land Southward (Zarahemla & Nephi)</button>
+            <button data-region="zarahemla" class="dropdown-item">🏛️ City of Zarahemla & Sidon Basin</button>
+            <button data-region="land-nephi" class="dropdown-item">👑 Land of Nephi (Waters of Mormon)</button>
+            <button data-region="narrow-neck" class="dropdown-item">🌊 Narrow Neck of Land & Bountiful</button>
+            <button data-region="land-northward" class="dropdown-item">⛰️ Land Northward & Hill Cumorah</button>
+            <button data-region="east-wilderness" class="dropdown-item">🛡️ East Sea Defense Line (Moroni)</button>
+            <button data-region="west-coast" class="dropdown-item">⚓ West Sea Coast & Ammonihah</button>
+          </div>
         </div>
 
-        <!-- Filter Buttons -->
-        <div class="filter-group">
-          <button class="filter-btn active" data-category="all">All</button>
-          <button class="filter-btn" data-category="waters">Waters & Seas</button>
-          <button class="filter-btn" data-category="capitals">Capitals</button>
-          <button class="filter-btn" data-category="cities">Cities</button>
-          <button class="filter-btn" data-category="fortresses">Fortresses</button>
-          <button class="filter-btn" data-category="sacred">Sacred Sites</button>
-          <button class="filter-btn" data-category="wilderness">Wilderness & Valleys</button>
-          <button class="filter-btn" data-category="regions">Regions</button>
-        </div>
+        <!-- Curated Guided Tours Button -->
+        <button id="storyToursBtn" class="btn btn-primary glow-gold" title="Explore Curated Scripture Expeditions">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Guided Tours</span>
+        </button>
 
-        <!-- Quick Jump Landmark Selector -->
-        <div class="journey-select-wrapper">
-          <select id="landmarkQuickJump" class="journey-select" aria-label="Quick Jump to Landmark">
-            <option value="">Jump to Landmark...</option>
+        <!-- Location Quick Jump Dropdown -->
+        <div class="header-quick-jump-container" id="quickJumpContainer" title="Jump directly to any Book of Mormon City, Fortress, or River">
+          <span class="quick-jump-icon">📍</span>
+          <select id="quickJumpSelect" class="header-quick-jump-select" aria-label="Jump to Landmark">
+            <option value="" disabled selected>Jump to Landmark...</option>
           </select>
         </div>
 
-        <!-- Expeditions & Journeys Selector (12 Tours) -->
-        <div class="journey-select-wrapper">
-          <select id="journeySelect" class="journey-select" aria-label="Scriptural Journeys">
-            <option value="">Scriptural Journeys...</option>
-          </select>
-        </div>
-
-        <!-- Tools: Coordinate Inspector -->
-        <button id="toggleInspectorBtn" class="tool-btn" title="Toggle Coordinate Inspector to click and copy exact map coordinates">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <!-- Coordinate Inspector Tool Button -->
+        <button id="toggleInspectorBtn" class="btn btn-outline" title="Toggle Coordinate Inspector">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="2" x2="12" y2="22"></line>
             <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -84,145 +105,204 @@
           <span id="inspectorBtnText">Inspector: OFF</span>
         </button>
 
-        <!-- Old World Origins & Transoceanic Crossings Explorer -->
-        <button id="openOldWorldBtn" class="tool-btn old-world-btn" title="Old World Origins & Transoceanic Crossings (Babel & Jerusalem to Promised Land)">
+        <!-- Old World Origins Explorer Button -->
+        <button id="openOldWorldBtn" class="btn btn-outline" title="Old World Origins (Babel & Jerusalem to Promised Land)">
           <span>🌍</span>
-          <span>Old World Origins</span>
+          <span>Old World</span>
         </button>
 
-        <!-- Official Church Gospel Topics Geography Disclaimer Button -->
-        <button id="openDisclaimerBtn" class="tool-btn disclaimer-btn prominent-disclaimer" title="Official Church Gospel Topics Geography Notice">
+        <!-- Official Church Stance Notice Button -->
+        <button id="openDisclaimerBtn" class="btn church-stance-header-btn" title="Official Church Gospel Topics Geography Notice">
           <span>📜</span>
-          <span>Church Stance on Geography</span>
+          <span>Church Stance</span>
+        </button>
+
+        <!-- Sidebar Drawer Toggle Button -->
+        <button id="sidebarToggleBtn" class="btn btn-icon" title="Toggle Scriptural Codex Panel" aria-label="Toggle drawer">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+          </svg>
         </button>
       </div>
     </header>
 
-    <!-- Official Church Stance Banner -->
-    <aside class="church-stance-banner" id="churchStanceBanner">
-      <div class="church-stance-content">
-        <span class="church-stance-badge">📜 Church Stance</span>
-        <span class="church-stance-text">
-          <strong>Official Church Stance:</strong> "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas... the best guide is the text of the Book of Mormon itself." — First Presidency
-        </span>
-        <button id="bannerOpenDisclaimerBtn" class="church-stance-cta">Read Full Statement &rarr;</button>
-      </div>
-      <button id="dismissChurchBannerBtn" class="church-stance-dismiss" title="Dismiss">&times;</button>
-    </aside>
-
-    <!-- Welcome Toast Hint -->
-    <aside class="intro-toast" id="introToast">
-      <span>Drag to pan &bull; Scroll to zoom &bull; Click any landmark or territory to view scriptural codex</span>
-      <button id="dismissIntroBtn" title="Dismiss">&times;</button>
-    </aside>
-
-    <!-- Copy Feedback Toast -->
-    <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
-
-    <!-- Main Map Viewport -->
-    <main class="map-viewport" id="mapViewport">
-      <div class="map-stage" id="mapStage">
-        <!-- High-Resolution Main Map Artwork with mobile-optimized responsive source (2120x3160 canvas) -->
-        <picture>
-          <source media="(max-width: 768px)" srcset="map-v7-mobile.jpg?v=7.6">
-          <img src="map-v7-cleaned.jpg?v=7.6" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="async">
-        </picture>
-        
-        <!-- SVG Layer for Territory Overlays, Cataclysm Physical Terrain Transformations & Scriptural Journeys -->
-        <svg class="journey-svg" id="journeySvg" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <!-- Water Gradient for Inundated Cities (Jerusalem, Onihah, Mocum) -->
-            <radialGradient id="inundatedWaterGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#022b42" stop-opacity="1.0"/>
-              <stop offset="45%" stop-color="#005f73" stop-opacity="0.98"/>
-              <stop offset="75%" stop-color="#0a9396" stop-opacity="0.96"/>
-              <stop offset="92%" stop-color="#48cae4" stop-opacity="0.95"/>
-              <stop offset="100%" stop-color="#ade8f4" stop-opacity="0.92"/>
-            </radialGradient>
-
-            <!-- Ocean Submergence Gradient for Moroni -->
-            <radialGradient id="oceanSubmergeGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#001829" stop-opacity="1.0"/>
-              <stop offset="40%" stop-color="#003554" stop-opacity="0.98"/>
-              <stop offset="75%" stop-color="#006494" stop-opacity="0.95"/>
-              <stop offset="95%" stop-color="#0582ca" stop-opacity="0.92"/>
-              <stop offset="100%" stop-color="#00a6fb" stop-opacity="0.90"/>
-            </radialGradient>
-
-            <!-- Mountain Ridge Gradient for Moronihah -->
-            <linearGradient id="mountainRidgeGrad" x1="20%" y1="0%" x2="80%" y2="100%">
-              <stop offset="0%" stop-color="#fdf0d5" stop-opacity="1.0"/>
-              <stop offset="25%" stop-color="#b08968" stop-opacity="1.0"/>
-              <stop offset="55%" stop-color="#7f5539" stop-opacity="1.0"/>
-              <stop offset="85%" stop-color="#4e342e" stop-opacity="1.0"/>
-              <stop offset="100%" stop-color="#231710" stop-opacity="1.0"/>
-            </linearGradient>
-
-            <!-- Earth Chasm / Sunken Valley Gradient -->
-            <radialGradient id="earthChasmGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#0b0704" stop-opacity="1.0"/>
-              <stop offset="45%" stop-color="#26170f" stop-opacity="0.98"/>
-              <stop offset="80%" stop-color="#4a2e1f" stop-opacity="0.95"/>
-              <stop offset="100%" stop-color="#734931" stop-opacity="0.90"/>
-            </radialGradient>
-
-            <!-- Scorched Ruins Gradient -->
-            <radialGradient id="scorchedEarthGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#140b06" stop-opacity="0.98"/>
-              <stop offset="45%" stop-color="#541e0c" stop-opacity="0.95"/>
-              <stop offset="80%" stop-color="#8c2e0b" stop-opacity="0.88"/>
-              <stop offset="100%" stop-color="#c1440e" stop-opacity="0.75"/>
-            </radialGradient>
-          </defs>
-
-          <g id="territoryGroup" class="territory-group"></g>
-          <g id="cataclysmTerrainGroup" class="cataclysm-terrain-group"></g>
-          <!-- Interactive Continuous River Sidon Path (Head of Sidon near Manti to Sea) -->
-          <g id="riverSidonGroup" class="river-sidon-group" title="River Sidon (Click to view Codex)">
-            <path id="riverSidonGlow" class="river-sidon-glow" d="M 23.5 94 Q 23.5 94 24.4 92.0 Q 25.2 90 26.3 88.4 Q 27.4 86.8 29.4 83.9 Q 31.5 81 33.3 78.9 Q 35 76.8 37.3 73.9 Q 39.5 71 41.0 68.3 Q 42.5 65.5 44.5 63.5 Q 46.5 61.5 48.5 59.0 Q 50.5 56.5 51.5 54.3 Q 52.5 52 53.0 49.5 Q 53.5 47 55.0 44.5 Q 56.5 42 58.5 39.3 Q 60.5 36.5 61.5 35.5 T 62.5 34.5" fill="none" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.1" stroke-linecap="round"/>
-            <path id="riverSidonPath" class="river-sidon-path" d="M 23.5 94 Q 23.5 94 24.4 92.0 Q 25.2 90 26.3 88.4 Q 27.4 86.8 29.4 83.9 Q 31.5 81 33.3 78.9 Q 35 76.8 37.3 73.9 Q 39.5 71 41.0 68.3 Q 42.5 65.5 44.5 63.5 Q 46.5 61.5 48.5 59.0 Q 50.5 56.5 51.5 54.3 Q 52.5 52 53.0 49.5 Q 53.5 47 55.0 44.5 Q 56.5 42 58.5 39.3 Q 60.5 36.5 61.5 35.5 T 62.5 34.5" fill="none" stroke="#38bdf8" stroke-width="0.38" stroke-dasharray="1.8 1.2" stroke-linecap="round"/>
-          </g>
-          <g id="pathsGroup" class="paths-group"></g>
-        </svg>
-
-        <!-- Interactive Hotspots & Markers Layer -->
-        <div class="markers-layer" id="markersLayer"></div>
-      </div>
-
-      <!-- Zoom & Pan Quick HUD Controls -->
-      <div class="map-hud-controls">
-        <button class="hud-btn" id="zoomInBtn" title="Zoom In (+)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
-        <button class="hud-btn" id="zoomOutBtn" title="Zoom Out (-)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
-        <button class="hud-btn" id="resetZoomBtn" title="Fit Map to Viewport (0)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Coordinate Inspector Badge (Clickable) -->
-      <div class="coords-inspector-badge" id="coordsInspectorBadge" title="Click here to copy coordinates to clipboard">
-        <span id="coordsBadgeText"><strong>Map Pos:</strong> X: 0.0% | Y: 0.0%</span>
-        <span class="badge-copy-hint">(Click to copy)</span>
-      </div>
-
-      <!-- Interactive Scriptural Distance Scale Bar (Alma 22:32, Helaman 4:7) -->
-      <div class="map-scale-bar-container" id="mapScaleContainer" title="Click for Book of Mormon distance & travel time metrics">
-        <div class="scale-bar-header">
-          <span class="scale-bar-title">DISTANCE SCALE</span>
-          <span class="scale-nephite-day" id="scaleNephiteDay">1 Day's Journey (~18 mi)</span>
+    <!-- Filter & Layer Command Bar (44px) -->
+    <nav class="layer-filter-bar" id="filterBar" aria-label="Map layers and category filters">
+      <div class="filter-scroll-track">
+        <div class="filter-group">
+          <span class="filter-label">Layers:</span>
+          <button class="filter-chip active" data-filter="all">
+            <span class="chip-dot dot-all"></span>All Visible
+          </button>
+          <button class="filter-chip" data-filter="capitals">
+            <span class="chip-dot dot-capitals"></span>Capitals
+          </button>
+          <button class="filter-chip" data-filter="cities">
+            <span class="chip-dot dot-cities"></span>Cities
+          </button>
+          <button class="filter-chip" data-filter="fortresses">
+            <span class="chip-dot dot-fortresses"></span>Fortresses
+          </button>
+          <button class="filter-chip" data-filter="sacred">
+            <span class="chip-dot dot-sacred"></span>Sacred Sites
+          </button>
+          <button class="filter-chip" data-filter="waters">
+            <span class="chip-dot dot-waters"></span>Waters & Seas
+          </button>
+          <button class="filter-chip" data-filter="wilderness">
+            <span class="chip-dot dot-wilderness"></span>Wilderness & Valleys
+          </button>
+          <button class="filter-chip" data-filter="cataclysm">
+            <span class="chip-dot dot-cataclysm"></span>Cataclysm (AD 34)
+          </button>
         </div>
-        <div class="scale-bar-graphic">
-          <div class="scale-bar-ruler" id="scaleBarRuler">
+
+        <div class="filter-group-right">
+          <!-- Metric Counters -->
+          <div class="stat-pill" title="Landmarks active in selected era">
+            <span class="stat-num" id="statSitesCount">94</span>
+            <span class="stat-name">Sites</span>
+          </div>
+          <div class="stat-pill" title="Scriptural Expeditions and Military Marches">
+            <span class="stat-num" id="statToursCount">12</span>
+            <span class="stat-name">Expeditions</span>
+          </div>
+          <div class="stat-pill" title="Chronological Eras Recorded">
+            <span class="stat-num" id="statErasCount">30</span>
+            <span class="stat-name">Eras</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Map Viewport Container -->
+    <main class="app-main-container">
+      <div id="mapViewport" class="map-viewport" role="region" aria-label="Interactive Map of Book of Mormon Lands">
+        <div id="mapStage" class="map-stage">
+          <!-- High-Resolution Main Map Artwork (2120x3160 canvas) -->
+          <picture>
+            <source media="(max-width: 768px)" srcset="map-v7-mobile.jpg?v=8.0">
+            <img src="map-v7-cleaned.jpg?v=8.0" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="async">
+          </picture>
+
+          <!-- SVG Layer for Territory Overlays, Cataclysm Physical Transformations & Expedition Paths -->
+          <svg class="journey-svg" id="journeySvg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <!-- Water Gradient for Inundated Cities (Jerusalem, Onihah, Mocum) -->
+              <radialGradient id="inundatedWaterGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#022b42" stop-opacity="1.0"/>
+                <stop offset="45%" stop-color="#005f73" stop-opacity="0.98"/>
+                <stop offset="75%" stop-color="#0a9396" stop-opacity="0.96"/>
+                <stop offset="92%" stop-color="#48cae4" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#ade8f4" stop-opacity="0.92"/>
+              </radialGradient>
+
+              <!-- Ocean Submergence Gradient for Moroni -->
+              <radialGradient id="oceanSubmergeGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#001829" stop-opacity="1.0"/>
+                <stop offset="40%" stop-color="#003554" stop-opacity="0.98"/>
+                <stop offset="75%" stop-color="#006494" stop-opacity="0.95"/>
+                <stop offset="95%" stop-color="#0582ca" stop-opacity="0.92"/>
+                <stop offset="100%" stop-color="#00a6fb" stop-opacity="0.90"/>
+              </radialGradient>
+
+              <!-- Mountain Ridge Gradient for Moronihah -->
+              <linearGradient id="mountainRidgeGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stop-color="#fdf0d5" stop-opacity="1.0"/>
+                <stop offset="25%" stop-color="#b08968" stop-opacity="1.0"/>
+                <stop offset="55%" stop-color="#7f5539" stop-opacity="1.0"/>
+                <stop offset="85%" stop-color="#4e342e" stop-opacity="1.0"/>
+                <stop offset="100%" stop-color="#231710" stop-opacity="1.0"/>
+              </linearGradient>
+
+              <!-- Earth Chasm / Sunken Valley Gradient -->
+              <radialGradient id="earthChasmGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#0b0704" stop-opacity="1.0"/>
+                <stop offset="45%" stop-color="#26170f" stop-opacity="0.98"/>
+                <stop offset="80%" stop-color="#4a2e1f" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#734931" stop-opacity="0.90"/>
+              </radialGradient>
+
+              <!-- Scorched Ruins Gradient -->
+              <radialGradient id="scorchedEarthGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#140b06" stop-opacity="0.98"/>
+                <stop offset="45%" stop-color="#541e0c" stop-opacity="0.95"/>
+                <stop offset="80%" stop-color="#8c2e0b" stop-opacity="0.88"/>
+                <stop offset="100%" stop-color="#c1440e" stop-opacity="0.75"/>
+              </radialGradient>
+            </defs>
+
+            <g id="territoryGroup" class="territory-group"></g>
+            <g id="cataclysmTerrainGroup" class="cataclysm-terrain-group"></g>
+            
+            <!-- Interactive Continuous River Sidon Path -->
+            <g id="riverSidonGroup" class="river-sidon-group" title="River Sidon (Click to view Codex)">
+              <path id="riverSidonGlow" class="river-sidon-glow" d="M 23.5 94 Q 23.5 94 24.4 92.0 Q 25.2 90 26.3 88.4 Q 27.4 86.8 29.4 83.9 Q 31.5 81 33.3 78.9 Q 35 76.8 37.3 73.9 Q 39.5 71 41.0 68.3 Q 42.5 65.5 44.5 63.5 Q 46.5 61.5 48.5 59.0 Q 50.5 56.5 51.5 54.3 Q 52.5 52 53.0 49.5 Q 53.5 47 55.0 44.5 Q 56.5 42 58.5 39.3 Q 60.5 36.5 61.5 35.5 T 62.5 34.5" fill="none" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.1" stroke-linecap="round"/>
+              <path id="riverSidonPath" class="river-sidon-path" d="M 23.5 94 Q 23.5 94 24.4 92.0 Q 25.2 90 26.3 88.4 Q 27.4 86.8 29.4 83.9 Q 31.5 81 33.3 78.9 Q 35 76.8 37.3 73.9 Q 39.5 71 41.0 68.3 Q 42.5 65.5 44.5 63.5 Q 46.5 61.5 48.5 59.0 Q 50.5 56.5 51.5 54.3 Q 52.5 52 53.0 49.5 Q 53.5 47 55.0 44.5 Q 56.5 42 58.5 39.3 Q 60.5 36.5 61.5 35.5 T 62.5 34.5" fill="none" stroke="#38bdf8" stroke-width="0.38" stroke-dasharray="1.8 1.2" stroke-linecap="round"/>
+            </g>
+            <g id="pathsGroup" class="paths-group"></g>
+          </svg>
+
+          <!-- Interactive Hotspots & Markers Layer -->
+          <div class="markers-layer" id="markersLayer"></div>
+        </div>
+
+        <!-- Floating Era Watermark Badge (Top-Left) -->
+        <div class="floating-era-badge" id="floatingEraBadge">
+          <div class="floating-era-tag" id="floatingEraTag">CHRONOLOGICAL ERA</div>
+          <div class="floating-era-title" id="floatingEraTitle">The Great Dispersion & Jaredite Exodus</div>
+          <div class="floating-era-desc" id="floatingEraDesc">Tower of Babel language confusion; Jaredite families cross ancient wilderness to Promised Land.</div>
+        </div>
+
+        <!-- Floating Quick Navigation HUD (Top-Right) -->
+        <div class="map-floating-actions">
+          <button id="recenterBtn" class="floating-btn" title="Reset View to Entire Map" aria-label="Recenter Map">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+          </button>
+          <button id="quickSouthwardBtn" class="floating-btn text-btn" title="Zoom to Land Southward">
+            <span>SOUTH</span>
+          </button>
+          <button id="quickZarahemlaBtn" class="floating-btn" title="Zoom to Zarahemla">
+            <span style="font-size: 15px;">🏛️</span>
+          </button>
+          <button id="quickNorthwardBtn" class="floating-btn text-btn" title="Zoom to Land Northward">
+            <span>NORTH</span>
+          </button>
+          <button id="zoomInBtn" class="floating-btn" title="Zoom In (+)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <button id="zoomOutBtn" class="floating-btn" title="Zoom Out (-)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+
+        <!-- Floating Collapsible Map Legend (Bottom-Left) -->
+        <div class="map-legend-box" id="mapLegend">
+          <div class="legend-header" id="legendToggleHeader">
+            <span class="legend-title">Atlas Legend</span>
+            <button class="legend-collapse-btn" id="legendCollapseBtn" aria-label="Toggle legend">−</button>
+          </div>
+          <div class="legend-body" id="legendBody">
+            <div class="legend-item"><span class="legend-marker" style="background: #EAB308; border-color: #78350F;"></span> <span>Capital Cities (Zarahemla, Nephi)</span></div>
+            <div class="legend-item"><span class="legend-marker" style="background: #FFF; border-color: #A32822;"></span> <span>Major Nephite & Lamanite Cities</span></div>
+            <div class="legend-item"><span class="legend-marker" style="background: #FEF2F2; border-color: #991B1B;"></span> <span>Fortresses & Defense Lines</span></div>
+            <div class="legend-item"><span class="legend-marker" style="background: #ECFDF5; border-color: #059669;"></span> <span>Sacred Sites & Temples</span></div>
+            <div class="legend-item"><span class="legend-marker" style="background: #F0F9FF; border-color: #0284C7;"></span> <span>Waters & Seas (Sebus, Mormon)</span></div>
+            <div class="legend-item"><span class="legend-marker" style="background: #FEF3C7; border-color: #78350F;"></span> <span>Wilderness, Mountains & Valleys</span></div>
+            <div class="legend-item"><span class="legend-line" style="background: #38bdf8;"></span> <span>River Sidon (Headwaters to Sea)</span></div>
+            <div class="legend-item"><span class="legend-line" style="background: #8B5CF6; height: 3px;"></span> <span>Expedition & Military March Routes</span></div>
+            <div class="legend-item"><span class="legend-marker" style="background: #450A0A; border-color: #F87171;"></span> <span>AD 34 Cataclysm Inundations & Ruins</span></div>
+          </div>
+        </div>
+
+        <!-- Scriptural Distance Scale Bar (Bottom-Right) -->
+        <div class="map-scale-bar-container" id="mapScaleContainer" title="Click for Book of Mormon distance & travel time metrics">
+          <div class="scale-bar-header">
+            <span>DISTANCE SCALE</span>
+            <span id="scaleNephiteDay">1 Day's Journey (~18 mi)</span>
+          </div>
+          <div class="scale-bar-ruler">
             <div class="scale-segment seg-1"></div>
             <div class="scale-segment seg-2"></div>
             <div class="scale-segment seg-3"></div>
@@ -230,401 +310,255 @@
           </div>
           <div class="scale-ticks">
             <span>0</span>
-            <span id="scaleTickMid">25 mi</span>
-            <span id="scaleTickEnd">50 mi (80 km)</span>
+            <span>25 mi</span>
+            <span>50 mi (80 km)</span>
           </div>
-        </div>
-        <div class="scale-footnote">
-          <span class="scale-verse-ref">Alma 22:32 • 1.5 Days across Narrow Neck • <strong>Click Guide ℹ</strong></span>
-        </div>
-      </div>
-
-      <!-- Scriptural Chronological Timeline & 3 Nephi Cataclysm HUD -->
-      <section class="cataclysm-hud" id="cataclysmHud">
-        <div class="cataclysm-header">
-          <div class="cataclysm-title-group" id="cataclysmTitleGroup">
-            <span class="cataclysm-icon" id="cataclysmIcon">🌊</span>
-            <div class="cataclysm-titles-col">
-              <div class="cataclysm-heading-row">
-                <span class="timeline-year-badge" id="timelineYearBadge">2200 BC</span>
-                <h4 class="cataclysm-title" id="cataclysmTitle">Era: The Great Dispersion & Jaredite Exodus</h4>
-                <span class="timeline-site-counter" id="timelineSiteCounter">6 / 94 Sites Active</span>
-              </div>
-              <p class="cataclysm-subtitle" id="cataclysmSubtitle">Tower of Babel language confusion; Brother of Jared leads families across ancient wilderness</p>
-            </div>
-          </div>
-          <div class="cataclysm-actions">
-            <!-- Timeline Playback Controls -->
-            <div class="timeline-playback-group">
-              <button id="timelinePrevBtn" type="button" class="btn-timeline-nav" title="Step Back (~50 yrs) [◄]" aria-label="Previous Era">
-                <span>◄</span>
-              </button>
-              <button id="timelinePlayBtn" type="button" class="btn-timeline-play" title="Auto-Play Timeline Chronology [Space]" aria-label="Play Timeline">
-                <span id="timelinePlayIcon">▶</span> <span id="timelinePlayText">Play</span>
-              </button>
-              <button id="timelineNextBtn" type="button" class="btn-timeline-nav" title="Advance (~50 yrs) [►]" aria-label="Next Era">
-                <span>►</span>
-              </button>
-            </div>
-
-            <button id="cataclysmQuickToggle" type="button" class="btn-cataclysm-trigger" title="Jump directly to the 3 Nephi Cataclysm at Christ's Death (AD 34)">
-              🔥 <span>Cataclysm (AD 34)</span>
-            </button>
-            <button id="hudToggleBtn" type="button" class="btn-hud-toggle" aria-label="Toggle Timeline Slider" title="Collapse or Expand Timeline Slider">
-              <span id="hudToggleArrow">▼</span>
-              <span id="hudToggleLabel">Minimize</span>
-            </button>
+          <div class="scale-footnote">
+            <span>Alma 22:32 • 1.5 Days across Narrow Neck</span>
           </div>
         </div>
 
-        <div class="cataclysm-slider-track-wrapper">
-          <input type="range" id="eraSlider" min="0" max="29" value="0" step="1" class="era-slider-range" title="Historical Chronology Slider (2200 BC - AD 421)" aria-label="Historical Chronology Slider" />
-          
-          <!-- Key milestone markers along the chronological track -->
-          <div class="era-step-markers" id="eraStepMarkers">
-            <div class="era-step" data-step="0" title="2200 BC: Babel Dispersion">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">2200 BC<br>Jaredites</span>
-            </div>
-            <div class="era-step" data-step="5" title="600 BC: Lehi Arrival & City of Nephi">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">600 BC<br>Lehi</span>
-            </div>
-            <div class="era-step" data-step="13" title="200 BC: Mosiah Discovers Zarahemla">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">200 BC<br>Zarahemla</span>
-            </div>
-            <div class="era-step" data-step="15" title="100 BC: Reign of Judges Republic">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">100 BC<br>Republic</span>
-            </div>
-            <div class="era-step" data-step="17" title="70 BC: Captain Moroni & Morianton (Alma 50:25)">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">70 BC<br>Morianton</span>
-            </div>
-            <div class="era-step active" data-step="19" title="AD 1: Birth of Christ">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 1<br>Christ Birth</span>
-            </div>
-            <div class="era-step cataclysm-step" data-step="20" title="AD 34: 3 Nephi Cataclysm">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 34<br>Cataclysm</span>
-            </div>
-            <div class="era-step" data-step="22" title="AD 100: Golden Century of Peace">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 100<br>4 Nephi</span>
-            </div>
-            <div class="era-step" data-step="27" title="AD 350: Mormon's Northern Retreat">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 350<br>Retreat</span>
-            </div>
-            <div class="era-step" data-step="29" title="AD 421: Moroni Seals Sacred Record">
-              <span class="era-step-dot"></span>
-              <span class="era-step-label">AD 421<br>Moroni Seal</span>
-            </div>
-          </div>
-
-          <!-- Recently Established Landmarks Strip -->
-          <div class="timeline-added-bar" id="timelineAddedBar">
-            <span class="added-label">Newly Established:</span>
-            <span class="added-cities-list" id="addedCitiesList">All 88 Pre-Destruction Settlements Active</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Expedition Tour Player Dock (Active during Journeys) -->
-      <div class="expedition-player-bar" id="expeditionPlayerBar">
-        <div class="expedition-info">
-          <div class="expedition-header-row">
-            <span class="expedition-badge" id="expeditionBadge">EXPEDITION</span>
-            <strong class="expedition-title" id="expeditionTitle">Alma's Flight & Covenant</strong>
-            <span class="expedition-subtitle" id="expeditionSubtitle">Mosiah 18-24</span>
-          </div>
-          <div class="expedition-step-note" id="expeditionStepNote">
-            Step narrative goes here...
-          </div>
+        <!-- Coordinate Inspector Badge -->
+        <div class="coords-inspector-badge" id="coordsInspectorBadge" title="Click to copy coordinates">
+          <span id="coordsBadgeText">Map Pos: X: 0.0% | Y: 0.0%</span>
+          <span style="font-size: 0.65rem; color: var(--color-gold-light);">(Click to copy)</span>
         </div>
 
-        <div class="expedition-controls">
-          <button class="exp-btn" id="expPrevBtn" title="Previous Waypoint">&larr; Prev</button>
-          <span class="exp-step-indicator" id="expStepIndicator">Stage 1 of 6</span>
-          <button class="exp-btn" id="expNextBtn" title="Next Waypoint">Next &rarr;</button>
-          <button class="exp-btn-exit" id="expExitBtn" title="Exit Expedition Tour">&times;</button>
+        <!-- Floating Tour Stepper Player Bar -->
+        <div class="tour-stepper-bar" id="tourStepperBar" style="display: none;">
+          <div class="stepper-meta">
+            <span class="stepper-tour-label" id="stepperTourName">Alma's Flight to Waters of Mormon</span>
+            <span class="stepper-step-indicator" id="stepperStepCount">Waypoint 1 of 6</span>
+            <div class="stepper-step-note" id="stepperStepNote">Alma flees King Noah's court and hides in the thicket near Mormon.</div>
+          </div>
+          <div class="stepper-controls">
+            <button id="tourPrevStepBtn" class="btn btn-outline btn-sm">◀ Previous</button>
+            <button id="tourNextStepBtn" class="btn btn-primary btn-sm glow-gold">Next ▶</button>
+            <button id="tourExitBtn" class="btn btn-outline btn-sm">Exit Tour</button>
+          </div>
         </div>
       </div>
+
+      <!-- Slide-Out Ancient Codex / Detail Sidebar (440px) -->
+      <aside class="detail-sidebar" id="detailSidebar" aria-label="Location Details Codex">
+        <div class="sidebar-header">
+          <div class="sidebar-title-wrap">
+            <span class="sidebar-eyebrow" id="sidebarEyebrow">SCRIPTURAL CODEX</span>
+            <h2 class="sidebar-title" id="sidebarTitle">City of Zarahemla</h2>
+          </div>
+          <button id="closeSidebarBtn" class="close-btn" aria-label="Close codex">&times;</button>
+        </div>
+
+        <div class="sidebar-tabs" id="sidebarTabs">
+          <!-- Row 1: Primary Doctrine & Multimedia (4 tabs) -->
+          <div class="sidebar-tab-row">
+            <button class="tab-btn active" data-tab="overview">Overview</button>
+            <button class="tab-btn" data-tab="scriptures">Scriptures</button>
+            <button class="tab-btn" data-tab="teachings">Teachings & Context</button>
+            <button class="tab-btn" data-tab="videos">Videos</button>
+          </div>
+          <!-- Row 2: Culture, History & Strategy (4 tabs) -->
+          <div class="sidebar-tab-row">
+            <button class="tab-btn" data-tab="people">People & Leaders</button>
+            <button class="tab-btn" data-tab="military">Military & Strategy</button>
+            <button class="tab-btn" data-tab="cataclysm">AD 34 Cataclysm</button>
+            <button class="tab-btn" data-tab="church">Church Stance</button>
+          </div>
+        </div>
+
+        <div class="sidebar-content" id="sidebarContent">
+          <!-- Dynamic Content injected via JS -->
+        </div>
+      </aside>
     </main>
 
-    <!-- Slide-Out Ancient Codex / Detail Drawer -->
-    <aside class="codex-drawer" id="codexDrawer" aria-label="Location Details">
-      <div class="drawer-header">
-        <div class="drawer-title-area">
-          <span class="drawer-category-badge" id="drawerCategory">REGION</span>
-          <h2 class="drawer-title" id="drawerTitle">City of Zarahemla</h2>
-          <p class="drawer-subtitle" id="drawerSubtitle">Heart of the Nephite Nation</p>
+    <!-- Interactive Chronological Timeline Footer (118px) -->
+    <footer class="app-timeline-footer" id="timelineFooter">
+      <div class="timeline-control-bar">
+        <!-- Playback Controls -->
+        <div class="playback-controls">
+          <button id="stepBackBtn" class="btn-ctrl" title="Step Back 1 Era (Left Arrow)" aria-label="Step back">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"></polygon><polygon points="22 19 13 12 22 5 22 19"></polygon></svg>
+          </button>
+          <button id="playPauseBtn" class="btn-ctrl btn-play glow-gold" title="Play / Pause Chronology (Spacebar)" aria-label="Play timeline">
+            <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          </button>
+          <button id="stepForwardBtn" class="btn-ctrl" title="Step Forward 1 Era (Right Arrow)" aria-label="Step forward">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"></polygon><polygon points="2 19 11 12 2 5 2 19"></polygon></svg>
+          </button>
+
+          <!-- Speed Selector -->
+          <div class="speed-selector" id="speedSelector">
+            <button class="speed-btn active" data-speed="1">1×</button>
+            <button class="speed-btn" data-speed="2">2×</button>
+            <button class="speed-btn" data-speed="5">5×</button>
+          </div>
+
+          <!-- Quick Cataclysm Trigger -->
+          <button id="cataclysmQuickToggle" class="btn-cataclysm-trigger" title="Jump directly to 3 Nephi Cataclysm (AD 34)">
+            🔥 <span>Cataclysm (AD 34)</span>
+          </button>
         </div>
-        <button class="drawer-close-btn" id="drawerCloseBtn" title="Close Drawer (Esc)">&times;</button>
+
+        <!-- Current Date Badge -->
+        <div class="current-date-badge" id="currentDateBadge">
+          <div class="badge-year" id="displayYear">2200 BC</div>
+          <div class="badge-season" id="displaySeason">Jaredite Exodus from Babel</div>
+        </div>
+
+        <!-- Era Filter Tabs -->
+        <div class="era-selector-tabs" id="eraTabs">
+          <button class="era-tab active" data-step="0" title="2200 BC: Jaredite Dispersion">Jaredite (2200 BC)</button>
+          <button class="era-tab" data-step="5" title="600 BC: Lehi Arrival">Lehi (600 BC)</button>
+          <button class="era-tab" data-step="13" title="200 BC: Mosiah at Zarahemla">Zarahemla (200 BC)</button>
+          <button class="era-tab" data-step="15" title="100 BC: Reign of Judges">Republic (100 BC)</button>
+          <button class="era-tab" data-step="19" title="AD 1: Birth of Christ">Christ's Birth (AD 1)</button>
+          <button class="era-tab cataclysm-tab" data-step="20" title="AD 34: 3 Nephi Cataclysm">Cataclysm (AD 34)</button>
+          <button class="era-tab" data-step="22" title="AD 100: 4 Nephi Golden Age">Peace (AD 100)</button>
+          <button class="era-tab" data-step="27" title="AD 350: Mormon's Retreat">Retreat (AD 350)</button>
+          <button class="era-tab" data-step="29" title="AD 421: Moroni's Record Sealed">Moroni Seal (AD 421)</button>
+        </div>
       </div>
 
-      <div class="drawer-body">
-        <!-- Official Church Stance Notice in Codex -->
-        <div class="drawer-church-stance-card">
-          <div class="church-stance-mini-header">
-            <span class="church-stance-mini-icon">📜</span>
-            <span class="church-stance-mini-title">Official Church Stance on Geography</span>
-          </div>
-          <p class="church-stance-mini-desc">
-            The Church takes no official position on specific Book of Mormon geography in the Americas, teaching that the scriptures' purpose is spiritual rather than geographic.
-          </p>
-          <button class="church-stance-mini-btn" id="drawerOpenDisclaimerBtn">Read Full Gospel Topics Statement &rarr;</button>
-        </div>
-
-        <!-- Chronological Settlement Era Status -->
-        <div class="drawer-timeline-status" id="drawerTimelineStatus"></div>
-
-        <!-- Scriptural Overview -->
-        <div class="drawer-section">
-          <div class="section-label">Scriptural Overview</div>
-          <div class="drawer-summary" id="drawerSummary">
-            The political and spiritual capital of the Nephite nation.
-          </div>
-        </div>
-
-        <!-- 3 Nephi Cataclysm Record (Active for transformed/destroyed sites) -->
-        <div class="drawer-section fate-section-hidden" id="drawerFateSection">
-          <div class="section-label">3 Nephi Cataclysm Record (AD 34)</div>
-          <div class="drawer-fate-card" id="drawerFateCard"></div>
-        </div>
-
-        <!-- Scripture Citations & Excerpts -->
-        <div class="drawer-section">
-          <div class="section-label">Scripture References (Book of Mormon)</div>
-          <div class="refs-list" id="drawerRefs"></div>
-        </div>
-
-        <!-- Key Historical Timeline Events -->
-        <div class="drawer-section">
-          <div class="section-label">Key Historical Events</div>
-          <div class="events-timeline" id="drawerEvents"></div>
-        </div>
-
-        <!-- Notable Figures -->
-        <div class="drawer-section">
-          <div class="section-label">Notable Figures</div>
-          <div class="people-tags" id="drawerPeople"></div>
+      <!-- Scrubber Slider Track -->
+      <div class="timeline-slider-track-wrap">
+        <input type="range" id="eraSlider" min="0" max="29" value="0" step="1" class="timeline-slider" aria-label="Book of Mormon Chronology Slider">
+        <div class="timeline-labels">
+          <span class="t-label">2200 BC (Babel)</span>
+          <span class="t-label">600 BC (Lehi)</span>
+          <span class="t-label">200 BC (Zarahemla)</span>
+          <span class="t-label highlight-gold">AD 1 (Sign of Christ's Birth)</span>
+          <span class="t-label highlight-crimson">AD 34 (3 Nephi Cataclysm)</span>
+          <span class="t-label">AD 200 (Golden Era)</span>
+          <span class="t-label">AD 421 (Moroni Seals Records)</span>
         </div>
       </div>
-    </aside>
-
-    <!-- Church of Jesus Christ Official Scripture Reader Modal (In-App Iframe) -->
-    <div id="scriptureModal" class="scripture-modal" aria-hidden="true">
-      <div class="scripture-modal-backdrop" id="scriptureModalBackdrop"></div>
-      <div class="scripture-modal-dialog">
-        <div class="scripture-modal-header">
-          <div class="scripture-modal-title-group">
-            <div class="scripture-modal-icon">📖</div>
-            <div>
-              <h3 id="scriptureModalTitle" class="scripture-modal-title">Scripture Reader</h3>
-              <p class="scripture-modal-sub">The Church of Jesus Christ of Latter-day Saints • Official Scriptures</p>
-            </div>
-          </div>
-          <div class="scripture-modal-actions">
-            <a id="scriptureExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-scripture-external" title="Open directly on churchofjesuschrist.org">
-              <span>Open in Church Site</span> ↗
-            </a>
-            <button id="closeScriptureModal" class="btn-scripture-close" title="Close Reader">✕</button>
-          </div>
-        </div>
-        <div class="scripture-modal-body">
-          <div id="scriptureLoading" class="scripture-loading-spinner">
-            <div class="spinner"></div>
-            <span>Loading official chapter from ChurchofJesusChrist.org...</span>
-          </div>
-          <iframe id="scriptureIframe" class="scripture-iframe" src="" title="Church of Jesus Christ Book of Mormon Scriptures" allow="fullscreen"></iframe>
-        </div>
-        <div class="scripture-modal-footer">
-          <span class="footer-tip">💡 Scroll up or down within the chapter to read preceding and succeeding context.</span>
-          <a id="scriptureFooterLink" class="footer-url" href="#" target="_blank" rel="noopener noreferrer"></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Old World Origins & Transoceanic Crossings Explorer Modal -->
-    <div id="oldWorldModal" class="old-world-modal" aria-hidden="true">
-      <div class="old-world-backdrop" id="oldWorldModalBackdrop"></div>
-      <div class="old-world-dialog">
-        <div class="old-world-header">
-          <div class="old-world-title-group">
-            <div class="old-world-icon">🌍</div>
-            <div>
-              <h3 class="old-world-title">Old World Origins & Transoceanic Crossings</h3>
-              <p class="old-world-sub">Starting Points in Babel & Jerusalem • Uncharted Oceans • Landfall in the Promised Land</p>
-            </div>
-          </div>
-          <button id="closeOldWorldModal" class="btn-old-world-close" title="Close Explorer">✕</button>
-        </div>
-
-        <div class="old-world-body">
-          <div class="old-world-banner">
-            <strong>Geographical Clarification:</strong> The Book of Mormon map displayed here represents the <em>Promised Land continent</em> (New World). All three civilizations originated in the <strong>Old World</strong> (Babel and Jerusalem) and were brought across vast, uncharted oceans separated from this land. The scriptural text does not specify exact ocean routes or longitudes, focusing instead on their sacred covenant landfall.
-          </div>
-
-          <div class="old-world-grid">
-            <!-- Jaredites -->
-            <div class="old-world-card">
-              <div class="old-world-card-header">
-                <div class="old-world-card-icon">🌊</div>
-                <div>
-                  <h4 class="old-world-card-title">1. The Jaredites</h4>
-                  <span class="old-world-card-sub">c. 2200 BC • Ether 1–6</span>
-                </div>
-              </div>
-              <div class="old-world-card-body">
-                <ul class="old-world-card-steps">
-                  <li><strong>Origin:</strong> Tower of Babel (Mesopotamia)</li>
-                  <li><strong>Old World Wilderness:</strong> Valley of Nimrod & inland seas</li>
-                  <li><strong>Seashore Camp:</strong> Moriancumer (4 years in tents upon the great sea, Ether 2:13)</li>
-                  <li><strong>Voyage:</strong> 8 sealed submersible barges, driven 344 days across the great deep</li>
-                  <li><strong>Landfall:</strong> Shores of the Land Northward near Moron & Desolation</li>
-                </ul>
-              </div>
-              <button class="btn-jump-landfall" data-target-id="land_of_moron">
-                📍 View Landfall: Moron / Desolation
-              </button>
-            </div>
-
-            <!-- Nephites / Lehi -->
-            <div class="old-world-card">
-              <div class="old-world-card-header">
-                <div class="old-world-card-icon">⛵</div>
-                <div>
-                  <h4 class="old-world-card-title">2. Lehi's Colony (Nephites)</h4>
-                  <span class="old-world-card-sub">c. 600 BC • 1 Nephi 1–18</span>
-                </div>
-              </div>
-              <div class="old-world-card-body">
-                <ul class="old-world-card-steps">
-                  <li><strong>Origin:</strong> Jerusalem (Reign of King Zedekiah)</li>
-                  <li><strong>Old World Wilderness:</strong> 8-year trek across Arabia (Valley of Lemuel, Shazer, Nahom)</li>
-                  <li><strong>Seashore Camp:</strong> Old World Bountiful on the Arabian Sea coast</li>
-                  <li><strong>Voyage:</strong> Divine ship guided by the Liahona across the ocean</li>
-                  <li><strong>Landfall:</strong> Land of First Inheritance on the West Sea coast</li>
-                </ul>
-              </div>
-              <button class="btn-jump-landfall" data-target-id="land_first_inheritance">
-                📍 View Landfall: Land of First Inheritance
-              </button>
-            </div>
-
-            <!-- Mulekites -->
-            <div class="old-world-card">
-              <div class="old-world-card-header">
-                <div class="old-world-card-icon">👑</div>
-                <div>
-                  <h4 class="old-world-card-title">3. The Mulekites</h4>
-                  <span class="old-world-card-sub">c. 586 BC • Omni 1; Alma 22; Helaman 6</span>
-                </div>
-              </div>
-              <div class="old-world-card-body">
-                <ul class="old-world-card-steps">
-                  <li><strong>Origin:</strong> Jerusalem (Escape of Prince Mulek during Babylonian conquest)</li>
-                  <li><strong>Voyage:</strong> Brought by the hand of the Lord across the great waters</li>
-                  <li><strong>Landfall:</strong> Northern coast at the borders of Desolation (Alma 22:30)</li>
-                  <li><strong>Inland Migration:</strong> Journeyed 'up into the south wilderness' along River Sidon to Zarahemla</li>
-                  <li><strong>Meeting:</strong> Discovered the last Jaredite king, Coriantumr (Omni 1:21)</li>
-                </ul>
-              </div>
-              <button class="btn-jump-landfall" data-target-id="land_of_desolation">
-                📍 View Landfall: Desolation Landing
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Official Church Gospel Topics Geography Disclaimer Modal -->
-    <div id="disclaimerModal" class="disclaimer-modal" role="dialog" aria-modal="true" aria-labelledby="disclaimerModalTitle" aria-hidden="true">
-      <div class="disclaimer-backdrop" id="disclaimerModalBackdrop"></div>
-      <div class="disclaimer-dialog">
-        <div class="disclaimer-header">
-          <div class="disclaimer-title-group">
-            <div class="disclaimer-icon">📜</div>
-            <div>
-              <span class="modal-badge">Official Church Policy</span>
-              <h3 id="disclaimerModalTitle" class="disclaimer-title">Book of Mormon Geography Notice</h3>
-            </div>
-          </div>
-          <button id="closeDisclaimerBtn" class="btn-old-world-close" title="Close Notice">✕</button>
-        </div>
-        <div class="modal-body disclaimer-body">
-          <blockquote class="disclaimer-quote">
-            "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas. Speculation on the geography of the Book of Mormon may mislead; instead, the best guide is the text of the Book of Mormon itself."
-            <footer>— The First Presidency and Quorum of the Twelve Apostles</footer>
-          </blockquote>
-          <p>
-            The First Presidency has stated: <em>"The Church's only position is that the events the Book of Mormon describes took place in the ancient Americas. ... The First Presidency and Quorum of the Twelve Apostles urge leaders and members not to advocate among the people any given theory concerning Book of Mormon geography."</em>
-          </p>
-          <p>
-            <strong>About this Educational Model:</strong> This interactive cartographic atlas is an internal textual study model based strictly on the <em>relative spatial relationships</em> set forth in the scripture text (such as Zarahemla west of River Sidon, Bountiful north of Zarahemla, the Narrow Strip of Wilderness, and East Sea coastal corridors). It does not advocate any specific hemispheric, regional, or archaeological theory.
-          </p>
-          <div class="disclaimer-links">
-            <a href="https://www.churchofjesuschrist.org/study/manual/gospel-topics/book-of-mormon-geography?lang=eng" target="_blank" rel="noopener noreferrer" class="church-link-btn">
-              <span>Read Official Gospel Topics Essay on ChurchofJesusChrist.org &rarr;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Scriptural Distance & Day-Journeys Explanatory Modal -->
-    <div id="distanceScaleModal" class="disclaimer-modal" role="dialog" aria-modal="true" aria-labelledby="distanceModalTitle" aria-hidden="true">
-      <div class="disclaimer-backdrop" id="distanceModalBackdrop"></div>
-      <div class="disclaimer-dialog">
-        <div class="disclaimer-header">
-          <div class="disclaimer-title-group">
-            <div class="disclaimer-icon">📐</div>
-            <div>
-              <span class="modal-badge">Scriptural Cartography</span>
-              <h3 id="distanceModalTitle" class="disclaimer-title">Book of Mormon Distances & Day-Journeys</h3>
-            </div>
-          </div>
-          <button id="closeDistanceModalBtn" class="btn-old-world-close" title="Close Distance Guide">✕</button>
-        </div>
-        <div class="modal-body disclaimer-body">
-          <p>
-            The Book of Mormon expresses geographic distances in terms of <strong>travel time</strong>—principally the <em>"day's journey for a Nephite"</em> on foot through rugged terrain.
-          </p>
-          <div class="distance-metric-grid">
-            <div class="metric-card">
-              <h4>1. The Narrow Neck of Land</h4>
-              <p><strong>Alma 22:32:</strong> <em>"And now, it was only the distance of a day and a half's journey for a Nephite, on the line Bountiful and the land Desolation, from the east to the west sea."</em></p>
-              <p><strong>Helaman 4:7:</strong> Fortified line across the neck was <em>"a day's journey for a Nephite."</em></p>
-              <span class="metric-stat">Estimated Distance: ~18 to 27 Miles (29–43 km)</span>
-            </div>
-            <div class="metric-card">
-              <h4>2. The Standard "Day's Journey"</h4>
-              <p>In ancient near-eastern and pre-Columbian foot travel over trails, an unencumbered scout or runner covered approximately <strong>18–22 miles per day</strong>, while armies or colonies with flocks traveled <strong>10–14 miles per day</strong>.</p>
-              <span class="metric-stat">Scout / Courier Rate: ~18 Miles / Day</span>
-            </div>
-            <div class="metric-card">
-              <h4>3. Nephi to Zarahemla Wilderness Exodus</h4>
-              <p><strong>Mosiah 23:3 & 24:20–25:</strong> Alma's colony traveled 8 days from the Waters of Mormon to the Land of Helam, and later 12 days from the Valley of Alma to the Land of Zarahemla.</p>
-              <span class="metric-stat">Total Transit: 20–21 Days with Families & Flocks (~220–260 Miles)</span>
-            </div>
-          </div>
-          <div class="disclaimer-links distance-modal-actions">
-            <button class="church-link-btn" id="closeDistanceModalCta">
-              <span>Return to Interactive Map &rarr;</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </footer>
 
   </div>
 
-  <!-- Application Scripts -->
-  <script src="map-data.js?v=7.6"></script>
-  <script src="app.js?v=7.6"></script>
+  <!-- Guided Tours Selection Modal -->
+  <div class="modal-backdrop" id="tourModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Select a Curated Scriptural Expedition</h3>
+        <button class="close-btn" id="closeTourModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+          Follow verified internal waypoints and military marches across Book of Mormon history. Each expedition will pan the map dynamically and guide you step-by-step with scriptural citations.
+        </p>
+        <div class="tours-grid" id="toursGrid">
+          <!-- Dynamically populated by JS from map-data.js journeys -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Church of Jesus Christ Official Scripture Reader Modal -->
+  <div id="scriptureModal" class="scripture-modal" aria-hidden="true">
+    <div class="scripture-modal-backdrop" id="scriptureModalBackdrop"></div>
+    <div class="scripture-modal-dialog">
+      <div class="scripture-modal-header">
+        <div class="scripture-modal-title-group">
+          <div class="scripture-modal-icon">📖</div>
+          <div>
+            <h3 id="scriptureModalTitle" class="scripture-modal-title">Scripture Reader</h3>
+            <p class="scripture-modal-sub">The Church of Jesus Christ of Latter-day Saints • Official Scriptures</p>
+          </div>
+        </div>
+        <div class="scripture-modal-actions">
+          <a id="scriptureExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-scripture-external" title="Open directly on ChurchofJesusChrist.org">
+            <span>Open in Church Site</span> ↗
+          </a>
+          <button id="closeScriptureModal" class="btn-scripture-close" title="Close Reader">&times;</button>
+        </div>
+      </div>
+      <div class="scripture-modal-body">
+        <div id="scriptureLoading" class="scripture-loading-spinner">
+          <div class="spinner"></div>
+          <span>Loading official scripture chapter from ChurchofJesusChrist.org...</span>
+        </div>
+        <iframe id="scriptureIframe" class="scripture-iframe" src="" title="Church of Jesus Christ Book of Mormon Scriptures" allow="fullscreen"></iframe>
+      </div>
+      <div class="scripture-modal-footer">
+        <span>💡 Read full preceding and succeeding context within the chapter above.</span>
+        <a id="scriptureFooterLink" href="#" target="_blank" rel="noopener noreferrer" style="color: var(--color-crimson); font-weight: 600; text-decoration: none;">View on ChurchofJesusChrist.org ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Old World Origins & Transoceanic Crossings Explorer Modal -->
+  <div id="oldWorldModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Old World Origins & Transoceanic Crossings</h3>
+        <button class="close-btn" id="closeOldWorldModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="old-world-banner">
+          <strong>Geographical Clarification:</strong> The Book of Mormon map displayed here represents the <em>Promised Land continent</em>. All three scriptural migrations originated in the <strong>Old World</strong> (Babel and Jerusalem) and were miraculously guided across vast oceans. The scriptural record focuses on their covenant landfall rather than longitudinal coordinates.
+        </div>
+        <div class="old-world-grid">
+          <div class="old-world-card">
+            <div class="old-world-card-icon">🌊</div>
+            <h4 class="old-world-card-title">1. The Jaredites</h4>
+            <span class="old-world-card-sub">c. 2200 BC • Ether 1–6</span>
+            <p>Departed the Great Tower (Babel). Traveled to the Valley of Nimrod, across ancient inland seas, and spent 344 days in eight submersible barges across the great deep to the Land Northward.</p>
+          </div>
+          <div class="old-world-card">
+            <div class="old-world-card-icon">⛵</div>
+            <h4 class="old-world-card-title">2. Lehi & Sariah's Family</h4>
+            <span class="old-world-card-sub">c. 600 BC • 1 Nephi 1–18</span>
+            <p>Departed Jerusalem into the Arabian wilderness, pitched tents in the Valley of Lemuel, reached Bountiful on the Arabian Sea, built a ship directed by the Liahona, and landed on the West Sea coast.</p>
+          </div>
+          <div class="old-world-card">
+            <div class="old-world-card-icon">⚓</div>
+            <h4 class="old-world-card-title">3. Mulekites</h4>
+            <span class="old-world-card-sub">c. 586 BC • Omni 1, Helaman 6</span>
+            <p>Escaped the Babylonian conquest of Jerusalem (Mulek was son of King Zedekiah). Guided by the hand of the Lord across the great waters, arriving at the Land Northward and settling Zarahemla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Official Church Stance Modal -->
+  <div id="disclaimerModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Official Church Stance on Book of Mormon Geography</h3>
+        <button class="close-btn" id="closeDisclaimerModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="old-world-banner">
+          <p style="font-family: var(--font-scripture); font-size: 1.05rem; font-style: italic; line-height: 1.5; margin-bottom: 0.5rem;">
+            "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas... The best guide to Book of Mormon geography is the text of the Book of Mormon itself."
+          </p>
+          <strong style="display: block; text-align: right; font-size: 0.8rem; color: var(--color-crimson);">— First Presidency of The Church of Jesus Christ of Latter-day Saints</strong>
+        </div>
+        <div style="font-size: 0.84rem; line-height: 1.5; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.65rem;">
+          <p>This interactive atlas strictly visualizes the <strong>internal textual relationships</strong>, day-journeys, river flows (River Sidon), and cataclysmic topographical changes recorded in the sacred text itself.</p>
+          <p>The Prophet Joseph Smith stated that the Book of Mormon was written for our day to bring souls unto Jesus Christ. Geographic analysis is an educational cartographic aid to scriptural study, not an official doctrinal declaration.</p>
+          <div style="margin-top: 0.5rem;">
+            <a href="https://www.churchofjesuschrist.org/study/manual/gospel-topics/book-of-mormon-geography?lang=eng" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; text-decoration: none;">
+              Read Full Gospel Topics Statement on ChurchofJesusChrist.org ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Toast -->
+  <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
+
+  <!-- Data & Controller Scripts -->
+  <script src="map-data.js?v=8.4"></script>
+  <script src="js/data/placeDossiers.js?v=8.4"></script>
+  <script src="js/data/scriptureTranslations.js?v=8.4"></script>
+  <script src="js/data/churchVideos.js?v=8.4"></script>
+  <script src="app.js?v=8.4"></script>
 </body>
 </html>

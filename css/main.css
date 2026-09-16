@@ -1,0 +1,570 @@
+/* ==========================================================================
+   BOOK OF MORMON GEOGRAPHY - CORE DESIGN SYSTEM & THEME
+   Ancient Cartographic Parchment + Regal Sacred Tones (Gold, Lapis, Crimson, Bronze)
+   Directly matching the New Testament Geography Interactive Atlas
+   ========================================================================== */
+
+:root {
+  /* Parchment Base Palette */
+  --bg-parchment: #F7F3E9;
+  --bg-parchment-deep: #EDE4D0;
+  --bg-parchment-dark: #DECDB3;
+  --bg-card: rgba(253, 250, 243, 0.95);
+  --bg-card-glass: rgba(253, 250, 243, 0.85);
+  --bg-overlay: rgba(35, 27, 18, 0.65);
+
+  /* Sacred Scriptural Color Accents */
+  --color-gold-light: #F6D678;
+  --color-gold: #C5A059;
+  --color-gold-dark: #977329;
+  --color-crimson: #A32822;
+  --color-crimson-deep: #7D1B16;
+  --color-lapis: #1D4E89;
+  --color-lapis-dark: #0F325E;
+  --color-terracotta: #C45B38;
+  --color-olive: #5B6B38;
+  --color-bronze: #84532B;
+
+  /* Typography Colors */
+  --text-primary: #221B13;
+  --text-secondary: #564736;
+  --text-muted: #84735E;
+  --text-gold: #966C1E;
+  --text-light: #FBF8F1;
+
+  /* Border & Dividers */
+  --border-parchment: #D9C8AC;
+  --border-parchment-dark: #BFA98A;
+  --border-gold: rgba(197, 160, 89, 0.55);
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 2px 4px rgba(34, 27, 19, 0.08);
+  --shadow-md: 0 4px 12px rgba(34, 27, 19, 0.12);
+  --shadow-lg: 0 10px 28px rgba(34, 27, 19, 0.18);
+  --shadow-gold: 0 0 16px rgba(212, 175, 55, 0.4);
+  --shadow-crimson: 0 0 14px rgba(163, 40, 34, 0.35);
+
+  /* Typography Fonts */
+  --font-serif-title: 'Cinzel', serif;
+  --font-scripture: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+
+  /* Layout Dimensions */
+  --header-height: 64px;
+  --filterbar-height: 44px;
+  --footer-height: 118px;
+  --sidebar-width: 440px;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  background-color: var(--bg-parchment-deep);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* App Container Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-parchment-deep);
+}
+
+/* ==========================================================================
+   TOP APPLICATION HEADER (64px)
+   ========================================================================== */
+.app-header {
+  height: var(--header-height);
+  background: var(--bg-parchment);
+  border-bottom: 2px solid var(--border-parchment-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  gap: 0.75rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.app-branding {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.brand-symbol {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FBF8F1 0%, #E8D9BE 100%);
+  border: 1.5px solid var(--color-gold);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm), 0 0 10px rgba(197, 160, 89, 0.25);
+  color: var(--color-crimson);
+  flex-shrink: 0;
+}
+
+.brand-symbol svg {
+  width: 24px;
+  height: 24px;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.brand-title {
+  font-family: var(--font-serif-title);
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-crimson);
+  line-height: 1.15;
+}
+
+.brand-subtitle {
+  font-family: var(--font-scripture);
+  font-size: 0.86rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.1;
+}
+
+/* Center Global Search */
+.header-center {
+  flex: 1;
+  max-width: 460px;
+  margin: 0 0.5rem;
+  position: relative;
+}
+
+.search-box-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+#globalSearchInput {
+  width: 100%;
+  height: 38px;
+  padding: 0 34px 0 36px;
+  background: #FFF;
+  border: 1.5px solid var(--border-parchment-dark);
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#globalSearchInput:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.25), inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+#globalSearchInput::placeholder {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+.clear-search-btn:hover {
+  color: var(--color-crimson);
+}
+
+/* Autocomplete Dropdown */
+.search-results-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-gold);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-result-item {
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-parchment);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.highlighted {
+  background: #F4EAD6;
+}
+
+.search-result-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.search-result-title {
+  font-family: var(--font-serif-title);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.search-result-meta {
+  font-family: var(--font-scripture);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.search-result-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(197, 160, 89, 0.18);
+  color: var(--color-gold-dark);
+  border: 1px solid var(--border-gold);
+  text-transform: uppercase;
+}
+
+/* Header Right Actions */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.btn {
+  height: 36px;
+  padding: 0 0.85rem;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.btn-outline {
+  background: #FFFDF9;
+  border-color: var(--border-parchment-dark);
+  color: var(--text-secondary);
+}
+
+.btn-outline:hover {
+  background: #F5ECD9;
+  border-color: var(--color-gold);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+  color: #FFFDF9;
+  border-color: rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.glow-gold {
+  box-shadow: 0 0 14px rgba(197, 160, 89, 0.45);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+  background: #FFFDF9;
+  border: 1px solid var(--border-parchment-dark);
+  color: var(--text-secondary);
+}
+
+.btn-icon:hover {
+  background: #F5ECD9;
+  color: var(--text-primary);
+}
+
+/* Dropdown Container & Menu */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-parchment-dark);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  padding: 0.35rem 0;
+  min-width: 220px;
+  z-index: 2000;
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 0.6rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-item:hover {
+  background: #F4EAD6;
+}
+
+/* Quick Jump Location Selector */
+.header-quick-jump-container {
+  display: flex;
+  align-items: center;
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-parchment-dark);
+  border-radius: 6px;
+  padding: 0 0.5rem;
+  height: 36px;
+}
+
+.quick-jump-icon {
+  font-size: 0.85rem;
+  margin-right: 4px;
+}
+
+.header-quick-jump-select {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  max-width: 175px;
+}
+
+/* Header Notice for Church Stance */
+.church-stance-header-btn {
+  background: rgba(163, 40, 34, 0.08);
+  border: 1px solid rgba(163, 40, 34, 0.3);
+  color: var(--color-crimson);
+  font-size: 0.78rem;
+  height: 36px;
+  padding: 0 0.7rem;
+}
+
+.church-stance-header-btn:hover {
+  background: rgba(163, 40, 34, 0.15);
+  border-color: var(--color-crimson);
+}
+
+/* ==========================================================================
+   FILTER & LAYER COMMAND BAR (44px)
+   ========================================================================== */
+.layer-filter-bar {
+  height: var(--filterbar-height);
+  background: #EBE0CC;
+  border-bottom: 1px solid var(--border-parchment-dark);
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  z-index: 990;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.filter-scroll-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-scroll-track::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.filter-label {
+  font-family: var(--font-serif-title);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-right: 0.25rem;
+}
+
+.filter-chip {
+  height: 28px;
+  padding: 0 0.65rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--border-parchment-dark);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.filter-chip:hover {
+  background: #FFF;
+  color: var(--text-primary);
+  border-color: var(--color-gold);
+}
+
+.filter-chip.active {
+  background: var(--color-crimson);
+  color: #FFFDF9;
+  border-color: var(--color-crimson-deep);
+  box-shadow: 0 2px 6px rgba(163, 40, 34, 0.35);
+  font-weight: 600;
+}
+
+.chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-all { background: #3B82F6; }
+.dot-capitals { background: #EAB308; box-shadow: 0 0 6px #EAB308; }
+.dot-cities { background: #D97706; }
+.dot-fortresses { background: #DC2626; }
+.dot-sacred { background: #10B981; }
+.dot-waters { background: #0284C7; }
+.dot-wilderness { background: #78350F; }
+.dot-cataclysm { background: #B91C1C; }
+.dot-journeys { background: #8B5CF6; }
+
+/* Stat Pill Counters */
+.filter-group-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.stat-pill {
+  height: 28px;
+  padding: 0 0.65rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border-parchment-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+}
+
+.stat-num {
+  font-weight: 700;
+  color: var(--color-crimson);
+}
+
+.stat-name {
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+}
