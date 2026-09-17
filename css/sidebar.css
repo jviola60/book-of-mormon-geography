@@ -55,6 +55,7 @@
   font-size: 0.75rem;
   transition: all 0.2s ease;
   padding: 4px 0;
+  -webkit-user-select: none;
   user-select: none;
 }
 
