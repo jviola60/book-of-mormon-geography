@@ -22,43 +22,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Unified Modular Stylesheets -->
-  <link rel="stylesheet" href="css/main.css?v=8.8">
-  <link rel="stylesheet" href="css/map.css?v=8.8">
-  <link rel="stylesheet" href="css/timeline.css?v=8.8">
-  <link rel="stylesheet" href="css/sidebar.css?v=8.8">
-  <link rel="stylesheet" href="css/components.css?v=8.8">
+  <link rel="stylesheet" href="css/main.css?v=8.9">
+  <link rel="stylesheet" href="css/map.css?v=8.9">
+  <link rel="stylesheet" href="css/timeline.css?v=8.9">
+  <link rel="stylesheet" href="css/sidebar.css?v=8.9">
+  <link rel="stylesheet" href="css/components.css?v=8.9">
+  <link rel="stylesheet" href="css/mobile.css?v=8.9">
+
+  <!-- Mobile Viewport & Phone Shell Detection -->
+  <script>
+    (function () {
+      var phone = window.matchMedia("(max-width: 768px)").matches || /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+      document.documentElement.classList.toggle("layout-mobile", phone);
+      if (phone) {
+        var vv = window.visualViewport;
+        var h = Math.round((vv && vv.height) || window.innerHeight);
+        if (h) document.documentElement.style.setProperty("--app-vh", h + "px");
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.toggle("layout-mobile", phone);
+      });
+    })();
+  </script>
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- Scriptural Atlases Trilogy Navigation Bar -->
+    <!-- Scriptural Atlases Trilogy Navigation Bar (Subdued 26px) -->
     <nav class="cross-atlas-bar" id="crossAtlasBar" aria-label="Scriptural Atlases Navigation">
       <div class="cross-atlas-container">
         <span class="cross-atlas-label">Scriptural Atlases:</span>
         <div class="cross-atlas-links">
           <a href="https://jviola60.github.io/old-testament-geography/" class="atlas-link" target="_blank" rel="noopener noreferrer" title="Explore Old Testament Geography (~4000 BC – 400 BC)">
-            <span class="atlas-icon">📜</span>
-            <span class="atlas-name">Old Testament Atlas</span>
+            <span>📜 Old Testament Atlas</span>
             <span class="atlas-ext-arrow">↗</span>
           </a>
           <span class="atlas-link active" title="Currently viewing Book of Mormon Geography (~2200 BC – AD 421)">
-            <span class="atlas-icon">📖</span>
-            <span class="atlas-name">Book of Mormon Atlas</span>
+            <span>📖 Book of Mormon Atlas</span>
             <span class="atlas-current-badge">Current</span>
           </span>
           <a href="https://jviola60.github.io/new-testament-geography/" class="atlas-link" target="_blank" rel="noopener noreferrer" title="Explore New Testament Geography (~6 BC – 100 AD)">
-            <span class="atlas-icon">✝️</span>
-            <span class="atlas-name">New Testament Atlas</span>
+            <span>✝️ New Testament Atlas</span>
             <span class="atlas-ext-arrow">↗</span>
           </a>
         </div>
       </div>
     </nav>
 
-    <!-- Top Application Header (64px) -->
+    <!-- Top Application Header (56px) -->
     <header class="app-header" id="appHeader">
       <div class="header-left">
+        <!-- Mobile Navigation Menu Toggle (Phone view) -->
+        <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" title="Open Atlas Navigation Menu" aria-label="Open Atlas Menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+
         <div class="app-branding" id="brandLogoBtn" title="Reset view & return to Atlas Overview">
           <div class="brand-symbol">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -85,36 +108,12 @@
         </div>
       </div>
 
-      <!-- Header Actions -->
+      <!-- Header Actions (Desktop) -->
       <div class="header-right">
-        <!-- Quick Region Focus Dropdown -->
-        <div class="dropdown-container">
-          <button id="regionSelectBtn" class="btn btn-outline" title="Zoom to scriptural region">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
-            <span class="btn-text">Regions</span>
-          </button>
-          <div id="regionDropdown" class="dropdown-menu">
-            <button data-region="whole-land" class="dropdown-item">🗺️ Entire Promised Land</button>
-            <button data-region="land-southward" class="dropdown-item">📍 Land Southward (Zarahemla & Nephi)</button>
-            <button data-region="zarahemla" class="dropdown-item">🏛️ City of Zarahemla & Sidon Basin</button>
-            <button data-region="land-nephi" class="dropdown-item">👑 Land of Nephi (Waters of Mormon)</button>
-            <button data-region="narrow-neck" class="dropdown-item">🌊 Narrow Neck of Land & Bountiful</button>
-            <button data-region="land-northward" class="dropdown-item">⛰️ Land Northward & Hill Cumorah</button>
-            <button data-region="east-wilderness" class="dropdown-item">🛡️ East Sea Defense Line (Moroni)</button>
-            <button data-region="west-coast" class="dropdown-item">⚓ West Sea Coast & Ammonihah</button>
-          </div>
-        </div>
-
         <!-- Curated Guided Tours Button -->
         <button id="storyToursBtn" class="btn btn-primary glow-gold" title="Explore Curated Scripture Expeditions">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
           <span>Guided Tours</span>
-        </button>
-
-        <!-- Scriptural Distances & Travel Metrics Button -->
-        <button id="headerDistanceScaleBtn" class="btn btn-outline glow-gold travel-distances-header-btn" title="View Book of Mormon Distance & Travel Metrics Table (Alma 22:32)">
-          <span>📏</span>
-          <span>Travel Distances</span>
         </button>
 
         <!-- Location Quick Jump Dropdown -->
@@ -125,21 +124,36 @@
           </select>
         </div>
 
-        <!-- Coordinate Inspector Tool Button -->
-        <button id="toggleInspectorBtn" class="btn btn-outline" title="Toggle Coordinate Inspector">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="2" x2="12" y2="22"></line>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-          </svg>
-          <span id="inspectorBtnText">Inspector: OFF</span>
-        </button>
-
-        <!-- Old World Origins Explorer Button -->
-        <button id="openOldWorldBtn" class="btn btn-outline" title="Old World Origins (Babel & Jerusalem to Promised Land)">
-          <span>🌍</span>
-          <span>Old World</span>
-        </button>
+        <!-- Secondary Tools Consolidated Dropdown -->
+        <div class="dropdown-container" id="toolsDropdownContainer">
+          <button id="toolsDropdownBtn" class="btn btn-outline" title="Atlas Tools & Secondary Utilities" aria-expanded="false">
+            <span>🛠️</span>
+            <span class="btn-text">Tools</span>
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="toolsDropdownMenu" class="dropdown-menu dropdown-menu-wide">
+            <div class="dropdown-heading">Geographic Utilities</div>
+            <button id="menuDistanceScaleBtn" class="dropdown-item">
+              <span>📏</span> Scriptural Travel Distances (Alma 22:32)
+            </button>
+            <button id="menuOldWorldBtn" class="dropdown-item">
+              <span>🌍</span> Old World Origins (Babel & Jerusalem)
+            </button>
+            <button id="menuInspectorBtn" class="dropdown-item">
+              <span id="menuInspectorIcon">🧭</span> <span id="menuInspectorText">Inspector: OFF</span>
+            </button>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-heading">Region Focus</div>
+            <button data-region="whole-land" class="dropdown-item region-item">🗺️ Entire Promised Land</button>
+            <button data-region="land-southward" class="dropdown-item region-item">📍 Land Southward (Zarahemla & Nephi)</button>
+            <button data-region="zarahemla" class="dropdown-item region-item">🏛️ City of Zarahemla & Sidon Basin</button>
+            <button data-region="land-nephi" class="dropdown-item region-item">👑 Land of Nephi (Waters of Mormon)</button>
+            <button data-region="narrow-neck" class="dropdown-item region-item">🌊 Narrow Neck of Land & Bountiful</button>
+            <button data-region="land-northward" class="dropdown-item region-item">⛰️ Land Northward & Hill Cumorah</button>
+            <button data-region="east-wilderness" class="dropdown-item region-item">🛡️ East Sea Defense Line (Moroni)</button>
+            <button data-region="west-coast" class="dropdown-item region-item">⚓ West Sea Coast & Ammonihah</button>
+          </div>
+        </div>
 
         <!-- Official Church Stance Notice Button -->
         <button id="openDisclaimerBtn" class="btn church-stance-header-btn" title="Official Church Gospel Topics Geography Notice">
@@ -155,72 +169,102 @@
           </svg>
         </button>
       </div>
+
+      <!-- Mobile Header Quick Actions (Phone view) -->
+      <div class="mobile-header-actions" id="mobileHeaderActions">
+        <button id="mobileSearchToggleBtn" class="mobile-icon-btn" title="Search landmarks" aria-label="Search">
+          🔍
+        </button>
+        <button id="mobileCodexToggleBtn" class="mobile-icon-btn" title="Open Scriptural Codex" aria-label="Codex">
+          📜
+        </button>
+      </div>
     </header>
 
-    <!-- Filter & Layer Command Bar (44px) -->
+    <!-- Streamlined Filter & Layer Command Bar (38px) -->
     <nav class="layer-filter-bar" id="filterBar" aria-label="Map layers and category filters">
-      <div class="filter-scroll-track">
-        <div class="filter-group">
-          <span class="filter-label">Layers:</span>
-          <button class="filter-chip active" data-filter="all">
-            <span class="chip-dot dot-all"></span>All Visible
-          </button>
-          <button class="filter-chip" data-filter="capitals">
-            <span class="chip-dot dot-capitals"></span>Capitals
-          </button>
-          <button class="filter-chip" data-filter="cities">
-            <span class="chip-dot dot-cities"></span>Cities
-          </button>
-          <button class="filter-chip" data-filter="fortresses">
-            <span class="chip-dot dot-fortresses"></span>Fortresses
-          </button>
-          <button class="filter-chip" data-filter="sacred">
-            <span class="chip-dot dot-sacred"></span>Sacred Sites
-          </button>
-          <button class="filter-chip" data-filter="waters">
-            <span class="chip-dot dot-waters"></span>Waters & Seas
-          </button>
-          <button class="filter-chip" data-filter="wilderness">
-            <span class="chip-dot dot-wilderness"></span>Wilderness & Valleys
-          </button>
-          <button class="filter-chip" data-filter="cataclysm">
-            <span class="chip-dot dot-cataclysm"></span>Cataclysm (AD 34)
-          </button>
-        </div>
-
-        <!-- Confidence Level Filter Group -->
-        <div class="filter-group filter-group-confidence">
-          <span class="filter-label">Confidence:</span>
-          <button class="filter-chip conf-chip active" data-conf="all">All (94)</button>
-          <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest" title="Filter to highest confidence only: Level 1 Explicit & Level 2 Strongly Supported (62 sites)">⭐ L1 + L2 Highest (62)</button>
-          <button class="filter-chip conf-chip conf-chip-1" data-conf="1" title="Level 1: Explicit directional or relational statements">L1 Explicit (38)</button>
-          <button class="filter-chip conf-chip conf-chip-2" data-conf="2" title="Level 2: Strongly supported by surrounding context">L2 Supported (24)</button>
-          <button class="filter-chip conf-chip conf-chip-3" data-conf="3" title="Level 3: Reasonable inference from multiple passages">L3 Inferred (17)</button>
-          <button class="filter-chip conf-chip conf-chip-4" data-conf="4" title="Level 4: Textually indeterminate / position uncertain">L4 Indeterminate (15)</button>
-          <button class="filter-chip indet-chip active" id="toggleIndeterminateChip" title="Toggle visibility of Level 4 Indeterminate sites"><span id="indetToggleIcon">👁️</span> <span id="indetToggleText">L4: Visible</span></button>
-        </div>
-
-        <!-- Dispensation & Tradition Filter Group -->
-        <div class="filter-group filter-group-dispensation">
-          <span class="filter-label">Tradition:</span>
-          <button class="filter-chip disp-chip active" data-disp="all">All Eras</button>
-          <button class="filter-chip disp-chip" data-disp="jaredite" title="Jaredite era geography (~2200 BC - 600 BC)">Jaredite</button>
-          <button class="filter-chip disp-chip" data-disp="nephite_lamanite" title="Nephite and Lamanite geography (~600 BC - AD 421)">Nephite / Lamanite</button>
-        </div>
-
-        <div class="filter-group-right">
-          <!-- Metric Counters -->
-          <div class="stat-pill" title="Landmarks active in selected era">
-            <span class="stat-num" id="statSitesCount">94</span>
-            <span class="stat-name">Sites</span>
+      <div class="filter-scroll-wrapper">
+        <div class="filter-scroll-track">
+          <!-- Primary Default Visible Chips -->
+          <div class="filter-group">
+            <button class="filter-chip active" data-filter="all" id="chipAllVisible">
+              <span class="chip-dot dot-all"></span>All Visible
+            </button>
+            <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest" id="chipHighestConf" title="Filter to highest confidence only: Level 1 Explicit & Level 2 Strongly Supported (62 sites)">
+              ⭐ L1 + L2 Highest (62)
+            </button>
+            <button class="filter-chip" data-filter="cataclysm" id="chipCataclysm">
+              <span class="chip-dot dot-cataclysm"></span>Cataclysm (AD 34)
+            </button>
+            <button class="filter-chip filter-chip-toggle" id="toggleFiltersPanelBtn" title="Open full layers & confidence filter options" aria-expanded="false">
+              <span>⚙️ Filters</span>
+              <span class="active-filters-badge" id="activeFiltersBadge" style="display:none;">0</span>
+            </button>
           </div>
-          <div class="stat-pill" title="Scriptural Expeditions and Military Marches">
-            <span class="stat-num" id="statToursCount">12</span>
-            <span class="stat-name">Expeditions</span>
+
+          <!-- Stat Pill Counters (Right-aligned) -->
+          <div class="filter-group-right">
+            <div class="stat-pill" title="Landmarks active in selected era">
+              <span class="stat-num" id="statSitesCount">94</span>
+              <span class="stat-name">Sites</span>
+            </div>
+            <div class="stat-pill" title="Scriptural Expeditions and Military Marches">
+              <span class="stat-num" id="statToursCount">12</span>
+              <span class="stat-name">Expeditions</span>
+            </div>
+            <div class="stat-pill" title="Chronological Eras Recorded">
+              <span class="stat-num" id="statErasCount">30</span>
+              <span class="stat-name">Eras</span>
+            </div>
           </div>
-          <div class="stat-pill" title="Chronological Eras Recorded">
-            <span class="stat-num" id="statErasCount">30</span>
-            <span class="stat-name">Eras</span>
+        </div>
+        <div class="scroll-fade-right"></div>
+      </div>
+
+      <!-- Expandable Desktop Filters Flyout Panel -->
+      <div class="desktop-filters-panel" id="desktopFiltersPanel">
+        <div class="desktop-filters-content">
+          <!-- Section 1: Specific Landmark Types / Layers -->
+          <div class="df-section">
+            <span class="df-section-title">Site Types:</span>
+            <div class="df-chips" id="desktopLayerChips">
+              <button class="filter-chip" data-filter="capitals"><span class="chip-dot dot-capitals"></span>Capitals</button>
+              <button class="filter-chip" data-filter="cities"><span class="chip-dot dot-cities"></span>Cities</button>
+              <button class="filter-chip" data-filter="fortresses"><span class="chip-dot dot-fortresses"></span>Fortresses</button>
+              <button class="filter-chip" data-filter="sacred"><span class="chip-dot dot-sacred"></span>Sacred Sites</button>
+              <button class="filter-chip" data-filter="waters"><span class="chip-dot dot-waters"></span>Waters & Seas</button>
+              <button class="filter-chip" data-filter="wilderness"><span class="chip-dot dot-wilderness"></span>Wilderness</button>
+            </div>
+          </div>
+
+          <!-- Section 2: Textual Confidence System -->
+          <div class="df-section">
+            <span class="df-section-title">Confidence Level:</span>
+            <div class="df-chips" id="desktopConfChips">
+              <button class="filter-chip conf-chip active" data-conf="all">All (94)</button>
+              <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest" title="Level 1 Explicit & Level 2 Strongly Supported">⭐ Highest (62)</button>
+              <button class="filter-chip conf-chip conf-chip-1" data-conf="1" title="Level 1: Explicit directional or relational statements">L1 Explicit (38)</button>
+              <button class="filter-chip conf-chip conf-chip-2" data-conf="2" title="Level 2: Strongly supported by context">L2 Supported (24)</button>
+              <button class="filter-chip conf-chip conf-chip-3" data-conf="3" title="Level 3: Textual deduction">L3 Inferred (17)</button>
+              <button class="filter-chip conf-chip conf-chip-4" data-conf="4" title="Level 4: Textually indeterminate">L4 Indeterminate (15)</button>
+              <button class="filter-chip indet-chip active" id="toggleIndeterminateChip" title="Toggle visibility of Level 4 Indeterminate sites"><span id="indetToggleIcon">👁️</span> <span id="indetToggleText">L4: Visible</span></button>
+            </div>
+          </div>
+
+          <!-- Section 3: Scriptural Tradition / Era -->
+          <div class="df-section">
+            <span class="df-section-title">Scriptural Era:</span>
+            <div class="df-chips" id="desktopDispChips">
+              <button class="filter-chip disp-chip active" data-disp="all">All Eras</button>
+              <button class="filter-chip disp-chip" data-disp="jaredite" title="Jaredite era geography (~2200 BC - 600 BC)">Jaredite</button>
+              <button class="filter-chip disp-chip" data-disp="nephite_lamanite" title="Nephite and Lamanite geography (~600 BC - AD 421)">Nephite / Lamanite</button>
+            </div>
+          </div>
+
+          <!-- Section 4: Actions -->
+          <div class="df-actions">
+            <button class="btn btn-sm btn-outline" id="resetFiltersBtn" style="height:30px; font-size:0.76rem;">Reset Filters</button>
+            <button class="btn btn-sm btn-primary" id="closeFiltersPanelBtn" style="height:30px; font-size:0.76rem;">Close Panel ✕</button>
           </div>
         </div>
       </div>
@@ -399,8 +443,9 @@
         </div>
       </div>
 
-      <!-- Slide-Out Ancient Codex / Detail Sidebar (440px) -->
+      <!-- Slide-Out Ancient Codex / Detail Sidebar (390px desktop, bottom sheet mobile) -->
       <aside class="detail-sidebar" id="detailSidebar" aria-label="Location Details Codex">
+        <div class="mobile-drag-handle" id="mobileDragHandle" aria-hidden="true"><span class="drag-pill"></span></div>
         <div class="sidebar-header">
           <div class="sidebar-title-wrap">
             <span class="sidebar-eyebrow" id="sidebarEyebrow">SCRIPTURAL CODEX</span>
@@ -494,8 +539,174 @@
           <span class="t-label">AD 421 (Moroni Seals Records)</span>
         </div>
       </div>
-    </footer>
+    <!-- Mobile Thumb-Friendly Bottom Navigation Bar (56px) -->
+    <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Mobile Navigation Bar">
+      <button class="mobile-bottom-btn" id="mobBottomSearchBtn" type="button">
+        <span class="mobile-bottom-icon">🔍</span>
+        <span>Search</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomToursBtn" type="button">
+        <span class="mobile-bottom-icon">🧭</span>
+        <span>Tours</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomJumpBtn" type="button">
+        <span class="mobile-bottom-icon">📍</span>
+        <span>Jump</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomFiltersBtn" type="button">
+        <span class="mobile-bottom-icon">⚙️</span>
+        <span>Filters</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomCodexBtn" type="button">
+        <span class="mobile-bottom-icon">📜</span>
+        <span>Codex</span>
+      </button>
+    </nav>
 
+  </div>
+
+  <!-- Mobile Bottom Sheet Backdrop -->
+  <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop"></div>
+
+  <!-- Mobile Slide-Out Navigation Drawer -->
+  <aside class="mobile-nav-sheet" id="mobileNavSheet" aria-label="Mobile Navigation Menu">
+    <div class="mobile-nav-header">
+      <h3 class="mobile-nav-title">Book of Mormon Atlas</h3>
+      <button class="mobile-nav-close" id="closeMobileNavBtn" aria-label="Close menu">&times;</button>
+    </div>
+
+    <!-- Scriptural Atlases Trilogy -->
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-heading">Scriptural Atlases Trilogy</div>
+      <a href="https://jviola60.github.io/old-testament-geography/" class="mobile-atlas-link" target="_blank" rel="noopener noreferrer">
+        <span>📜 Old Testament Atlas (~4000 BC – 400 BC)</span>
+        <span style="color:var(--color-crimson);">↗</span>
+      </a>
+      <div class="mobile-atlas-link active">
+        <span>📖 Book of Mormon Atlas (~2200 BC – AD 421)</span>
+        <span class="conf-pill conf-pill-1" style="font-size:0.65rem;">Current</span>
+      </div>
+      <a href="https://jviola60.github.io/new-testament-geography/" class="mobile-atlas-link" target="_blank" rel="noopener noreferrer">
+        <span>✝️ New Testament Atlas (~6 BC – 100 AD)</span>
+        <span style="color:var(--color-crimson);">↗</span>
+      </a>
+    </div>
+
+    <!-- Core Rule & Church Stance -->
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-heading">Textual Grounding</div>
+      <button class="mobile-menu-item" id="mobChurchStanceBtn">
+        <span>📜</span>
+        <div>
+          <div style="font-weight:600;">Official Church Stance</div>
+          <div style="font-size:0.72rem; color:var(--text-secondary);">Pure internal textual mandate</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Secondary Tools -->
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-heading">Atlas Tools</div>
+      <button class="mobile-menu-item" id="mobDistanceScaleBtn">
+        <span>📏</span>
+        <span>Travel Distances & Day Journeys (Alma 22:32)</span>
+      </button>
+      <button class="mobile-menu-item" id="mobOldWorldBtn">
+        <span>🌍</span>
+        <span>Old World Origins (Babel & Jerusalem)</span>
+      </button>
+      <button class="mobile-menu-item" id="mobInspectorBtn">
+        <span>🧭</span>
+        <span id="mobInspectorText">Coordinate Inspector: OFF</span>
+      </button>
+    </div>
+
+    <!-- Region Focus Jumps -->
+    <div class="mobile-nav-section">
+      <div class="mobile-nav-heading">Quick Region Focus</div>
+      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+        <button class="mobile-menu-item region-item" data-region="whole-land">🗺️ Entire Promised Land</button>
+        <button class="mobile-menu-item region-item" data-region="land-southward">📍 Land Southward (Zarahemla & Nephi)</button>
+        <button class="mobile-menu-item region-item" data-region="zarahemla">🏛️ City of Zarahemla & Sidon Basin</button>
+        <button class="mobile-menu-item region-item" data-region="land-nephi">👑 Land of Nephi (Waters of Mormon)</button>
+        <button class="mobile-menu-item region-item" data-region="narrow-neck">🌊 Narrow Neck & Bountiful</button>
+        <button class="mobile-menu-item region-item" data-region="land-northward">⛰️ Land Northward & Hill Cumorah</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Filters Bottom Sheet -->
+  <div class="mobile-filter-sheet" id="mobileFiltersSheet" aria-label="Mobile Filter Options">
+    <div class="mobile-sheet-header">
+      <h3 class="mobile-sheet-title">Filter Map Landmarks</h3>
+      <button class="close-btn" id="closeMobileFiltersBtn">&times;</button>
+    </div>
+    <div class="mobile-sheet-body">
+      <!-- Quick Presets -->
+      <div>
+        <div class="mobile-filter-section-title">Quick Presets</div>
+        <div class="mobile-chips-grid">
+          <button class="filter-chip active" data-filter="all">All Visible</button>
+          <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest">⭐ L1 + L2 Highest (62)</button>
+          <button class="filter-chip" data-filter="cataclysm">Cataclysm (AD 34)</button>
+        </div>
+      </div>
+
+      <!-- Site Categories -->
+      <div>
+        <div class="mobile-filter-section-title">Landmark Types</div>
+        <div class="mobile-chips-grid">
+          <button class="filter-chip" data-filter="capitals"><span class="chip-dot dot-capitals"></span>Capitals</button>
+          <button class="filter-chip" data-filter="cities"><span class="chip-dot dot-cities"></span>Cities</button>
+          <button class="filter-chip" data-filter="fortresses"><span class="chip-dot dot-fortresses"></span>Fortresses</button>
+          <button class="filter-chip" data-filter="sacred"><span class="chip-dot dot-sacred"></span>Sacred Sites</button>
+          <button class="filter-chip" data-filter="waters"><span class="chip-dot dot-waters"></span>Waters & Seas</button>
+          <button class="filter-chip" data-filter="wilderness"><span class="chip-dot dot-wilderness"></span>Wilderness</button>
+        </div>
+      </div>
+
+      <!-- Textual Confidence Levels -->
+      <div>
+        <div class="mobile-filter-section-title">Textual Confidence System</div>
+        <div class="mobile-chips-grid">
+          <button class="filter-chip conf-chip active" data-conf="all">All Levels (94)</button>
+          <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest">⭐ L1 + L2 Highest (62)</button>
+          <button class="filter-chip conf-chip conf-chip-1" data-conf="1">L1 Explicit (38)</button>
+          <button class="filter-chip conf-chip conf-chip-2" data-conf="2">L2 Supported (24)</button>
+          <button class="filter-chip conf-chip conf-chip-3" data-conf="3">L3 Inferred (17)</button>
+          <button class="filter-chip conf-chip conf-chip-4" data-conf="4">L4 Indeterminate (15)</button>
+          <button class="filter-chip indet-chip active" id="mobToggleIndetChip"><span id="mobIndetIcon">👁️</span> <span id="mobIndetText">L4: Visible</span></button>
+        </div>
+      </div>
+
+      <!-- Scriptural Tradition -->
+      <div>
+        <div class="mobile-filter-section-title">Scriptural Era / Tradition</div>
+        <div class="mobile-chips-grid">
+          <button class="filter-chip disp-chip active" data-disp="all">All Eras</button>
+          <button class="filter-chip disp-chip" data-disp="jaredite">Jaredite Era (~2200–600 BC)</button>
+          <button class="filter-chip disp-chip" data-disp="nephite_lamanite">Nephite / Lamanite (~600 BC – AD 421)</button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-sheet-footer">
+      <button class="btn btn-outline" id="mobResetFiltersBtn">Reset Filters</button>
+      <button class="btn btn-primary glow-gold" id="mobApplyFiltersBtn">Apply & Close</button>
+    </div>
+  </div>
+
+  <!-- Mobile Landmark Quick Picker Sheet -->
+  <div class="mobile-picker-sheet" id="mobilePickerSheet" aria-label="Quick Landmark Selector">
+    <div class="mobile-sheet-header">
+      <h3 class="mobile-sheet-title">Jump to Landmark (94 Sites)</h3>
+      <button class="close-btn" id="closeMobilePickerBtn">&times;</button>
+    </div>
+    <div class="mobile-picker-search">
+      <input type="text" id="mobilePickerSearchInput" class="mobile-picker-input" placeholder="Type to filter landmarks..." autocomplete="off">
+    </div>
+    <div class="mobile-picker-list" id="mobilePickerList">
+      <!-- Injected via JS -->
+    </div>
   </div>
 
   <!-- Guided Tours Selection Modal -->
@@ -703,10 +914,10 @@
   <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
 
   <!-- Data & Controller Scripts -->
-  <script src="map-data.js?v=8.8"></script>
-  <script src="js/data/placeDossiers.js?v=8.8"></script>
-  <script src="js/data/scriptureTranslations.js?v=8.8"></script>
-  <script src="js/data/churchVideos.js?v=8.8"></script>
-  <script src="app.js?v=8.8"></script>
+  <script src="map-data.js?v=8.9"></script>
+  <script src="js/data/placeDossiers.js?v=8.9"></script>
+  <script src="js/data/scriptureTranslations.js?v=8.9"></script>
+  <script src="js/data/churchVideos.js?v=8.9"></script>
+  <script src="app.js?v=8.9"></script>
 </body>
 </html>

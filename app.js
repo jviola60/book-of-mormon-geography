@@ -198,7 +198,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statToursCount) statToursCount.textContent = mapJourneys.length;
     if (statErasCount) statErasCount.textContent = chronologicalMilestones.length;
 
-    if (mapImage.complete) {
+    // Mobile phone layout initialization: close sidebar so map is dominant
+    if (window.innerWidth <= 768 && detailSidebar) {
+      detailSidebar.classList.add('closed');
+    }
+
+    const runSetup = () => {
       fitMapToScreen();
       renderTerritoryPolygons();
       renderCataclysmTerrain();
@@ -207,17 +212,14 @@ document.addEventListener('DOMContentLoaded', () => {
       setupToursGrid();
       applyChronologicalStep(0);
       renderWelcomeSidebar();
+      setupMobileAndDesktopNavigation();
+      setupMobilePickerSheet();
+    };
+
+    if (mapImage.complete) {
+      runSetup();
     } else {
-      mapImage.onload = () => {
-        fitMapToScreen();
-        renderTerritoryPolygons();
-        renderCataclysmTerrain();
-        renderMarkers();
-        setupQuickJumpSelect();
-        setupToursGrid();
-        applyChronologicalStep(0);
-        renderWelcomeSidebar();
-      };
+      mapImage.onload = runSetup;
     }
   }
 
@@ -229,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth <= 768;
     const isDesktop = window.innerWidth > 900;
-    const sidebarOffset = (isDesktop && detailSidebar && !detailSidebar.classList.contains('closed')) ? 440 : 0;
+    const sidebarOffset = (isDesktop && detailSidebar && !detailSidebar.classList.contains('closed')) ? 390 : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
     const paddingX = isMobile ? 0.98 : 0.92;
@@ -520,6 +522,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // MULTI-SELECT OVERLAY & CONFIDENCE FILTER ENGINE
   // ==========================================================================
+  // ==========================================================================
+  // MULTI-SELECT OVERLAY & CONFIDENCE FILTER ENGINE
+  // ==========================================================================
   function toggleLayer(layerKey) {
     if (layerKey === 'all') {
       const allActive = activeLayers.size === ALL_LAYERS.length;
@@ -535,9 +540,51 @@ document.addEventListener('DOMContentLoaded', () => {
         activeLayers.add(layerKey);
       }
     }
+    syncFilterChipsUI();
+    updateLayerVisibility();
+  }
 
-    // Sync chip classes
-    filterChips.forEach(chip => {
+  function setConfidenceFilter(confKey) {
+    activeConfidenceFilter = confKey;
+    syncFilterChipsUI();
+    updateLayerVisibility();
+  }
+
+  function setDispensationFilter(dispKey) {
+    activeDispensationFilter = dispKey;
+    syncFilterChipsUI();
+    updateLayerVisibility();
+  }
+
+  function setIndeterminateVisibility(visible) {
+    hideIndeterminate = !visible;
+    const desktopChip = document.getElementById('toggleIndeterminateChip');
+    const mobChip = document.getElementById('mobToggleIndetChip');
+    const indetToggleIcon = document.getElementById('indetToggleIcon');
+    const indetToggleText = document.getElementById('indetToggleText');
+    const mobIndetIcon = document.getElementById('mobIndetIcon');
+    const mobIndetText = document.getElementById('mobIndetText');
+
+    [desktopChip, mobChip].forEach(btn => {
+      if (!btn) return;
+      btn.classList.toggle('hidden-mode', hideIndeterminate);
+      btn.classList.toggle('active', !hideIndeterminate);
+    });
+
+    const icon = hideIndeterminate ? '🙈' : '👁️';
+    const text = hideIndeterminate ? 'L4: Hidden' : 'L4: Visible';
+    if (indetToggleIcon) indetToggleIcon.textContent = icon;
+    if (indetToggleText) indetToggleText.textContent = text;
+    if (mobIndetIcon) mobIndetIcon.textContent = icon;
+    if (mobIndetText) mobIndetText.textContent = text;
+
+    syncFilterChipsUI();
+    updateLayerVisibility();
+  }
+
+  function syncFilterChipsUI() {
+    // Sync layer chips across desktop bar, expandable panel, and mobile sheet
+    document.querySelectorAll('.filter-chip[data-filter]').forEach(chip => {
       const k = chip.getAttribute('data-filter');
       if (k === 'all') {
         chip.classList.toggle('active', activeLayers.size === ALL_LAYERS.length);
@@ -546,6 +593,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Sync confidence chips
+    document.querySelectorAll('.filter-chip.conf-chip[data-conf]').forEach(chip => {
+      const c = chip.getAttribute('data-conf');
+      chip.classList.toggle('active', c === activeConfidenceFilter);
+    });
+
+    // Sync dispensation chips
+    document.querySelectorAll('.filter-chip.disp-chip[data-disp]').forEach(chip => {
+      const d = chip.getAttribute('data-disp');
+      chip.classList.toggle('active', d === activeDispensationFilter);
+    });
+
+    // Sync active filters count badge
+    const badge = document.getElementById('activeFiltersBadge');
+    if (badge) {
+      let diff = 0;
+      if (activeLayers.size < ALL_LAYERS.length) diff++;
+      if (activeConfidenceFilter !== 'all') diff++;
+      if (activeDispensationFilter !== 'all') diff++;
+      if (hideIndeterminate) diff++;
+      if (diff > 0) {
+        badge.textContent = diff;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  }
+
+  function resetAllFilters() {
+    activeLayers.clear();
+    ALL_LAYERS.forEach(k => activeLayers.add(k));
+    activeConfidenceFilter = 'all';
+    activeDispensationFilter = 'all';
+    setIndeterminateVisibility(true);
+    syncFilterChipsUI();
     updateLayerVisibility();
   }
 
@@ -602,57 +685,318 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  filterChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      toggleLayer(chip.getAttribute('data-filter'));
-    });
+  // Bind filter chips across all panels and sheets
+  document.addEventListener('click', (e) => {
+    const filterChip = e.target.closest('.filter-chip[data-filter]');
+    if (filterChip && !filterChip.classList.contains('filter-chip-toggle')) {
+      toggleLayer(filterChip.getAttribute('data-filter'));
+      return;
+    }
+
+    const confChip = e.target.closest('.filter-chip.conf-chip[data-conf]');
+    if (confChip) {
+      setConfidenceFilter(confChip.getAttribute('data-conf'));
+      return;
+    }
+
+    const dispChip = e.target.closest('.filter-chip.disp-chip[data-disp]');
+    if (dispChip) {
+      setDispensationFilter(dispChip.getAttribute('data-disp'));
+      return;
+    }
+
+    if (e.target.closest('#toggleIndeterminateChip') || e.target.closest('#mobToggleIndetChip')) {
+      setIndeterminateVisibility(hideIndeterminate);
+      return;
+    }
   });
 
-  // Connect Confidence Filter Chips
-  const confFilterChips = document.querySelectorAll('.conf-chip');
-  confFilterChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      confFilterChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      activeConfidenceFilter = chip.getAttribute('data-conf');
-      updateLayerVisibility();
-    });
-  });
+  // ==========================================================================
+  // DESKTOP & MOBILE NAVIGATION CONTROLLERS
+  // ==========================================================================
+  function setupMobileAndDesktopNavigation() {
+    // 1. Desktop Tools Dropdown
+    const toolsDropdownContainer = document.getElementById('toolsDropdownContainer');
+    const toolsDropdownBtn = document.getElementById('toolsDropdownBtn');
+    const toolsDropdownMenu = document.getElementById('toolsDropdownMenu');
+    const menuDistanceScaleBtn = document.getElementById('menuDistanceScaleBtn');
+    const menuOldWorldBtn = document.getElementById('menuOldWorldBtn');
+    const menuInspectorBtn = document.getElementById('menuInspectorBtn');
+    const menuInspectorText = document.getElementById('menuInspectorText');
 
-  // Connect Indeterminate Toggle Chip
-  const toggleIndeterminateChip = document.getElementById('toggleIndeterminateChip');
-  const indetToggleIcon = document.getElementById('indetToggleIcon');
-  const indetToggleText = document.getElementById('indetToggleText');
-  if (toggleIndeterminateChip) {
-    toggleIndeterminateChip.addEventListener('click', () => {
-      hideIndeterminate = !hideIndeterminate;
-      toggleIndeterminateChip.classList.toggle('hidden-mode', hideIndeterminate);
-      toggleIndeterminateChip.classList.toggle('active', !hideIndeterminate);
-      if (indetToggleIcon) indetToggleIcon.textContent = hideIndeterminate ? '🙈' : '👁️';
-      if (indetToggleText) indetToggleText.textContent = hideIndeterminate ? 'L4: Hidden' : 'L4: Visible';
-      updateLayerVisibility();
+    if (toolsDropdownBtn && toolsDropdownMenu) {
+      toolsDropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = toolsDropdownMenu.classList.contains('show');
+        toolsDropdownMenu.classList.toggle('show', !isOpen);
+        toolsDropdownBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!toolsDropdownContainer || !toolsDropdownContainer.contains(e.target)) {
+          toolsDropdownMenu.classList.remove('show');
+          toolsDropdownBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    if (menuDistanceScaleBtn && distanceScaleModal) {
+      menuDistanceScaleBtn.addEventListener('click', () => {
+        toolsDropdownMenu && toolsDropdownMenu.classList.remove('show');
+        openModal(distanceScaleModal);
+      });
+    }
+
+    if (menuOldWorldBtn && oldWorldModal) {
+      menuOldWorldBtn.addEventListener('click', () => {
+        toolsDropdownMenu && toolsDropdownMenu.classList.remove('show');
+        openModal(oldWorldModal);
+      });
+    }
+
+    if (menuInspectorBtn) {
+      menuInspectorBtn.addEventListener('click', () => {
+        toolsDropdownMenu && toolsDropdownMenu.classList.remove('show');
+        isInspectorActive = !isInspectorActive;
+        if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
+        if (menuInspectorText) menuInspectorText.textContent = isInspectorActive ? 'Inspector: ON' : 'Inspector: OFF';
+        if (inspectorBtnText) inspectorBtnText.textContent = isInspectorActive ? 'Inspector: ON' : 'Inspector: OFF';
+        const mobInspectorText = document.getElementById('mobInspectorText');
+        if (mobInspectorText) mobInspectorText.textContent = isInspectorActive ? 'Coordinate Inspector: ON' : 'Coordinate Inspector: OFF';
+      });
+    }
+
+    // Tools Region items
+    document.querySelectorAll('#toolsDropdownMenu .region-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        toolsDropdownMenu && toolsDropdownMenu.classList.remove('show');
+        zoomToRegion(btn.getAttribute('data-region'));
+      });
     });
+
+    // 2. Desktop Expandable Filter Panel
+    const toggleFiltersPanelBtn = document.getElementById('toggleFiltersPanelBtn');
+    const desktopFiltersPanel = document.getElementById('desktopFiltersPanel');
+    const closeFiltersPanelBtn = document.getElementById('closeFiltersPanelBtn');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+
+    if (toggleFiltersPanelBtn && desktopFiltersPanel) {
+      toggleFiltersPanelBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = desktopFiltersPanel.classList.contains('open');
+        desktopFiltersPanel.classList.toggle('open', !isOpen);
+        toggleFiltersPanelBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      if (closeFiltersPanelBtn) {
+        closeFiltersPanelBtn.addEventListener('click', () => {
+          desktopFiltersPanel.classList.remove('open');
+          toggleFiltersPanelBtn.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (desktopFiltersPanel && !desktopFiltersPanel.contains(e.target) && e.target !== toggleFiltersPanelBtn && !toggleFiltersPanelBtn.contains(e.target)) {
+          desktopFiltersPanel.classList.remove('open');
+          toggleFiltersPanelBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    if (resetFiltersBtn) {
+      resetFiltersBtn.addEventListener('click', resetAllFilters);
+    }
+
+    // 3. Mobile Navigation Sheet
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavSheet = document.getElementById('mobileNavSheet');
+    const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
+    const mobileSheetBackdrop = document.getElementById('mobileSheetBackdrop');
+
+    const openMobileSheet = (sheet) => {
+      closeAllMobileSheets();
+      if (sheet) sheet.classList.add('open');
+      if (mobileSheetBackdrop) mobileSheetBackdrop.classList.add('active');
+    };
+
+    const closeAllMobileSheets = () => {
+      document.querySelectorAll('.mobile-nav-sheet, .mobile-filter-sheet, .mobile-picker-sheet').forEach(s => s.classList.remove('open'));
+      if (mobileSheetBackdrop) mobileSheetBackdrop.classList.remove('active');
+    };
+
+    if (mobileMenuBtn && mobileNavSheet) {
+      mobileMenuBtn.addEventListener('click', () => openMobileSheet(mobileNavSheet));
+    }
+
+    if (closeMobileNavBtn) {
+      closeMobileNavBtn.addEventListener('click', closeAllMobileSheets);
+    }
+
+    if (mobileSheetBackdrop) {
+      mobileSheetBackdrop.addEventListener('click', closeAllMobileSheets);
+    }
+
+    const mobChurchStanceBtn = document.getElementById('mobChurchStanceBtn');
+    if (mobChurchStanceBtn && disclaimerModal) {
+      mobChurchStanceBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(disclaimerModal);
+      });
+    }
+
+    const mobDistanceScaleBtn = document.getElementById('mobDistanceScaleBtn');
+    if (mobDistanceScaleBtn && distanceScaleModal) {
+      mobDistanceScaleBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(distanceScaleModal);
+      });
+    }
+
+    const mobOldWorldBtn = document.getElementById('mobOldWorldBtn');
+    if (mobOldWorldBtn && oldWorldModal) {
+      mobOldWorldBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(oldWorldModal);
+      });
+    }
+
+    const mobInspectorBtn = document.getElementById('mobInspectorBtn');
+    if (mobInspectorBtn) {
+      mobInspectorBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        isInspectorActive = !isInspectorActive;
+        if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
+        const mobInspectorText = document.getElementById('mobInspectorText');
+        if (mobInspectorText) mobInspectorText.textContent = isInspectorActive ? 'Coordinate Inspector: ON' : 'Coordinate Inspector: OFF';
+      });
+    }
+
+    document.querySelectorAll('.mobile-menu-item.region-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        zoomToRegion(btn.getAttribute('data-region'));
+      });
+    });
+
+    // 4. Mobile Bottom Action Bar
+    const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
+    const mobBottomToursBtn = document.getElementById('mobBottomToursBtn');
+    const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
+    const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
+    const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
+    const mobileFiltersSheet = document.getElementById('mobileFiltersSheet');
+    const mobilePickerSheet = document.getElementById('mobilePickerSheet');
+
+    if (mobBottomSearchBtn) {
+      mobBottomSearchBtn.addEventListener('click', () => {
+        openMobileSheet(mobilePickerSheet);
+        const input = document.getElementById('mobilePickerSearchInput');
+        if (input) { input.focus(); }
+      });
+    }
+
+    if (mobBottomToursBtn && tourModal) {
+      mobBottomToursBtn.addEventListener('click', () => openModal(tourModal));
+    }
+
+    if (mobBottomJumpBtn && mobilePickerSheet) {
+      mobBottomJumpBtn.addEventListener('click', () => openMobileSheet(mobilePickerSheet));
+    }
+
+    if (mobBottomFiltersBtn && mobileFiltersSheet) {
+      mobBottomFiltersBtn.addEventListener('click', () => openMobileSheet(mobileFiltersSheet));
+    }
+
+    if (mobBottomCodexBtn && detailSidebar) {
+      mobBottomCodexBtn.addEventListener('click', () => {
+        detailSidebar.classList.toggle('closed');
+      });
+    }
+
+    // Close Mobile Filters Sheet
+    const closeMobileFiltersBtn = document.getElementById('closeMobileFiltersBtn');
+    const mobApplyFiltersBtn = document.getElementById('mobApplyFiltersBtn');
+    const mobResetFiltersBtn = document.getElementById('mobResetFiltersBtn');
+
+    if (closeMobileFiltersBtn) closeMobileFiltersBtn.addEventListener('click', closeAllMobileSheets);
+    if (mobApplyFiltersBtn) mobApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
+    if (mobResetFiltersBtn) mobResetFiltersBtn.addEventListener('click', resetAllFilters);
+
+    // Mobile Header Quick Action Buttons
+    const mobileSearchToggleBtn = document.getElementById('mobileSearchToggleBtn');
+    const mobileCodexToggleBtn = document.getElementById('mobileCodexToggleBtn');
+    if (mobileSearchToggleBtn && mobilePickerSheet) {
+      mobileSearchToggleBtn.addEventListener('click', () => openMobileSheet(mobilePickerSheet));
+    }
+    if (mobileCodexToggleBtn && detailSidebar) {
+      mobileCodexToggleBtn.addEventListener('click', () => detailSidebar.classList.toggle('closed'));
+    }
+
+    // Mobile Detail Sidebar Drag Handle (Tap to collapse)
+    const mobileDragHandle = document.getElementById('mobileDragHandle');
+    if (mobileDragHandle && detailSidebar) {
+      mobileDragHandle.addEventListener('click', () => {
+        detailSidebar.classList.add('closed');
+      });
+    }
   }
 
-  // Connect Header Travel Distances Button
-  const headerDistanceScaleBtn = document.getElementById('headerDistanceScaleBtn');
-  if (headerDistanceScaleBtn && distanceScaleModal) {
-    headerDistanceScaleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openModal(distanceScaleModal);
-    });
-  }
+  // 5. Mobile Landmark Picker Sheet Content Generator
+  function setupMobilePickerSheet() {
+    const list = document.getElementById('mobilePickerList');
+    const searchInput = document.getElementById('mobilePickerSearchInput');
+    const closeBtn = document.getElementById('closeMobilePickerBtn');
+    const mobilePickerSheet = document.getElementById('mobilePickerSheet');
+    const backdrop = document.getElementById('mobileSheetBackdrop');
 
-  // Connect Dispensation Filter Chips
-  const dispFilterChips = document.querySelectorAll('.disp-chip');
-  dispFilterChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      dispFilterChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      activeDispensationFilter = chip.getAttribute('data-disp');
-      updateLayerVisibility();
-    });
-  });
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        mobilePickerSheet && mobilePickerSheet.classList.remove('open');
+        backdrop && backdrop.classList.remove('active');
+      });
+    }
+
+    if (!list) return;
+
+    const renderList = (filterText = '') => {
+      const q = filterText.trim().toLowerCase();
+      const allLocs = Object.values(mapLocations).sort((a, b) => a.name.localeCompare(b.name));
+      const filtered = q ? allLocs.filter(l => l.name.toLowerCase().includes(q) || l.region.toLowerCase().includes(q)) : allLocs;
+
+      list.innerHTML = '';
+      if (filtered.length === 0) {
+        list.innerHTML = `<div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No landmarks found matching "${filterText}"</div>`;
+        return;
+      }
+
+      filtered.forEach(loc => {
+        const item = document.createElement('div');
+        item.className = 'mobile-picker-item';
+        const confLvl = loc.confidenceLevel || 2;
+        item.innerHTML = `
+          <div>
+            <div class="mobile-picker-name">${loc.name}</div>
+            <div class="mobile-picker-meta">${loc.region} • ${loc.category}</div>
+          </div>
+          <span class="conf-pill conf-pill-${confLvl}" style="font-size:0.65rem;">L${confLvl}</span>
+        `;
+        item.addEventListener('click', () => {
+          mobilePickerSheet && mobilePickerSheet.classList.remove('open');
+          backdrop && backdrop.classList.remove('active');
+          selectLocation(loc.id);
+        });
+        list.appendChild(item);
+      });
+    };
+
+    renderList();
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        renderList(e.target.value);
+      });
+    }
+  }
 
   // ==========================================================================
   // LOCATION SELECTION & RICH FLYOUT CODEX (Matching New Testament Atlas)
