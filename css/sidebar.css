@@ -10,8 +10,8 @@
   bottom: 0;
   width: var(--sidebar-width);
   background: var(--bg-card);
-  backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-left: 2px solid var(--border-parchment-dark);
   box-shadow: -6px 0 28px rgba(0, 0, 0, 0.25);
   z-index: 950;
@@ -345,6 +345,127 @@
   font-size: 0.76rem;
   color: var(--text-muted);
   font-style: italic;
+}
+
+/* ==========================================================================
+   CONFIDENCE BANNER & RELATED PLACES (Pure Internal Geography)
+   ========================================================================== */
+.dossier-confidence-banner {
+  border-radius: 8px;
+  padding: 0.75rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border: 1.5px solid;
+  margin-bottom: 0.4rem;
+}
+
+.dossier-confidence-banner.conf-level-1 {
+  background: #ECFDF5;
+  border-color: #10B981;
+}
+
+.dossier-confidence-banner.conf-level-2 {
+  background: #F0F9FF;
+  border-color: #0284C7;
+}
+
+.dossier-confidence-banner.conf-level-3 {
+  background: #FFFBEB;
+  border-color: #D97706;
+}
+
+.dossier-confidence-banner.conf-level-4 {
+  background: #FEF2F2;
+  border-color: #EF4444;
+  border-style: dashed;
+}
+
+.conf-banner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.conf-banner-title {
+  font-family: var(--font-serif-title);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.conf-level-1 .conf-banner-title { color: #065F46; }
+.conf-level-2 .conf-banner-title { color: #0369A1; }
+.conf-level-3 .conf-banner-title { color: #92400E; }
+.conf-level-4 .conf-banner-title { color: #991B1B; }
+
+.conf-banner-desc {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Related Places Card */
+.related-places-card {
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-parchment-dark);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.related-places-header {
+  font-family: var(--font-serif-title);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-crimson);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.related-places-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.related-place-item {
+  background: #FDF9EE;
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.related-place-item:hover {
+  background: #F5ECD9;
+  border-color: var(--color-crimson);
+  transform: translateX(3px);
+}
+
+.related-place-name {
+  font-family: var(--font-serif-title);
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: var(--text-primary);
+}
+
+.related-place-rel {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-gold-dark);
+}
+
+.related-place-basis {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
 }
 
 /* Detail Section Containers */

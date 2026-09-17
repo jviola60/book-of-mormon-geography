@@ -5,6 +5,7 @@ scratch/
 *.log
 gemini-code-*
 
-# OS Files
+# OS & Editor Files
 .DS_Store
 Thumbs.db
+.vscode/

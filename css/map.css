@@ -17,6 +17,7 @@
   position: relative;
   overflow: hidden;
   cursor: grab;
+  -webkit-user-select: none;
   user-select: none;
   touch-action: none;
 }
@@ -36,8 +37,8 @@
 .map-artwork {
   display: block;
   max-width: none;
+  -webkit-user-select: none;
   user-select: none;
-  -webkit-user-drag: none;
   pointer-events: none;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
 }
@@ -159,6 +160,45 @@
   letter-spacing: 0.02em;
 }
 
+/* Textual Confidence Marker Indicators */
+.map-pin.conf-1 .pin-icon-wrap {
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.map-pin.conf-2 .pin-icon-wrap {
+  box-shadow: 0 0 0 1.5px rgba(2, 132, 199, 0.4), 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.map-pin.conf-3 .pin-icon-wrap {
+  border-style: dotted;
+}
+
+.map-pin.conf-4 .pin-icon-wrap,
+.map-pin.is-indeterminate .pin-icon-wrap {
+  border: 2px dashed #DC2626 !important;
+  background: #FEF2F2 !important;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.map-pin.conf-4 .pin-label,
+.map-pin.is-indeterminate .pin-label {
+  color: #991B1B;
+  font-style: italic;
+  opacity: 0.92;
+}
+
+/* Jaredite Period Marker Distinct Styling */
+.map-pin.disp-jaredite .pin-icon-wrap {
+  border-color: #B45309;
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.map-pin.disp-jaredite .pin-label {
+  color: #78350F;
+  letter-spacing: 0.04em;
+}
+
 .pin-label.capital-label {
   font-size: 12.5px;
   color: #991B1B;
@@ -183,8 +223,8 @@
   top: 14px;
   left: 14px;
   background: rgba(253, 250, 243, 0.92);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1.5px solid var(--border-gold);
   border-radius: 8px;
   padding: 0.65rem 0.95rem;
@@ -264,6 +304,10 @@
   letter-spacing: 0.04em;
 }
 
+.quick-btn-icon {
+  font-size: 15px;
+}
+
 /* ==========================================================================
    FLOATING COLLAPSIBLE MAP LEGEND
    ========================================================================== */
@@ -272,8 +316,8 @@
   bottom: 14px;
   left: 14px;
   background: rgba(253, 250, 243, 0.94);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1.5px solid var(--border-parchment-dark);
   border-radius: 8px;
   box-shadow: var(--shadow-md);
@@ -344,6 +388,45 @@
   flex-shrink: 0;
 }
 
+.legend-marker-capitals { background: #EAB308; border-color: #78350F; }
+.legend-marker-cities { background: #FFF; border-color: #A32822; }
+.legend-marker-fortresses { background: #FEF2F2; border-color: #991B1B; }
+.legend-marker-sacred { background: #ECFDF5; border-color: #059669; }
+.legend-marker-waters { background: #F0F9FF; border-color: #0284C7; }
+.legend-marker-wilderness { background: #FEF3C7; border-color: #78350F; }
+.legend-line-sidon { background: #38bdf8; }
+.legend-line-routes { background: #8B5CF6; height: 3px; }
+.legend-marker-cataclysm { background: #450A0A; border-color: #F87171; }
+
+.legend-section-title {
+  font-family: var(--font-serif-title);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-crimson);
+  margin: 0.5rem 0 0.25rem 0;
+  border-top: 1px solid var(--border-parchment-dark);
+  padding-top: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+.legend-section-title:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.legend-conf-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.conf-dot-1 { background: #10B981; border: 1.5px solid #065F46; }
+.conf-dot-2 { background: #0284C7; border: 1.5px solid #0369A1; }
+.conf-dot-3 { background: #D97706; border: 1.5px solid #92400E; }
+.conf-dot-4 { background: #EF4444; border: 1.5px dashed #991B1B; }
+
 /* ==========================================================================
    SCRIPTURAL DISTANCE SCALE BAR
    ========================================================================== */
@@ -351,15 +434,23 @@
   position: absolute;
   bottom: 14px;
   right: 14px;
-  background: rgba(253, 250, 243, 0.92);
-  backdrop-filter: blur(10px);
+  background: rgba(253, 250, 243, 0.94);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1.5px solid var(--border-parchment-dark);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   box-shadow: var(--shadow-md);
   z-index: 100;
   cursor: pointer;
+  max-width: 250px;
+  transition: all 0.2s ease;
+}
+
+.map-scale-bar-container:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .scale-bar-header {
@@ -379,7 +470,7 @@
   display: flex;
   height: 4px;
   border: 1px solid var(--text-primary);
-  width: 130px;
+  width: 100%;
   margin: 4px 0;
 }
 
@@ -398,11 +489,20 @@
 }
 
 .scale-footnote {
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   color: var(--color-crimson);
-  font-style: italic;
-  margin-top: 2px;
+  font-weight: 700;
+  margin-top: 3px;
   text-align: right;
+}
+
+.scale-subnote {
+  font-size: 0.58rem;
+  line-height: 1.35;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  border-top: 1px solid var(--border-parchment);
+  padding-top: 3px;
 }
 
 /* Coordinate Inspector Badge */
@@ -428,4 +528,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.coords-hint {
+  font-size: 0.65rem;
+  color: var(--color-gold-light);
 }

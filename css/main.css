@@ -217,6 +217,7 @@ html, body {
   cursor: pointer;
   padding: 2px 6px;
   line-height: 1;
+  display: none;
 }
 
 .clear-search-btn:hover {
@@ -236,7 +237,7 @@ html, body {
   max-height: 360px;
   overflow-y: auto;
   z-index: 2000;
-  display: flex;
+  display: none;
   flex-direction: column;
 }
 
@@ -464,7 +465,13 @@ html, body {
   width: 100%;
   gap: 1rem;
   overflow-x: auto;
-  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+@supports (scrollbar-width: none) {
+  .filter-scroll-track {
+    scrollbar-width: none;
+  }
 }
 
 .filter-scroll-track::-webkit-scrollbar {
@@ -536,6 +543,37 @@ html, body {
 .dot-wilderness { background: #78350F; }
 .dot-cataclysm { background: #B91C1C; }
 .dot-journeys { background: #8B5CF6; }
+
+/* Confidence & Dispensation Filter Chips */
+.filter-chip.conf-chip.active {
+  background: var(--color-gold-dark);
+  border-color: #78350F;
+}
+
+.filter-chip.conf-chip-1.active {
+  background: #059669;
+  border-color: #065F46;
+}
+
+.filter-chip.conf-chip-2.active {
+  background: #0284C7;
+  border-color: #0369A1;
+}
+
+.filter-chip.conf-chip-3.active {
+  background: #D97706;
+  border-color: #92400E;
+}
+
+.filter-chip.conf-chip-4.active {
+  background: #DC2626;
+  border-color: #991B1B;
+}
+
+.filter-chip.disp-chip.active {
+  background: #4A3525;
+  border-color: #261B12;
+}
 
 /* Stat Pill Counters */
 .filter-group-right {

@@ -36,6 +36,7 @@ An interactive, high-resolution cartographic atlas and scriptural codex rigorous
 ## Getting Started
 
 ### Local Setup
+
 No build tools or heavy package managers required! Simply serve the directory with any local HTTP server:
 
 ```bash
@@ -47,11 +48,32 @@ npx serve -p 8088
 ```
 
 Open your browser and navigate to:
-```
+
+```text
 http://localhost:8088
 ```
 
 ---
 
+## Pure Internal Textual Geography Mandate
+
+> **This atlas is constructed solely from the internal geographic statements of the Book of Mormon text. No external geographic model has been applied.**
+
+All directions, distances, travel times, and spatial relationships are derived exclusively from the internal textual statements of the Book of Mormon (1981/2013 edition). No external theories (Mesoamerican, Heartland, Baja, New York, or any other real-world model) are referenced or used. Where the text is silent or ambiguous, locations and relationships are classified as indeterminate.
+
+### Four-Level Textual Confidence System
+
+- **Level 1 – Explicit**: Named with definitive directional/relational statements (e.g., River Sidon flowing north past Zarahemla; narrow neck as a day and a half's journey).
+- **Level 2 – Strongly Supported**: High probability from surrounding narrative context across multiple passages.
+- **Level 3 – Inferred**: Deductive placement based on campaign routes without single definitive coordinates.
+- **Level 4 – Indeterminate**: Named in destruction catalogues or lists without sufficient relative positioning data; highlighted with "Position Uncertain" indicators.
+
+---
+
 ## Scriptural References & Standards
+
 All text citations, distances, and historical notes adhere strictly to the text of the Book of Mormon as published by The Church of Jesus Christ of Latter-day Saints.
+
+The distance scale note explicitly reflects:
+
+> *"Ancient day’s journey varied by terrain, group size, and purpose. Alma 22:32 provides one explicit measurement (a day and a half across the narrow neck). Other distances are estimated only when the text supplies sufficient information and are labeled with confidence levels."*

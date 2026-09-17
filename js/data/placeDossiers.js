@@ -430,47 +430,73 @@ function getPlaceDossier(locId, loc) {
     return PLACE_DOSSIERS["global_bom"];
   }
 
-  // Check direct match in curated dossiers
+  let baseDossier = null;
   if (PLACE_DOSSIERS[key]) {
-    return PLACE_DOSSIERS[key];
+    baseDossier = Object.assign({}, PLACE_DOSSIERS[key]);
+  } else if (key === "land_of_zarahemla" || key === "river_sidon") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["zarahemla"]);
+  } else if (key === "land_bountiful") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["bountiful"]);
+  } else if (key === "forest_of_mormon" || key === "thicket_of_mormon") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["waters_of_mormon"]);
+  } else if (key === "ishmael" || key === "land_of_ishmael") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["waters_of_sebus"]);
+  } else if (key === "city_of_nephi") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["lehi_nephi"]);
+  } else if (key === "hill_cumorah" || key === "waters_of_ripliancum") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["cumorah"]);
+  } else if (key === "manti" || key === "antiparah" || key === "cumeni") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["judea"]);
+  } else if (key === "hill_onidah") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["antionum"]);
+  } else if (key === "mount_shelem" || key === "valley_of_nimrod") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["moriancumer_shore"]);
+  } else if (key === "helamans_chain") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["judea"]);
+  } else if (key === "valley_of_alma") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["helam"]);
+  } else if (key === "shemlon") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["lehi_nephi"]);
+  } else if (key === "ani_anti") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["city_of_jerusalem"]);
+  } else if (key === "narrow_neck" || key === "waters_by_the_neck") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["narrow_pass"]);
+  } else if (key === "plains_of_heshlon" || key === "valley_of_gilgal" || key === "plains_of_agosh") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["cumorah"]);
+  } else if (key === "land_of_desolation") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["cumorah"]);
+  } else if (key === "land_of_antum") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["hill_shim"]);
+  } else if (key === "zeezrom_city") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["sidom"]);
+  } else {
+    // Dynamic fallback using landmark properties with verified prophetic connections
+    const name = (loc && loc.name) || "This Scriptural Landmark";
+    const region = (loc && loc.region) || "Ancient America";
+    const people = (loc && loc.notablePeople && loc.notablePeople.length) ? loc.notablePeople.join(", ") : "Nephite and Lamanite Prophets and Leaders";
+    const summary = (loc && loc.summary) || "A significant geographical and historical landmark recorded in the sacred text of the Book of Mormon.";
+    const passages = (loc && loc.refs) ? loc.refs.map(r => r.ref) : [];
+
+    baseDossier = {
+      teacher: people,
+      audience: `Inhabitants, Garrison Defenders, and Covenant Families in the ${region}`,
+      whatWasTaught: `The foundational message of the Book of Mormon: faith in Jesus Christ, repentance from sin, the solemnity of sacred covenants, and the defense of constitutional liberty. Historically witnessed in connection with ${name}.`,
+      whyTaught: "To preserve the covenant people of God, sound a warning voice against pride, secret combinations, and dissension, and bear solemn witness of the Redeemer of the world.",
+      context: `${summary} Situated within the ${region}, shaping military movements, day-journeys, and sacred assemblies.`,
+      howAccepted: "Wherever the word of God was faithfully proclaimed by righteous prophets, humble souls repented and entered into baptismal covenants, while those who hardened their hearts brought conflict upon the land.",
+      passages: passages
+    };
   }
 
-  // Check alias matches
-  if (key === "land_of_zarahemla" || key === "river_sidon") return PLACE_DOSSIERS["zarahemla"];
-  if (key === "land_bountiful") return PLACE_DOSSIERS["bountiful"];
-  if (key === "forest_of_mormon" || key === "thicket_of_mormon") return PLACE_DOSSIERS["waters_of_mormon"];
-  if (key === "ishmael" || key === "land_of_ishmael") return PLACE_DOSSIERS["waters_of_sebus"];
-  if (key === "city_of_nephi") return PLACE_DOSSIERS["lehi_nephi"];
-  if (key === "hill_cumorah" || key === "waters_of_ripliancum") return PLACE_DOSSIERS["cumorah"];
-  if (key === "manti" || key === "antiparah" || key === "cumeni") return PLACE_DOSSIERS["judea"];
-  if (key === "hill_onidah") return PLACE_DOSSIERS["antionum"];
-  if (key === "mount_shelem" || key === "valley_of_nimrod") return PLACE_DOSSIERS["moriancumer_shore"];
-  if (key === "helamans_chain") return PLACE_DOSSIERS["judea"];
-  if (key === "valley_of_alma") return PLACE_DOSSIERS["helam"];
-  if (key === "shemlon") return PLACE_DOSSIERS["lehi_nephi"];
-  if (key === "ani_anti") return PLACE_DOSSIERS["city_of_jerusalem"];
-  if (key === "narrow_neck" || key === "waters_by_the_neck") return PLACE_DOSSIERS["narrow_pass"];
-  if (key === "plains_of_heshlon" || key === "valley_of_gilgal" || key === "plains_of_agosh") return PLACE_DOSSIERS["cumorah"];
-  if (key === "land_of_desolation") return PLACE_DOSSIERS["cumorah"];
-  if (key === "land_of_antum") return PLACE_DOSSIERS["hill_shim"];
-  if (key === "zeezrom_city") return PLACE_DOSSIERS["sidom"];
+  if (loc) {
+    baseDossier.confidenceLevel = loc.confidenceLevel || 2;
+    baseDossier.confidenceJustification = loc.confidenceJustification || '';
+    baseDossier.relatedPlaces = loc.relatedPlaces || [];
+    baseDossier.dispensation = loc.dispensation || 'nephite_lamanite';
+    baseDossier.isIndeterminate = !!loc.isIndeterminate;
+  }
 
-  // Dynamic fallback using landmark properties with verified prophetic connections
-  const name = (loc && loc.name) || "This Scriptural Landmark";
-  const region = (loc && loc.region) || "Ancient America";
-  const people = (loc && loc.notablePeople && loc.notablePeople.length) ? loc.notablePeople.join(", ") : "Nephite and Lamanite Prophets and Leaders";
-  const summary = (loc && loc.summary) || "A significant geographical and historical landmark recorded in the sacred text of the Book of Mormon.";
-  const passages = (loc && loc.refs) ? loc.refs.map(r => r.ref) : [];
-
-  return {
-    teacher: people,
-    audience: `Inhabitants, Garrison Defenders, and Covenant Families in the ${region}`,
-    whatWasTaught: `The foundational message of the Book of Mormon: faith in Jesus Christ, repentance from sin, the solemnity of sacred covenants, and the defense of constitutional liberty. Historically witnessed in connection with ${name}.`,
-    whyTaught: "To preserve the covenant people of God, sound a warning voice against pride, secret combinations, and dissension, and bear solemn witness of the Redeemer of the world.",
-    context: `${summary} Situated within the ${region}, shaping military movements, day-journeys, and sacred assemblies.`,
-    howAccepted: "Wherever the word of God was faithfully proclaimed by righteous prophets, humble souls repented and entered into baptismal covenants, while those who hardened their hearts brought conflict upon the land.",
-    passages: passages
-  };
+  return baseDossier;
 }
 
 // Global browser window attachment

@@ -68,6 +68,10 @@
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.85);
 }
 
+#pauseIcon {
+  display: none;
+}
+
 /* Speed Selector */
 .speed-selector {
   display: flex;
@@ -161,9 +165,15 @@
   align-items: center;
   gap: 0.3rem;
   overflow-x: auto;
-  scrollbar-width: none;
+  -ms-overflow-style: none;
   flex: 1;
   justify-content: flex-end;
+}
+
+@supports (scrollbar-width: none) {
+  .era-selector-tabs {
+    scrollbar-width: none;
+  }
 }
 
 .era-selector-tabs::-webkit-scrollbar {

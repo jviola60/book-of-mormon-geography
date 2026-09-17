@@ -110,6 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const disclaimerModal = document.getElementById('disclaimerModal');
   const closeDisclaimerModal = document.getElementById('closeDisclaimerModal');
 
+  const distanceScaleModal = document.getElementById('distanceScaleModal');
+  const closeDistanceModalBtn = document.getElementById('closeDistanceModalBtn');
+
   const copyToast = document.getElementById('copyToast');
 
   // ==========================================================================
@@ -176,44 +179,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // AUDIO EFFECTS
+  // AUDIO EFFECTS (Deactivated per user preference)
   // ==========================================================================
   function playGentleChime() {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(880.0, ctx.currentTime + 0.15);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.35);
-    } catch (_) {}
+    // Audio deactivated
   }
 
   function playCataclysmRumble() {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(65, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(28, ctx.currentTime + 1.2);
-      gain.gain.setValueAtTime(0.18, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 1.2);
-    } catch (_) {}
+    // Audio deactivated
   }
 
   // ==========================================================================
@@ -461,7 +434,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // LANDMARK MARKERS RENDERING
+  // CONFIDENCE LEVEL SYSTEM & HELPERS
+  // ==========================================================================
+  function getConfidenceTitle(level) {
+    switch (Number(level)) {
+      case 1: return 'Explicit';
+      case 2: return 'Strongly Supported';
+      case 3: return 'Inferred';
+      case 4: return 'Indeterminate';
+      default: return 'Attested';
+    }
+  }
+
+  // Active filter state
+  let activeConfidenceFilter = 'all'; // 'all', '1', '2', '3', '4'
+  let activeDispensationFilter = 'all'; // 'all', 'jaredite', 'nephite_lamanite'
+
+  // ==========================================================================
+  // LANDMARK MARKERS RENDERING (Enhanced with 4 Confidence Levels)
   // ==========================================================================
   function renderMarkers() {
     markersLayer.innerHTML = '';
@@ -470,9 +460,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Object.values(mapLocations).forEach(loc => {
       const pin = document.createElement('div');
-      pin.className = `map-pin pin-${loc.category}`;
+      const confLevel = loc.confidenceLevel || 2;
+      const isIndet = !!loc.isIndeterminate;
+      const disp = loc.dispensation || 'nephite_lamanite';
+
+      pin.className = `map-pin pin-${loc.category} conf-${confLevel} ${isIndet ? 'is-indeterminate' : ''} disp-${disp}`;
       pin.setAttribute('data-id', loc.id);
       pin.setAttribute('data-category', loc.category);
+      pin.setAttribute('data-confidence', confLevel);
+      pin.setAttribute('data-dispensation', disp);
+      pin.setAttribute('title', `${loc.name} [Level ${confLevel} – ${getConfidenceTitle(confLevel)}]`);
 
       const pxX = (loc.coords.x / 100) * imgWidth;
       const pxY = (loc.coords.y / 100) * imgHeight;
@@ -483,7 +480,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Pin icon symbol
       let iconSymbol = '📍';
-      if (isCapital) iconSymbol = '👑';
+      if (isIndet) iconSymbol = '❓';
+      else if (isCapital) iconSymbol = '👑';
       else if (loc.category === 'fortresses') iconSymbol = '🛡️';
       else if (loc.category === 'sacred') iconSymbol = '🏛️';
       else if (loc.category === 'waters') iconSymbol = '🌊';
@@ -494,7 +492,9 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="pin-icon-wrap ${loc.category} ${isCapital ? 'capital' : ''}">
           <span>${iconSymbol}</span>
         </div>
-        <span class="pin-label ${isCapital ? 'capital-label' : ''}">${loc.name}</span>
+        <span class="pin-label ${isCapital ? 'capital-label' : ''}">
+          ${loc.name} ${isIndet ? '<small style="color:#DC2626;">(Uncertain)</small>' : ''}
+        </span>
       `;
 
       pin.addEventListener('click', (e) => {
@@ -509,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // MULTI-SELECT OVERLAY FILTER ENGINE
+  // MULTI-SELECT OVERLAY & CONFIDENCE FILTER ENGINE
   // ==========================================================================
   function toggleLayer(layerKey) {
     if (layerKey === 'all') {
@@ -545,7 +545,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.map-pin').forEach(pin => {
       const cat = pin.getAttribute('data-category');
-      const isVisible = activeLayers.has(cat);
+      const conf = pin.getAttribute('data-confidence');
+      const disp = pin.getAttribute('data-dispensation');
+
+      const matchesCat = activeLayers.has(cat);
+      const matchesConf = activeConfidenceFilter === 'all' || conf === activeConfidenceFilter;
+      const matchesDisp = activeDispensationFilter === 'all' || disp === activeDispensationFilter || disp === 'both';
+
+      const isVisible = matchesCat && matchesConf && matchesDisp;
       pin.style.display = isVisible ? 'flex' : 'none';
       if (isVisible) visibleCount++;
     });
@@ -578,6 +585,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Connect Confidence Filter Chips
+  const confFilterChips = document.querySelectorAll('.conf-chip');
+  confFilterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      confFilterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeConfidenceFilter = chip.getAttribute('data-conf');
+      updateLayerVisibility();
+    });
+  });
+
+  // Connect Dispensation Filter Chips
+  const dispFilterChips = document.querySelectorAll('.disp-chip');
+  dispFilterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      dispFilterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeDispensationFilter = chip.getAttribute('data-disp');
+      updateLayerVisibility();
+    });
+  });
+
   // ==========================================================================
   // LOCATION SELECTION & RICH FLYOUT CODEX (Matching New Testament Atlas)
   // ==========================================================================
@@ -595,7 +624,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update Sidebar Header
     if (sidebarEyebrow) {
-      sidebarEyebrow.textContent = `${loc.category.toUpperCase()} • ${loc.region.toUpperCase()}`;
+      const confTitle = getConfidenceTitle(loc.confidenceLevel || 2).toUpperCase();
+      sidebarEyebrow.textContent = `${loc.category.toUpperCase()} • ${loc.region.toUpperCase()} • LEVEL ${loc.confidenceLevel || 2} (${confTitle})`;
     }
     if (sidebarTitle) {
       sidebarTitle.textContent = loc.name;
@@ -636,14 +666,29 @@ document.addEventListener('DOMContentLoaded', () => {
               : "Open Settlement & Outlying Agricultural Border"));
 
     // -------------------------------------------------------------------------
-    // TAB 1: OVERVIEW
+    // TAB 1: OVERVIEW (Enriched with 4 Confidence Levels & Related Places)
     // -------------------------------------------------------------------------
     if (activeTab === 'overview') {
+      const confLevel = loc.confidenceLevel || 2;
+      const confTitle = getConfidenceTitle(confLevel);
+      const dispLabel = loc.dispensation === 'jaredite' 
+        ? 'Jaredite Era (~2200–600 BC)' 
+        : (loc.dispensation === 'both' ? 'Jaredite & Nephite' : (loc.dispensation === 'old_world' ? 'Old World Origin' : 'Nephite / Lamanite'));
+
       sidebarContent.innerHTML = `
         <div class="city-detail-badge-row">
           <span class="city-badge badge-region">${loc.region}</span>
           <span class="city-badge badge-category">${loc.category.toUpperCase()}</span>
-          <span class="city-badge badge-period">Scripturally Verified</span>
+          <span class="city-badge conf-pill conf-pill-${confLevel}">Level ${confLevel} – ${confTitle}</span>
+          <span class="city-badge badge-period">${dispLabel}</span>
+        </div>
+
+        <div class="dossier-confidence-banner conf-level-${confLevel}">
+          <div class="conf-banner-top">
+            <span class="conf-banner-title">Textual Confidence: Level ${confLevel} – ${confTitle}</span>
+            <span class="conf-pill conf-pill-${confLevel}">${loc.isIndeterminate ? 'Position Uncertain' : 'Direct Attestation'}</span>
+          </div>
+          <p class="conf-banner-desc">${loc.confidenceJustification || 'Derived from internal Book of Mormon textual statements.'}</p>
         </div>
 
         ${firstRef ? `
@@ -657,6 +702,26 @@ document.addEventListener('DOMContentLoaded', () => {
           <h4>Historical & Scriptural Overview</h4>
           <p>${loc.summary || 'A primary landmark recorded in the internal textual architecture of the Book of Mormon.'}</p>
         </div>
+
+        ${loc.relatedPlaces && loc.relatedPlaces.length > 0 ? `
+          <div class="related-places-card">
+            <div class="related-places-header">
+              <span>🧭</span>
+              <span>Related Places & Textual Basis (${loc.relatedPlaces.length})</span>
+            </div>
+            <div class="related-places-list">
+              ${loc.relatedPlaces.map(r => `
+                <div class="related-place-item" data-place="${r.placeId}">
+                  <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span class="related-place-name">📍 ${r.name}</span>
+                    <span class="related-place-rel">${r.relationship}</span>
+                  </div>
+                  <span class="related-place-basis">${r.textualBasis}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
 
         <div class="demographic-stats-grid">
           <div class="demographic-stat-box">
@@ -672,25 +737,32 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="demographic-value">${loc.region}</span>
           </div>
           <div class="demographic-stat-box">
-            <span class="demographic-label">Internal Coordinates</span>
-            <span class="demographic-value">X: ${loc.coords.x}% | Y: ${loc.coords.y}%</span>
+            <span class="demographic-label">Textual Confidence</span>
+            <span class="demographic-value">Level ${confLevel} (${confTitle})</span>
           </div>
         </div>
 
         ${loc.refs && loc.refs.length > 0 ? `
           <div class="feature-card">
-            <h3>Scriptures Recorded at this Site</h3>
+            <h3>Chronological Scriptural Attestations</h3>
             <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.6rem;">
-              Documented across ${loc.refs.length} verified Book of Mormon passages:
+              Documented across ${loc.refs.length} verified Book of Mormon passages in narrative sequence:
             </p>
-            <div style="display:flex; flex-direction:column; gap:0.45rem;">
-              ${loc.refs.slice(0, 4).map(r => {
+            <div style="display:flex; flex-direction:column; gap:0.55rem;">
+              ${loc.refs.map(r => {
                 const churchUrl = getChurchScriptureUrl(r.ref);
                 return `
-                  <a href="${churchUrl || '#'}" class="church-scripture-btn" data-url="${churchUrl}" data-ref="${r.ref}">
-                    <span>📖 Read ${r.ref} (Official Scripture)</span>
-                    <span class="btn-arrow">↗</span>
-                  </a>
+                  <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.55rem 0.75rem;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.25rem;">
+                      <strong style="color:var(--color-crimson); font-size:0.82rem;">📖 ${r.ref}</strong>
+                      <a href="${churchUrl || '#'}" class="church-scripture-btn" data-url="${churchUrl}" data-ref="${r.ref}" style="font-size:0.72rem; padding:0.2rem 0.5rem;">
+                        <span>Read Chapter</span> ↗
+                      </a>
+                    </div>
+                    <p style="font-family:var(--font-scripture); font-style:italic; font-size:0.82rem; color:var(--text-primary); margin:0; line-height:1.4;">
+                      "${r.text}"
+                    </p>
+                  </div>
                 `;
               }).join('')}
             </div>
@@ -700,14 +772,27 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="drawer-church-stance-card">
           <div class="church-stance-mini-header">
             <span style="font-size: 1.1rem;">📜</span>
-            <span class="church-stance-mini-title">Official Church Stance on Geography</span>
+            <span class="church-stance-mini-title">Pure Internal Geography Rule</span>
           </div>
-          <p class="church-stance-mini-desc">
+          <p class="church-stance-mini-desc" style="font-family: var(--font-sans); font-size: 0.82rem; line-height: 1.45; font-style: normal; margin-bottom: 0.4rem;">
+            <strong>This atlas is constructed solely from the internal geographic statements of the Book of Mormon text. No external geographic model has been applied.</strong>
+          </p>
+          <p style="font-family: var(--font-scripture); font-size: 0.92rem; font-style: italic; color: var(--text-secondary); margin: 0 0 0.5rem 0;">
             "The Church does not take a position on specific geographic locations in the Americas... the best guide is the text of the Book of Mormon itself."
           </p>
           <button class="church-stance-mini-btn" id="codexDisclaimerBtn">Read Full Gospel Topics Statement &rarr;</button>
         </div>
       `;
+
+      // Connect related places links
+      sidebarContent.querySelectorAll('.related-place-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const placeId = item.getAttribute('data-place');
+          if (placeId && mapLocations[placeId]) {
+            selectLocation(placeId);
+          }
+        });
+      });
 
       const codexDisclaimerBtn = document.getElementById('codexDisclaimerBtn');
       if (codexDisclaimerBtn) {
@@ -868,11 +953,17 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="church-stance-mini-desc" style="font-family: var(--font-scripture); font-size: 1.02rem; font-style: italic; line-height:1.5;">
             "The Church does not take a position on the specific geographic locations of Book of Mormon events in the ancient Americas... The best guide to Book of Mormon geography is the text of the Book of Mormon itself."
           </p>
+          <div class="core-rule-card" style="margin: 0.8rem 0; padding: 0.75rem 0.9rem; background: rgba(212,160,23,0.08); border-left: 3px solid var(--accent-gold); border-radius: 4px;">
+            <strong style="color: var(--accent-gold); font-size: 0.82rem; display: block; margin-bottom: 0.3rem;">Internal Textual Geography Mandate</strong>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-primary); margin: 0;">
+              This atlas is constructed solely from the internal geographic statements of the Book of Mormon text. No external geographic model has been applied.
+            </p>
+          </div>
           <p style="font-size: 0.82rem; line-height: 1.5; color: var(--text-secondary); margin-top: 0.6rem;">
-            This interactive atlas is designed as a study aid to understand the internal textual relationships, day-journeys, river flows, and directionalities described in the scriptures.
+            This interactive atlas is designed as a study aid to understand the internal textual relationships, day-journeys, river flows, and directionalities described in the scriptures without referencing or applying external theories (e.g., Mesoamerican, Heartland, Baja, or New York models).
           </p>
           <button class="btn btn-primary glow-gold" id="openFullStanceBtn" style="margin-top: 0.75rem; justify-content: center; width: 100%;">
-            Open Full Gospel Topics Statement
+            Open Full Gospel Topics Statement & Distance Metrics
           </button>
         </div>
       `;
@@ -1291,22 +1382,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Default Overview Tab
-    if (sidebarEyebrow) sidebarEyebrow.textContent = 'WELCOME TO THE SCRIPTURAL ATLAS';
+    if (sidebarEyebrow) sidebarEyebrow.textContent = 'PURE INTERNAL SCRIPTURAL ATLAS';
     if (sidebarTitle) sidebarTitle.textContent = 'Book of Mormon Geography';
 
     sidebarContent.innerHTML = `
-      <div class="hero-quote">
+      <div class="pure-textual-clarification-banner">
+        <div class="pure-textual-badge">CORE RULE (NON-NEGOTIABLE)</div>
+        <p class="pure-textual-text">
+          <strong>This atlas is constructed solely from the internal geographic statements of the Book of Mormon text. No external geographic model has been applied.</strong>
+        </p>
+      </div>
+
+      <div class="hero-quote" style="margin-top:0.4rem;">
         <p class="quote-text">"And they did look forth upon the land of promise; and behold, it was a land choice above all other lands."</p>
         <span class="quote-ref">— 1 Nephi 18:25</span>
       </div>
 
       <div class="feature-card">
+        <h3>Four-Level Textual Confidence System</h3>
+        <p style="font-size:0.79rem; color:var(--text-secondary); margin-bottom:0.6rem;">
+          Every landmark, distance, and boundary in this atlas is categorized according to textual certainty:
+        </p>
+        <div style="display:flex; flex-direction:column; gap:0.45rem;">
+          <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:6px; padding:0.5rem 0.7rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:#065F46; font-size:0.82rem;">Level 1 – Explicit (38 Sites)</strong>
+              <span class="conf-pill conf-pill-1">Direct Statements</span>
+            </div>
+            <p style="font-size:0.75rem; color:#065F46; margin:2px 0 0 0; line-height:1.35;">
+              Clear directional statements (e.g. River Sidon flows north past Zarahemla, narrow neck is a day and a half’s journey).
+            </p>
+          </div>
+          <div style="background:#F0F9FF; border:1px solid #BAE6FD; border-radius:6px; padding:0.5rem 0.7rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:#0369A1; font-size:0.82rem;">Level 2 – Strongly Supported (24 Sites)</strong>
+              <span class="conf-pill conf-pill-2">High Probability</span>
+            </div>
+            <p style="font-size:0.75rem; color:#0369A1; margin:2px 0 0 0; line-height:1.35;">
+              Ample contextual statements across multiple passages establish relative placement with high probability.
+            </p>
+          </div>
+          <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:6px; padding:0.5rem 0.7rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:#92400E; font-size:0.82rem;">Level 3 – Inferred (17 Sites)</strong>
+              <span class="conf-pill conf-pill-3">Deductive</span>
+            </div>
+            <p style="font-size:0.75rem; color:#92400E; margin:2px 0 0 0; line-height:1.35;">
+              Reasonable inference from campaign narratives without single definitive verse coordinates.
+            </p>
+          </div>
+          <div style="background:#FEF2F2; border:1px dashed #FCA5A5; border-radius:6px; padding:0.5rem 0.7rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:#991B1B; font-size:0.82rem;">Level 4 – Indeterminate (15 Sites)</strong>
+              <span class="conf-pill conf-pill-4">Position Uncertain</span>
+            </div>
+            <p style="font-size:0.75rem; color:#991B1B; margin:2px 0 0 0; line-height:1.35;">
+              Named in text (such as 3 Nephi 9 destruction catalogue), but text provides insufficient information for relative placement. Shown with explicit uncertainty markers.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-outline" id="welcomeDistanceScaleBtn" style="width:100%; justify-content:center; padding:0.55rem; font-size:0.82rem; font-weight:600;">
+        📏 View Scriptural Travel Distances & Days' Journey Table
+      </button>
+
+      <div class="feature-card" style="margin-top:0.4rem;">
         <h3>How to Explore the Atlas</h3>
         <ul class="feature-steps">
-          <li><strong>Toggle Multiple Overlays:</strong> Click any layer chip above the map (Capitals, Cities, Fortresses, Waters) to combine multiple views.</li>
-          <li><strong>Scrub the Timeline:</strong> Drag the slider from <strong>2200 BC to AD 421</strong> to witness the rise, dispersion, cataclysm, and final battles.</li>
-          <li><strong>Click Any Landmark:</strong> Open deep scriptural dossiers with verbatim verses, military fortifications, and leaders.</li>
-          <li><strong>Launch Guided Tours:</strong> Follow Lehi's landing, Alma's flight to Mormon, and Captain Moroni's campaigns step-by-step.</li>
+          <li><strong>Confidence & Tradition Filters:</strong> Use the top bar chips to filter by Level 1–4 or toggle Jaredite vs Nephite eras.</li>
+          <li><strong>Scrub the Chronology:</strong> Drag the timeline slider from <strong>2200 BC to AD 421</strong> to trace dispensations.</li>
+          <li><strong>Click Any Landmark:</strong> Open full dossiers with verbatim scripture citations in chronological sequence.</li>
+          <li><strong>Launch Guided Tours:</strong> Pan dynamically through verified scriptural expeditions step-by-step.</li>
         </ul>
       </div>
 
@@ -1317,6 +1464,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="tour-mini-cards" id="welcomeTourShortcuts"></div>
       </div>
     `;
+
+    const welcomeDistBtn = document.getElementById('welcomeDistanceScaleBtn');
+    const distModal = document.getElementById('distanceScaleModal');
+    if (welcomeDistBtn && distModal) {
+      welcomeDistBtn.addEventListener('click', () => openModal(distModal));
+    }
 
     const shortcutsWrap = document.getElementById('welcomeTourShortcuts');
     if (shortcutsWrap && mapJourneys) {
@@ -1998,14 +2151,17 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="teachings-card teachings-card-gold">
         <div class="teachings-card-title">
           <span>🔍</span>
-          <span>Internal Geography vs. External Theories</span>
+          <span>Pure Internal Textual Geography Mandate</span>
         </div>
         <div class="teachings-card-body" style="font-size:0.83rem; line-height:1.55;">
+          <p style="margin-bottom:0.5rem; font-weight:700; color:var(--text-primary); background:rgba(212,160,23,0.08); padding:0.6rem 0.75rem; border-left:3px solid var(--accent-gold); border-radius:4px;">
+            This atlas is constructed solely from the internal geographic statements of the Book of Mormon text. No external geographic model has been applied.
+          </p>
           <p style="margin-bottom:0.4rem;">
-            This interactive atlas is designed strictly around the <strong>internal textual relationships</strong>, distance metrics (e.g. 'one day and a half's journey'), directional flows (River Sidon flowing north to the sea), and topographical alterations described by the ancient prophet-historians.
+            This interactive atlas is designed strictly around the <strong>internal textual relationships</strong>, distance metrics (e.g. 'one day and a half's journey' across the narrow neck of land), directional flows (River Sidon flowing north to the sea), and topographical alterations described by the ancient prophet-historians.
           </p>
           <p style="margin:0;">
-            The Church emphasizes that while historical and geographic study is interesting, theories identifying external locations (such as Mesoamerica, the Heartland, or South America) are fascinating hypotheses but not official Church doctrine.
+            The Church emphasizes that while historical and geographic study is interesting, theories identifying external locations (such as Mesoamerica, the Heartland, Baja, or South America) are fascinating hypotheses but not official Church doctrine. Where the text is silent or ambiguous, this atlas marks locations and relationships as indeterminate rather than forcing external coordinates.
           </p>
         </div>
       </div>
@@ -2108,9 +2264,14 @@ document.addEventListener('DOMContentLoaded', () => {
         matches.forEach(loc => {
           const item = document.createElement('div');
           item.className = 'search-result-item';
+          const confLvl = loc.confidenceLevel || 2;
+          const confTitle = getConfidenceTitle(confLvl);
           item.innerHTML = `
             <div class="search-result-left">
-              <span class="search-result-title">${loc.name}</span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span class="search-result-title">${loc.name}</span>
+                <span class="conf-pill conf-pill-${confLvl}" style="font-size:0.65rem; padding:1px 5px;" title="Confidence: Level ${confLvl} (${confTitle})">L${confLvl}</span>
+              </div>
               <span class="search-result-meta">${loc.region}</span>
             </div>
             <span class="search-result-badge">${loc.category}</span>
@@ -2229,13 +2390,15 @@ document.addEventListener('DOMContentLoaded', () => {
     sorted.forEach(loc => {
       const opt = document.createElement('option');
       opt.value = loc.id;
-      opt.textContent = `${loc.name} (${loc.category})`;
+      const confLvl = loc.confidenceLevel || 2;
+      opt.textContent = `[L${confLvl}] ${loc.name} (${loc.category})`;
       quickJumpSelect.appendChild(opt);
     });
 
     quickJumpSelect.addEventListener('change', (e) => {
       if (e.target.value) {
         selectLocation(e.target.value);
+        quickJumpSelect.value = '';
       }
     });
   }
@@ -2424,10 +2587,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (floatingEraTitle) floatingEraTitle.textContent = milestone.title;
     if (floatingEraDesc) floatingEraDesc.textContent = milestone.subtitle;
 
-    // Update active Era Tab
+    // Update active Era Tab (highlighting only the current era bracket)
+    const sortedTabs = Array.from(eraTabs).map(tab => ({
+      element: tab,
+      step: parseInt(tab.getAttribute('data-step'), 10)
+    })).sort((a, b) => a.step - b.step);
+
+    let activeTabElement = sortedTabs[0] ? sortedTabs[0].element : null;
+    for (let i = 0; i < sortedTabs.length; i++) {
+      if (step >= sortedTabs[i].step) {
+        activeTabElement = sortedTabs[i].element;
+      } else {
+        break;
+      }
+    }
+
     eraTabs.forEach(tab => {
-      const tabStep = parseInt(tab.getAttribute('data-step'), 10);
-      tab.classList.toggle('active', tabStep === step || (step >= tabStep && step < tabStep + 4));
+      tab.classList.toggle('active', tab === activeTabElement);
     });
 
     // Cataclysm Morphing Logic at AD 34 (Step 20)
@@ -2652,8 +2828,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (mapScaleContainer && distanceScaleModal) {
+    mapScaleContainer.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(distanceScaleModal);
+    });
+  }
+  if (closeDistanceModalBtn && distanceScaleModal) {
+    closeDistanceModalBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeModal(distanceScaleModal);
+    });
+  }
+
   // Close modals on backdrop click
-  [tourModal, oldWorldModal, disclaimerModal].forEach(m => {
+  [tourModal, oldWorldModal, disclaimerModal, distanceScaleModal].forEach(m => {
     if (!m) return;
     m.addEventListener('click', (e) => {
       if (e.target === m) closeModal(m);
@@ -2788,7 +2977,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (detailSidebar && !detailSidebar.classList.contains('closed')) {
         detailSidebar.classList.add('closed');
       }
-      [tourModal, oldWorldModal, disclaimerModal].forEach(m => m && closeModal(m));
+      [tourModal, oldWorldModal, disclaimerModal, distanceScaleModal].forEach(m => m && closeModal(m));
       closeScriptureModal();
       exitTour();
     } else if (e.key === ' ' || e.code === 'Space') {
