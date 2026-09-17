@@ -230,27 +230,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgHeight = MAP_BASE_HEIGHT;
 
     const isMobile = window.innerWidth <= 768;
-    const isDesktop = window.innerWidth > 900;
+    const isDesktop = window.innerWidth > 768;
     const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
-    const sidebarOffset = (isDesktop && isSidebarOpen) ? 335 : 0;
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? 310 : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
     if (isMobile) {
-      // Mobile framing: fit width comfortably, center on core scriptural geography (Y ~50%)
+      // Mobile framing: fit width edge-to-edge, center on core Promised Land (Y ~48%)
       scale = (availWidth * 0.98) / imgWidth;
       minScale = scale * 0.6;
       translateX = (availWidth - (imgWidth * scale)) / 2;
-      translateY = (vHeight / 2) - (imgHeight * 0.50 * scale);
+      translateY = (vHeight / 2) - (imgHeight * 0.48 * scale);
     } else {
-      // Desktop framing: eliminate dark void and frame core L1/L2 lands (Zarahemla, Nephi, Bountiful, Cumorah)
-      const scaleX = (availWidth * 0.92) / imgWidth;
-      const scaleY = (vHeight * 1.35) / imgHeight;
-      scale = Math.min(scaleX, scaleY);
-      scale = Math.max(scale, 0.32);
-      minScale = 0.15;
+      // Desktop framing: fill ~88% of available width to eliminate dark side void,
+      // and frame core L1/L2 lands (Zarahemla, Nephi, Bountiful, Cumorah)
+      const scaleByWidth = (availWidth * 0.88) / imgWidth;
+      const scaleByHeight = (vHeight * 1.85) / imgHeight;
+      scale = Math.min(scaleByWidth, Math.max(scaleByHeight, 0.56));
+      scale = Math.max(scale, 0.46);
+      minScale = 0.18;
 
-      translateX = (availWidth - (imgWidth * scale)) / 2;
-      translateY = (vHeight / 2) - (imgHeight * 0.50 * scale);
+      // Center horizontally on the inhabited landmass (X ~52%) to eliminate right-side void
+      translateX = (availWidth / 2) - (imgWidth * 0.52 * scale);
+      translateY = (vHeight / 2) - (imgHeight * 0.46 * scale);
     }
 
     applyTransform();
@@ -261,22 +263,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function focusLocation(targetPctX, targetPctY, customScale) {
-    const vWidth = viewport.clientWidth;
-    const vHeight = viewport.clientHeight;
+    const vWidth = viewport.clientWidth || window.innerWidth;
+    const vHeight = viewport.clientHeight || window.innerHeight;
     const imgWidth = MAP_BASE_WIDTH;
     const imgHeight = MAP_BASE_HEIGHT;
 
     const targetX = (targetPctX / 100) * imgWidth;
     const targetY = (targetPctY / 100) * imgHeight;
 
-    const isDesktop = window.innerWidth > 900;
-    const offsetX = isDesktop ? vWidth * 0.38 : vWidth * 0.5;
-    const offsetY = vHeight * 0.5;
+    const isMobile = window.innerWidth <= 768;
+    const isDesktop = window.innerWidth > 768;
+    const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? 310 : 0;
+    const availWidth = Math.max(320, vWidth - sidebarOffset);
+
+    // On mobile, compact peek sheet covers bottom 42%; center in top 58% of viewport
+    const offsetX = availWidth * 0.5;
+    const offsetY = isMobile ? vHeight * 0.30 : vHeight * 0.5;
 
     if (customScale) {
       scale = customScale;
-    } else if (scale < 1.4) {
-      scale = 1.4;
+    } else if (scale < 1.35) {
+      scale = 1.35;
     }
 
     translateX = offsetX - (targetX * scale);
@@ -984,20 +992,28 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Sidebar Desktop Edge Toggle Tab
+    // Sidebar Desktop Edge Toggle Tab & Header Button State UI
     const sidebarEdgeToggleBtn = document.getElementById('sidebarEdgeToggleBtn');
     const edgeToggleIcon = document.getElementById('edgeToggleIcon');
+    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+    const sidebarToggleText = document.getElementById('sidebarToggleText');
 
-    const updateSidebarEdgeIcon = () => {
-      if (!edgeToggleIcon || !detailSidebar) return;
+    const updateSidebarStateUI = () => {
+      if (!detailSidebar) return;
       const isClosed = detailSidebar.classList.contains('closed');
-      edgeToggleIcon.textContent = isClosed ? '◀' : '▶';
+      if (edgeToggleIcon) edgeToggleIcon.textContent = isClosed ? '◀' : '▶';
+      const edgeToggleText = sidebarEdgeToggleBtn?.querySelector('.edge-toggle-text');
+      if (edgeToggleText) edgeToggleText.textContent = isClosed ? 'Open Codex' : 'Hide';
+      if (sidebarToggleText) sidebarToggleText.textContent = isClosed ? 'Codex' : 'Close';
+      if (sidebarToggleBtn) sidebarToggleBtn.classList.toggle('active', !isClosed);
+      const appContainer = document.querySelector('.app-main-container');
+      if (appContainer) appContainer.classList.toggle('sidebar-is-closed', isClosed);
     };
 
     if (sidebarEdgeToggleBtn && detailSidebar) {
       sidebarEdgeToggleBtn.addEventListener('click', () => {
         detailSidebar.classList.toggle('closed');
-        updateSidebarEdgeIcon();
+        updateSidebarStateUI();
         setTimeout(() => fitMapToScreen(), 150);
       });
     }
@@ -1009,14 +1025,18 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileSearchToggleBtn.addEventListener('click', () => openMobileSheet(mobilePickerSheet));
     }
     if (mobileCodexToggleBtn && detailSidebar) {
-      mobileCodexToggleBtn.addEventListener('click', () => detailSidebar.classList.toggle('closed'));
+      mobileCodexToggleBtn.addEventListener('click', () => {
+        detailSidebar.classList.toggle('closed');
+        detailSidebar.classList.remove('expanded');
+        updateSidebarStateUI();
+      });
     }
 
-    // Mobile Detail Sidebar Drag Handle (Tap to collapse)
+    // Mobile Detail Sidebar Drag Handle (Tap to toggle peek vs expanded)
     const mobileDragHandle = document.getElementById('mobileDragHandle');
     if (mobileDragHandle && detailSidebar) {
       mobileDragHandle.addEventListener('click', () => {
-        detailSidebar.classList.add('closed');
+        detailSidebar.classList.toggle('expanded');
       });
     }
   }
@@ -1105,9 +1125,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Tab Content
     renderSidebarContent(loc);
 
-    // Open Sidebar if closed
+    // Open Sidebar if closed (on mobile: start in compact peek mode)
     if (detailSidebar) {
       detailSidebar.classList.remove('closed');
+      detailSidebar.classList.remove('expanded');
+      const appContainer = document.querySelector('.app-main-container');
+      if (appContainer) appContainer.classList.remove('sidebar-is-closed');
+      const edgeToggleIcon = document.getElementById('edgeToggleIcon');
+      if (edgeToggleIcon) edgeToggleIcon.textContent = '▶';
+      const edgeToggleText = document.querySelector('#sidebarEdgeToggleBtn .edge-toggle-text');
+      if (edgeToggleText) edgeToggleText.textContent = 'Hide';
+      const sidebarToggleText = document.getElementById('sidebarToggleText');
+      if (sidebarToggleText) sidebarToggleText.textContent = 'Close';
     }
 
     // Pan map to location
@@ -2708,8 +2737,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sidebarToggleBtn) {
     sidebarToggleBtn.addEventListener('click', () => {
       detailSidebar.classList.toggle('closed');
+      const isClosed = detailSidebar.classList.contains('closed');
       const edgeToggleIcon = document.getElementById('edgeToggleIcon');
-      if (edgeToggleIcon) edgeToggleIcon.textContent = detailSidebar.classList.contains('closed') ? '◀' : '▶';
+      if (edgeToggleIcon) edgeToggleIcon.textContent = isClosed ? '◀' : '▶';
+      const edgeToggleText = document.querySelector('#sidebarEdgeToggleBtn .edge-toggle-text');
+      if (edgeToggleText) edgeToggleText.textContent = isClosed ? 'Open Codex' : 'Hide';
+      const sidebarToggleText = document.getElementById('sidebarToggleText');
+      if (sidebarToggleText) sidebarToggleText.textContent = isClosed ? 'Codex' : 'Close';
+      sidebarToggleBtn.classList.toggle('active', !isClosed);
+      const appContainer = document.querySelector('.app-main-container');
+      if (appContainer) appContainer.classList.toggle('sidebar-is-closed', isClosed);
       setTimeout(() => fitMapToScreen(), 150);
     });
   }
@@ -2717,8 +2754,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeSidebarBtn) {
     closeSidebarBtn.addEventListener('click', () => {
       detailSidebar.classList.add('closed');
+      detailSidebar.classList.remove('expanded');
       const edgeToggleIcon = document.getElementById('edgeToggleIcon');
       if (edgeToggleIcon) edgeToggleIcon.textContent = '◀';
+      const edgeToggleText = document.querySelector('#sidebarEdgeToggleBtn .edge-toggle-text');
+      if (edgeToggleText) edgeToggleText.textContent = 'Open Codex';
+      const sidebarToggleText = document.getElementById('sidebarToggleText');
+      if (sidebarToggleText) sidebarToggleText.textContent = 'Codex';
+      if (sidebarToggleBtn) sidebarToggleBtn.classList.remove('active');
+      const appContainer = document.querySelector('.app-main-container');
+      if (appContainer) appContainer.classList.add('sidebar-is-closed');
       setTimeout(() => fitMapToScreen(), 150);
     });
   }
@@ -2729,6 +2774,13 @@ document.addEventListener('DOMContentLoaded', () => {
       detailSidebar.classList.remove('closed');
       const edgeToggleIcon = document.getElementById('edgeToggleIcon');
       if (edgeToggleIcon) edgeToggleIcon.textContent = '▶';
+      const edgeToggleText = document.querySelector('#sidebarEdgeToggleBtn .edge-toggle-text');
+      if (edgeToggleText) edgeToggleText.textContent = 'Hide';
+      const sidebarToggleText = document.getElementById('sidebarToggleText');
+      if (sidebarToggleText) sidebarToggleText.textContent = 'Close';
+      if (sidebarToggleBtn) sidebarToggleBtn.classList.add('active');
+      const appContainer = document.querySelector('.app-main-container');
+      if (appContainer) appContainer.classList.remove('sidebar-is-closed');
       fitMapToScreen();
     });
   }

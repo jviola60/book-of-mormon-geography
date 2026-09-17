@@ -230,7 +230,7 @@
     right: -4px;
   }
 
-  /* Mobile Detail Sidebar -> Bottom Sheet Drawer */
+  /* Mobile Detail Sidebar -> Collapsible Bottom Sheet (Map First) */
   .detail-sidebar {
     position: fixed;
     top: auto;
@@ -238,18 +238,22 @@
     left: 0;
     right: 0;
     width: 100vw;
-    height: 75vh;
-    max-height: 80dvh;
+    height: 42vh; /* Partially collapsed peek: leaves top 58% of phone screen for map */
+    max-height: 82dvh;
     background: #FFFDF9;
     border-top: 2px solid var(--color-gold);
     border-left: none;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
     z-index: 2200;
     transform: translateY(110%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
+  }
+
+  .detail-sidebar.expanded {
+    height: 75vh; /* Expanded view for deep reading */
   }
 
   .detail-sidebar:not(.closed) {
@@ -264,16 +268,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 18px;
-    cursor: grab;
+    height: 24px;
+    cursor: pointer;
     flex-shrink: 0;
+    padding: 6px 0;
   }
 
   .drag-pill {
-    width: 38px;
-    height: 4px;
+    width: 44px;
+    height: 5px;
     background: var(--border-parchment-dark);
-    border-radius: 2px;
+    border-radius: 3px;
+    transition: background 0.2s ease, width 0.2s ease;
+  }
+
+  .mobile-drag-handle:hover .drag-pill,
+  .detail-sidebar.expanded .drag-pill {
+    background: var(--color-gold);
   }
 
   .sidebar-header {
