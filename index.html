@@ -591,6 +591,53 @@
       </a>
     </div>
 
+    <!-- Landmark Filters (Site Types, Confidence Level, Scriptural Era) -->
+    <div class="mobile-nav-section" id="mobileNavFiltersSection">
+      <div class="mobile-nav-heading">Landmark Filters</div>
+
+      <!-- 1. Site Types -->
+      <div class="mobile-nav-filter-group">
+        <div class="mobile-filter-section-title">Site Types</div>
+        <div class="mobile-nav-chips">
+          <button class="filter-chip" data-filter="capitals"><span class="chip-dot dot-capitals"></span>Capitals</button>
+          <button class="filter-chip" data-filter="cities"><span class="chip-dot dot-cities"></span>Cities</button>
+          <button class="filter-chip" data-filter="fortresses"><span class="chip-dot dot-fortresses"></span>Fortresses</button>
+          <button class="filter-chip" data-filter="sacred"><span class="chip-dot dot-sacred"></span>Sacred Sites</button>
+          <button class="filter-chip" data-filter="waters"><span class="chip-dot dot-waters"></span>Waters & Seas</button>
+          <button class="filter-chip" data-filter="wilderness"><span class="chip-dot dot-wilderness"></span>Wilderness</button>
+        </div>
+      </div>
+
+      <!-- 2. Textual Confidence Level -->
+      <div class="mobile-nav-filter-group">
+        <div class="mobile-filter-section-title">Confidence Level</div>
+        <div class="mobile-nav-chips">
+          <button class="filter-chip conf-chip active" data-conf="all">All (94)</button>
+          <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest">⭐ Highest (62)</button>
+          <button class="filter-chip conf-chip conf-chip-1" data-conf="1">L1 Explicit (38)</button>
+          <button class="filter-chip conf-chip conf-chip-2" data-conf="2">L2 Supported (24)</button>
+          <button class="filter-chip conf-chip conf-chip-3" data-conf="3">L3 Inferred (17)</button>
+          <button class="filter-chip conf-chip conf-chip-4" data-conf="4">L4 Indeterminate (15)</button>
+          <button class="filter-chip indet-chip active" id="mobNavToggleIndetChip"><span id="mobNavIndetIcon">👁️</span> <span id="mobNavIndetText">L4: Visible</span></button>
+        </div>
+      </div>
+
+      <!-- 3. Scriptural Era -->
+      <div class="mobile-nav-filter-group">
+        <div class="mobile-filter-section-title">Scriptural Era</div>
+        <div class="mobile-nav-chips">
+          <button class="filter-chip disp-chip active" data-disp="all">All Eras</button>
+          <button class="filter-chip disp-chip" data-disp="jaredite">Jaredite (~2200 BC)</button>
+          <button class="filter-chip disp-chip" data-disp="nephite_lamanite">Nephite / Lamanite (~600 BC - AD 421)</button>
+        </div>
+      </div>
+
+      <!-- Filter Action: Reset -->
+      <div class="mobile-nav-filter-actions">
+        <button class="btn btn-sm btn-outline df-btn" id="mobNavResetFiltersBtn">Reset Filters</button>
+      </div>
+    </div>
+
     <!-- Core Rule & Church Stance -->
     <div class="mobile-nav-section">
       <div class="mobile-nav-heading">Textual Grounding</div>

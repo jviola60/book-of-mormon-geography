@@ -512,6 +512,29 @@
     background: #F4EAD6;
   }
 
+  /* Filters in Mobile Nav Drawer */
+  .mobile-nav-filter-group {
+    margin-bottom: 0.85rem;
+  }
+
+  .mobile-nav-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .mobile-nav-chips .filter-chip {
+    height: 34px;
+    font-size: 0.76rem;
+    padding: 0 0.65rem;
+  }
+
+  .mobile-nav-filter-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+  }
+
   /* 2. Mobile Filters Bottom Sheet */
   .mobile-filter-sheet {
     position: fixed;

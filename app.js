@@ -560,12 +560,15 @@ document.addEventListener('DOMContentLoaded', () => {
     hideIndeterminate = !visible;
     const desktopChip = document.getElementById('toggleIndeterminateChip');
     const mobChip = document.getElementById('mobToggleIndetChip');
+    const mobNavChip = document.getElementById('mobNavToggleIndetChip');
     const indetToggleIcon = document.getElementById('indetToggleIcon');
     const indetToggleText = document.getElementById('indetToggleText');
     const mobIndetIcon = document.getElementById('mobIndetIcon');
     const mobIndetText = document.getElementById('mobIndetText');
+    const mobNavIndetIcon = document.getElementById('mobNavIndetIcon');
+    const mobNavIndetText = document.getElementById('mobNavIndetText');
 
-    [desktopChip, mobChip].forEach(btn => {
+    [desktopChip, mobChip, mobNavChip].forEach(btn => {
       if (!btn) return;
       btn.classList.toggle('hidden-mode', hideIndeterminate);
       btn.classList.toggle('active', !hideIndeterminate);
@@ -577,6 +580,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (indetToggleText) indetToggleText.textContent = text;
     if (mobIndetIcon) mobIndetIcon.textContent = icon;
     if (mobIndetText) mobIndetText.textContent = text;
+    if (mobNavIndetIcon) mobNavIndetIcon.textContent = icon;
+    if (mobNavIndetText) mobNavIndetText.textContent = text;
 
     syncFilterChipsUI();
     updateLayerVisibility();
@@ -705,7 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (e.target.closest('#toggleIndeterminateChip') || e.target.closest('#mobToggleIndetChip')) {
+    if (e.target.closest('#toggleIndeterminateChip') || e.target.closest('#mobToggleIndetChip') || e.target.closest('#mobNavToggleIndetChip')) {
       setIndeterminateVisibility(hideIndeterminate);
       return;
     }
@@ -917,10 +922,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeMobileFiltersBtn = document.getElementById('closeMobileFiltersBtn');
     const mobApplyFiltersBtn = document.getElementById('mobApplyFiltersBtn');
     const mobResetFiltersBtn = document.getElementById('mobResetFiltersBtn');
+    const mobNavResetFiltersBtn = document.getElementById('mobNavResetFiltersBtn');
 
     if (closeMobileFiltersBtn) closeMobileFiltersBtn.addEventListener('click', closeAllMobileSheets);
     if (mobApplyFiltersBtn) mobApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
     if (mobResetFiltersBtn) mobResetFiltersBtn.addEventListener('click', resetAllFilters);
+    if (mobNavResetFiltersBtn) mobNavResetFiltersBtn.addEventListener('click', resetAllFilters);
 
     // Mobile Header Quick Action Buttons
     const mobileSearchToggleBtn = document.getElementById('mobileSearchToggleBtn');
