@@ -898,7 +898,7 @@ const mapLocations = {
       "label": "Spared Sanctuary: Christ Descends at the Temple",
       "verse": "3 Nephi 11:1"
     },
-    "summary": "The prime fortified coastal key near the eastern seashore and the narrow neck of land. Here at the temple in Bountiful, the resurrected Lord Jesus Christ descended out of heaven to minister to the Nephite multitude.",
+    "summary": "The prime fortified coastal sanctuary near the eastern seashore and the narrow neck of land. Here at the temple in Bountiful, the resurrected Lord Jesus Christ descended out of heaven following the 3 Nephi cataclysm to minister in person to the multitude, fulfilling the prophecies of all prior prophets, establishing His Church, delivering the Sermon at the Temple, healing the sick, blessing the children, instituting the Sacrament, and expounding the covenants across 3 Nephi 11 to 30.",
     "refs": [
       {
         "ref": "Alma 22:31",
@@ -909,12 +909,88 @@ const mapLocations = {
         "text": "Teancum and Captain Moroni liberate the city through strategic decoy and valor."
       },
       {
-        "ref": "3 Nephi 11:1-8",
-        "text": "And now it came to pass that there were a great multitude gathered together, of the people of Nephi, round about the temple which was in the land Bountiful; and they were marveling and wondering one with another... and behold, they saw a Man descending out of heaven; and he was clothed in a white robe; and he came down and stood in the midst of them."
+        "ref": "3 Nephi 11:1-11",
+        "text": "And now it came to pass that there were a great multitude gathered together, of the people of Nephi, round about the temple which was in the land Bountiful... and they heard a voice as if it came out of heaven; and it said unto them: Behold my Beloved Son, in whom I am well pleased, in whom I have glorified my name—hear ye him. And behold, they saw a Man descending out of heaven; and he was clothed in a white robe... and he spake unto the people, saying: Behold, I am Jesus Christ, whom the prophets testified shall come into the world. And behold, I am the light and the life of the world."
       },
       {
-        "ref": "3 Nephi 11:14-15",
-        "text": "Arise and come forth unto me, that ye may thrust your hands into my side, and also that ye may feel the prints of the nails in my hands and in my feet, that ye may know that I am the God of Israel, and the God of the whole earth, and have been slain for the sins of the world."
+        "ref": "3 Nephi 11:14-17",
+        "text": "Arise and come forth unto me, that ye may thrust your hands into my side, and also that ye may feel the prints of the nails in my hands and in my feet, that ye may know that I am the God of Israel, and the God of the whole earth, and have been slain for the sins of the world. And it came to pass that the multitude went forth, and thrust their hands into his side, and did feel the prints of the nails in his hands and in his feet; and this they did do, going forth one by one until they had all gone forth."
+      },
+      {
+        "ref": "3 Nephi 11:31-41",
+        "text": "Behold, verily, verily, I say unto you, I will declare unto you my doctrine... that the Father commandeth all men, everywhere, to repent and believe in me. And whoso believeth in me, and is baptized, the same shall be saved; and they are they who shall inherit the kingdom of God... And whoso buildeth upon this rock buildeth upon my rock, and the gates of hell shall not prevail against them."
+      },
+      {
+        "ref": "3 Nephi 12:1-16",
+        "text": "Blessed are the poor in spirit who come unto me, for theirs is the kingdom of heaven... Blessed are the peacemakers, for they shall be called the children of God... Verily, verily, I say unto you, I give unto you to be the salt of the earth... I give unto you to be the light of this people... Let your light so shine before this people, that they may see your good works and glorify your Father who is in heaven."
+      },
+      {
+        "ref": "3 Nephi 13:5-13",
+        "text": "And when thou prayest thou shalt not do as the hypocrites... But thou, when thou prayest, enter into thy closet, and when thou hast shut thy door, pray to thy Father who is in secret... After this manner therefore pray ye: Our Father which art in heaven, Hallowed be thy name. Thy kingdom come. Thy will be done on earth as it is in heaven."
+      },
+      {
+        "ref": "3 Nephi 14:21-27",
+        "text": "Not every one that saith unto me, Lord, Lord, shall enter into the kingdom of heaven; but he that doeth the will of my Father who is in heaven... Therefore, whoso heareth these sayings of mine and doeth them, I will liken him unto a wise man, who built his house upon a rock... and it fell not, for it was founded upon a rock."
+      },
+      {
+        "ref": "3 Nephi 15:1-9, 21-24",
+        "text": "I say unto you that the law is fulfilled that was given unto Moses. Behold, I am the law, and the light. Look unto me, and endure to the end, and ye shall live... And verily I say unto you, that ye are they of whom I said: Other sheep I have which are not of this fold; them also I must bring, and they shall hear my voice; and there shall be one fold, and one shepherd."
+      },
+      {
+        "ref": "3 Nephi 16:1-5",
+        "text": "And verily, verily, I say unto you that I have other sheep, which are not of this land, neither of the land of Jerusalem, neither in any parts of that land round about whither I have been to minister... But I have received a commandment of the Father that I shall go unto them, and that they shall hear my voice, and shall be numbered among my sheep, that there may be one fold and one shepherd."
+      },
+      {
+        "ref": "3 Nephi 17:5-10",
+        "text": "Have ye any that are sick among you? Bring them hither. Have ye any that are lame, or blind, or halt, or maimed, or leprous, or that are withered, or that are deaf, or that are afflicted in any manner? Bring them hither and I will heal them, for I have compassion upon you; my bowels are filled with mercy... And he did heal them every one as they were brought forth unto him."
+      },
+      {
+        "ref": "3 Nephi 17:21-25",
+        "text": "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them... And as they looked to behold they cast their eyes towards heaven, and they saw the heavens open, and they saw angels descending out of heaven as it were in the midst of fire; and they came down and encircled those little ones about, and they were encircled about with fire; and the angels did minister unto them."
+      },
+      {
+        "ref": "3 Nephi 18:1-14",
+        "text": "And Jesus said unto them: Behold there shall one be ordained among you, and to him will I give power that he shall break bread and bless it and give it unto the people of my church... And this shall ye do in remembrance of my body, which I have shown unto you. And it shall be a testimony unto the Father that ye do always remember me. And if ye do always remember me ye shall have my Spirit to be with you."
+      },
+      {
+        "ref": "3 Nephi 18:28-32",
+        "text": "And now behold, this is the commandment which I give unto you, that ye shall not suffer any one knowingly to partake of my flesh and blood unworthily, when ye shall minister it... Pray in your families unto the Father, always in my name, that your wives and your children may be blessed."
+      },
+      {
+        "ref": "3 Nephi 19:10-25",
+        "text": "And it came to pass that Nephi went down into the water and was baptized. And he came up out of the water and began to baptize... and they were baptized with the Holy Ghost and with fire... And Jesus came and stood in the midst, and ministered unto them... and he prayed saying: Father, I thank thee that thou hast given the Holy Ghost unto these whom I have chosen... and thou seest that they believe in me, because thou hearest them, and they pray unto me."
+      },
+      {
+        "ref": "3 Nephi 20:10-29",
+        "text": "And behold, I am he of whom Moses spake, saying: A prophet shall the Lord your God raise up unto you of your brethren, like unto me... And it shall come to pass that all the peoples of the earth shall be blessed in thy seed... And I will remember the covenant which I have made with my people; and I have covenanted with them that I would gather them together in mine own due time."
+      },
+      {
+        "ref": "3 Nephi 22:1-17",
+        "text": "For the mountains shall depart and the hills be removed, but my kindness shall not depart from thee, neither shall the covenant of my peace be removed, saith the Lord that hath mercy on thee... No weapon that is formed against thee shall prosper; and every tongue that shall revile against thee in judgment thou shalt condemn. This is the heritage of the servants of the Lord."
+      },
+      {
+        "ref": "3 Nephi 23:1-5, 7-13",
+        "text": "And now, behold, I say unto you, that ye ought to search these things. Yea, a commandment I give unto you that ye search these things diligently; for great are the words of Isaiah... And it came to pass that he said unto Nephi: Bring forth the record which ye have kept... Verily I say unto you, I commanded my servant Samuel, the Lamanite, that he should testify... How be it that ye have not written this thing?"
+      },
+      {
+        "ref": "3 Nephi 24:1-3; 25:1-6",
+        "text": "These scriptures, which ye had not with you, the Father commanded that I should give unto you... Behold, I will send you Elijah the prophet before the coming of the great and dreadful day of the Lord; And he shall turn the heart of the fathers to the children, and the heart of the children to their fathers, lest I come and smite the earth with a curse."
+      },
+      {
+        "ref": "3 Nephi 26:1-16",
+        "text": "And he did expound all things, even from the beginning until the time that he should come in his glory... And it came to pass that he did teach and minister unto the children of the multitude... and he did loose their tongues, and they did speak unto their fathers great and marvelous things, even greater than he had revealed unto the people."
+      },
+      {
+        "ref": "3 Nephi 27:1-22",
+        "text": "And they said unto him: Lord, we will that thou wouldst tell us the name whereby we shall call this church; for there are disputations among the people concerning this matter. And the Lord said unto them: Verily, verily, I say unto you, why is it that the people must murmur and dispute because of this thing? Have they not read the scriptures, which say ye must take upon you the name of Christ... For how be it my church save it be called in my name? If it be called in Moses' name then it be Moses' church; or if it be called in the name of a man then it be the church of a man; but if it be called in my name then it is my church, if it so be that they are built upon my gospel... And this is the gospel which I have given unto you—that I came into the world to do the will of my Father, because my Father sent me. And my Father sent me that I might be lifted up upon the cross."
+      },
+      {
+        "ref": "3 Nephi 28:1-15",
+        "text": "And when he had spoken unto them, he turned himself unto the three, and said unto them: What will ye that I should do unto you, when I am gone unto the Father? And they sorrowed in their hearts, for they durst not speak unto him the thing which they desired. And he said unto them: Behold, I know your thoughts, and ye have desired the thing which John, my beloved... desired of me. Therefore, more blessed are ye, for ye shall never taste of death; but ye shall live to behold all the doings of the Father unto the children of men."
+      },
+      {
+        "ref": "3 Nephi 29:1-9; 30:1-2",
+        "text": "And now behold, I say unto you that when the Lord shall see fit, in his wisdom, that these sayings shall come unto the Gentiles according to his word, then ye may know that the covenant which the Father hath made with the children of Israel, concerning their restoration to the lands of their inheritance, is already beginning to be fulfilled... Turn, all ye Gentiles, from your wicked ways; and repent of your evil doings... and come unto me, and be baptized in my name, that ye may receive a remission of your sins, and be filled with the Holy Ghost, that ye may be numbered with my people who are of the house of Israel."
       }
     ],
     "historicalEvents": [

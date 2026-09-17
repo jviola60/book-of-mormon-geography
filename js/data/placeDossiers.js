@@ -8,32 +8,41 @@ const PLACE_DOSSIERS = {
   // =========================================================================
   // 0. GLOBAL BOOK OF MORMON OVERVIEW (ALL PROPHETS & DISPENSATIONS)
   // =========================================================================
+  // =========================================================================
+  // 0. GLOBAL BOOK OF MORMON OVERVIEW (ALL PROPHETS & DISPENSATIONS)
+  // =========================================================================
   "global_bom": {
     teacher: "The Resurrected Lord Jesus Christ, The Brother of Jared, Lehi, Nephi, Jacob, Enos, Jarom, Omni, King Mosiah I, King Benjamin, Abinadi, Alma the Elder, King Mosiah II, Alma the Younger, Amulek, Zeezrom, Sons of Mosiah (Ammon, Aaron, Omner, Himni), Captain Moroni, Helaman, Shiblon, Corianton, Nephi & Lehi (sons of Helaman), Samuel the Lamanite, Lachoneus, The Twelve Nephite Disciples, Mormon, Moroni, & Ether",
     audience: "Nephite, Lamanite, Mulekite, Jaredite & Zoramite Nations; Kings, Judges, Soldiers, Covenant Families, Little Children, and All Future Readers in the Latter Days",
-    whatWasTaught: "The Fulness of the Everlasting Gospel: the divine reality and Infinite Atonement of Jesus Christ; the Doctrine of Christ (faith in Jesus Christ, repentance from sin, baptism by immersion for the remission of sins, receiving the gift of the Holy Ghost, and enduring in holiness to the end); moral agency and the Fall of Adam ('Adam fell that men might be; and men are, that they might have joy'); the literal bodily resurrection and final judgment of all mankind; the Abrahamic covenant promises to the House of Israel; Christian discipleship, pure charity, and selfless service; warning against secret combinations, pride, and priestcraft; and the divine promise that all who ask God with a sincere heart can know the truth of these things by the power of the Holy Ghost.",
-    whyTaught: "As declared on the Title Page of the Book of Mormon: 'To show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and that they may know the covenants of the Lord, that they are not cast off forever—And also to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God, manifesting himself unto all nations.'",
-    context: "Over 2,600 years of sacred prophetic history (~2200 BC to AD 421) across the ancient Americas—spanning the Jaredite migration across the great sea, Lehi's journey to the Promised Land, the construction of temples modeled after Solomon's, the Sidon river basin, the strategic Narrow Neck of Land, the great destructions at Christ's death, His personal post-resurrection ministry at the Temple in Bountiful, and the final sealing of the gold plates at Hill Cumorah.",
-    howAccepted: "Produced the highest peaks of spiritual civilization—including 200 years of universal peace and brotherhood in 4 Nephi, the total conversion and covenant pacifism of the Anti-Nephi-Lehies, and humble national revivals under King Benjamin and Alma—alongside tragic lessons of societal collapse when generations rejected prophetic warnings, succumbed to pride and secret combinations, and abandoned their covenants with God.",
+    whatWasTaught: "The Fulness of the Everlasting Gospel centered on the coming, ministry, and Infinite Atonement of Jesus Christ. Every prophet from Lehi and Nephi to Samuel the Lamanite testified of His coming: declaring His virgin birth, His divine condescension, His miracles, His bleeding at every pore in Gethsemane, His crucifixion, and His third-day bodily resurrection. Following the great cataclysm, the Resurrected Lord personally ministered at the Temple in Bountiful (3 Nephi 11–30): inviting all to touch His wounds, proclaiming the Doctrine of Christ (faith, repentance, baptism, and the Holy Ghost), delivering the Sermon at the Temple, healing every afflicted soul, blessing little children while encircled by angels in fire, instituting the Sacrament, gathering the House of Israel, declaring the Name of His Church, and granting the Three Nephites their righteous desire to tarry until His Second Coming.",
+    whyTaught: "Fulfilling the Three Sacred Purposes written upon the Title Page of the Book of Mormon: (1) To show unto the remnant of the House of Israel what great things the Lord hath done for their fathers through generations of mercy and deliverance; (2) That they may know the covenants of the Lord, that they are not cast off forever; and (3) Also to the convincing of the Jew and Gentile that JESUS is the CHRIST, the ETERNAL GOD, manifesting Himself unto all nations.",
+    context: "Over 2,600 years of sacred prophetic history (~2200 BC to AD 421) across the ancient Americas—spanning the Jaredite oceanic barges, Lehi's journey across the great waters, the construction of temples modeled after Solomon's, the Sidon river basin, the strategic Narrow Neck of Land, the great destructions at Christ's death where 16 wicked cities were buried or burned, His personal post-resurrection ministry at the Temple in Bountiful, the 200-year Zion peace of 4 Nephi, and the final sealing of the gold plates at Hill Cumorah.",
+    howAccepted: "Every holy prophet before His coming pointed the people forward to Christ with unshakable faith ('We talk of Christ, we rejoice in Christ, we preach of Christ, we prophesy of Christ'). When the Savior descended at Bountiful, the 2,500 survivors fell prostrate, bathed His feet with tears, and received His touch one by one. The Twelve Disciples ministered throughout all cities and lands, establishing two centuries of unbroken Zion society (4 Nephi) with no contention, no rich or poor, and all things held in common through Christ's love.",
     passages: [
+      "Title Page of the Book of Mormon",
+      "1 Nephi 10:4–6",
       "2 Nephi 2:1–29",
+      "2 Nephi 25:26",
       "2 Nephi 31:1–21",
-      "Jacob 2:12–28",
-      "Enos 1:1–18",
-      "Mosiah 2–5",
-      "Mosiah 12–16",
+      "Jacob 4:4–5",
+      "Mosiah 3:5–19",
+      "Mosiah 15:1–9",
       "Mosiah 18:8–10",
-      "Alma 5:1–62",
-      "Alma 32:21–43",
+      "Alma 7:11–13",
       "Alma 34:8–16",
-      "Alma 46:11–22",
       "Helaman 5:12",
-      "Helaman 13–16",
+      "Helaman 14:2–28",
       "3 Nephi 11:1–17",
+      "3 Nephi 12–14",
+      "3 Nephi 15–16",
       "3 Nephi 17:1–25",
-      "3 Nephi 27:13–22",
+      "3 Nephi 18:1–39",
+      "3 Nephi 19–26",
+      "3 Nephi 27:1–22",
+      "3 Nephi 28:1–15",
+      "3 Nephi 29–30",
+      "4 Nephi 1:1–18",
       "Ether 12:27–41",
-      "Mormon 8:26–35",
       "Moroni 7:45–48",
       "Moroni 10:3–5"
     ]
@@ -47,7 +56,7 @@ const PLACE_DOSSIERS = {
     audience: "Nephite & Mulekite Citizens, Judges, Assembled Families, and Multi-ethnic Multitudes",
     whatWasTaught: "Salvation through the Atonement of Jesus Christ; selfless service to our fellow beings ('when ye are in the service of your fellow beings ye are only in the service of your God'); retaining a remission of sins from day to day; the peaceful transition from monarchy to the Reign of Judges; the specific prophetic signs of the Savior's birth (a day, night, and day without darkness) and crucifixion.",
     whyTaught: "To unite two distinct linguistic cultures (Nephites and Mulekites), establish permanent covenant loyalty to God before King Benjamin's death, and warn a prosperous but morally drifting nation against secret combinations and spiritual pride.",
-    context: "The political, spiritual, and economic capital of the Nephite republic, located on the west bank of the River Sidon. Multitudes assembled around the Zarahemla Temple, pitching family tents with doors facing the elevated wooden tower.",
+    context: "The political, spiritual, and economic capital of the Nephite republic, located on the west bank of the River Sidon. Multitudes assembled around the Zarahemla Temple, pitching family tents with doors facing the elevated wooden tower. Following its fiery destruction during the 3 Nephi cataclysm, the city was completely rebuilt in righteousness during 4 Nephi.",
     howAccepted: "Deeply moving national revival: upon hearing King Benjamin, the entire congregation fell to the earth, feeling their own carnal state, and cried aloud for mercy. They covenanted to take upon them the name of Christ and reported having 'no more disposition to do evil, but to do good continually.' Later, when Samuel preached from the walls, wicked factions shot arrows and threw stones, but believers came forth to be baptized.",
     passages: ["Mosiah 1–5", "Omni 1:12–19", "Alma 2:15–38", "Alma 5:1–62", "Helaman 5:16–19", "Helaman 7–9", "Helaman 13–16", "3 Nephi 8:8", "4 Nephi 1:8"]
   },
@@ -57,12 +66,36 @@ const PLACE_DOSSIERS = {
   // =========================================================================
   "bountiful": {
     teacher: "The Resurrected Lord Jesus Christ, The Twelve Nephite Disciples, & Captain Moroni",
-    audience: "A Multitude of 2,500 Assembled Saints, the Twelve Nephite Disciples, and Little Children",
-    whatWasTaught: "The physical reality of the Resurrection ('Behold, I am Jesus Christ, whom the prophets testified shall come into the world'); baptism by immersion with proper priesthood authority; the Sermon at the Temple (Beatitudes & higher law of celestial discipleship); healing of all physical and spiritual infirmities; institution of the memorial Sacrament; angels ministering to children in circles of fire; expounding the prophecies of Isaiah and Malachi.",
-    whyTaught: "To fulfill ancient prophecy, deliver the fulness of the Gospel directly to the surviving remnant of Israel, and establish His covenant Church in the ancient Americas following the catastrophic destructions of 3 Nephi.",
-    context: "The fertile northern stronghold situated just south of the Narrow Neck of Land. Surviving families gathered in solemn reverence around the Temple in Bountiful, conversing about the marvelous signs and upheavals that had reshaped the continent.",
-    howAccepted: "Overwhelming reverence and adoration: each soul stepped forward one by one to feel the nail prints in the Savior's hands and feet and the spear wound in His side, bathing His feet with their tears. When He blessed their little children, angels descended in fire, and the entire multitude fell down to worship Him as the true God of Israel.",
-    passages: ["3 Nephi 11:1–17", "3 Nephi 12–14", "3 Nephi 17:1–25", "3 Nephi 18:1–39", "3 Nephi 19–26", "Alma 52:9–18", "Alma 53:3–5"]
+    audience: "A Multitude of 2,500 Assembled Saints, the Twelve Nephite Disciples, Little Children, and Gathered Believers from All Spared Lands",
+    whatWasTaught: "The exhaustive, glorious personal ministry of the Savior across 3 Nephi chapters 11 to 30: (1) Chapter 11: The physical reality of the Resurrection ('Behold, I am Jesus Christ, whom the prophets testified shall come into the world'); personally feeling the nail prints and spear wound; baptismal authority and the Doctrine of Christ; (2) Chapters 12–14: The Sermon at the Temple (Beatitudes, salt of the earth, light of the world, celestial standard of pure discipleship, the Lord's Prayer, and building on the rock); (3) Chapters 15–16: Proclaiming the Law of Moses fulfilled in Him; identifying the Nephites and the lost tribes as the 'Other Sheep' (John 10:16); (4) Chapter 17: Overflowing compassion; healing every blind, lame, sick, and afflicted soul; weeping with joy; blessing the little children one by one as angels ministered in circles of fire; (5) Chapter 18: Institution of the Sacrament of bread and wine; commanding disciples to watch and pray always and pray in families in His name; (6) Chapter 19: Baptism of the Twelve Disciples and outpouring of the Holy Ghost; (7) Chapters 20–22: The Father's covenant with the House of Israel; gathering the remnant of Jacob; New Jerusalem; expounding Isaiah 52 & 54; (8) Chapters 23–25: Commanding diligent search of Isaiah; correcting records to include Samuel the Lamanite's resurrection prophecies; delivering Malachi's prophecies of tithing and Elijah; (9) Chapter 26: Expounding all things from creation to the Second Coming; babes speaking marvels; (10) Chapters 27–28: Declaring the Name of the Church ('How be it my church save it be called in my name?'); defining the Gospel; granting the Three Nephites their holy request to tarry on earth; (11) Chapters 29–30: Mormon's covenant witness that the Father's promises to Israel are rolling forth, calling all Gentiles to repent and be numbered with Israel.",
+    whyTaught: "Directly fulfilling the Book of Mormon's Title Page purposes: showing the great things the Lord hath done for their fathers; making known the eternal covenants of the Lord; and convincing all Jew and Gentile that Jesus is the Christ, the Eternal God. Fulfilling the prophecies of every prophet from Lehi and Nephi to Abinadi, Alma, and Samuel.",
+    context: "The fertile northern stronghold situated just south of the Narrow Neck of Land. Following the devastating upheavals that destroyed 16 wicked cities across the land, the more righteous part of the people who received the prophets were spared (3 Nephi 10:12) and gathered in solemn reverence round about the Temple in Bountiful. News of His presence spread overnight, drawing an immense host from all neighboring settlements on the morrow (3 Nephi 19:1–3).",
+    howAccepted: "Profound, weeping adoration: each person stepped forward one by one to feel the wounds in His hands, feet, and side, crying 'Hosanna! Blessed be the name of the Most High God!' and worshipping at His feet. The Twelve Disciples then traversed all the cities of the land, preaching and baptizing, resulting in 200 years of unbroken Zion peace across all the face of the land (4 Nephi 1).",
+    passages: [
+      "3 Nephi 11:1–17",
+      "3 Nephi 11:31–41",
+      "3 Nephi 12:1–16",
+      "3 Nephi 13:5–13",
+      "3 Nephi 14:21–27",
+      "3 Nephi 15:1–9",
+      "3 Nephi 16:1–5",
+      "3 Nephi 17:1–25",
+      "3 Nephi 18:1–14",
+      "3 Nephi 18:28–32",
+      "3 Nephi 19:10–25",
+      "3 Nephi 20:10–29",
+      "3 Nephi 22:1–17",
+      "3 Nephi 23:1–5",
+      "3 Nephi 24:1–3",
+      "3 Nephi 25:1–6",
+      "3 Nephi 26:1–16",
+      "3 Nephi 27:1–22",
+      "3 Nephi 28:1–15",
+      "3 Nephi 29:1–9",
+      "3 Nephi 30:1–2",
+      "Alma 52:9–18",
+      "Alma 53:3–5"
+    ]
   },
 
   // =========================================================================

@@ -37,23 +37,123 @@ const BOOK_OF_MORMON_TRANSLATIONS = {
   },
 
   // =========================================================================
-  // BOUNTIFUL & TEMPLE VISITATION
+  // TITLE PAGE & CORE PROPHECIES OF CHRIST'S COMING
   // =========================================================================
-  "3 Nephi 11:1-10": {
-    plainEnglish: "A crowd of about 2,500 Nephites had gathered around the temple in the Land Bountiful. While they were discussing the miraculous signs of Christ's death, they heard a quiet, gentle voice speaking from heaven. It wasn't loud or harsh, but it pierced them to their very core. Looking up toward heaven, they saw a Man descending in a white robe. He stood in their midst and said: 'Look, I am Jesus Christ, whom the prophets testified would come into the world.'",
-    insight: "The climax of the Book of Mormon: the resurrected Lord descends from heaven at the Temple in Bountiful, inviting each person to feel the wounds in His hands and side."
+  "Title Page": {
+    plainEnglish: "Written to show the remnant of Israel the great things God did for their ancestors, to help them understand His eternal covenants and know they are not cast off forever, and to convince both Jew and Gentile that Jesus is the Christ, the Eternal God, who shows Himself to all nations.",
+    insight: "The three foundational purposes of the Book of Mormon: (1) Remembering God's past mercies; (2) Knowing His eternal covenants with Israel; and (3) Testifying that Jesus Christ is the Savior of all mankind."
   },
-  "3 Nephi 11:14-15": {
-    plainEnglish: "Jesus invited the multitude: 'Stand up and come to Me, feel the nail prints in My hands and feet, and put your hands into My side, so you can know for yourself that I am the God of Israel and was slain for the sins of the world.' One by one, the entire crowd went forward and witnessed His reality with their own eyes and hands.",
-    insight: "Personal, individual witness: the Savior ministers to thousands 'one by one,' proving His physical resurrection and boundless love."
+  "1 Nephi 10:4-6": {
+    plainEnglish: "Lehi prophesied that exactly 600 years after leaving Jerusalem, God would raise up a Messiah among the Jews—a Savior and Redeemer of the world. He told how this Messiah would be baptized by John in the Jordan River and die to redeem all mankind.",
+    insight: "Early prophetic timeline: Lehi precisely dates the coming of Jesus Christ six centuries before His mortal birth."
   },
-  "3 Nephi 17:1-7": {
-    plainEnglish: "Jesus looked at the crowd and saw they were crying because they didn't want Him to leave yet. Filled with deep compassion, He told them: 'Bring forward anyone who is sick, blind, lame, deaf, or suffering from any illness, and I will heal them.'",
-    insight: "Compassion preceding miracles: Christ responds to the silent tears of the people with universal physical and emotional healing."
+  "2 Nephi 25:26": {
+    plainEnglish: "We talk about Christ, we celebrate Christ, we preach about Christ, and we prophesy about Christ. We write these words so our children will know where to look to receive forgiveness for their sins.",
+    insight: "The core Christ-centered heart of the Book of Mormon: every prophet, chapter, and sermon is written to point souls to the Savior."
   },
-  "3 Nephi 17:21-24": {
-    plainEnglish: "Jesus took their little children one by one, blessed each of them, and prayed to the Father for them. As the parents watched in tears of joy, angels descended from heaven surrounded by fire, encircling the children in a circle of light and ministering to them.",
-    insight: "The holiness of children: the Savior showcases children as the true model for entering the Kingdom of God, guarded by heavenly hosts."
+  "Mosiah 3:5-8": {
+    plainEnglish: "King Benjamin told his people what an angel had revealed to him: the Lord Almighty will come down from heaven to live among mortal men. He will heal the sick, raise the dead, bleed from every pore through great anguish, die on a cross, and rise from the dead on the third day.",
+    insight: "Direct angelic revelation to King Benjamin: foretelling the Savior's agony in Gethsemane and His bodily resurrection."
+  },
+  "Alma 7:11-13": {
+    plainEnglish: "Alma prophesied that the Son of God would take upon Himself our pains, sicknesses, and weaknesses so that His heart would be filled with mercy and He would know how to comfort and rescue us according to our mortal struggles.",
+    insight: "The intimate Atonement: Christ suffered not only for our sins, but also for our grief, illnesses, and sorrows so He could perfectly comfort us."
+  },
+
+  // =========================================================================
+  // BOUNTIFUL & CHRIST'S VISITATION (3 NEPHI 11 TO 30)
+  // =========================================================================
+  "3 Nephi 11:1-11": {
+    plainEnglish: "A crowd of about 2,500 Nephites had gathered around the temple in the Land Bountiful. While they were discussing the miraculous signs of Christ's death, they heard a quiet, gentle voice speaking from heaven. It wasn't loud or harsh, but it pierced them to their very core: 'Behold my Beloved Son, in whom I am well pleased—hear ye him.' Looking up toward heaven, they saw a Man descending in a white robe. He stood in their midst and said: 'Look, I am Jesus Christ, whom the prophets testified would come into the world. I am the light and life of the world.'",
+    insight: "The climax of the Book of Mormon: the resurrected Lord descends from heaven at the Temple in Bountiful, announcing Himself as the Messiah foretold by all prophets."
+  },
+  "3 Nephi 11:14-17": {
+    plainEnglish: "Jesus invited the multitude: 'Stand up and come to Me, feel the nail prints in My hands and feet, and put your hands into My side, so you can know for yourself that I am the God of Israel and was slain for the sins of the world.' One by one, the entire crowd went forward and witnessed His reality with their own eyes and hands. They shouted 'Hosanna!' and worshipped at His feet.",
+    insight: "Personal, individual witness: the Savior ministers to thousands 'one by one,' proving His physical resurrection and boundless personal love."
+  },
+  "3 Nephi 11:31-41": {
+    plainEnglish: "Jesus declared His doctrine plainly: the Father commands all people everywhere to repent, believe in Christ, and be baptized in water. Anyone who builds upon this doctrine builds upon Christ's solid rock, and the gates of hell will never overcome them.",
+    insight: "The pure Doctrine of Christ: faith, repentance, baptism, and the Holy Ghost, with no contention or philosophical speculation allowed."
+  },
+  "3 Nephi 12:1-16": {
+    plainEnglish: "Jesus gave the Sermon at the Temple, teaching the Beatitudes: blessed are the humble, the peacemakers, and those who hunger for righteousness. He called His disciples to be the salt of the earth and the light of the world, letting their good works inspire others to praise their Heavenly Father.",
+    insight: "The Sermon at the Temple delivers the celestial standard of Christ's kingdom, calling believers to live as true disciples."
+  },
+  "3 Nephi 13:5-13": {
+    plainEnglish: "Jesus taught His followers how to pray sincerely in private rather than showing off before others. He gave them the Lord's Prayer: honoring God's holy name, seeking His kingdom and will on earth, asking for daily bread, and seeking forgiveness while forgiving others.",
+    insight: "Pure communication with God: Christ emphasizes secret prayer, sincere devotion, and reciprocal forgiveness."
+  },
+  "3 Nephi 14:21-27": {
+    plainEnglish: "Jesus warned that merely saying 'Lord, Lord' is not enough—we must actually do Heavenly Father's will. Those who hear His words and live them are like a wise man who built his home on solid rock; when rains poured and winds blew, the house stood firm.",
+    insight: "The parable of the two foundations: discipleship requires active obedience to Christ rather than lip service."
+  },
+  "3 Nephi 15:1-9": {
+    plainEnglish: "Jesus told them that the old Law of Moses was completely fulfilled in Him. He is the law and the light, and those who look to Him and endure to the end will receive eternal life. He then revealed that the Nephites were the 'other sheep' He had spoken of to the apostles in Jerusalem.",
+    insight: "Fulfillment of the Law: Christ is the fulfillment of centuries of animal sacrifice and Mosaic rituals, revealing the Nephites as His 'other sheep' (John 10:16)."
+  },
+  "3 Nephi 16:1-5": {
+    plainEnglish: "Jesus explained that He had even more 'other sheep' in other parts of the world—the scattered lost tribes of Israel—whom He was commanded by the Father to visit and teach, so that all of Israel would hear His voice and be united under one Shepherd.",
+    insight: "The universal scope of the Savior's ministry: Christ ministers to all scattered branches of Israel across the globe."
+  },
+  "3 Nephi 17:5-10": {
+    plainEnglish: "Seeing that the people were in tears and didn't want Him to leave, Jesus was moved with deep compassion. He asked them to bring forward everyone who was sick, blind, lame, deaf, or afflicted in any way, and He healed every single one of them.",
+    insight: "Compassion preceding miracles: Christ responds to the silent longings of the multitude with total, compassionate physical and emotional healing."
+  },
+  "3 Nephi 17:21-25": {
+    plainEnglish: "Jesus took their little children one by one, blessed each of them, wept for joy, and prayed to the Father for them. As the parents watched, angels descended from heaven surrounded by fire, encircling the children in divine light and ministering to them.",
+    insight: "The divine worth of children: Christ establishes little children as the purest example of holiness, enveloped by heavenly angels in fire."
+  },
+  "3 Nephi 18:1-14": {
+    plainEnglish: "Jesus gave power to His chosen disciples to break bread and bless wine for the sacrament. He told the people to eat the bread in memory of His body and drink the wine in memory of His blood, promising that those who always remember Him will always have His Spirit.",
+    insight: "The memorial ordinance of the Sacrament: renewing baptismal covenants and securing the constant companionship of the Holy Ghost."
+  },
+  "3 Nephi 18:28-32": {
+    plainEnglish: "Jesus commanded the disciples to protect the holiness of the sacrament, but told them never to cast anyone out of their meetings. Instead, they should continue to minister, pray for them, and hold family prayers in His name.",
+    insight: "Unconditional pastoral love: even when someone struggles spiritually, Christ commands His followers to keep welcoming and praying for them."
+  },
+  "3 Nephi 19:10-25": {
+    plainEnglish: "Nephi went down into the water and baptized the twelve disciples. When they came up, the Holy Ghost fell upon them like fire. Jesus appeared again, smiled upon them, and knelt in mighty prayer, thanking the Father for their great faith.",
+    insight: "The foundation of the Church: the twelve disciples are baptized, receive the Holy Ghost, and are sanctified in Christ's presence."
+  },
+  "3 Nephi 20:10-29": {
+    plainEnglish: "Jesus proclaimed the Father's eternal covenant with the House of Israel: in the latter days, the scattered remnant of Jacob will be gathered, the scriptures will come forth, and a holy city—the New Jerusalem—will be built in this land.",
+    insight: "The gathering of Israel: Christ details the fulfillment of the Abrahamic covenant in the Promised Land."
+  },
+  "3 Nephi 22:1-17": {
+    plainEnglish: "Jesus quoted the words of Isaiah: even if mountains crumble and hills are removed, God's loving kindness and His covenant of peace will never be taken away from His children. No weapon formed against His people will ever prosper.",
+    insight: "God's unbreakable covenant loyalty: quoting Isaiah 54, Christ promises everlasting mercy and protection to Zion."
+  },
+  "3 Nephi 23:1-5": {
+    plainEnglish: "Jesus commanded the multitude to search the scriptures diligently, declaring: 'Great are the words of Isaiah.' He then checked their written records and pointed out that Samuel the Lamanite's prophecy about resurrected saints appearing to many had not been written down, commanding Nephi to record it immediately.",
+    insight: "Scriptural accuracy and inclusion: Christ commands careful study of Isaiah and ensures the prophetic fulfillment of Samuel the Lamanite is preserved."
+  },
+  "3 Nephi 24:1-3": {
+    plainEnglish: "Jesus gave them the sacred prophecies of Malachi: the Lord will suddenly come to His temple like a refiner's fire, purifying the sons of Levi so they can offer an offering in righteousness.",
+    insight: "The refiner's fire: Christ preserves Malachi's prophecies of spiritual purification for future generations."
+  },
+  "3 Nephi 25:1-6": {
+    plainEnglish: "Jesus shared Malachi's vision of the last days: the proud will be burned like stubble, but to those who revere His name, the Sun of Righteousness will arise with healing in His wings. He promised to send Elijah before the great day of the Lord to turn the hearts of fathers to their children.",
+    insight: "Elijah's mission: sealing families across generations, connecting ancestors and children through sacred temple ordinances."
+  },
+  "3 Nephi 26:1-16": {
+    plainEnglish: "Jesus expounded all things to them from the very beginning of the world until His second coming in glory. He taught the children, loosed their tongues, and they began to speak marvelous things that amazed their parents.",
+    insight: "The fulness of revelation: Christ opens the mysteries of eternity, and even nursing infants declare the wonders of God."
+  },
+  "3 Nephi 27:1-22": {
+    plainEnglish: "When the disciples asked what name to call the church, Jesus answered: 'How can it be My church unless it is called in My name? If it's called after Moses, it's Moses' church; if after a man, it's a man's church. But if it's called in My name, it is My church, if they are built on My gospel.' He then defined the Gospel: that He was lifted up on the cross to draw all people to Him.",
+    insight: "The identity and name of the Church: Christ insists His Church must bear His sacred name and be built on His Gospel of faith, repentance, and baptism."
+  },
+  "3 Nephi 28:1-15": {
+    plainEnglish: "Jesus asked each of His twelve disciples what they desired after His departure. Nine wanted to return quickly to His kingdom, but three desired to live on earth until Christ's Second Coming to bring souls to Him. Jesus granted both desires, blessing the Three Nephites with translation so they would never taste death or pain.",
+    insight: "The holy ministry of the Three Nephites: transfigured servants of God who continue ministering among humanity throughout all generations."
+  },
+  "3 Nephi 29:1-9": {
+    plainEnglish: "Mormon declared to future readers: when you see the Book of Mormon come forth among the Gentiles, know that God's ancient covenant with Israel is rolling forward and being fulfilled, and nobody can stop His work.",
+    insight: "The Book of Mormon as the sign: its appearance in the latter days is the divine signal that the gathering of Israel has begun."
+  },
+  "3 Nephi 30:1-2": {
+    plainEnglish: "Mormon delivers the Lord's final invitation to all Gentiles: turn away from wickedness, deceit, and pride, repent with all your heart, be baptized in the name of Jesus Christ, and be counted among the House of Israel.",
+    insight: "Universal invitation to salvation: everyone—regardless of ethnic heritage—can enter the covenant family of Israel through repentance and baptism in Christ."
   },
   "Alma 52:9": {
     plainEnglish: "Captain Moroni sent orders to Teancum to fortify the Land Bountiful and secure the narrow mountain pass that led into the Land Northward, preventing the Lamanites from surrounding them on all sides.",

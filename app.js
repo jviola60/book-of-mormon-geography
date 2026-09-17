@@ -1478,15 +1478,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!sidebarContent) return;
 
     const refs = (loc && loc.refs && loc.refs.length > 0) ? loc.refs : [
-      { ref: "1 Nephi 3:7", text: "And it came to pass that I, Nephi, said unto my father: I will go and do the things which the Lord hath commanded, for I know that the Lord giveth no commandments unto the children of men, save he shall prepare a way for them that they may accomplish the thing which he commandeth them." },
-      { ref: "2 Nephi 2:25", text: "Adam fell that men might be; and men are, that they might have joy." },
+      { ref: "Title Page", text: "Written to show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and that they may know the covenants of the Lord, that they are not cast off forever—And also to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God, manifesting himself unto all nations." },
+      { ref: "1 Nephi 10:4–6", text: "Yea, even six hundred years from the time that my father left Jerusalem, a prophet would the Lord God raise up among the Jews—even a Messiah, or, in other words, a Savior of the world... and he should be baptized by John in Bethabara... and after he had baptized the Messiah with water, he should behold and bear record that he had baptized the Lamb of God, who should take away the sins of the world." },
+      { ref: "2 Nephi 25:26", text: "And we talk of Christ, we rejoice in Christ, we preach of Christ, we prophesy of Christ, and we write according to our prophecies, that our children may know to what source they may look for a remission of their sins." },
       { ref: "2 Nephi 31:20", text: "Wherefore, ye must press forward with a steadfastness in Christ, having a perfect brightness of hope, and a love of God and of all men. Wherefore, if ye shall press forward, feasting upon the word of Christ, and endure to the end, behold, thus saith the Father: Ye shall have eternal life." },
-      { ref: "Mosiah 2:17", text: "And behold, I tell you these things that ye may learn wisdom; that ye may learn that when ye are in the service of your fellow beings ye are only in the service of your God." },
+      { ref: "Mosiah 3:5–8", text: "For behold, the time cometh, and is not far distant, that with power, the Lord Omnipotent who reigneth, who was, and is from all eternity to all eternity, shall come down from heaven among the children of men, and shall dwell in a tabernacle of clay, and shall go forth amongst men, working mighty miracles... and lo, he shall suffer temptations, and pain of body, hunger, thirst, and fatigue, even more than man can suffer, except it be unto death; for behold, blood cometh from every pore, so great shall be his anguish for the wickedness and the abominations of his people." },
       { ref: "Mosiah 18:8–10", text: "And now, as ye are desirous to come into the fold of God, and to be called his people, and are willing to bear one another's burdens, that they may be light; yea, and are willing to mourn with those that mourn; yea, and comfort those that stand in need of comfort, and to stand as witnesses of God at all times and in all things, and in all places that ye may be in, even until death... what have you against being baptized in the name of the Lord?" },
-      { ref: "Alma 32:21", text: "And now as I said concerning faith—faith is not to have a perfect knowledge of things; therefore if ye have faith ye hope for things which are not seen, which are true." },
-      { ref: "Alma 46:12", text: "And it came to pass that he rent his coat; and he took a piece thereof, and wrote upon it—In memory of our God, our religion, and freedom, and our peace, our wives, and our children—and he fastened it upon the end of a pole." },
+      { ref: "Alma 7:11–13", text: "And he shall go forth, suffering pains and afflictions and temptations of every kind; and this that the word might be fulfilled which saith he will take upon him the pains and the sicknesses of his people. And he will take upon him death, that he may loose the bands of death which bind his people; and he will take upon him their infirmities, that his bowels may be filled with mercy, according to the flesh, that he may know according to the flesh how to succor his people according to their infirmities." },
       { ref: "Helaman 5:12", text: "And now, my sons, remember, remember that it is upon the rock of our Redeemer, who is Christ, the Son of God, that ye must build your foundation; that when the devil shall send forth his mighty winds, yea, his shafts in the whirlwind, yea, when all his hail and his mighty storm shall beat upon you, it shall have no power over you to drag you down to the gulf of misery and endless wo, because of the rock upon which ye are built, which is a sure foundation, a foundation whereon if men build they cannot fall." },
       { ref: "3 Nephi 11:10–11", text: "Behold, I am Jesus Christ, whom the prophets testified shall come into the world. And behold, I am the light and the life of the world; and I have drunk out of that bitter cup which the Father hath given me, and have glorified the Father in taking upon me the sins of the world, in the which I have suffered the will of the Father in all things from the beginning." },
+      { ref: "3 Nephi 17:7, 21–24", text: "Have ye any that are sick among you? Bring them hither. Have ye any that are lame, or blind, or halt, or maimed... bring them hither and I will heal them, for I have compassion upon you... And he took their little children, one by one, and blessed them, and prayed unto the Father for them... and they saw angels descending out of heaven as it were in the midst of fire; and they came down and encircled those little ones about." },
+      { ref: "3 Nephi 18:7, 11", text: "And this shall ye do in remembrance of my body, which I have shown unto you. And it shall be a testimony unto the Father that ye do always remember me. And if ye do always remember me ye shall have my Spirit to be with you." },
+      { ref: "3 Nephi 27:13–15, 21–22", text: "Behold I have given unto you my gospel, and this is the gospel which I have given unto you—that I came into the world to do the will of my Father, because my Father sent me. And my Father sent me that I might be lifted up upon the cross... Verily, verily, I say unto you, this is my gospel; and ye know the things that ye must do in my church; for the works which ye have seen me do that shall ye also do." },
+      { ref: "3 Nephi 29:1–3", text: "And now behold, I say unto you that when the Lord shall see fit, in his wisdom, that these sayings shall come unto the Gentiles according to his word, then ye may know that the covenant which the Father hath made with the children of Israel, concerning their restoration to the lands of their inheritance, is already beginning to be fulfilled." },
       { ref: "Ether 12:27", text: "And if men come unto me I will show unto them their weakness. I give unto men weakness that they may be humble; and my grace is sufficient for all men that humble themselves before me; for if they humble themselves before me, and have faith in me, then will I make weak things become strong unto them." },
       { ref: "Moroni 7:47", text: "But charity is the pure love of Christ, and it endureth forever; and whoso is found possessed of it at the last day, it shall be well with him." },
       { ref: "Moroni 10:4–5", text: "And when ye shall receive these things, I would exhort you that ye would ask God, the Eternal Father, in the name of Christ, if these things are not true; and if ye shall ask with a sincere heart, with real intent, having faith in Christ, he will manifest the truth of it unto you, by the power of the Holy Ghost. And by the power of the Holy Ghost ye may know the truth of all things." }
@@ -2132,61 +2136,323 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sidebarContent.innerHTML = `
       <div class="kjv-translation-notice">
-        <span class="kjv-badge">Full Prophetic Ministry</span>
-        <span style="font-size:0.75rem; color:var(--text-secondary); margin-left:6px;">Covering all major dispensations and witnesses (~2200 BC – AD 421).</span>
+        <span class="kjv-badge">Title Page Mandate & Christ's Ministry</span>
+        <span style="font-size:0.75rem; color:var(--text-secondary); margin-left:6px;">The divine purposes of the Book of Mormon and the personal ministry of Jesus Christ.</span>
       </div>
 
-      <div class="teachings-role-grid">
-        <div class="teachings-stat-box" style="border-left: 3px solid var(--color-crimson);">
-          <span class="teachings-stat-label">Who Was Teaching</span>
-          <span class="teachings-stat-value" style="font-size: 0.8rem; line-height: 1.45;">${teacherList}</span>
+      <!-- THE THREE DIVINE PURPOSES OF THE BOOK OF MORMON (TITLE PAGE MANDATE) -->
+      <div class="feature-card" style="border: 1.5px solid var(--color-gold); background: #FFFDF9;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:0.4rem;">
+          <span style="font-size:1.2rem;">📜</span>
+          <div>
+            <h3 style="margin:0; font-family:var(--font-serif-title); font-size:0.96rem; color:var(--color-crimson);">
+              The Three Divine Purposes of the Book of Mormon
+            </h3>
+            <span style="font-size:0.72rem; color:var(--text-secondary); font-style:italic;">As recorded by Moroni upon the ancient Title Page</span>
+          </div>
         </div>
-        <div class="teachings-stat-box" style="border-left: 3px solid var(--color-gold);">
-          <span class="teachings-stat-label">Who Was Being Taught</span>
-          <span class="teachings-stat-value" style="font-size: 0.8rem; line-height: 1.45;">${audienceList}</span>
+        <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.7rem; line-height:1.4;">
+          The ancient prophets inscribed and abridged this sacred record with three specific divine mandates for all future readers:
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+          <!-- Purpose 1: Mercy to Forefathers -->
+          <div style="background:#FFFDF7; border:1px solid #E5D5BA; border-left:4px solid var(--color-gold); border-radius:6px; padding:0.6rem 0.75rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; margin-bottom:0.25rem;">
+              <strong style="color:var(--color-gold-dark); font-size:0.83rem; font-family:var(--font-serif-title);">
+                1. Mercy to Their Forefathers Across Generations
+              </strong>
+              <span class="conf-pill conf-pill-1" style="font-size:0.65rem;">Divine Mercy</span>
+            </div>
+            <p style="font-family:var(--font-scripture); font-style:italic; font-size:0.78rem; color:var(--text-primary); margin:0 0 0.35rem 0; line-height:1.35;">
+              "Which is to show unto the remnant of the house of Israel what great things the Lord hath done for their fathers..."
+            </p>
+            <p style="font-size:0.76rem; color:var(--text-secondary); margin:0; line-height:1.4;">
+              Demonstrating God’s continuous delivering power across 2,600 years: preserving the Jaredite barges across raging oceans, guiding Lehi's family to the Promised Land with the Liahona, leading Mosiah I to Zarahemla, rescuing Alma the Elder's church out of bondage, delivering Limhi's people, and sparing the righteous during the devastating 3 Nephi cataclysm.
+            </p>
+          </div>
+
+          <!-- Purpose 2: Covenants of the Lord -->
+          <div style="background:#F0F9FF; border:1px solid #BAE6FD; border-left:4px solid #0284C7; border-radius:6px; padding:0.6rem 0.75rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; margin-bottom:0.25rem;">
+              <strong style="color:#0369A1; font-size:0.83rem; font-family:var(--font-serif-title);">
+                2. Knowing the Covenants of the Lord with Israel
+              </strong>
+              <span class="conf-pill conf-pill-2" style="font-size:0.65rem;">House of Israel</span>
+            </div>
+            <p style="font-family:var(--font-scripture); font-style:italic; font-size:0.78rem; color:var(--text-primary); margin:0 0 0.35rem 0; line-height:1.35;">
+              "...And that they may know the covenants of the Lord, that they are not cast off forever..."
+            </p>
+            <p style="font-size:0.76rem; color:var(--text-secondary); margin:0; line-height:1.4;">
+              Confirming that the Abrahamic covenant is alive and active: Israel is not forgotten. Chronicling the baptismal covenant at the Waters of Mormon, temple ordinances in Nephi and Zarahemla, and Christ's supreme promise in 3 Nephi 20–22 that in the latter days the Father will gather all scattered branches of Israel and establish the New Jerusalem.
+            </p>
+          </div>
+
+          <!-- Purpose 3: Convincing that Jesus is the Christ -->
+          <div style="background:#FEF2F2; border:1px solid #FCA5A5; border-left:4px solid var(--color-crimson); border-radius:6px; padding:0.6rem 0.75rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; margin-bottom:0.25rem;">
+              <strong style="color:var(--color-crimson); font-size:0.83rem; font-family:var(--font-serif-title);">
+                3. Convincing That JESUS is the CHRIST, the Eternal God
+              </strong>
+              <span class="conf-pill conf-pill-4" style="font-size:0.65rem;">Central Witness</span>
+            </div>
+            <p style="font-family:var(--font-scripture); font-style:italic; font-size:0.78rem; color:var(--text-primary); margin:0 0 0.35rem 0; line-height:1.35;">
+              "...And also to the convincing of the Jew and Gentile that JESUS is the CHRIST, the ETERNAL GOD, manifesting himself unto all nations."
+            </p>
+            <p style="font-size:0.76rem; color:var(--text-secondary); margin:0; line-height:1.4;">
+              The paramount objective of every Book of Mormon author. Every prophet testified that salvation comes only through the merits, mercy, and grace of the Holy Messiah, who suffered in Gethsemane, died upon the cross, rose bodily the third day, and personally manifested Himself in resurrected glory at the Temple in Bountiful.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="teachings-card teachings-card-gold">
+      <!-- ALL PROPHETS BEFORE HIS VISIT TESTIFIED OF CHRIST -->
+      <div class="teachings-card teachings-card-gold" style="margin-top:0.4rem;">
         <div class="teachings-card-title">
-          <span>📜</span>
-          <span>What Was Taught Across the Book of Mormon</span>
+          <span>🕊️</span>
+          <span>All Prophets Before His Visit Testified of Jesus Christ</span>
         </div>
         <div class="teachings-card-body">
-          ${globalDossier ? globalDossier.whatWasTaught : 'The Fulness of the Everlasting Gospel of Jesus Christ: the reality of His Resurrection and Atonement; faith, repentance, baptism, and the Holy Ghost; moral agency and the Fall of Adam; and enduring in holiness to the end.'}
+          <p style="margin-bottom:0.6rem; font-size:0.8rem; line-height:1.4;">
+            Every Book of Mormon prophet across 600 years of history prior to His appearance preached the coming of Jesus Christ, His atonement, and His supreme importance for all humanity:
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">👑 Lehi & Sariah (~600 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">1 Nephi 10:4–6</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Prophesied of the Messiah coming 600 years after leaving Jerusalem, His baptism by John in Bethabara, His death, and His redemption of all fallen humanity.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">📜 Nephi (~559 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">2 Nephi 25:26; 31:20</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                "We talk of Christ, we rejoice in Christ, we preach of Christ, we prophesy of Christ... that our children may know to what source they may look for a remission of their sins." Defined the Doctrine of Christ: faith, repentance, baptism, and enduring in hope.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">📖 Jacob (~544 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">2 Nephi 9:5–12; Jacob 4:4–5</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Testified of Christ's Infinite Atonement delivering mankind from physical and spiritual death; declared that all holy prophets before him had a hope of Christ's glory.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">🏰 King Benjamin (~124 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">Mosiah 3:5–10; 4:1–8</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Received angelic revelation: the Lord Omnipotent will come down from heaven, dwell in a tabernacle of clay, heal the sick, bleed from every pore through divine anguish, and rise the third day.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">🔥 Abinadi (~150 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">Mosiah 13:33–35; 15:1–9</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Proclaimed before King Noah that Moses and all prophets testified of Christ; expounded Isaiah 53's Suffering Servant, the resurrection of the dead, and God Himself redeeming His people.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">💧 Alma the Elder (~147 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">Mosiah 18:8–10</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Instituted the covenant of baptism at the Waters of Mormon to stand as witnesses of God and Christ at all times, in all things, and in all places, bearing one another's burdens.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">⚖️ Alma the Younger & Amulek (~82 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">Alma 7:11–13; 34:8–15</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Testified of Christ born of Mary, taking upon Him our pains, sicknesses, and grief that His bowels may be filled with mercy; expounded the Infinite and Eternal sacrifice to satisfy divine justice.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">🧱 Samuel the Lamanite (~6 BC)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">Helaman 14:2–28</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                From the walls of Zarahemla, prophesied the exact five-year sign of Christ's birth (a day, night, and day of light with no darkness) and the three days of vapor of darkness at His crucifixion.
+              </p>
+            </div>
+
+            <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.5rem 0.65rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+                <strong style="color:var(--text-primary); font-size:0.82rem;">⛰️ Nephi Son of Nephi (AD 1 & AD 34)</strong>
+                <span style="font-size:0.7rem; color:var(--color-crimson); font-weight:700;">3 Nephi 1:13; 11:1–18</span>
+              </div>
+              <p style="font-size:0.76rem; color:var(--text-secondary); margin:2px 0 0 0; line-height:1.35;">
+                Heard the voice of the Lord: "On the morrow come I into the world." Later, led the multitude at Bountiful when the resurrected Lord descended from heaven and was called first as disciple.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="teachings-card teachings-card-crimson">
-        <div class="teachings-card-title">
-          <span>🎯</span>
-          <span>Why It Was Taught (Title Page Covenant Mandate)</span>
+      <!-- CHRIST'S VISIT, MINISTRY & TEACHINGS IN 3 NEPHI (CHAPTERS 11 TO 30) -->
+      <div class="feature-card" style="margin-top:0.4rem; border: 1.5px solid var(--color-crimson);">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:0.4rem;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:1.15rem;">✝️</span>
+            <h4 style="font-family:var(--font-serif-title); font-size:0.92rem; margin:0; color:var(--color-crimson);">
+              Christ's Visit, Ministry & Teachings (3 Nephi 11–30)
+            </h4>
+          </div>
+          <button class="fly-to-person-btn global-disc-fly-btn" data-loc="bountiful" style="font-size:0.7rem; padding:0.25rem 0.6rem;">
+            📍 Temple at Bountiful
+          </button>
         </div>
-        <div class="teachings-card-body">
-          ${globalDossier ? globalDossier.whyTaught : 'To show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God.'}
+        <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.65rem; line-height:1.4;">
+          The sacred climax of the Book of Mormon: the Resurrected Lord Jesus Christ personally ministering to the surviving multitude at the Temple in Bountiful across 20 chapters:
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:0.55rem;">
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              1. The Descent & Personal Witness of Wounds (3 Nephi 11)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              The Father’s voice proclaims His Beloved Son ("Hear ye him"). Christ descends in a white robe, announcing: <em>"Behold, I am Jesus Christ, whom the prophets testified shall come into the world."</em> 2,500 people feel the prints in His hands, feet, and side one by one. Gives baptismal authority and proclaims the pure Doctrine of Christ.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              2. The Sermon at the Temple (3 Nephi 12–14)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Delivers the Beatitudes, calls believers to be the salt of the earth and light of the world, teaches the higher law of celestial chastity, charity, and love for enemies, delivers the Lord's Prayer, commands secret prayer and fasting, and illustrates the wise man building upon the rock.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              3. The Law Fulfilled & The Other Sheep (3 Nephi 15–16)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Announces the Law of Moses is fulfilled in Him: <em>"I am the law, and the light."</em> Explains that the Nephites are the "other sheep" He spoke of in Jerusalem (John 10:16), and reveals He has yet other lost tribes of Israel to visit and shepherd.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              4. Infinite Compassion, Healing & Angels in Fire (3 Nephi 17)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Seeing their tears, His bowels are filled with compassion. He heals all who are sick, blind, lame, or afflicted. Weeps for joy, kneels in prayer, and blesses their little children one by one as angels descend encircled in fire.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              5. The Memorial Sacrament & Family Prayer (3 Nephi 18)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Institutes the Sacrament of bread and wine in remembrance of His body and blood, promising that those who always remember Him will have His Spirit. Commands them to watch and pray always and pray in families in His name.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              6. Calling & Baptism of the Twelve Disciples (3 Nephi 19)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              The Twelve Disciples are baptized by Nephi in water and receive the baptism of the Holy Ghost and fire. Jesus appears again in their midst, smiling upon them and thanking the Father for their profound faith.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              7. Covenants of the Father & Gathering of Israel (3 Nephi 20–22)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Reaffirms the Father's covenant to gather the House of Israel; quotes Isaiah 52 & 54: <em>"The mountains shall depart and the hills be removed, but my kindness shall not depart from thee, neither shall the covenant of my peace be removed."</em> Promises the establishment of the New Jerusalem in America.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              8. Searching Isaiah, Samuel's Prophecy & Malachi (3 Nephi 23–25)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Commands: <em>"Great are the words of Isaiah."</em> Orders the insertion of Samuel the Lamanite's resurrection prophecies into the record. Delivers Malachi's sacred prophecies regarding the refiner's fire, tithing, and Elijah turning the hearts of fathers to children.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              9. Expounding All Things from Creation to Second Coming (3 Nephi 26)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Unfolds the entire history of the world and eternity. Looses the tongues of babes and little children, who utter marvelous things greater than what had been taught to the multitude.
+            </span>
+          </div>
+
+          <div style="background:#FFFDF9; border:1px solid #E5D5BA; border-radius:6px; padding:0.55rem 0.7rem;">
+            <strong style="color:var(--color-crimson); font-size:0.8rem; display:block; margin-bottom:2px;">
+              10. Name of the Church, The Gospel & The Three Nephites (3 Nephi 27–30)
+            </strong>
+            <span style="font-size:0.76rem; color:var(--text-secondary); line-height:1.35; display:block;">
+              Proclaims: <em>"How be it my church save it be called in my name?"</em> Defines the Gospel: doing the Father's will and being lifted up on the cross. Grants the Three Nephites their holy request to tarry on earth until the Second Coming. Mormon bears solemn witness that the Father's covenants are rolling forward to all nations.
+            </span>
+          </div>
         </div>
       </div>
 
-      <div class="teachings-card teachings-card-bronze">
+      <!-- THE CITIES HE APPEARED IN & THE SPARED LANDS -->
+      <div class="teachings-card teachings-card-bronze" style="margin-top:0.4rem;">
         <div class="teachings-card-title">
           <span>🏛️</span>
-          <span>Historical, Geographic & Cultural Context</span>
+          <span>The Cities He Appeared In & The Spared Lands</span>
         </div>
         <div class="teachings-card-body">
-          ${globalDossier ? globalDossier.context : 'Over 2,600 years of sacred history (~2200 BC to AD 421) across the ancient Americas—spanning ocean crossings, temple-building, river valleys, the Narrow Neck, and the Hill Cumorah.'}
+          <p style="margin-bottom:0.5rem; font-size:0.79rem; line-height:1.4;">
+            The textual geography of Christ's visitation reveals a sacred progression:
+          </p>
+          <ul style="margin:0; padding-left:1.15rem; font-size:0.76rem; color:var(--text-secondary); line-height:1.45; display:flex; flex-direction:column; gap:0.35rem;">
+            <li>
+              <strong style="color:var(--text-primary);">The Temple Sanctuary at Bountiful (3 Nephi 11:1):</strong>
+              The physical location of His personal descent out of heaven explicitly named in the text. Here 2,500 surviving souls gathered round about the temple and witnessed His physical wounds.
+            </li>
+            <li>
+              <strong style="color:var(--text-primary);">The Spared Believers from Surrounding Lands (3 Nephi 10:12):</strong>
+              While 16 wicked cities were destroyed by fire, water, or earth (Zarahemla, Moroni, Moronihah, Jerusalem, etc.), the more righteous part of the people who received the prophets and stoned them not were spared.
+            </li>
+            <li>
+              <strong style="color:var(--text-primary);">Overnight Gathering Across the Land (3 Nephi 19:1–3):</strong>
+              Following the first day of His ministry, news spread immediately before dark across the entire region. An immense multitude labored through the night to arrive at Bountiful for the second day of His ministry.
+            </li>
+            <li>
+              <strong style="color:var(--text-primary);">Disciples Ministering Across All Cities (4 Nephi 1:1–13):</strong>
+              The Twelve Disciples were sent forth across all the cities of the land, baptizing, performing miracles, and rebuilding destroyed settlements—including the City of Zarahemla (4 Nephi 1:8)—establishing two centuries of unbroken Zion peace.
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="teachings-card teachings-card-sage">
-        <div class="teachings-card-title">
-          <span>🤝</span>
-          <span>How the Teachings Were Accepted & Societal Impact</span>
-        </div>
-        <div class="teachings-card-body">
-          ${globalDossier ? globalDossier.howAccepted : 'Produced the golden era of 4 Nephi (200 years of unbroken peace and unity) and the covenant pacifism of the Anti-Nephi-Lehies, while warning against the destruction caused by pride and secret combinations.'}
-        </div>
-      </div>
-
+      <!-- MAJOR PROPHETIC DISCOURSES ACROSS ERAS -->
       <div class="feature-card" style="margin-top: 0.8rem;">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
           <h4 style="font-family: var(--font-serif-title); font-size: 0.9rem; margin: 0; color: var(--color-crimson);">
