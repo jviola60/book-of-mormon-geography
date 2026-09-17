@@ -231,20 +231,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth <= 768;
     const isDesktop = window.innerWidth > 900;
-    const sidebarOffset = (isDesktop && detailSidebar && !detailSidebar.classList.contains('closed')) ? 390 : 0;
+    const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? 335 : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
-    const paddingX = isMobile ? 0.98 : 0.92;
-    const paddingY = isMobile ? 0.96 : 0.90;
+    if (isMobile) {
+      // Mobile framing: fit width comfortably, center on core scriptural geography (Y ~50%)
+      scale = (availWidth * 0.98) / imgWidth;
+      minScale = scale * 0.6;
+      translateX = (availWidth - (imgWidth * scale)) / 2;
+      translateY = (vHeight / 2) - (imgHeight * 0.50 * scale);
+    } else {
+      // Desktop framing: eliminate dark void and frame core L1/L2 lands (Zarahemla, Nephi, Bountiful, Cumorah)
+      const scaleX = (availWidth * 0.92) / imgWidth;
+      const scaleY = (vHeight * 1.35) / imgHeight;
+      scale = Math.min(scaleX, scaleY);
+      scale = Math.max(scale, 0.32);
+      minScale = 0.15;
 
-    const scaleX = (availWidth * paddingX) / imgWidth;
-    const scaleY = (vHeight * paddingY) / imgHeight;
-    scale = Math.min(scaleX, scaleY);
-
-    minScale = Math.min(0.04, scale * 0.6);
-
-    translateX = (availWidth - (imgWidth * scale)) / 2;
-    translateY = (vHeight - (imgHeight * scale)) / 2;
+      translateX = (availWidth - (imgWidth * scale)) / 2;
+      translateY = (vHeight / 2) - (imgHeight * 0.50 * scale);
+    }
 
     applyTransform();
   }
@@ -825,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const closeAllMobileSheets = () => {
-      document.querySelectorAll('.mobile-nav-sheet, .mobile-filter-sheet, .mobile-picker-sheet').forEach(s => s.classList.remove('open'));
+      document.querySelectorAll('.mobile-nav-sheet, .mobile-filter-sheet, .mobile-tools-sheet, .mobile-picker-sheet').forEach(s => s.classList.remove('open'));
       if (mobileSheetBackdrop) mobileSheetBackdrop.classList.remove('active');
     };
 
@@ -885,11 +892,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Mobile Bottom Action Bar
     const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
-    const mobBottomToursBtn = document.getElementById('mobBottomToursBtn');
     const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
     const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
+    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
     const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
     const mobileFiltersSheet = document.getElementById('mobileFiltersSheet');
+    const mobileToolsSheet = document.getElementById('mobileToolsSheet');
     const mobilePickerSheet = document.getElementById('mobilePickerSheet');
 
     if (mobBottomSearchBtn) {
@@ -900,16 +908,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    if (mobBottomToursBtn && tourModal) {
-      mobBottomToursBtn.addEventListener('click', () => openModal(tourModal));
-    }
-
     if (mobBottomJumpBtn && mobilePickerSheet) {
       mobBottomJumpBtn.addEventListener('click', () => openMobileSheet(mobilePickerSheet));
     }
 
     if (mobBottomFiltersBtn && mobileFiltersSheet) {
       mobBottomFiltersBtn.addEventListener('click', () => openMobileSheet(mobileFiltersSheet));
+    }
+
+    if (mobBottomToolsBtn && mobileToolsSheet) {
+      mobBottomToolsBtn.addEventListener('click', () => openMobileSheet(mobileToolsSheet));
     }
 
     if (mobBottomCodexBtn && detailSidebar) {
@@ -928,6 +936,71 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobApplyFiltersBtn) mobApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
     if (mobResetFiltersBtn) mobResetFiltersBtn.addEventListener('click', resetAllFilters);
     if (mobNavResetFiltersBtn) mobNavResetFiltersBtn.addEventListener('click', resetAllFilters);
+
+    // Mobile Tools Sheet Wiring
+    const closeMobileToolsBtn = document.getElementById('closeMobileToolsBtn');
+    if (closeMobileToolsBtn) closeMobileToolsBtn.addEventListener('click', closeAllMobileSheets);
+
+    const mobSheetDistanceScaleBtn = document.getElementById('mobSheetDistanceScaleBtn');
+    if (mobSheetDistanceScaleBtn && distanceScaleModal) {
+      mobSheetDistanceScaleBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(distanceScaleModal);
+      });
+    }
+
+    const mobSheetOldWorldBtn = document.getElementById('mobSheetOldWorldBtn');
+    if (mobSheetOldWorldBtn && oldWorldModal) {
+      mobSheetOldWorldBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(oldWorldModal);
+      });
+    }
+
+    const mobSheetInspectorBtn = document.getElementById('mobSheetInspectorBtn');
+    if (mobSheetInspectorBtn) {
+      mobSheetInspectorBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        isInspectorActive = !isInspectorActive;
+        if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
+        const mobSheetInspectorText = document.getElementById('mobSheetInspectorText');
+        if (mobSheetInspectorText) mobSheetInspectorText.textContent = isInspectorActive ? 'Coordinate Inspector: ON' : 'Coordinate Inspector: OFF';
+      });
+    }
+
+    const mobSheetToursBtn = document.getElementById('mobSheetToursBtn');
+    if (mobSheetToursBtn && tourModal) {
+      mobSheetToursBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(tourModal);
+      });
+    }
+
+    const mobSheetChurchStanceBtn = document.getElementById('mobSheetChurchStanceBtn');
+    if (mobSheetChurchStanceBtn && disclaimerModal) {
+      mobSheetChurchStanceBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(disclaimerModal);
+      });
+    }
+
+    // Sidebar Desktop Edge Toggle Tab
+    const sidebarEdgeToggleBtn = document.getElementById('sidebarEdgeToggleBtn');
+    const edgeToggleIcon = document.getElementById('edgeToggleIcon');
+
+    const updateSidebarEdgeIcon = () => {
+      if (!edgeToggleIcon || !detailSidebar) return;
+      const isClosed = detailSidebar.classList.contains('closed');
+      edgeToggleIcon.textContent = isClosed ? '◀' : '▶';
+    };
+
+    if (sidebarEdgeToggleBtn && detailSidebar) {
+      sidebarEdgeToggleBtn.addEventListener('click', () => {
+        detailSidebar.classList.toggle('closed');
+        updateSidebarEdgeIcon();
+        setTimeout(() => fitMapToScreen(), 150);
+      });
+    }
 
     // Mobile Header Quick Action Buttons
     const mobileSearchToggleBtn = document.getElementById('mobileSearchToggleBtn');
@@ -2635,20 +2708,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sidebarToggleBtn) {
     sidebarToggleBtn.addEventListener('click', () => {
       detailSidebar.classList.toggle('closed');
+      const edgeToggleIcon = document.getElementById('edgeToggleIcon');
+      if (edgeToggleIcon) edgeToggleIcon.textContent = detailSidebar.classList.contains('closed') ? '◀' : '▶';
+      setTimeout(() => fitMapToScreen(), 150);
     });
   }
 
   if (closeSidebarBtn) {
     closeSidebarBtn.addEventListener('click', () => {
       detailSidebar.classList.add('closed');
+      const edgeToggleIcon = document.getElementById('edgeToggleIcon');
+      if (edgeToggleIcon) edgeToggleIcon.textContent = '◀';
+      setTimeout(() => fitMapToScreen(), 150);
     });
   }
 
   if (brandLogoBtn) {
     brandLogoBtn.addEventListener('click', () => {
-      fitMapToScreen();
       renderWelcomeSidebar();
       detailSidebar.classList.remove('closed');
+      const edgeToggleIcon = document.getElementById('edgeToggleIcon');
+      if (edgeToggleIcon) edgeToggleIcon.textContent = '▶';
+      fitMapToScreen();
     });
   }
 

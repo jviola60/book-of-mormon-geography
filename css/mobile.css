@@ -294,11 +294,22 @@
     touch-action: pan-y;
   }
 
-  /* Mobile Timeline Footer */
+  /* Mobile Timeline Footer & Larger Touch Targets */
   .app-timeline-footer {
     height: var(--footer-height);
-    padding: 0.4rem 0.75rem 0.3rem;
+    padding: 0.5rem 0.85rem 0.35rem;
     flex-shrink: 0;
+  }
+
+  .playback-controls .btn-ctrl {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+  }
+
+  .playback-controls .btn-play {
+    width: 44px;
+    height: 44px;
   }
 
   .era-selector-tabs {
@@ -306,19 +317,48 @@
   }
 
   .timeline-labels {
-    font-size: 0.62rem;
+    font-size: 0.65rem;
+  }
+
+  .current-date-badge {
+    min-width: 130px;
+    padding: 0 0.5rem;
   }
 
   .badge-year {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #FDE68A;
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
   }
 
   .badge-season {
-    font-size: 0.72rem;
-    max-width: 120px;
+    font-size: 0.76rem;
+    max-width: 140px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #F8F5EE;
+  }
+
+  .timeline-slider {
+    height: 8px;
+  }
+
+  .timeline-slider::-webkit-slider-thumb {
+    width: 26px;
+    height: 26px;
+    background: #F59E0B;
+    border: 3px solid #FFF8EB;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
+  }
+
+  .timeline-slider::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    background: #F59E0B;
+    border: 3px solid #FFF8EB;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
   }
 
   .speed-selector {
@@ -535,8 +575,9 @@
     justify-content: flex-start;
   }
 
-  /* 2. Mobile Filters Bottom Sheet */
-  .mobile-filter-sheet {
+  /* 2. Mobile Filters & Tools Bottom Sheets */
+  .mobile-filter-sheet,
+  .mobile-tools-sheet {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -553,7 +594,8 @@
     flex-direction: column;
   }
 
-  .mobile-filter-sheet.open {
+  .mobile-filter-sheet.open,
+  .mobile-tools-sheet.open {
     transform: translateY(0);
   }
 

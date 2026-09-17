@@ -54,7 +54,7 @@
   --header-height: 56px;
   --filterbar-height: 38px;
   --footer-height: 118px;
-  --sidebar-width: 390px;
+  --sidebar-width: 335px;
 }
 
 /* Base Reset */
@@ -624,17 +624,17 @@ html, body {
   display: inline-block;
 }
 
-/* Expandable Desktop Filter Panel Flyout */
+/* Expandable Desktop Filter Panel Flyout (Clean, Non-Overflowing Card Popover) */
 .desktop-filters-panel {
   position: absolute;
-  top: 100%;
-  left: 1.25rem;
-  right: 1.25rem;
-  max-width: 880px;
+  top: calc(100% + 4px);
+  left: 1rem;
+  width: min(720px, calc(100vw - 360px));
+  max-width: 95vw;
   background: #FFFDF9;
   border: 1.5px solid var(--border-gold);
-  border-radius: 10px;
-  box-shadow: var(--shadow-lg);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(28, 20, 14, 0.22);
   z-index: 1200;
   display: none;
   animation: panelSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -670,7 +670,7 @@ html, body {
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  min-width: 120px;
+  min-width: 105px;
 }
 
 .df-chips {

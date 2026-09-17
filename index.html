@@ -442,8 +442,12 @@
         </div>
       </div>
 
-      <!-- Slide-Out Ancient Codex / Detail Sidebar (390px desktop, bottom sheet mobile) -->
+      <!-- Slide-Out Ancient Codex / Detail Sidebar (335px desktop, bottom sheet mobile) -->
       <aside class="detail-sidebar" id="detailSidebar" aria-label="Location Details Codex">
+        <button id="sidebarEdgeToggleBtn" class="sidebar-edge-toggle" title="Collapse / Expand Codex" aria-label="Toggle Scriptural Codex">
+          <span class="edge-toggle-icon" id="edgeToggleIcon">▶</span>
+          <span class="edge-toggle-text">Codex</span>
+        </button>
         <div class="mobile-drag-handle" id="mobileDragHandle" aria-hidden="true"><span class="drag-pill"></span></div>
         <div class="sidebar-header">
           <div class="sidebar-title-wrap">
@@ -538,25 +542,27 @@
           <span class="t-label">AD 421 (Moroni Seals Records)</span>
         </div>
       </div>
-    <!-- Mobile Thumb-Friendly Bottom Navigation Bar (56px) -->
+    </footer>
+
+    <!-- Mobile Thumb-Friendly Bottom Action Bar -->
     <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Mobile Navigation Bar">
-      <button class="mobile-bottom-btn" id="mobBottomSearchBtn" type="button">
+      <button class="mobile-bottom-btn" id="mobBottomSearchBtn" type="button" aria-label="Search Places">
         <span class="mobile-bottom-icon">🔍</span>
         <span>Search</span>
       </button>
-      <button class="mobile-bottom-btn" id="mobBottomToursBtn" type="button">
-        <span class="mobile-bottom-icon">🧭</span>
-        <span>Tours</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomJumpBtn" type="button">
+      <button class="mobile-bottom-btn" id="mobBottomJumpBtn" type="button" aria-label="Jump to Landmark">
         <span class="mobile-bottom-icon">📍</span>
         <span>Jump</span>
       </button>
-      <button class="mobile-bottom-btn" id="mobBottomFiltersBtn" type="button">
+      <button class="mobile-bottom-btn" id="mobBottomFiltersBtn" type="button" aria-label="Filter Map">
         <span class="mobile-bottom-icon">⚙️</span>
         <span>Filters</span>
       </button>
-      <button class="mobile-bottom-btn" id="mobBottomCodexBtn" type="button">
+      <button class="mobile-bottom-btn" id="mobBottomToolsBtn" type="button" aria-label="Atlas Tools">
+        <span class="mobile-bottom-icon">🛠️</span>
+        <span>Tools</span>
+      </button>
+      <button class="mobile-bottom-btn" id="mobBottomCodexBtn" type="button" aria-label="Scriptural Codex">
         <span class="mobile-bottom-icon">📜</span>
         <span>Codex</span>
       </button>
@@ -738,6 +744,67 @@
     <div class="mobile-sheet-footer">
       <button class="btn btn-outline" id="mobResetFiltersBtn">Reset Filters</button>
       <button class="btn btn-primary glow-gold" id="mobApplyFiltersBtn">Apply & Close</button>
+    </div>
+  </div>
+
+  <!-- Mobile Tools Bottom Sheet (Full-Width Drawer) -->
+  <div class="mobile-tools-sheet" id="mobileToolsSheet" aria-label="Mobile Atlas Tools">
+    <div class="mobile-sheet-header">
+      <h3 class="mobile-sheet-title">Atlas Tools & Utilities</h3>
+      <button class="close-btn" id="closeMobileToolsBtn">&times;</button>
+    </div>
+    <div class="mobile-sheet-body">
+      <!-- Geographic Utilities -->
+      <div class="mobile-filter-section-title">Geographic Utilities</div>
+      <button class="mobile-menu-item" id="mobSheetDistanceScaleBtn">
+        <span>📏</span>
+        <div>
+          <div class="menu-title-bold">Scriptural Travel Distances</div>
+          <div class="menu-subtitle-muted">Day journeys & Narrow Neck scale (Alma 22:32)</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobSheetOldWorldBtn">
+        <span>🌍</span>
+        <div>
+          <div class="menu-title-bold">Old World Origins</div>
+          <div class="menu-subtitle-muted">Babel, Jerusalem & oceanic voyage</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobSheetInspectorBtn">
+        <span>🧭</span>
+        <div>
+          <div class="menu-title-bold" id="mobSheetInspectorText">Coordinate Inspector: OFF</div>
+          <div class="menu-subtitle-muted">Inspect precise canvas percentages</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobSheetToursBtn">
+        <span>🧭</span>
+        <div>
+          <div class="menu-title-bold">Guided Scriptural Tours</div>
+          <div class="menu-subtitle-muted">12 curated expeditions & marches</div>
+        </div>
+      </button>
+
+      <!-- Textual Grounding -->
+      <div class="mobile-filter-section-title" style="margin-top:0.75rem;">Textual Grounding</div>
+      <button class="mobile-menu-item" id="mobSheetChurchStanceBtn">
+        <span>📜</span>
+        <div>
+          <div class="menu-title-bold">Official Church Stance</div>
+          <div class="menu-subtitle-muted">Pure internal textual mandate</div>
+        </div>
+      </button>
+
+      <!-- Quick Region Jumps -->
+      <div class="mobile-filter-section-title" style="margin-top:0.75rem;">Quick Region Focus</div>
+      <div class="mobile-region-group">
+        <button class="mobile-menu-item region-item" data-region="whole-land">🗺️ Entire Promised Land</button>
+        <button class="mobile-menu-item region-item" data-region="land-southward">📍 Land Southward (Zarahemla & Nephi)</button>
+        <button class="mobile-menu-item region-item" data-region="zarahemla">🏛️ City of Zarahemla & Sidon Basin</button>
+        <button class="mobile-menu-item region-item" data-region="land-nephi">👑 Land of Nephi (Waters of Mormon)</button>
+        <button class="mobile-menu-item region-item" data-region="narrow-neck">🌊 Narrow Neck & Bountiful</button>
+        <button class="mobile-menu-item region-item" data-region="land-northward">⛰️ Land Northward & Hill Cumorah</button>
+      </div>
     </div>
   </div>
 
