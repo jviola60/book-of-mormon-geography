@@ -191,10 +191,28 @@
 .sidebar-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 1.15rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Ensure all buttons inside sidebar wrap text cleanly without overflowing */
+.sidebar-content button,
+.sidebar-content .btn,
+.sidebar-content a.btn {
+  white-space: normal !important;
+  height: auto !important;
+  min-height: 38px;
+  line-height: 1.35;
+  text-align: center;
+  word-break: normal;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Badge Row */
@@ -447,7 +465,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
 .conf-banner-title {

@@ -1200,11 +1200,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="related-places-list">
               ${loc.relatedPlaces.map(r => `
                 <div class="related-place-item" data-place="${r.placeId}" title="Click to inspect ${r.name} on the map">
-                  <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <span class="related-place-name">📍 ${r.name}</span>
-                    <span class="related-place-rel">${r.relationship}</span>
+                  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; margin-bottom:2px;">
+                    <span class="related-place-name" style="line-height:1.3;">📍 ${r.name}</span>
+                    <span class="related-place-rel" style="flex-shrink:0;">${r.relationship}</span>
                   </div>
-                  <span class="related-place-basis">${r.textualBasis}</span>
+                  <span class="related-place-basis" style="word-break:normal; line-height:1.35; display:block;">${r.textualBasis}</span>
                 </div>
               `).join('')}
             </div>
@@ -1213,11 +1213,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ${loc.refs && loc.refs.length > 0 ? `
           <div class="feature-card">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35rem;">
-              <h3 style="margin:0;">Chronological Scriptural Attestations</h3>
-              <span class="conf-pill conf-pill-1" style="font-size:0.7rem;">${loc.refs.length} Attestation${loc.refs.length === 1 ? '' : 's'}</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:0.35rem;">
+              <h3 style="margin:0; line-height:1.3;">Chronological Scriptural Attestations</h3>
+              <span class="conf-pill conf-pill-1" style="font-size:0.7rem; flex-shrink:0;">${loc.refs.length} Attestation${loc.refs.length === 1 ? '' : 's'}</span>
             </div>
-            <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.6rem;">
+            <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.6rem; line-height:1.4;">
               Exhaustive record of every Book of Mormon verse naming or describing <strong>${loc.name}</strong>, ordered in narrative sequence with verbatim excerpts:
             </p>
             <div style="display:flex; flex-direction:column; gap:0.55rem;">
@@ -1225,9 +1225,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const churchUrl = getChurchScriptureUrl(r.ref);
                 return `
                   <div style="background:#FFFDF9; border:1px solid var(--border-parchment); border-radius:6px; padding:0.55rem 0.75rem;">
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.25rem;">
-                      <strong style="color:var(--color-crimson); font-size:0.82rem;">📖 ${r.ref}</strong>
-                      <a href="${churchUrl || '#'}" class="church-scripture-btn" data-url="${churchUrl}" data-ref="${r.ref}" style="font-size:0.72rem; padding:0.2rem 0.5rem;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:0.25rem;">
+                      <strong style="color:var(--color-crimson); font-size:0.82rem; line-height:1.3;">📖 ${r.ref}</strong>
+                      <a href="${churchUrl || '#'}" class="church-scripture-btn" data-url="${churchUrl}" data-ref="${r.ref}" style="font-size:0.72rem; padding:0.2rem 0.5rem; flex-shrink:0;">
                         <span>Read Chapter</span> ↗
                       </a>
                     </div>
@@ -1903,17 +1903,17 @@ document.addEventListener('DOMContentLoaded', () => {
           Seamlessly navigate between companion interactive scriptural atlases:
         </p>
         <div style="display:flex; flex-direction:column; gap:0.45rem;">
-          <a href="https://jviola60.github.io/old-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
-            <span>📜 Old Testament Atlas (~4000 BC – 400 BC)</span>
-            <span style="color:var(--color-crimson); font-size:0.75rem;">Explore ↗</span>
+          <a href="https://jviola60.github.io/old-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
+            <span style="word-break:normal; line-height:1.35;">📜 Old Testament Atlas (~4000 BC – 400 BC)</span>
+            <span style="color:var(--color-crimson); font-size:0.75rem; flex-shrink:0;">Explore ↗</span>
           </a>
-          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(197,160,89,0.2); border:1px solid var(--color-gold); border-radius:6px; padding:0.45rem 0.7rem; font-size:0.8rem; font-weight:700; color:var(--color-gold-dark);">
-            <span>📖 Book of Mormon Atlas (~2200 BC – AD 421)</span>
-            <span class="conf-pill conf-pill-1" style="font-size:0.68rem; padding:1px 6px;">Current Atlas</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; background:rgba(197,160,89,0.2); border:1px solid var(--color-gold); border-radius:6px; padding:0.45rem 0.7rem; font-size:0.8rem; font-weight:700; color:var(--color-gold-dark);">
+            <span style="word-break:normal; line-height:1.35;">📖 Book of Mormon Atlas (~2200 BC – AD 421)</span>
+            <span class="conf-pill conf-pill-1" style="font-size:0.68rem; padding:1px 6px; flex-shrink:0;">Current Atlas</span>
           </div>
-          <a href="https://jviola60.github.io/new-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
-            <span>✝️ New Testament Atlas (~6 BC – 100 AD)</span>
-            <span style="color:var(--color-crimson); font-size:0.75rem;">Explore ↗</span>
+          <a href="https://jviola60.github.io/new-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
+            <span style="word-break:normal; line-height:1.35;">✝️ New Testament Atlas (~6 BC – 100 AD)</span>
+            <span style="color:var(--color-crimson); font-size:0.75rem; flex-shrink:0;">Explore ↗</span>
           </a>
         </div>
       </div>
@@ -1925,45 +1925,45 @@ document.addEventListener('DOMContentLoaded', () => {
         </p>
         <div style="display:flex; flex-direction:column; gap:0.45rem;">
           <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:6px; padding:0.5rem 0.7rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color:#065F46; font-size:0.82rem;">Level 1 – Explicit (38 Sites)</strong>
-              <span class="conf-pill conf-pill-1">Direct Statements</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:3px;">
+              <strong style="color:#065F46; font-size:0.82rem; line-height:1.3;">Level 1 – Explicit (38 Sites)</strong>
+              <span class="conf-pill conf-pill-1" style="flex-shrink:0;">Direct Statements</span>
             </div>
-            <p style="font-size:0.75rem; color:#065F46; margin:2px 0 0 0; line-height:1.35;">
+            <p style="font-size:0.75rem; color:#065F46; margin:2px 0 0 0; line-height:1.35; word-break:normal;">
               Clear directional statements (e.g. River Sidon flows north past Zarahemla, narrow neck is a day and a half’s journey).
             </p>
           </div>
           <div style="background:#F0F9FF; border:1px solid #BAE6FD; border-radius:6px; padding:0.5rem 0.7rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color:#0369A1; font-size:0.82rem;">Level 2 – Strongly Supported (24 Sites)</strong>
-              <span class="conf-pill conf-pill-2">High Probability</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:3px;">
+              <strong style="color:#0369A1; font-size:0.82rem; line-height:1.3;">Level 2 – Strongly Supported (24 Sites)</strong>
+              <span class="conf-pill conf-pill-2" style="flex-shrink:0;">High Probability</span>
             </div>
-            <p style="font-size:0.75rem; color:#0369A1; margin:2px 0 0 0; line-height:1.35;">
+            <p style="font-size:0.75rem; color:#0369A1; margin:2px 0 0 0; line-height:1.35; word-break:normal;">
               Ample contextual statements across multiple passages establish relative placement with high probability.
             </p>
           </div>
           <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:6px; padding:0.5rem 0.7rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color:#92400E; font-size:0.82rem;">Level 3 – Inferred (17 Sites)</strong>
-              <span class="conf-pill conf-pill-3">Deductive</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:3px;">
+              <strong style="color:#92400E; font-size:0.82rem; line-height:1.3;">Level 3 – Inferred (17 Sites)</strong>
+              <span class="conf-pill conf-pill-3" style="flex-shrink:0;">Deductive</span>
             </div>
-            <p style="font-size:0.75rem; color:#92400E; margin:2px 0 0 0; line-height:1.35;">
+            <p style="font-size:0.75rem; color:#92400E; margin:2px 0 0 0; line-height:1.35; word-break:normal;">
               Reasonable inference from campaign narratives without single definitive verse coordinates.
             </p>
           </div>
           <div style="background:#FEF2F2; border:1px dashed #FCA5A5; border-radius:6px; padding:0.5rem 0.7rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="color:#991B1B; font-size:0.82rem;">Level 4 – Indeterminate (15 Sites)</strong>
-              <span class="conf-pill conf-pill-4">Position Uncertain</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:3px;">
+              <strong style="color:#991B1B; font-size:0.82rem; line-height:1.3;">Level 4 – Indeterminate (15 Sites)</strong>
+              <span class="conf-pill conf-pill-4" style="flex-shrink:0;">Position Uncertain</span>
             </div>
-            <p style="font-size:0.75rem; color:#991B1B; margin:2px 0 0 0; line-height:1.35;">
+            <p style="font-size:0.75rem; color:#991B1B; margin:2px 0 0 0; line-height:1.35; word-break:normal;">
               Named in text (such as 3 Nephi 9 destruction catalogue), but text provides insufficient information for relative placement. Shown with explicit uncertainty markers.
             </p>
           </div>
         </div>
       </div>
 
-      <button class="btn btn-outline" id="welcomeDistanceScaleBtn" style="width:100%; justify-content:center; padding:0.55rem; font-size:0.82rem; font-weight:600;">
+      <button class="btn btn-outline" id="welcomeDistanceScaleBtn" style="width:100%; justify-content:center; padding:0.65rem 0.85rem; font-size:0.82rem; font-weight:600; white-space:normal; word-break:normal; line-height:1.35; height:auto; min-height:40px; text-align:center;">
         📏 View Scriptural Travel Distances & Days' Journey Table
       </button>
 

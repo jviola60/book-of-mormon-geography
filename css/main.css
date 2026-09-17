@@ -393,19 +393,35 @@ html, body {
 
 /* Buttons */
 .btn {
-  height: 36px;
-  padding: 0 0.85rem;
+  min-height: 36px;
+  height: auto;
+  padding: 0.4rem 0.85rem;
   border-radius: 6px;
   font-family: var(--font-sans);
   font-size: 0.82rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
   border: 1px solid transparent;
+  line-height: 1.35;
+  box-sizing: border-box;
+}
+
+/* Allow buttons inside sidebars, feature cards, and modals to wrap multi-line text */
+.detail-sidebar .btn,
+.sidebar-content .btn,
+.feature-card .btn,
+.modal-body .btn,
+.dossier-card .btn {
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 .btn-outline {
