@@ -111,7 +111,7 @@ html, body {
   gap: 0.75rem;
   width: 100%;
   overflow-x: auto;
-  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .cross-atlas-label {
@@ -130,7 +130,7 @@ html, body {
   align-items: center;
   gap: 0.35rem;
   overflow-x: auto;
-  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .atlas-link {
@@ -590,7 +590,7 @@ html, body {
   width: 100%;
   gap: 0.75rem;
   overflow-x: auto;
-  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .filter-chip-toggle {
