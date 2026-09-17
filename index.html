@@ -129,7 +129,7 @@
           <button id="toolsDropdownBtn" class="btn btn-outline" title="Atlas Tools & Secondary Utilities" aria-expanded="false">
             <span>🛠️</span>
             <span class="btn-text">Tools</span>
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-caret"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div id="toolsDropdownMenu" class="dropdown-menu dropdown-menu-wide">
             <div class="dropdown-heading">Geographic Utilities</div>
@@ -198,7 +198,7 @@
             </button>
             <button class="filter-chip filter-chip-toggle" id="toggleFiltersPanelBtn" title="Open full layers & confidence filter options" aria-expanded="false">
               <span>⚙️ Filters</span>
-              <span class="active-filters-badge" id="activeFiltersBadge" style="display:none;">0</span>
+              <span class="active-filters-badge" id="activeFiltersBadge">0</span>
             </button>
           </div>
 
@@ -261,10 +261,9 @@
             </div>
           </div>
 
-          <!-- Section 4: Actions -->
           <div class="df-actions">
-            <button class="btn btn-sm btn-outline" id="resetFiltersBtn" style="height:30px; font-size:0.76rem;">Reset Filters</button>
-            <button class="btn btn-sm btn-primary" id="closeFiltersPanelBtn" style="height:30px; font-size:0.76rem;">Close Panel ✕</button>
+            <button class="btn btn-sm btn-outline df-btn" id="resetFiltersBtn">Reset Filters</button>
+            <button class="btn btn-sm btn-primary df-btn" id="closeFiltersPanelBtn">Close Panel ✕</button>
           </div>
         </div>
       </div>
@@ -580,15 +579,15 @@
       <div class="mobile-nav-heading">Scriptural Atlases Trilogy</div>
       <a href="https://jviola60.github.io/old-testament-geography/" class="mobile-atlas-link" target="_blank" rel="noopener noreferrer">
         <span>📜 Old Testament Atlas (~4000 BC – 400 BC)</span>
-        <span style="color:var(--color-crimson);">↗</span>
+        <span class="ext-link-arrow">↗</span>
       </a>
       <div class="mobile-atlas-link active">
         <span>📖 Book of Mormon Atlas (~2200 BC – AD 421)</span>
-        <span class="conf-pill conf-pill-1" style="font-size:0.65rem;">Current</span>
+        <span class="conf-pill conf-pill-1 pill-current">Current</span>
       </div>
       <a href="https://jviola60.github.io/new-testament-geography/" class="mobile-atlas-link" target="_blank" rel="noopener noreferrer">
         <span>✝️ New Testament Atlas (~6 BC – 100 AD)</span>
-        <span style="color:var(--color-crimson);">↗</span>
+        <span class="ext-link-arrow">↗</span>
       </a>
     </div>
 
@@ -598,8 +597,8 @@
       <button class="mobile-menu-item" id="mobChurchStanceBtn">
         <span>📜</span>
         <div>
-          <div style="font-weight:600;">Official Church Stance</div>
-          <div style="font-size:0.72rem; color:var(--text-secondary);">Pure internal textual mandate</div>
+          <div class="menu-title-bold">Official Church Stance</div>
+          <div class="menu-subtitle-muted">Pure internal textual mandate</div>
         </div>
       </button>
     </div>
@@ -624,7 +623,7 @@
     <!-- Region Focus Jumps -->
     <div class="mobile-nav-section">
       <div class="mobile-nav-heading">Quick Region Focus</div>
-      <div style="display:flex; flex-direction:column; gap:0.25rem;">
+      <div class="mobile-region-group">
         <button class="mobile-menu-item region-item" data-region="whole-land">🗺️ Entire Promised Land</button>
         <button class="mobile-menu-item region-item" data-region="land-southward">📍 Land Southward (Zarahemla & Nephi)</button>
         <button class="mobile-menu-item region-item" data-region="zarahemla">🏛️ City of Zarahemla & Sidon Basin</button>

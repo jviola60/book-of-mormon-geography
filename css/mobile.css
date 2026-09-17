@@ -290,7 +290,8 @@
 
   .sidebar-content {
     padding: 0.85rem 1rem 2rem;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    touch-action: pan-y;
   }
 
   /* Mobile Timeline Footer */
@@ -393,6 +394,7 @@
     right: 0;
     bottom: 0;
     background: rgba(20, 15, 10, 0.65);
+    -webkit-backdrop-filter: blur(3px);
     backdrop-filter: blur(3px);
     z-index: 2500;
     opacity: 0;
@@ -552,10 +554,10 @@
   .mobile-sheet-body {
     padding: 1rem 1.15rem;
     overflow-y: auto;
+    touch-action: pan-y;
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
-    -webkit-overflow-scrolling: touch;
   }
 
   .mobile-filter-section-title {
@@ -640,9 +642,9 @@
 
   .mobile-picker-list {
     overflow-y: auto;
+    touch-action: pan-y;
     padding: 0.4rem 0;
     flex: 1;
-    -webkit-overflow-scrolling: touch;
   }
 
   .mobile-picker-item {

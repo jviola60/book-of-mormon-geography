@@ -610,6 +610,7 @@ html, body {
 }
 
 .active-filters-badge {
+  display: none;
   background: var(--color-crimson);
   color: #FFF;
   font-size: 0.62rem;
@@ -617,6 +618,10 @@ html, body {
   padding: 1px 5px;
   border-radius: 8px;
   line-height: 1.2;
+}
+
+.active-filters-badge.visible {
+  display: inline-block;
 }
 
 /* Expandable Desktop Filter Panel Flyout */
@@ -830,4 +835,46 @@ html, body {
 .stat-name {
   font-family: var(--font-sans);
   color: var(--text-muted);
+}
+
+/* Cross-Browser Scrollbar Hiding */
+.cross-atlas-container::-webkit-scrollbar,
+.cross-atlas-links::-webkit-scrollbar,
+.filter-scroll-track::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* UI Helper Utility Classes */
+.dropdown-caret {
+  margin-left: 2px;
+}
+
+.df-btn {
+  height: 30px;
+  font-size: 0.76rem;
+}
+
+.ext-link-arrow {
+  color: var(--color-crimson);
+}
+
+.pill-current {
+  font-size: 0.65rem;
+}
+
+.menu-title-bold {
+  font-weight: 600;
+}
+
+.menu-subtitle-muted {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.mobile-region-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
