@@ -602,6 +602,55 @@
   border: 1px dashed #FCA5A5;
 }
 
+/* Confidence Filter Chip Custom Highlights */
+.filter-chip.conf-chip-highest {
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(2, 132, 199, 0.1) 100%);
+  border-color: #059669;
+  color: #065F46;
+  font-weight: 700;
+}
+
+.filter-chip.conf-chip-highest.active {
+  background: linear-gradient(135deg, #059669 0%, #0284C7 100%) !important;
+  color: #FFF !important;
+  border-color: #047857 !important;
+  box-shadow: 0 0 10px rgba(5, 150, 105, 0.4);
+}
+
+.filter-chip.indet-chip {
+  background: #FEF2F2;
+  border-color: #FCA5A5;
+  color: #991B1B;
+}
+
+.filter-chip.indet-chip.active {
+  background: #FEE2E2;
+  border-color: #DC2626;
+  color: #7F1D1D;
+  font-weight: 700;
+}
+
+.filter-chip.indet-chip.hidden-mode {
+  background: #F3F4F6;
+  border-color: #D1D5DB;
+  color: #6B7280;
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+.travel-distances-header-btn {
+  font-weight: 700;
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 0.4rem 0.85rem;
+  background: rgba(212, 160, 23, 0.08);
+}
+
+.travel-distances-header-btn:hover {
+  background: rgba(212, 160, 23, 0.2);
+  border-color: var(--accent-gold);
+}
+
 /* Distance Metrics Table */
 .distance-metrics-table-wrap {
   width: 100%;

@@ -22,15 +22,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Unified Modular Stylesheets -->
-  <link rel="stylesheet" href="css/main.css?v=8.4">
-  <link rel="stylesheet" href="css/map.css?v=8.4">
-  <link rel="stylesheet" href="css/timeline.css?v=8.4">
-  <link rel="stylesheet" href="css/sidebar.css?v=8.4">
-  <link rel="stylesheet" href="css/components.css?v=8.4">
+  <link rel="stylesheet" href="css/main.css?v=8.8">
+  <link rel="stylesheet" href="css/map.css?v=8.8">
+  <link rel="stylesheet" href="css/timeline.css?v=8.8">
+  <link rel="stylesheet" href="css/sidebar.css?v=8.8">
+  <link rel="stylesheet" href="css/components.css?v=8.8">
 </head>
 <body>
 
   <div class="app-container">
+
+    <!-- Scriptural Atlases Trilogy Navigation Bar -->
+    <nav class="cross-atlas-bar" id="crossAtlasBar" aria-label="Scriptural Atlases Navigation">
+      <div class="cross-atlas-container">
+        <span class="cross-atlas-label">Scriptural Atlases:</span>
+        <div class="cross-atlas-links">
+          <a href="https://jviola60.github.io/old-testament-geography/" class="atlas-link" target="_blank" rel="noopener noreferrer" title="Explore Old Testament Geography (~4000 BC – 400 BC)">
+            <span class="atlas-icon">📜</span>
+            <span class="atlas-name">Old Testament Atlas</span>
+            <span class="atlas-ext-arrow">↗</span>
+          </a>
+          <span class="atlas-link active" title="Currently viewing Book of Mormon Geography (~2200 BC – AD 421)">
+            <span class="atlas-icon">📖</span>
+            <span class="atlas-name">Book of Mormon Atlas</span>
+            <span class="atlas-current-badge">Current</span>
+          </span>
+          <a href="https://jviola60.github.io/new-testament-geography/" class="atlas-link" target="_blank" rel="noopener noreferrer" title="Explore New Testament Geography (~6 BC – 100 AD)">
+            <span class="atlas-icon">✝️</span>
+            <span class="atlas-name">New Testament Atlas</span>
+            <span class="atlas-ext-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </nav>
 
     <!-- Top Application Header (64px) -->
     <header class="app-header" id="appHeader">
@@ -85,6 +109,12 @@
         <button id="storyToursBtn" class="btn btn-primary glow-gold" title="Explore Curated Scripture Expeditions">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
           <span>Guided Tours</span>
+        </button>
+
+        <!-- Scriptural Distances & Travel Metrics Button -->
+        <button id="headerDistanceScaleBtn" class="btn btn-outline glow-gold travel-distances-header-btn" title="View Book of Mormon Distance & Travel Metrics Table (Alma 22:32)">
+          <span>📏</span>
+          <span>Travel Distances</span>
         </button>
 
         <!-- Location Quick Jump Dropdown -->
@@ -162,10 +192,12 @@
         <div class="filter-group filter-group-confidence">
           <span class="filter-label">Confidence:</span>
           <button class="filter-chip conf-chip active" data-conf="all">All (94)</button>
+          <button class="filter-chip conf-chip conf-chip-highest" data-conf="highest" title="Filter to highest confidence only: Level 1 Explicit & Level 2 Strongly Supported (62 sites)">⭐ L1 + L2 Highest (62)</button>
           <button class="filter-chip conf-chip conf-chip-1" data-conf="1" title="Level 1: Explicit directional or relational statements">L1 Explicit (38)</button>
           <button class="filter-chip conf-chip conf-chip-2" data-conf="2" title="Level 2: Strongly supported by surrounding context">L2 Supported (24)</button>
           <button class="filter-chip conf-chip conf-chip-3" data-conf="3" title="Level 3: Reasonable inference from multiple passages">L3 Inferred (17)</button>
           <button class="filter-chip conf-chip conf-chip-4" data-conf="4" title="Level 4: Textually indeterminate / position uncertain">L4 Indeterminate (15)</button>
+          <button class="filter-chip indet-chip active" id="toggleIndeterminateChip" title="Toggle visibility of Level 4 Indeterminate sites"><span id="indetToggleIcon">👁️</span> <span id="indetToggleText">L4: Visible</span></button>
         </div>
 
         <!-- Dispensation & Tradition Filter Group -->
@@ -671,10 +703,10 @@
   <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
 
   <!-- Data & Controller Scripts -->
-  <script src="map-data.js?v=8.6"></script>
-  <script src="js/data/placeDossiers.js?v=8.6"></script>
-  <script src="js/data/scriptureTranslations.js?v=8.6"></script>
-  <script src="js/data/churchVideos.js?v=8.6"></script>
-  <script src="app.js?v=8.6"></script>
+  <script src="map-data.js?v=8.8"></script>
+  <script src="js/data/placeDossiers.js?v=8.8"></script>
+  <script src="js/data/scriptureTranslations.js?v=8.8"></script>
+  <script src="js/data/churchVideos.js?v=8.8"></script>
+  <script src="app.js?v=8.8"></script>
 </body>
 </html>

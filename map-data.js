@@ -2,12 +2,6 @@
  * Comprehensive Book of Mormon Geography Dataset
  * Strictly Verified Against the Text of the Book of Mormon (1981/2013 LDS Edition)
  * Pure Internal Textual Geography • Zero External Models Applied
- * 
- * Includes:
- * - 4-Level Textual Confidence Classification (Level 1 Explicit to Level 4 Indeterminate)
- * - Chronological & Narrative Scripture Attestations with Verbatim Text
- * - Textual Relationships & Geographical Baselines
- * - Strict Separation of Jaredite and Nephite/Lamanite Eras
  */
 
 const mapLocations = {
@@ -4468,7 +4462,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:6 mentions the city of Gilgal sunk in the deep earth at Christ's death; text contains no directional or relational coordinates.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "moronihah",
+        "name": "City of Moronihah",
+        "relationship": "Subterranean Cataclysm Site",
+        "textualBasis": "Sunk and buried in the depths of the earth during the great earthquake (3 Nephi 9:6)."
+      },
+      {
+        "placeId": "waters_of_jerusalem",
+        "name": "City & Waters of Jerusalem",
+        "relationship": "Earth-Chasm Basin",
+        "textualBasis": "Inhabitants buried in depths of earth in AD 34 (3 Nephi 9:6–7)."
+      }
+    ]
   },
   "city_of_onihah": {
     "id": "city_of_onihah",
@@ -4509,7 +4516,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:7 lists Onihah as covered by waters at the crucifixion; text provides no relative geographic placement or directional ties.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_mocum",
+        "name": "City of Mocum",
+        "relationship": "Co-inundated Sister City",
+        "textualBasis": "Grouped together in divine destruction catalogue; waters came up in their stead (3 Nephi 9:7)."
+      },
+      {
+        "placeId": "waters_of_jerusalem",
+        "name": "City & Waters of Jerusalem",
+        "relationship": "Submerged Basin",
+        "textualBasis": "Submerged simultaneously with Jerusalem in the cataclysm of AD 34 (3 Nephi 9:7)."
+      }
+    ]
   },
   "city_of_mocum": {
     "id": "city_of_mocum",
@@ -4550,7 +4570,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:7 lists Mocum as covered by waters at the crucifixion; text provides zero geographic coordinates or neighbor references.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_onihah",
+        "name": "City of Onihah",
+        "relationship": "Co-inundated Sister City",
+        "textualBasis": "Grouped together in divine destruction catalogue; waters came up in their stead (3 Nephi 9:7)."
+      },
+      {
+        "placeId": "waters_of_jerusalem",
+        "name": "City & Waters of Jerusalem",
+        "relationship": "Submerged Basin",
+        "textualBasis": "Submerged simultaneously with Jerusalem in the cataclysm of AD 34 (3 Nephi 9:7)."
+      }
+    ]
   },
   "city_of_gadiandi": {
     "id": "city_of_gadiandi",
@@ -4591,7 +4624,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:8 records Gadiandi sunk and buried in earth at Christ's death; text contains no relational or regional context.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_gadiomnah",
+        "name": "City of Gadiomnah",
+        "relationship": "Co-sunken Valley City",
+        "textualBasis": "Grouped together in destruction catalogue; sunk into the earth to form hills and valleys (3 Nephi 9:8)."
+      },
+      {
+        "placeId": "city_of_jacob",
+        "name": "City of Jacob",
+        "relationship": "Cataclysm Sister Site",
+        "textualBasis": "Sunk simultaneously at Christ's crucifixion (3 Nephi 9:8)."
+      }
+    ]
   },
   "city_of_gadiomnah": {
     "id": "city_of_gadiomnah",
@@ -4632,7 +4678,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:8 records Gadiomnah sunk in earth; no relative geographic coordinates are provided anywhere in the text.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_gadiandi",
+        "name": "City of Gadiandi",
+        "relationship": "Co-sunken Valley City",
+        "textualBasis": "Grouped together in destruction catalogue; sunk into the depths of the earth (3 Nephi 9:8)."
+      },
+      {
+        "placeId": "city_of_gimgimno",
+        "name": "City of Gimgimno",
+        "relationship": "Cataclysm Sister Site",
+        "textualBasis": "Sunk and transformed into hills and valleys (3 Nephi 9:8)."
+      }
+    ]
   },
   "city_of_jacob": {
     "id": "city_of_jacob",
@@ -4673,7 +4732,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:8 lists the city of Jacob covered with earth; distinct from Jacobugath; text provides no directional coordinates.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_gadiandi",
+        "name": "City of Gadiandi",
+        "relationship": "Cataclysm Grouping",
+        "textualBasis": "Sunk into the earth to conceal iniquity and blood of prophets (3 Nephi 9:8)."
+      },
+      {
+        "placeId": "city_of_gimgimno",
+        "name": "City of Gimgimno",
+        "relationship": "Co-sunken Sister City",
+        "textualBasis": "Both sunk into valleys and hills in the AD 34 cataclysm (3 Nephi 9:8)."
+      }
+    ]
   },
   "city_of_gimgimno": {
     "id": "city_of_gimgimno",
@@ -4714,7 +4786,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:8 lists Gimgimno covered with earth and mountains raised in its place; text is silent on its location relative to other cities.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_jacob",
+        "name": "City of Jacob",
+        "relationship": "Co-sunken Sister City",
+        "textualBasis": "Sunk into the earth at Christ's death (3 Nephi 9:8)."
+      },
+      {
+        "placeId": "city_of_gadiomnah",
+        "name": "City of Gadiomnah",
+        "relationship": "Cataclysm Grouping",
+        "textualBasis": "Earth replaced city with hills and valleys (3 Nephi 9:8)."
+      }
+    ]
   },
   "city_of_laman": {
     "id": "city_of_laman",
@@ -4755,7 +4840,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:10 mentions the city of Laman burned with fire; text does not provide its location relative to specific Lamanite lands.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_josh",
+        "name": "City of Josh",
+        "relationship": "Co-burned Wicked City",
+        "textualBasis": "Grouped in catalogue of cities burned with fire from heaven (3 Nephi 9:10)."
+      },
+      {
+        "placeId": "city_of_gad",
+        "name": "City of Gad",
+        "relationship": "Conflagration Sister Site",
+        "textualBasis": "Burned because they cast out prophets and stoned them (3 Nephi 9:10)."
+      }
+    ]
   },
   "city_of_josh": {
     "id": "city_of_josh",
@@ -4796,7 +4894,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:10 mentions Josh burned with fire; text contains no relational coordinates or directional statements.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_laman",
+        "name": "City of Laman",
+        "relationship": "Co-burned Wicked City",
+        "textualBasis": "Burned with fire from heaven for rejecting prophets (3 Nephi 9:10)."
+      },
+      {
+        "placeId": "city_of_kishkumen",
+        "name": "City of Kishkumen",
+        "relationship": "Conflagration Sister Site",
+        "textualBasis": "Both consumed by fire at the time of the crucifixion (3 Nephi 9:10)."
+      }
+    ]
   },
   "city_of_gad": {
     "id": "city_of_gad",
@@ -4837,7 +4948,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:10 mentions Gad burned with fire from heaven; text provides no relative placement.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_laman",
+        "name": "City of Laman",
+        "relationship": "Conflagration Sister Site",
+        "textualBasis": "Burned with fire to conceal blood of saints from heaven (3 Nephi 9:10)."
+      },
+      {
+        "placeId": "city_of_josh",
+        "name": "City of Josh",
+        "relationship": "Co-burned Sister City",
+        "textualBasis": "Consumed by fire simultaneously in AD 34 (3 Nephi 9:10)."
+      }
+    ]
   },
   "city_of_kishkumen": {
     "id": "city_of_kishkumen",
@@ -4879,7 +5003,20 @@ const mapLocations = {
     "confidenceJustification": "3 Nephi 9:10 mentions Kishkumen burned with fire; named after secret combination founder; exact location unstated.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": true,
-    "relatedPlaces": []
+    "relatedPlaces": [
+      {
+        "placeId": "city_of_josh",
+        "name": "City of Josh",
+        "relationship": "Conflagration Sister Site",
+        "textualBasis": "Burned with fire from heaven because of wickedness (3 Nephi 9:10)."
+      },
+      {
+        "placeId": "city_of_gad",
+        "name": "City of Gad",
+        "relationship": "Co-burned Wicked City",
+        "textualBasis": "Destroyed by heavenly fire at Christ's death (3 Nephi 9:10)."
+      }
+    ]
   },
   "city_of_sidom": {
     "id": "city_of_sidom",
@@ -6301,7 +6438,6 @@ const chronologicalMilestones = [
   }
 ];
 
-// Attach foundedYear and foundedStep to each landmark in mapLocations
 chronologicalMilestones.forEach(step => {
   step.newIds.forEach(id => {
     if (mapLocations[id]) {
@@ -6312,12 +6448,12 @@ chronologicalMilestones.forEach(step => {
   });
 });
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.mapLocations = mapLocations;
   window.mapJourneys = mapJourneys;
   window.chronologicalMilestones = chronologicalMilestones;
 }
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = { mapLocations, mapJourneys, chronologicalMilestones };
 }

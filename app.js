@@ -228,16 +228,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgHeight = MAP_BASE_HEIGHT;
 
     const isMobile = window.innerWidth <= 768;
+    const isDesktop = window.innerWidth > 900;
+    const sidebarOffset = (isDesktop && detailSidebar && !detailSidebar.classList.contains('closed')) ? 440 : 0;
+    const availWidth = Math.max(320, vWidth - sidebarOffset);
+
     const paddingX = isMobile ? 0.98 : 0.92;
     const paddingY = isMobile ? 0.96 : 0.90;
 
-    const scaleX = (vWidth * paddingX) / imgWidth;
+    const scaleX = (availWidth * paddingX) / imgWidth;
     const scaleY = (vHeight * paddingY) / imgHeight;
     scale = Math.min(scaleX, scaleY);
 
     minScale = Math.min(0.04, scale * 0.6);
 
-    translateX = (vWidth - (imgWidth * scale)) / 2;
+    translateX = (availWidth - (imgWidth * scale)) / 2;
     translateY = (vHeight - (imgHeight * scale)) / 2;
 
     applyTransform();
@@ -447,8 +451,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Active filter state
-  let activeConfidenceFilter = 'all'; // 'all', '1', '2', '3', '4'
+  let activeConfidenceFilter = 'all'; // 'all', 'highest', '1', '2', '3', '4'
   let activeDispensationFilter = 'all'; // 'all', 'jaredite', 'nephite_lamanite'
+  let hideIndeterminate = false;
 
   // ==========================================================================
   // LANDMARK MARKERS RENDERING (Enhanced with 4 Confidence Levels)
@@ -488,12 +493,16 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (loc.category === 'wilderness') iconSymbol = '⛰️';
       else if (loc.category === 'cities') iconSymbol = '🏘️';
 
+      // Miniature badge label
+      const confBadgeText = isIndet ? '?' : `L${confLevel}`;
+
       pin.innerHTML = `
-        <div class="pin-icon-wrap ${loc.category} ${isCapital ? 'capital' : ''}">
+        <div class="pin-icon-wrap ${loc.category} ${isCapital ? 'capital' : ''} conf-ring-${confLevel}">
           <span>${iconSymbol}</span>
+          <span class="pin-conf-badge conf-badge-${confLevel}" title="Confidence Level ${confLevel}: ${getConfidenceTitle(confLevel)}">${confBadgeText}</span>
         </div>
         <span class="pin-label ${isCapital ? 'capital-label' : ''}">
-          ${loc.name} ${isIndet ? '<small style="color:#DC2626;">(Uncertain)</small>' : ''}
+          ${loc.name} ${isIndet ? '<span class="pin-uncertain-pill">Position Uncertain</span>' : ''}
         </span>
       `;
 
@@ -549,7 +558,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const disp = pin.getAttribute('data-dispensation');
 
       const matchesCat = activeLayers.has(cat);
-      const matchesConf = activeConfidenceFilter === 'all' || conf === activeConfidenceFilter;
+
+      let matchesConf = false;
+      if (activeConfidenceFilter === 'all') {
+        matchesConf = true;
+      } else if (activeConfidenceFilter === 'highest') {
+        matchesConf = (conf === '1' || conf === '2');
+      } else {
+        matchesConf = (conf === activeConfidenceFilter);
+      }
+
+      // Hide L4 indeterminate sites if toggle is hidden (unless explicitly filtering by L4)
+      if (hideIndeterminate && conf === '4' && activeConfidenceFilter !== '4') {
+        matchesConf = false;
+      }
+
       const matchesDisp = activeDispensationFilter === 'all' || disp === activeDispensationFilter || disp === 'both';
 
       const isVisible = matchesCat && matchesConf && matchesDisp;
@@ -595,6 +618,30 @@ document.addEventListener('DOMContentLoaded', () => {
       updateLayerVisibility();
     });
   });
+
+  // Connect Indeterminate Toggle Chip
+  const toggleIndeterminateChip = document.getElementById('toggleIndeterminateChip');
+  const indetToggleIcon = document.getElementById('indetToggleIcon');
+  const indetToggleText = document.getElementById('indetToggleText');
+  if (toggleIndeterminateChip) {
+    toggleIndeterminateChip.addEventListener('click', () => {
+      hideIndeterminate = !hideIndeterminate;
+      toggleIndeterminateChip.classList.toggle('hidden-mode', hideIndeterminate);
+      toggleIndeterminateChip.classList.toggle('active', !hideIndeterminate);
+      if (indetToggleIcon) indetToggleIcon.textContent = hideIndeterminate ? '🙈' : '👁️';
+      if (indetToggleText) indetToggleText.textContent = hideIndeterminate ? 'L4: Hidden' : 'L4: Visible';
+      updateLayerVisibility();
+    });
+  }
+
+  // Connect Header Travel Distances Button
+  const headerDistanceScaleBtn = document.getElementById('headerDistanceScaleBtn');
+  if (headerDistanceScaleBtn && distanceScaleModal) {
+    headerDistanceScaleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(distanceScaleModal);
+    });
+  }
 
   // Connect Dispensation Filter Chips
   const dispFilterChips = document.querySelectorAll('.disp-chip');
@@ -691,18 +738,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="conf-banner-desc">${loc.confidenceJustification || 'Derived from internal Book of Mormon textual statements.'}</p>
         </div>
 
-        ${firstRef ? `
-          <div class="hero-quote">
-            <div class="quote-text">"${firstRef.text}"</div>
-            <span class="quote-ref">${firstRef.ref}</span>
-          </div>
-        ` : ''}
-
-        <div class="history-block">
-          <h4>Historical & Scriptural Overview</h4>
-          <p>${loc.summary || 'A primary landmark recorded in the internal textual architecture of the Book of Mormon.'}</p>
-        </div>
-
         ${loc.relatedPlaces && loc.relatedPlaces.length > 0 ? `
           <div class="related-places-card">
             <div class="related-places-header">
@@ -711,7 +746,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="related-places-list">
               ${loc.relatedPlaces.map(r => `
-                <div class="related-place-item" data-place="${r.placeId}">
+                <div class="related-place-item" data-place="${r.placeId}" title="Click to inspect ${r.name} on the map">
                   <div style="display:flex; align-items:center; justify-content:space-between;">
                     <span class="related-place-name">📍 ${r.name}</span>
                     <span class="related-place-rel">${r.relationship}</span>
@@ -723,30 +758,14 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         ` : ''}
 
-        <div class="demographic-stats-grid">
-          <div class="demographic-stat-box">
-            <span class="demographic-label">Scriptural Jurisdiction</span>
-            <span class="demographic-value">${jurisdiction}</span>
-          </div>
-          <div class="demographic-stat-box">
-            <span class="demographic-label">Defensive Structure</span>
-            <span class="demographic-value">${fortification}</span>
-          </div>
-          <div class="demographic-stat-box">
-            <span class="demographic-label">Geographic Region</span>
-            <span class="demographic-value">${loc.region}</span>
-          </div>
-          <div class="demographic-stat-box">
-            <span class="demographic-label">Textual Confidence</span>
-            <span class="demographic-value">Level ${confLevel} (${confTitle})</span>
-          </div>
-        </div>
-
         ${loc.refs && loc.refs.length > 0 ? `
           <div class="feature-card">
-            <h3>Chronological Scriptural Attestations</h3>
-            <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:0.6rem;">
-              Documented across ${loc.refs.length} verified Book of Mormon passages in narrative sequence:
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35rem;">
+              <h3 style="margin:0;">Chronological Scriptural Attestations</h3>
+              <span class="conf-pill conf-pill-1" style="font-size:0.7rem;">${loc.refs.length} Attestation${loc.refs.length === 1 ? '' : 's'}</span>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:0.6rem;">
+              Exhaustive record of every Book of Mormon verse naming or describing <strong>${loc.name}</strong>, ordered in narrative sequence with verbatim excerpts:
             </p>
             <div style="display:flex; flex-direction:column; gap:0.55rem;">
               ${loc.refs.map(r => {
@@ -768,6 +787,30 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
         ` : ''}
+
+        <div class="history-block">
+          <h4>Historical & Scriptural Overview</h4>
+          <p>${loc.summary || 'A primary landmark recorded in the internal textual architecture of the Book of Mormon.'}</p>
+        </div>
+
+        <div class="demographic-stats-grid">
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Scriptural Jurisdiction</span>
+            <span class="demographic-value">${jurisdiction}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Defensive Structure</span>
+            <span class="demographic-value">${fortification}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Geographic Region</span>
+            <span class="demographic-value">${loc.region}</span>
+          </div>
+          <div class="demographic-stat-box">
+            <span class="demographic-label">Textual Confidence</span>
+            <span class="demographic-value">Level ${confLevel} (${confTitle})</span>
+          </div>
+        </div>
 
         <div class="drawer-church-stance-card">
           <div class="church-stance-mini-header">
@@ -1396,6 +1439,30 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="hero-quote" style="margin-top:0.4rem;">
         <p class="quote-text">"And they did look forth upon the land of promise; and behold, it was a land choice above all other lands."</p>
         <span class="quote-ref">— 1 Nephi 18:25</span>
+      </div>
+
+      <div class="feature-card" style="border: 1.5px solid var(--border-gold); background: linear-gradient(135deg, #FFFDF9 0%, #FBF6EB 100%);">
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.35rem;">
+          <span style="font-size:1.15rem;">🧭</span>
+          <h3 style="margin:0; font-family:var(--font-serif-title); font-size:0.92rem; color:var(--color-crimson);">Scriptural Atlases Trilogy</h3>
+        </div>
+        <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.55rem;">
+          Seamlessly navigate between companion interactive scriptural atlases:
+        </p>
+        <div style="display:flex; flex-direction:column; gap:0.45rem;">
+          <a href="https://jviola60.github.io/old-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
+            <span>📜 Old Testament Atlas (~4000 BC – 400 BC)</span>
+            <span style="color:var(--color-crimson); font-size:0.75rem;">Explore ↗</span>
+          </a>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(197,160,89,0.2); border:1px solid var(--color-gold); border-radius:6px; padding:0.45rem 0.7rem; font-size:0.8rem; font-weight:700; color:var(--color-gold-dark);">
+            <span>📖 Book of Mormon Atlas (~2200 BC – AD 421)</span>
+            <span class="conf-pill conf-pill-1" style="font-size:0.68rem; padding:1px 6px;">Current Atlas</span>
+          </div>
+          <a href="https://jviola60.github.io/new-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
+            <span>✝️ New Testament Atlas (~6 BC – 100 AD)</span>
+            <span style="color:var(--color-crimson); font-size:0.75rem;">Explore ↗</span>
+          </a>
+        </div>
       </div>
 
       <div class="feature-card">

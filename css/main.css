@@ -88,6 +88,101 @@ html, body {
 }
 
 /* ==========================================================================
+   CROSS-ATLAS TRILOGY NAVIGATION BAR (32px)
+   ========================================================================== */
+.cross-atlas-bar {
+  height: 32px;
+  background: #231812;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 1010;
+  font-size: 0.74rem;
+  color: #E2D9CC;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.cross-atlas-container {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cross-atlas-label {
+  font-family: var(--font-serif-title);
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.cross-atlas-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.atlas-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #E7DFD5;
+  font-weight: 600;
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.atlas-link:hover {
+  background: rgba(212, 160, 23, 0.22);
+  border-color: var(--accent-gold);
+  color: #FFF;
+}
+
+.atlas-link.active {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.28) 0%, rgba(163, 40, 34, 0.25) 100%);
+  border-color: var(--accent-gold);
+  color: #FFF;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(212, 160, 23, 0.35);
+}
+
+.atlas-current-badge {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  background: var(--accent-gold);
+  color: #1F1610;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-left: 2px;
+}
+
+.atlas-ext-arrow {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
    TOP APPLICATION HEADER (64px)
    ========================================================================== */
 .app-header {

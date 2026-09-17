@@ -160,31 +160,92 @@
   letter-spacing: 0.02em;
 }
 
-/* Textual Confidence Marker Indicators */
-.map-pin.conf-1 .pin-icon-wrap {
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+/* Textual Confidence Marker Color-Coded Indicators & Badges */
+.map-pin.conf-1 .pin-icon-wrap,
+.pin-icon-wrap.conf-ring-1 {
+  border: 2px solid #059669 !important;
+  box-shadow: 0 0 0 2.5px rgba(5, 150, 105, 0.45), 0 3px 8px rgba(0, 0, 0, 0.35);
+  background: #F0FDF4;
 }
 
-.map-pin.conf-2 .pin-icon-wrap {
-  box-shadow: 0 0 0 1.5px rgba(2, 132, 199, 0.4), 0 2px 6px rgba(0, 0, 0, 0.35);
+.map-pin.conf-2 .pin-icon-wrap,
+.pin-icon-wrap.conf-ring-2 {
+  border: 2px solid #0284C7 !important;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.45), 0 3px 8px rgba(0, 0, 0, 0.35);
+  background: #F0F9FF;
 }
 
-.map-pin.conf-3 .pin-icon-wrap {
-  border-style: dotted;
+.map-pin.conf-3 .pin-icon-wrap,
+.pin-icon-wrap.conf-ring-3 {
+  border: 2px solid #D97706 !important;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.35), 0 3px 8px rgba(0, 0, 0, 0.35);
+  background: #FFFBEB;
 }
 
 .map-pin.conf-4 .pin-icon-wrap,
+.pin-icon-wrap.conf-ring-4,
 .map-pin.is-indeterminate .pin-icon-wrap {
-  border: 2px dashed #DC2626 !important;
+  border: 2.5px dashed #DC2626 !important;
   background: #FEF2F2 !important;
-  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3), 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.35), 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Miniature Confidence Badge on Pin */
+.pin-conf-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: #FFF;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.pin-conf-badge.conf-badge-1 {
+  background: #059669;
+  border: 1px solid #A7F3D0;
+}
+
+.pin-conf-badge.conf-badge-2 {
+  background: #0284C7;
+  border: 1px solid #BAE6FD;
+}
+
+.pin-conf-badge.conf-badge-3 {
+  background: #D97706;
+  border: 1px solid #FDE68A;
+}
+
+.pin-conf-badge.conf-badge-4 {
+  background: #DC2626;
+  border: 1px solid #FCA5A5;
+  font-size: 9px;
+}
+
+.pin-uncertain-pill {
+  display: inline-block;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #DC2626;
+  background: rgba(254, 226, 226, 0.95);
+  border: 1px dashed #F87171;
+  padding: 0 4px;
+  border-radius: 3px;
+  margin-left: 3px;
+  font-style: normal;
+  text-shadow: none;
 }
 
 .map-pin.conf-4 .pin-label,
 .map-pin.is-indeterminate .pin-label {
-  color: #991B1B;
+  color: #7F1D1D;
   font-style: italic;
-  opacity: 0.92;
+  opacity: 0.95;
 }
 
 /* Jaredite Period Marker Distinct Styling */
