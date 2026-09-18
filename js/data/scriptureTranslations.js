@@ -37,6 +37,50 @@ const BOOK_OF_MORMON_TRANSLATIONS = {
   },
 
   // =========================================================================
+  // ANTIONUM & THE ZORAMITES (ALMA 31–35, ALMA 43)
+  // =========================================================================
+  "Alma 31:1": {
+    plainEnglish: "Alma received troubling reports that a group of Nephites called the Zoramites were distorting the gospel. A man named Zoram, who was their leader, was leading the people into pride, false doctrine, and bowing down to idols.",
+    insight: "The origin of the Zoramite apostasy: founded and led by Zoram, they separated themselves from the Church in Zarahemla and substituted divine truth with elitist self-justification."
+  },
+  "Alma 31:3": {
+    plainEnglish: "The Zoramites gathered and moved away into a region called Antionum. This land was located east of Zarahemla, stretched nearly to the eastern seashore, lay just south of the land of Jershon, and bordered the southern wilderness filled with Lamanites.",
+    insight: "The precise geographic placement of Antionum: situated east of River Sidon and south of Jershon, it became a perilous eastern borderland between the Nephite nation and Lamanite territory."
+  },
+  "Alma 31:12-23": {
+    plainEnglish: "Alma and his missionary companions watched in sorrow as the Zoramites climbed one by one atop a tall stand called the Rameumptom. Each person raised their hands toward heaven and thanked God that they were elected and separated from all other people, believing only they would be saved.",
+    insight: "The Rameumptom stands as scripture's starkest warning against spiritual pride, exclusive religious superiority, and neglecting the needy."
+  },
+  "Alma 32:1-4": {
+    plainEnglish: "The wealthy Zoramite rulers expelled the poor working-class people from their synagogues because of their coarse clothing. These humble outcasts gathered around Alma atop Hill Onidah in Antionum, eager to learn how they could worship God.",
+    insight: "Spiritual readiness born of worldly rejection: while the proud were blinded by their wealth on the Rameumptom, the cast-out poor on Hill Onidah were prepared to plant the seed of faith."
+  },
+  "Alma 32:4": {
+    plainEnglish: "A great multitude of humble, impoverished people gathered around Alma upon the Hill Onidah in Antionum, asking how they could pray and worship since they were forbidden to enter the synagogues.",
+    insight: "Alma revealed that true worship requires no elevated stand or ornate building; God hears the sincere prayers of the humble heart in any place."
+  },
+  "Alma 32:28": {
+    plainEnglish: "Alma invited them to compare God's word to a seed: if you make room in your heart and plant it through faith, not resisting the Holy Spirit, it will begin to swell, sprout, and grow, giving you undeniable proof that the word is good and true.",
+    insight: "The scientific spiritual experiment: Alma outlines the tangible, internal evidence of gospel truth through active nourishment and testing of the word."
+  },
+  "Alma 35:6-9": {
+    plainEnglish: "When the poor Zoramites accepted the gospel, the rulers of Antionum drove them out of the land. They fled north into Jershon, where the People of Ammon welcomed them with open arms, feeding and clothing them. Enraged, the Zoramite rulers entered into a military pact with the Lamanites to wage war against the Nephites.",
+    insight: "Christlike sanctuary vs. apostate vengeance: the converted Lamanites in Jershon gave refuge to the outcast Zoramites, which triggered the massive international conflict of Alma 43."
+  },
+  "Alma 43:5": {
+    plainEnglish: "Thousands of Lamanite warriors marched into the land of Antionum, which is the land of the Zoramites. A fierce Nephite dissenter named Zerahemnah was the supreme commander of this entire invading army.",
+    insight: "Alma 43:5 explicitly identifies Antionum as 'the land of the Zoramites'. Note on leaders: Zoram was the religious leader who founded the sect (Alma 31:1); Zerahemnah was the supreme military general who commanded the combined Lamanite/Zoramite invasion forces."
+  },
+  "Alma 43:6-8": {
+    plainEnglish: "Zerahemnah appointed Zoramites and Amalekites as captains over all the Lamanite forces because their intense hatred for the Nephites would make them fight with ruthless determination to conquer and enslave.",
+    insight: "Apostates weaponized: Zerahemnah strategically exploited the bitter hostility of Nephite dissenters to lead Lamanite soldiers against the church and free institutions."
+  },
+  "Alma 43:15": {
+    plainEnglish: "The Lamanites and Zoramites gathered their forces in Antionum, while Captain Moroni placed his Nephite armies in the borders of Jershon to protect the peaceful People of Ammon.",
+    insight: "Captain Moroni's defensive positioning: stationing forces in Jershon prevented Zerahemnah from slaughtering the pacifist Ammonites, forcing the invaders to detour around through Manti."
+  },
+
+  // =========================================================================
   // TITLE PAGE & CORE PROPHECIES OF CHRIST'S COMING
   // =========================================================================
   "Title Page": {

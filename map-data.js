@@ -1484,7 +1484,7 @@ const mapLocations = {
   "antionum": {
     "id": "antionum",
     "name": "Land of Antionum",
-    "title": "Domain of the Apostate Zoramites & Rameumptom",
+    "title": "Domain of the Apostate Zoramites & Rameumptom (Alma 43:5)",
     "category": "regions",
     "region": "East of River Sidon (South of Jershon)",
     "coords": {
@@ -1494,37 +1494,66 @@ const mapLocations = {
     "highlightSize": "medium",
     "glowColor": "gold",
     "icon": "ruins",
-    "summary": "The territory east of River Sidon inhabited by the apostate Zoramites who worshipped upon the Rameumptom (holy stand) and cast out the humble poor, whom Alma and Amulek converted.",
+    "summary": "The land situated east of Zarahemla, south of Jershon, and bordering the southern Lamanite wilderness (Alma 31:3), settled by the Zoramites who apostatized from the Nephite faith under their leader Zoram (Alma 31:1). Dissatisfied with Nephite religious order in Zarahemla, they migrated east and erected the elevated Rameumptom (holy stand), casting out the humble poor. In Alma 43:5, Antionum is explicitly designated 'the land of the Zoramites', where the invading Lamanite host gathered under supreme military commander Zerahemnah before marching against Captain Moroni.",
     "refs": [
       {
+        "ref": "Alma 31:1",
+        "text": "Alma received information that the Zoramites were perverting the ways of the Lord, and that Zoram, who was their leader, was leading the hearts of the people to bow down to dumb idols."
+      },
+      {
         "ref": "Alma 31:3",
-        "text": "Now the Zoramites had gathered themselves together in a land which they called Antionum, which was east of the land of Zarahemla, which lay nearly bordering upon the seashore, which was on the south of the land of Jershon, which also bordered upon the wilderness south."
+        "text": "Now the Zoramites had gathered themselves together in a land which they called Antionum, which was east of the land of Zarahemla, which lay nearly bordering upon the seashore, which was on the south of the land of Jershon, which also bordered upon the wilderness south, which wilderness was full of the Lamanites."
       },
       {
-        "ref": "Alma 31:13-23",
-        "text": "Alma beholds the Zoramites praying upon the holy stand, which they called Rameumptom, thanking God that they were separated and elected."
+        "ref": "Alma 31:12-23",
+        "text": "Alma and his brethren behold the proud prayers offered on the holy stand called Rameumptom, where each person climbed to the top to declare themselves a separate and elected people."
       },
       {
-        "ref": "Alma 32",
-        "text": "Alma preaches to the poor outcasts upon the Hill Onidah, comparing the word of God unto a seed."
+        "ref": "Alma 32:1-4",
+        "text": "Alma preaches to the impoverished Zoramites cast out of their synagogues upon the Hill Onidah, delivering his great discourse comparing the word of God unto a seed."
+      },
+      {
+        "ref": "Alma 35:6-9",
+        "text": "The poor converted Zoramites are driven out of Antionum and find refuge in the Land of Jershon among the People of Ammon; the Zoramite rulers enter into a league with the Lamanites to attack the Nephites."
+      },
+      {
+        "ref": "Alma 43:5-8",
+        "text": "And it came to pass that the Lamanites came with their thousands; and they came into the land of Antionum, which is the land of the Zoramites; and a man by the name of Zerahemnah was their leader. And he appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites."
       }
     ],
     "historicalEvents": [
-      "Alma and Amulek's mission to the Zoramites",
-      "Observation of the prideful Rameumptom prayers",
-      "Sermon on faith and the word as a seed (Alma 32)",
-      "Zoramite military alliance with Lamanites triggering major war"
+      "Apostasy and separation of the Zoramites under leader Zoram (Alma 31:1)",
+      "Settlement of Antionum bordering the southern Lamanite wilderness (Alma 31:3)",
+      "Erection of the Rameumptom holy stand and exclusion of the poor labor class",
+      "Mission of Alma, Amulek, Zeezrom, Shiblon, and Corianton (Alma 31–34)",
+      "Expulsion of converted poor Zoramites who were sheltered in Jershon (Alma 35)",
+      "Gathering of thousands of Lamanites under commander Zerahemnah in Antionum (Alma 43:5)"
+    ],
+    "aliases": [
+      "Land of the Zoramites",
+      "Zoramites",
+      "People called Zoramites",
+      "Zoramite",
+      "Zoram",
+      "Zerahemnah",
+      "Rameumptom",
+      "Apostate Zoramites",
+      "Zoramite Dissenters"
     ],
     "notablePeople": [
+      "Zoram (Founder & apostate leader of the Zoramites, Alma 31:1)",
+      "Zerahemnah (Chief military commander of Lamanite/Zoramite forces, Alma 43:5)",
       "Alma the Younger",
       "Amulek",
-      "Zoram (Apostate leader)"
+      "Zeezrom",
+      "Shiblon",
+      "Corianton"
     ],
     "foundedYear": -75,
     "foundedYearLabel": "75 BC",
     "foundedStep": 16,
-    "confidenceLevel": 2,
-    "confidenceJustification": "Alma 31:3, 43:5 places Antionum east of the River Sidon, south of Jershon, bordering the wilderness held by Lamanites; inhabited by Zoramites.",
+    "confidenceLevel": 1,
+    "confidenceJustification": "Alma 31:3 and Alma 43:5 explicitly identify Antionum as 'the land of the Zoramites', located east of the land of Zarahemla, south of Jershon, nearly bordering the seashore, and bordering the wilderness south.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": false,
     "relatedPlaces": [
@@ -1539,6 +1568,12 @@ const mapLocations = {
         "name": "Hill Onidah",
         "relationship": "Interior hill in Antionum",
         "textualBasis": "Alma 32:4 - Alma preached on Hill Onidah in Antionum."
+      },
+      {
+        "placeId": "zarahemla",
+        "name": "City of Zarahemla",
+        "relationship": "West (across River Sidon)",
+        "textualBasis": "Alma 31:3 - Antionum lay east of the land of Zarahemla."
       }
     ]
   },
@@ -1567,8 +1602,15 @@ const mapLocations = {
       }
     ],
     "historicalEvents": [
-      "Alma preaches the seed of faith discourse",
+      "Alma preaches the seed of faith discourse to the poor Zoramites",
       "Amulek delivers his witness of the infinite and eternal Atonement (Alma 34)"
+    ],
+    "aliases": [
+      "Zoramite Poor",
+      "Poor Zoramites",
+      "Alma's Sermon on Faith",
+      "Pulpit of Antionum",
+      "Faith like a Seed"
     ],
     "notablePeople": [
       "Alma the Younger",
@@ -1823,7 +1865,15 @@ const mapLocations = {
       "Invasion and liberation of Zarahemla (Captain Moroni & Pahoran)",
       "Destroyed by fire at Christ's crucifixion; rebuilt in the era of peace"
     ],
+    "aliases": [
+      "City of Zarahemla",
+      "Land of Zarahemla",
+      "Mulekites",
+      "People of Zarahemla",
+      "King Zarahemla"
+    ],
     "notablePeople": [
+      "King Zarahemla (Mulekite ruler, Omni 1:14)",
       "King Mosiah I",
       "King Benjamin",
       "Mosiah II",

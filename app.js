@@ -467,6 +467,95 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Score & match a location against a search query across names, aliases, people, scriptures, events, summaries
+  function scoreLocationMatch(loc, rawQuery) {
+    if (!rawQuery) return { matched: true, score: 0, reason: '' };
+    const query = rawQuery.trim().toLowerCase();
+    if (!query) return { matched: true, score: 0, reason: '' };
+
+    const name = (loc.name || '').toLowerCase();
+    const title = (loc.title || '').toLowerCase();
+    const region = (loc.region || '').toLowerCase();
+    const category = (loc.category || '').toLowerCase();
+    const summary = (loc.summary || '').toLowerCase();
+    const aliases = loc.aliases || [];
+    const people = loc.notablePeople || [];
+    const events = loc.historicalEvents || [];
+    const refs = loc.refs || [];
+
+    // 1. Exact or prefix match on primary name
+    if (name === query) return { matched: true, score: 100, reason: '' };
+    if (name.startsWith(query)) return { matched: true, score: 95, reason: '' };
+    if (name.includes(query)) return { matched: true, score: 90, reason: '' };
+
+    // 2. Match in aliases (e.g. "Land of the Zoramites", "Zoramites", "People called Zoramites", "Zerahemnah", "Anti-Nephi-Lehies")
+    const matchedAlias = aliases.find(a => a.toLowerCase().includes(query) || query.includes(a.toLowerCase()));
+    if (matchedAlias) return { matched: true, score: 85, reason: `Alias: ${matchedAlias}` };
+
+    // 3. Match in notablePeople (e.g. "Zoram", "Zerahemnah", "King Zarahemla", "Moroni")
+    const matchedPerson = people.find(p => p.toLowerCase().includes(query) || query.includes(p.toLowerCase()));
+    if (matchedPerson) return { matched: true, score: 80, reason: `Person: ${matchedPerson}` };
+
+    // 4. Match in title / subtitle
+    if (title.includes(query)) return { matched: true, score: 75, reason: title };
+
+    // 5. Match in region
+    if (region.includes(query)) return { matched: true, score: 70, reason: '' };
+
+    // 6. Match in historicalEvents
+    const matchedEvent = events.find(e => e.toLowerCase().includes(query));
+    if (matchedEvent) return { matched: true, score: 65, reason: `Event: ${matchedEvent}` };
+
+    // 7. Match in summary
+    if (summary.includes(query)) return { matched: true, score: 60, reason: '' };
+
+    // 8. Match in refs
+    const matchedRef = refs.find(r => (r.ref && r.ref.toLowerCase().includes(query)) || (r.text && r.text.toLowerCase().includes(query)));
+    if (matchedRef) return { matched: true, score: 55, reason: `Scripture: ${matchedRef.ref}` };
+
+    // 9. Multi-word tokenized search (handles phrases like "people called zoramites", "land of the zoramites", "leader zoram", "zerahemnah antionum")
+    const stopWords = new Set(['the', 'a', 'an', 'and', 'of', 'in', 'to', 'for', 'by', 'on', 'at', 'called', 'named', 'people', 'who', 'were']);
+    const tokens = query.split(/\s+/).filter(t => t.length > 0);
+    const keyTokens = tokens.filter(t => !stopWords.has(t));
+    const tokensToCheck = keyTokens.length > 0 ? keyTokens : tokens;
+
+    const corpus = [
+      name,
+      title,
+      region,
+      category,
+      summary,
+      ...aliases.map(a => a.toLowerCase()),
+      ...people.map(p => p.toLowerCase()),
+      ...events.map(e => e.toLowerCase()),
+      ...refs.map(r => `${r.ref || ''} ${r.text || ''}`.toLowerCase())
+    ].join(' ');
+
+    const allTokensMatch = tokensToCheck.every(tok => corpus.includes(tok));
+    if (allTokensMatch) {
+      let reason = '';
+      const foundAlias = aliases.find(a => tokensToCheck.some(t => a.toLowerCase().includes(t)));
+      const foundPerson = people.find(p => tokensToCheck.some(t => p.toLowerCase().includes(t)));
+      if (foundAlias) reason = `Alias: ${foundAlias}`;
+      else if (foundPerson) reason = `Person: ${foundPerson}`;
+      else if (title) reason = title;
+
+      return { matched: true, score: 50, reason };
+    }
+
+    return { matched: false, score: 0, reason: '' };
+  }
+
   // Active filter state
   let activeConfidenceFilter = 'all'; // 'all', 'highest', '1', '2', '3', '4'
   let activeDispensationFilter = 'all'; // 'all', 'jaredite', 'nephite_lamanite'
@@ -1059,24 +1148,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!list) return;
 
     const renderList = (filterText = '') => {
-      const q = filterText.trim().toLowerCase();
-      const allLocs = Object.values(mapLocations).sort((a, b) => a.name.localeCompare(b.name));
-      const filtered = q ? allLocs.filter(l => l.name.toLowerCase().includes(q) || l.region.toLowerCase().includes(q)) : allLocs;
+      const q = filterText.trim();
+      const allLocs = Object.values(mapLocations);
+      let results = [];
+
+      if (!q) {
+        results = allLocs.map(l => ({ loc: l, score: 0, reason: '' }))
+                         .sort((a, b) => a.loc.name.localeCompare(b.loc.name));
+      } else {
+        results = allLocs.map(l => {
+          const res = scoreLocationMatch(l, q);
+          return { loc: l, ...res };
+        }).filter(r => r.matched)
+          .sort((a, b) => b.score - a.score || a.loc.name.localeCompare(b.loc.name));
+      }
 
       list.innerHTML = '';
-      if (filtered.length === 0) {
-        list.innerHTML = `<div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No landmarks found matching "${filterText}"</div>`;
+      if (results.length === 0) {
+        list.innerHTML = `<div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No landmarks found matching "${escapeHTML(filterText)}"</div>`;
         return;
       }
 
-      filtered.forEach(loc => {
+      results.forEach(({ loc, reason }) => {
         const item = document.createElement('div');
         item.className = 'mobile-picker-item';
         const confLvl = loc.confidenceLevel || 2;
+        const reasonHtml = reason ? ` • <span style="color: var(--gold); font-style: italic;">${escapeHTML(reason)}</span>` : '';
         item.innerHTML = `
           <div>
             <div class="mobile-picker-name">${loc.name}</div>
-            <div class="mobile-picker-meta">${loc.region} • ${loc.category}</div>
+            <div class="mobile-picker-meta">${loc.region} • ${loc.category}${reasonHtml}</div>
           </div>
           <span class="conf-pill conf-pill-${confLvl}" style="font-size:0.65rem;">L${confLvl}</span>
         `;
@@ -3056,8 +3157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   if (globalSearchInput) {
     globalSearchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (!query) {
+      const rawQuery = e.target.value.trim();
+      if (!rawQuery) {
         clearSearchBtn.style.display = 'none';
         searchResultsDropdown.style.display = 'none';
         return;
@@ -3065,31 +3166,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
       clearSearchBtn.style.display = 'block';
 
-      const matches = Object.values(mapLocations).filter(loc => {
-        if (loc.name.toLowerCase().includes(query)) return true;
-        if (loc.summary && loc.summary.toLowerCase().includes(query)) return true;
-        if (loc.region && loc.region.toLowerCase().includes(query)) return true;
-        if (loc.notablePeople && loc.notablePeople.some(p => p.toLowerCase().includes(query))) return true;
-        if (loc.refs && loc.refs.some(r => r.ref.toLowerCase().includes(query) || r.text.toLowerCase().includes(query))) return true;
-        return false;
-      }).slice(0, 10);
+      const scored = Object.values(mapLocations).map(loc => {
+        const res = scoreLocationMatch(loc, rawQuery);
+        return { loc, ...res };
+      }).filter(r => r.matched)
+        .sort((a, b) => b.score - a.score || a.loc.name.localeCompare(b.loc.name))
+        .slice(0, 10);
 
-      if (matches.length === 0) {
-        searchResultsDropdown.innerHTML = `<div style="padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--text-muted);">No locations found matching "${query}"</div>`;
+      if (scored.length === 0) {
+        searchResultsDropdown.innerHTML = `<div style="padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--text-muted);">No locations found matching "${escapeHTML(rawQuery)}"</div>`;
       } else {
         searchResultsDropdown.innerHTML = '';
-        matches.forEach(loc => {
+        scored.forEach(({ loc, reason }) => {
           const item = document.createElement('div');
           item.className = 'search-result-item';
           const confLvl = loc.confidenceLevel || 2;
           const confTitle = getConfidenceTitle(confLvl);
+          const reasonHtml = reason ? ` &bull; <span style="color:var(--gold); font-size:0.7rem; font-style:italic;">${escapeHTML(reason)}</span>` : '';
           item.innerHTML = `
             <div class="search-result-left">
               <div style="display:flex; align-items:center; gap:6px;">
                 <span class="search-result-title">${loc.name}</span>
                 <span class="conf-pill conf-pill-${confLvl}" style="font-size:0.65rem; padding:1px 5px;" title="Confidence: Level ${confLvl} (${confTitle})">L${confLvl}</span>
               </div>
-              <span class="search-result-meta">${loc.region}</span>
+              <span class="search-result-meta">${loc.region}${reasonHtml}</span>
             </div>
             <span class="search-result-badge">${loc.category}</span>
           `;

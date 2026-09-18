@@ -194,12 +194,12 @@ const PLACE_DOSSIERS = {
   // =========================================================================
   "antionum": {
     teacher: "Alma the Younger, Amulek, Zeezrom, Corianton, & Shiblon",
-    audience: "The Wealthy Ruling Class on the Rameumptom and the Cast-Out Poor on Hill Onidah",
-    whatWasTaught: "True vs. false worship: God is a spirit who dwells in the humble heart, not in proud synagogues; the gospel word as an expanding seed that must be planted, nourished, and tested; redemption through Christ's infinite and eternal sacrifice.",
-    whyTaught: "To counter the apostate Zoramite religion, which practiced ostentatious prayer on the Rameumptom and cast out the impoverished labor class from their places of worship.",
-    context: "A land east of Zarahemla bordering the Lamanites, where Zoramites built exclusive synagogues with elevated single-person prayer stands (Rameumptom).",
-    howAccepted: "A stark division: the wealthy elite drove Alma and Amulek out and expelled all poor believers; the humble poor on Hill Onidah embraced the word, crossed over into the Land of Jershon, and were lovingly received and fed by the people of Ammon.",
-    passages: ["Alma 31:1–38", "Alma 32:1–43", "Alma 33:1–23", "Alma 34:1–41", "Alma 35:1–16"]
+    audience: "The Wealthy Ruling Class on the Rameumptom, the Cast-Out Poor on Hill Onidah, and the Gathering Lamanite/Zoramite Armies",
+    whatWasTaught: "True vs. false worship: God is a spirit who dwells in the humble heart, not in proud synagogues; the gospel word as an expanding seed that must be planted, nourished, and tested; redemption through Christ's infinite and eternal sacrifice. Contrasted with the proud Zoramite confession on the Rameumptom.",
+    whyTaught: "To counter the apostate Zoramite religion, which separated from the Nephite church in Zarahemla under their leader Zoram (Alma 31:1), practiced ostentatious prayer on the Rameumptom, and cast out the impoverished labor class from their places of worship.",
+    context: "The Land of Antionum, east of Zarahemla across River Sidon, south of Jershon, and bordering the southern Lamanite wilderness (Alma 31:3). Explicitly called 'the land of the Zoramites' in Alma 43:5. Here thousands of Lamanite invaders entered under supreme military commander Zerahemnah, who appointed Zoramite and Amalekite captains because of their fierce hatred against the Nephites (Alma 43:5–8). Note on leaders: Zoram was the religious founder of the Zoramite apostasy (Alma 31:1); Zerahemnah was the military commander of the combined Lamanite-Zoramite armies (Alma 43:5); whereas King Zarahemla was the ancient Mulekite ruler (~200 BC, Omni 1:14) and founder of the capital city from which the Zoramites broke away.",
+    howAccepted: "A stark division: the wealthy elite drove Alma and Amulek out and expelled all poor believers; the humble poor on Hill Onidah embraced the word, crossed over into the Land of Jershon, and were lovingly received and fed by the people of Ammon. The Zoramite rulers then allied with the Lamanites to wage the war described in Alma 43.",
+    passages: ["Alma 31:1–38", "Alma 32:1–43", "Alma 33:1–23", "Alma 34:1–41", "Alma 35:1–16", "Alma 43:5–8", "Alma 43:15–25"]
   },
 
   // =========================================================================
