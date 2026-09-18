@@ -783,6 +783,7 @@ html, body {
 .dot-all { background: #3B82F6; }
 .dot-capitals { background: #EAB308; box-shadow: 0 0 6px #EAB308; }
 .dot-cities { background: #D97706; }
+.dot-regions { background: #F59E0B; }
 .dot-fortresses { background: #DC2626; }
 .dot-sacred { background: #10B981; }
 .dot-waters { background: #0284C7; }

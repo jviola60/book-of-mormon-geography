@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeTab = 'overview';
 
   // Multi-Select Layer Overlays
-  const ALL_LAYERS = ['capitals', 'cities', 'fortresses', 'sacred', 'waters', 'wilderness', 'cataclysm'];
+  const ALL_LAYERS = ['capitals', 'cities', 'regions', 'fortresses', 'sacred', 'waters', 'wilderness', 'cataclysm'];
   const activeLayers = new Set(ALL_LAYERS);
 
   // Coordinate Inspector
@@ -598,6 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (loc.category === 'waters') iconSymbol = '🌊';
       else if (loc.category === 'wilderness') iconSymbol = '⛰️';
       else if (loc.category === 'cities') iconSymbol = '🏘️';
+      else if (loc.category === 'regions') iconSymbol = '🗺️';
 
       // Miniature badge label
       const confBadgeText = isIndet ? '?' : `L${confLevel}`;

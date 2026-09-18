@@ -1488,8 +1488,8 @@ const mapLocations = {
     "category": "regions",
     "region": "East of River Sidon (South of Jershon)",
     "coords": {
-      "x": 83.6,
-      "y": 57.9
+      "x": 85.0,
+      "y": 56.5
     },
     "highlightSize": "medium",
     "glowColor": "gold",
