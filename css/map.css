@@ -31,7 +31,10 @@
   top: 0;
   left: 0;
   transform-origin: 0 0;
-  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style: flat;
+  transform-style: flat;
 }
 
 .map-artwork {
@@ -40,7 +43,6 @@
   -webkit-user-select: none;
   user-select: none;
   pointer-events: none;
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(197, 160, 89, 0.25);
   border-radius: 4px;
 }
 

@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let translateX = 0;
   let translateY = 0;
   let minScale = 0.05;
-  const maxScale = 4.0;
+  let maxScale = 3.5;
 
   // Pan & Drag State
   let isDragging = false;
@@ -266,7 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isMobile) {
       // Mobile framing: fit width edge-to-edge, center on core Promised Land (Y ~49%)
       scale = (availWidth * 0.98) / imgWidth;
-      minScale = scale * 0.6;
+      minScale = scale * 0.65;
+      maxScale = 1.35; // ~7.5x magnification: ultra-sharp 1:1 pixel rendering without GPU texture blowout
       translateX = (availWidth - (imgWidth * scale)) / 2;
       translateY = (vHeight / 2) - (imgHeight * 0.49 * scale);
     } else {
@@ -277,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scale = Math.min(scaleByWidth, Math.max(scaleByHeight, 0.62));
       scale = Math.max(scale, 0.50);
       minScale = 0.20;
+      maxScale = 3.5;
 
       // Center horizontally on inhabited landmass centroid (X ~54%) to eliminate right-side void
       translateX = (availWidth / 2) - (imgWidth * 0.54 * scale);
@@ -287,7 +289,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function applyTransform() {
-    stage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    const vWidth = viewport.clientWidth || window.innerWidth;
+    const vHeight = viewport.clientHeight || window.innerHeight;
+    const currentW = MAP_BASE_WIDTH * scale;
+    const currentH = MAP_BASE_HEIGHT * scale;
+
+    // Constrain translation within reasonable view boundaries so map cannot be lost off-screen
+    const minX = vWidth - currentW - (vWidth * 0.4);
+    const maxX = vWidth * 0.4;
+    const minY = vHeight - currentH - (vHeight * 0.4);
+    const maxY = vHeight * 0.4;
+
+    translateX = Math.min(Math.max(translateX, minX), maxX);
+    translateY = Math.min(Math.max(translateY, minY), maxY);
+
+    stage.style.transform = `translate3d(${translateX.toFixed(1)}px, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
   }
 
   function focusLocation(targetPctX, targetPctY, customScale) {
@@ -3999,20 +4015,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let touchDragStartY = 0;
 
   viewport.addEventListener('touchstart', (e) => {
-    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
-      return;
-    }
-
-    if (e.touches.length === 1) {
-      // 1 Finger: Smooth Pan
-      touchPinchActive = false;
-      isDragging = true;
-      touchDragStartX = e.touches[0].clientX;
-      touchDragStartY = e.touches[0].clientY;
-      startTranslateX = translateX;
-      startTranslateY = translateY;
-    } else if (e.touches.length === 2) {
-      // 2 Fingers: Centered Pinch-to-Zoom
+    if (e.touches.length >= 2) {
+      // 2 Fingers: Always initiate Centered Pinch-to-Zoom (even if near a pin)
       isDragging = false;
       touchPinchActive = true;
       touchPinchStartDist = Math.hypot(
@@ -4029,19 +4033,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
       touchPinchMapStageX = (midViewportX - touchPinchStartTranslateX) / touchPinchStartScale;
       touchPinchMapStageY = (midViewportY - touchPinchStartTranslateY) / touchPinchStartScale;
+      return;
+    }
+
+    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
+      return;
+    }
+
+    if (e.touches.length === 1) {
+      // 1 Finger: Smooth Pan
+      touchPinchActive = false;
+      isDragging = true;
+      touchDragStartX = e.touches[0].clientX;
+      touchDragStartY = e.touches[0].clientY;
+      startTranslateX = translateX;
+      startTranslateY = translateY;
     }
   }, { passive: false });
 
   viewport.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 1 && isDragging && !touchPinchActive) {
+    if (e.touches.length >= 2) {
       e.preventDefault();
-      const dx = e.touches[0].clientX - touchDragStartX;
-      const dy = e.touches[0].clientY - touchDragStartY;
-      translateX = startTranslateX + dx;
-      translateY = startTranslateY + dy;
-      applyTransform();
-    } else if (e.touches.length === 2 && touchPinchActive) {
-      e.preventDefault();
+      // Self-heal if 2nd finger landed mid-motion
+      if (!touchPinchActive || touchPinchStartDist <= 0) {
+        touchPinchActive = true;
+        isDragging = false;
+        touchPinchStartDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        touchPinchStartScale = scale;
+        touchPinchStartTranslateX = translateX;
+        touchPinchStartTranslateY = translateY;
+        const rect = viewport.getBoundingClientRect();
+        const midX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+        const midY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+        touchPinchMapStageX = (midX - touchPinchStartTranslateX) / touchPinchStartScale;
+        touchPinchMapStageY = (midY - touchPinchStartTranslateY) / touchPinchStartScale;
+        return;
+      }
+
       const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
@@ -4059,6 +4090,13 @@ document.addEventListener('DOMContentLoaded', () => {
         translateY = currentMidY - touchPinchMapStageY * newScale;
         applyTransform();
       }
+    } else if (e.touches.length === 1 && isDragging && !touchPinchActive) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - touchDragStartX;
+      const dy = e.touches[0].clientY - touchDragStartY;
+      translateX = startTranslateX + dx;
+      translateY = startTranslateY + dy;
+      applyTransform();
     }
   }, { passive: false });
 
