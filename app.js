@@ -1350,8 +1350,186 @@ document.addEventListener('DOMContentLoaded', () => {
     focusLocation(loc.coords.x, loc.coords.y);
   }
 
+  function renderExpeditionTheater(loc) {
+    if (!sidebarContent || !currentJourney) return;
+
+    const stage = currentJourney.stages[currentStageIndex];
+    if (!stage) return;
+
+    const isLast = (currentStageIndex === currentJourney.stages.length - 1);
+    const isFirst = (currentStageIndex === 0);
+    const stageNum = currentStageIndex + 1;
+    const totalStages = currentJourney.stages.length;
+    const factionKey = stage.faction || 'nephite';
+    const factionInfo = (currentJourney.factions && currentJourney.factions[factionKey]) || {
+      name: factionKey === 'lamanite' ? 'Lamanite & Zoramite Host' : (factionKey === 'courier' ? 'Prophetic Relay' : 'Nephite Forces'),
+      color: factionKey === 'lamanite' ? '#DC2626' : (factionKey === 'courier' ? '#F59E0B' : '#2563EB'),
+      icon: factionKey === 'lamanite' ? '🗡️' : (factionKey === 'courier' ? '📜' : '🛡️')
+    };
+
+    const title = stage.stageTitle || stage.title || `${currentJourney.name} • Waypoint ${stageNum}`;
+    const narrative = stage.narrative || stage.note || (loc && loc.summary) || '';
+    const ref = stage.ref || stage.scripture || '';
+    const churchUrl = getChurchScriptureUrl(ref);
+    const distance = stage.distanceNote || '';
+    const commander = stage.commander || '';
+    const armor = stage.armor || '';
+
+    // Update sidebar header to reflect expedition context
+    if (sidebarEyebrow) {
+      sidebarEyebrow.textContent = `EXPEDITION • ${currentJourney.name.toUpperCase()} (STAGE ${stageNum}/${totalStages})`;
+    }
+    if (sidebarTitle) {
+      sidebarTitle.textContent = title;
+    }
+
+    const breadcrumbsHtml = currentJourney.stages.map((s, idx) => {
+      let stateClass = '';
+      if (idx < currentStageIndex) stateClass = 'past';
+      else if (idx === currentStageIndex) stateClass = 'current';
+      return `<div class="crumb-step ${stateClass}" data-stage="${idx}" title="Waypoint ${idx + 1}: ${s.stageTitle || s.locId}"></div>`;
+    }).join('');
+
+    sidebarContent.innerHTML = `
+      <div class="expedition-theater">
+        <div class="expedition-breadcrumbs" id="expeditionBreadcrumbs">
+          ${breadcrumbsHtml}
+        </div>
+
+        <div class="expedition-banner-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:0.55rem;">
+            <span class="active-tour-badge">WAYPOINT ${stageNum} OF ${totalStages}</span>
+            ${ref ? `
+              <a href="${churchUrl || '#'}" class="active-tour-ref church-scripture-btn" data-url="${churchUrl}" data-ref="${ref}" style="cursor:pointer; text-decoration:none; font-weight:700; color:var(--color-crimson);" title="Read chapter in official scriptures">
+                📖 ${ref} ↗
+              </a>
+            ` : ''}
+          </div>
+
+          <div class="expedition-faction-pill faction-${factionKey}">
+            <span>${factionInfo.icon}</span>
+            <span>${factionInfo.name}</span>
+          </div>
+
+          <h3 class="active-tour-title" style="margin:0.4rem 0 0.65rem 0; font-family:var(--font-serif-title); font-size:1.05rem; color:var(--color-navy); line-height:1.35;">${title}</h3>
+
+          ${(commander || armor) ? `
+            <div class="expedition-commander-box">
+              ${commander ? `
+                <div class="commander-item">
+                  <span class="commander-label">Field Commander</span>
+                  <span class="commander-val">${commander}</span>
+                </div>
+              ` : ''}
+              ${armor ? `
+                <div class="commander-item">
+                  <span class="commander-label">Tactical Armament & Defense</span>
+                  <span class="commander-val">${armor}</span>
+                </div>
+              ` : ''}
+            </div>
+          ` : ''}
+
+          <div class="active-tour-narrative" style="font-size:0.86rem; line-height:1.6; color:var(--text-primary); margin-top:0.6rem;">
+            ${narrative}
+          </div>
+
+          ${distance ? `
+            <div class="active-tour-metric-box" style="margin-top:0.85rem;">
+              <span class="active-tour-metric-label">Strategic Geography & Topography:</span>
+              <span class="active-tour-metric-val">${distance}</span>
+            </div>
+          ` : ''}
+
+          <div class="active-tour-controls" style="margin-top:1.1rem; display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline btn-sm tour-sidebar-btn" id="sidebarTourPrevBtn" ${isFirst ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''}>◀ Previous</button>
+            <button type="button" class="btn btn-primary btn-sm glow-gold tour-sidebar-btn" id="sidebarTourNextBtn">${isLast ? 'Finish Expedition' : 'Next Waypoint ▶'}</button>
+            <button type="button" class="btn btn-outline btn-sm tour-sidebar-btn" id="sidebarTourExitBtn" title="Exit Guided Expedition">Exit Tour</button>
+          </div>
+        </div>
+
+        ${loc ? `
+          <div class="feature-card" style="margin-top:0.25rem;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35rem;">
+              <h4 style="margin:0; font-family:var(--font-serif-title); font-size:0.88rem; color:var(--color-navy);">📍 Location Theater: ${loc.name}</h4>
+              <span class="city-badge badge-region" style="font-size:0.68rem;">${loc.region}</span>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-secondary); margin:0 0 0.5rem 0; line-height:1.45;">${loc.summary}</p>
+            <button type="button" class="btn btn-outline btn-xs" id="expeditionViewCityOverviewBtn" style="font-size:0.75rem; padding:4px 10px; font-weight:600;">
+              View City History & Full Codex Dossier &rarr;
+            </button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    // Event listeners
+    const sNext = sidebarContent.querySelector('#sidebarTourNextBtn');
+    if (sNext) {
+      sNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentJourney && currentStageIndex < currentJourney.stages.length - 1) {
+          goToTourStage(currentStageIndex + 1);
+        } else {
+          exitTour();
+        }
+      });
+    }
+
+    const sPrev = sidebarContent.querySelector('#sidebarTourPrevBtn');
+    if (sPrev) {
+      sPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentStageIndex > 0) {
+          goToTourStage(currentStageIndex - 1);
+        }
+      });
+    }
+
+    const sExit = sidebarContent.querySelector('#sidebarTourExitBtn');
+    if (sExit) {
+      sExit.addEventListener('click', (e) => {
+        e.stopPropagation();
+        exitTour();
+      });
+    }
+
+    const viewCity = sidebarContent.querySelector('#expeditionViewCityOverviewBtn');
+    if (viewCity) {
+      viewCity.addEventListener('click', (e) => {
+        e.stopPropagation();
+        switchTab('overview');
+      });
+    }
+
+    sidebarContent.querySelectorAll('.crumb-step').forEach(crumb => {
+      crumb.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const stg = parseInt(crumb.getAttribute('data-stage'), 10);
+        if (!isNaN(stg)) {
+          goToTourStage(stg);
+        }
+      });
+    });
+
+    sidebarContent.querySelectorAll('.church-scripture-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openScriptureModal(btn.getAttribute('data-ref'), btn.getAttribute('data-url'));
+      });
+    });
+  }
+
   function renderSidebarContent(loc) {
     if (!sidebarContent) return;
+
+    // Dedicated Expedition Theater Tab (No clutter on city dossiers!)
+    if (activeTab === 'expedition' && currentJourney) {
+      renderExpeditionTheater(loc);
+      return;
+    }
+
     sidebarContent.innerHTML = '';
 
     const firstRef = (loc.refs && loc.refs.length > 0) ? loc.refs[0] : null;
@@ -1677,67 +1855,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // If a guided expedition is actively running, prepend the Active Tour Card at the top of the sidebar
-    if (currentJourney && currentJourney.stages && currentJourney.stages[currentStageIndex]) {
-      const stage = currentJourney.stages[currentStageIndex];
-      const isLast = (currentStageIndex === currentJourney.stages.length - 1);
-      const isFirst = (currentStageIndex === 0);
-      const stageNum = currentStageIndex + 1;
-      const totalStages = currentJourney.stages.length;
-      const title = stage.stageTitle || stage.title || `${currentJourney.name} • Waypoint ${stageNum}`;
-      const narrative = stage.narrative || stage.note || loc.summary || '';
-      const ref = stage.ref || stage.scripture || '';
-      const distance = stage.distanceNote || '';
-
-      const tourCardHtml = `
-        <div class="active-tour-card" id="activeTourCard">
-          <div class="active-tour-header">
-            <span class="active-tour-badge">EXPEDITION WAYPOINT ${stageNum} OF ${totalStages}</span>
-            ${ref ? `<span class="active-tour-ref">${ref}</span>` : ''}
+    // If a guided expedition is running but user is exploring city tabs, display a sleek mini-banner at top
+    if (currentJourney && currentJourney.stages && currentJourney.stages[currentStageIndex] && activeTab !== 'expedition') {
+      const miniBannerHtml = `
+        <div class="expedition-mini-banner" style="background:linear-gradient(135deg, #1E293B 0%, #0F172A 100%); color:#FFFDF9; border-radius:6px; padding:0.5rem 0.8rem; margin-bottom:0.8rem; display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; border:1.5px solid var(--color-gold); box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="tour-tab-live-dot"></span>
+            <span><strong>Active Campaign:</strong> ${currentJourney.name} (${currentStageIndex + 1}/${currentJourney.stages.length})</span>
           </div>
-          <h3 class="active-tour-title">${title}</h3>
-          <p class="active-tour-narrative">${narrative}</p>
-          ${distance ? `
-            <div class="active-tour-metric-box">
-              <span class="active-tour-metric-label">Strategic Geography & Distance:</span>
-              <span class="active-tour-metric-val">${distance}</span>
-            </div>
-          ` : ''}
-          <div class="active-tour-controls">
-            <button type="button" class="btn btn-outline btn-sm tour-sidebar-btn" id="sidebarTourPrevBtn" ${isFirst ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''}>◀ Previous</button>
-            <button type="button" class="btn btn-primary btn-sm glow-gold tour-sidebar-btn" id="sidebarTourNextBtn">${isLast ? 'Finish Expedition' : 'Next Waypoint ▶'}</button>
-            <button type="button" class="btn btn-outline btn-sm tour-sidebar-btn" id="sidebarTourExitBtn" title="Exit Guided Expedition">Exit Tour</button>
-          </div>
+          <button type="button" class="btn btn-outline btn-xs" id="miniBannerReturnBtn" style="color:#C5A059; border-color:#C5A059; padding:2px 8px; font-size:0.72rem; font-weight:700;">
+            Return to Campaign ⚔️
+          </button>
         </div>
       `;
-
-      sidebarContent.insertAdjacentHTML('afterbegin', tourCardHtml);
-
-      const sNext = sidebarContent.querySelector('#sidebarTourNextBtn');
-      if (sNext) {
-        sNext.addEventListener('click', (e) => {
+      sidebarContent.insertAdjacentHTML('afterbegin', miniBannerHtml);
+      const miniReturn = sidebarContent.querySelector('#miniBannerReturnBtn');
+      if (miniReturn) {
+        miniReturn.addEventListener('click', (e) => {
           e.stopPropagation();
-          if (currentJourney && currentStageIndex < currentJourney.stages.length - 1) {
-            goToTourStage(currentStageIndex + 1);
-          } else {
-            exitTour();
-          }
-        });
-      }
-      const sPrev = sidebarContent.querySelector('#sidebarTourPrevBtn');
-      if (sPrev) {
-        sPrev.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (currentStageIndex > 0) {
-            goToTourStage(currentStageIndex - 1);
-          }
-        });
-      }
-      const sExit = sidebarContent.querySelector('#sidebarTourExitBtn');
-      if (sExit) {
-        sExit.addEventListener('click', (e) => {
-          e.stopPropagation();
-          exitTour();
+          switchTab('expedition');
         });
       }
     }
@@ -2115,6 +2251,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderWelcomeSidebar() {
     activeLocationId = null;
+
+    if (activeTab === 'expedition' && currentJourney) {
+      const stage = currentJourney.stages[currentStageIndex];
+      const loc = stage ? mapLocations[stage.locId] : null;
+      if (loc) {
+        renderSidebarContent(loc);
+        return;
+      }
+    }
 
     if (activeTab === 'videos') {
       if (sidebarEyebrow) sidebarEyebrow.textContent = 'OFFICIAL CHURCH MEDIA';
@@ -3544,12 +3689,335 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function ensureTourSvgDefs() {
+    let defs = journeySvg ? journeySvg.querySelector('defs') : null;
+    if (!defs && journeySvg) {
+      defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      journeySvg.insertBefore(defs, journeySvg.firstChild);
+    }
+    if (defs && !document.getElementById('markerArrowNephite')) {
+      defs.insertAdjacentHTML('beforeend', `
+        <marker id="markerArrowNephite" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#2563EB"/>
+        </marker>
+        <marker id="markerArrowLamanite" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#DC2626"/>
+        </marker>
+        <marker id="markerArrowCourier" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#F59E0B"/>
+        </marker>
+        <marker id="markerArrowPincer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M 0 0.5 L 10 5 L 0 9.5 z" fill="#991B1B"/>
+        </marker>
+      `);
+    }
+  }
+
+  function renderMantiAmbushAnimated(tour, stageIdx, imgWidth, imgHeight) {
+    ensureTourSvgDefs();
+    const toPx = (pt) => ({
+      x: (pt.x / 100) * imgWidth,
+      y: (pt.y / 100) * imgHeight
+    });
+
+    function createSvgElem(tag, attrs, text = '') {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        el.setAttribute(k, v);
+      }
+      if (text) el.textContent = text;
+      return el;
+    }
+
+    function renderTroopToken(x, y, icon, label, faction) {
+      const g = createSvgElem('g', {
+        class: `troop-marker-group troop-${faction}`,
+        transform: `translate(${x}, ${y})`
+      });
+
+      const color = faction === 'nephite' ? '#2563EB' : (faction === 'courier' ? '#F59E0B' : '#DC2626');
+      const aura = createSvgElem('circle', {
+        cx: 0,
+        cy: 0,
+        r: 22,
+        fill: faction === 'nephite' ? 'rgba(37, 99, 235, 0.22)' : (faction === 'courier' ? 'rgba(245, 158, 11, 0.22)' : 'rgba(220, 38, 38, 0.22)'),
+        stroke: color,
+        'stroke-width': 1.5
+      });
+      g.appendChild(aura);
+
+      const core = createSvgElem('circle', {
+        cx: 0,
+        cy: 0,
+        r: 15,
+        fill: '#FFFDF9',
+        stroke: color,
+        'stroke-width': 3
+      });
+      g.appendChild(core);
+
+      const iconTxt = createSvgElem('text', {
+        x: 0,
+        y: 5,
+        'text-anchor': 'middle',
+        'font-size': '15px'
+      }, icon);
+      g.appendChild(iconTxt);
+
+      if (label) {
+        const boxWidth = Math.max(76, label.length * 6.5 + 16);
+        const rect = createSvgElem('rect', {
+          x: -boxWidth / 2,
+          y: 20,
+          width: boxWidth,
+          height: 18,
+          rx: 4,
+          fill: 'rgba(26, 20, 16, 0.92)',
+          stroke: color,
+          'stroke-width': 1
+        });
+        g.appendChild(rect);
+
+        const lbl = createSvgElem('text', {
+          x: 0,
+          y: 32,
+          'text-anchor': 'middle',
+          fill: '#FFFDF9',
+          'font-size': '10px',
+          'font-weight': 'bold',
+          'font-family': 'system-ui, -apple-system, sans-serif'
+        }, label);
+        g.appendChild(lbl);
+      }
+
+      pathsGroup.appendChild(g);
+      return g;
+    }
+
+    function drawPath(points, opts = {}) {
+      if (!points || points.length < 2) return null;
+      const px = points.map(toPx);
+      let d = `M ${px[0].x} ${px[0].y}`;
+      for (let i = 1; i < px.length; i++) {
+        d += ` L ${px[i].x} ${px[i].y}`;
+      }
+      const path = createSvgElem('path', {
+        d: d,
+        fill: 'none',
+        class: opts.class || 'march-path-active',
+        stroke: opts.stroke || '#DC2626',
+        'stroke-width': opts.strokeWidth || '5',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      });
+      if (opts.dasharray) path.setAttribute('stroke-dasharray', opts.dasharray);
+      if (opts.markerEnd) path.setAttribute('marker-end', opts.markerEnd);
+      if (opts.opacity) path.setAttribute('opacity', opts.opacity);
+      pathsGroup.appendChild(path);
+      return path;
+    }
+
+    // Key coordinates from map data
+    const antionum = { x: 85.0, y: 56.5 };
+    const jershon = { x: 74.5, y: 44.5 };
+    const zarahemla = { x: 45.5, y: 51.3 };
+    const manti = { x: 25.4, y: 87.7 };
+    const hillRiplah = { x: 37.5, y: 83.0 };
+    const riverCrossing = { x: 31.5, y: 85.5 };
+
+    const wildernessRoute = (tour.stages[2] && tour.stages[2].pathPoints) || [
+      antionum,
+      { x: 80.0, y: 72.0 },
+      { x: 62.0, y: 78.0 },
+      { x: 44.0, y: 88.0 },
+      { x: 33.0, y: 92.0 },
+      manti
+    ];
+
+    const courierRoute = (tour.stages[3] && tour.stages[3].pathPoints) || [
+      jershon,
+      { x: 60.0, y: 48.0 },
+      zarahemla
+    ];
+
+    const interiorRoute = (tour.stages[4] && tour.stages[4].pathPoints) || [
+      jershon,
+      zarahemla,
+      { x: 37.0, y: 70.0 },
+      manti
+    ];
+
+    // Stage 0: Gathering in Antionum (Alma 43:5–8)
+    if (stageIdx === 0) {
+      drawPath([antionum, { x: 78.0, y: 48.0 }], {
+        stroke: '#DC2626',
+        class: 'march-path-lamanite march-path-active',
+        strokeWidth: '4',
+        markerEnd: 'url(#markerArrowLamanite)'
+      });
+      const p = toPx(antionum);
+      renderTroopToken(p.x, p.y, '🗡️', "Zerahemnah's Host (Gathering)", 'lamanite');
+    }
+
+    // Stage 1: Armor & Standoff in Jershon (Alma 43:16–23)
+    else if (stageIdx === 1) {
+      const pJ = toPx(jershon);
+      const pA = toPx(antionum);
+      renderTroopToken(pJ.x, pJ.y, '🛡️', "Moroni (Armored Legions)", 'nephite');
+      renderTroopToken(pA.x, pA.y, '🗡️', "Zerahemnah (Declines Battle)", 'lamanite');
+
+      // Standoff confrontation barrier line in border valley
+      drawPath([{ x: 82.0, y: 48.0 }, { x: 77.0, y: 53.0 }], {
+        stroke: '#F59E0B',
+        class: 'march-path-active',
+        strokeWidth: '5',
+        dasharray: '8 6'
+      });
+    }
+
+    // Stage 2: 150-Mile Wilderness Flanking March (Alma 43:24)
+    else if (stageIdx === 2) {
+      const pJ = toPx(jershon);
+      renderTroopToken(pJ.x, pJ.y, '🛡️', "Moroni (Jershon Garrison)", 'nephite');
+
+      drawPath(wildernessRoute, {
+        stroke: '#DC2626',
+        class: 'march-path-lamanite march-path-active',
+        strokeWidth: '6',
+        markerEnd: 'url(#markerArrowLamanite)'
+      });
+
+      const pCol = toPx({ x: 44.0, y: 88.0 });
+      renderTroopToken(pCol.x, pCol.y, '🗡️', "Lamanite Flank (~150 mi)", 'lamanite');
+    }
+
+    // Stage 3: Prophetic Intelligence Relay to Alma in Zarahemla (Alma 43:25–28)
+    else if (stageIdx === 3) {
+      // Subdued Lamanite trek in south wilderness
+      drawPath(wildernessRoute, {
+        stroke: '#DC2626',
+        class: 'march-path-lamanite',
+        strokeWidth: '4',
+        opacity: 0.4
+      });
+
+      const pJ = toPx(jershon);
+      renderTroopToken(pJ.x, pJ.y, '🛡️', "Moroni (Awaits Guidance)", 'nephite');
+
+      // Golden courier path
+      drawPath(courierRoute, {
+        stroke: '#F59E0B',
+        class: 'march-path-courier march-path-active',
+        strokeWidth: '5',
+        markerEnd: 'url(#markerArrowCourier)'
+      });
+
+      const pZ = toPx(zarahemla);
+      renderTroopToken(pZ.x, pZ.y, '📜', "Intelligence to Prophet Alma", 'courier');
+    }
+
+    // Stage 4: Moroni's Rapid Interior Forced March to Manti (Alma 43:29–30)
+    else if (stageIdx === 4) {
+      // Slower Lamanites in wilderness
+      drawPath(wildernessRoute, {
+        stroke: '#DC2626',
+        class: 'march-path-lamanite',
+        strokeWidth: '4',
+        opacity: 0.45
+      });
+      const pLam = toPx({ x: 33.0, y: 92.0 });
+      renderTroopToken(pLam.x, pLam.y, '🗡️', "Lamanites (Encumbered)", 'lamanite');
+
+      // Moroni's fast interior march
+      drawPath(interiorRoute, {
+        stroke: '#2563EB',
+        class: 'march-path-nephite march-path-active',
+        strokeWidth: '6',
+        markerEnd: 'url(#markerArrowNephite)'
+      });
+
+      const pM = toPx(manti);
+      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni (Arrives First at Manti)", 'nephite');
+    }
+
+    // Stage 5: Concealment at Hill Riplah & Rear Ambush (Alma 43:31–35)
+    else if (stageIdx === 5) {
+      const pR = toPx(hillRiplah);
+      const pC = toPx(riverCrossing);
+      const pM = toPx(manti);
+
+      renderTroopToken(pR.x, pR.y, '🛡️', "Captain Lehi (Concealed Division)", 'nephite');
+      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni (West Bank)", 'nephite');
+      renderTroopToken(pC.x, pC.y, '🗡️', "Lamanite Host Crossing Sidon", 'lamanite');
+
+      // Pincer rear strike vector from Hill Riplah to River Crossing
+      drawPath([hillRiplah, { x: 32.2, y: 85.2 }], {
+        stroke: '#991B1B',
+        class: 'march-path-pincer',
+        strokeWidth: '7',
+        markerEnd: 'url(#markerArrowPincer)'
+      });
+    }
+
+    // Stage 6: Decisive River Sidon Encirclement & Covenant of Peace (Alma 43:36–54; 44)
+    else if (stageIdx === 6) {
+      const pC = toPx(riverCrossing);
+      const pM = toPx(manti);
+      const pR = toPx(hillRiplah);
+
+      // Trapped Lamanite center in river
+      renderTroopToken(pC.x, pC.y, '🗡️', "Zerahemnah Encircled in Sidon", 'lamanite');
+
+      // Encirclement aura ring around crossing
+      const aura = createSvgElem('circle', {
+        cx: pC.x,
+        cy: pC.y,
+        r: 38,
+        fill: 'rgba(153, 27, 27, 0.18)',
+        stroke: '#991B1B',
+        'stroke-width': 3,
+        'stroke-dasharray': '5 5',
+        class: 'march-path-active'
+      });
+      pathsGroup.appendChild(aura);
+
+      // Western pincer (Moroni)
+      drawPath([manti, { x: 30.5, y: 85.8 }], {
+        stroke: '#2563EB',
+        class: 'march-path-nephite march-path-active',
+        strokeWidth: '6',
+        markerEnd: 'url(#markerArrowNephite)'
+      });
+      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni (West Division)", 'nephite');
+
+      // Eastern pincer (Lehi)
+      drawPath([hillRiplah, { x: 32.5, y: 85.2 }], {
+        stroke: '#2563EB',
+        class: 'march-path-nephite march-path-active',
+        strokeWidth: '6',
+        markerEnd: 'url(#markerArrowNephite)'
+      });
+      renderTroopToken(pR.x, pR.y, '🛡️', "Lehi (East Division)", 'nephite');
+    }
+  }
+
   function startTour(tourId) {
     currentJourney = mapJourneys.find(j => j.id === tourId);
     if (!currentJourney) return;
 
     currentStageIndex = 0;
-    renderTourPaths(currentJourney);
+
+    // Show the Dedicated Tour Tab in the sidebar and activate it
+    const tourTabWrap = document.getElementById('sidebarTourTabWrap');
+    if (tourTabWrap) {
+      tourTabWrap.style.display = 'block';
+    }
+    const expBtn = document.getElementById('expeditionTabBtn');
+    sidebarTabs.forEach(t => t.classList.remove('active'));
+    if (expBtn) {
+      expBtn.classList.add('active');
+    }
+    activeTab = 'expedition';
 
     if (tourStepperBar) {
       tourStepperBar.style.display = 'flex';
@@ -3564,6 +4032,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgWidth = MAP_BASE_WIDTH;
     const imgHeight = MAP_BASE_HEIGHT;
 
+    // If it's Moroni's Ambush at Manti, run the specialized multi-faction animated engine
+    if (tour.id === 'battle_of_manti') {
+      renderMantiAmbushAnimated(tour, currentStageIndex, imgWidth, imgHeight);
+      return;
+    }
+
+    ensureTourSvgDefs();
     const coordsList = tour.stages.map(stage => {
       const loc = mapLocations[stage.locId];
       if (loc && loc.coords) {
@@ -3590,7 +4065,7 @@ document.addEventListener('DOMContentLoaded', () => {
     path.setAttribute('stroke-width', '4');
     path.setAttribute('stroke-dasharray', '8 6');
     path.setAttribute('stroke-linecap', 'round');
-    path.setAttribute('class', 'active-journey-path');
+    path.setAttribute('class', 'active-journey-path march-path-active');
     pathsGroup.appendChild(path);
 
     // Waypoint dots
@@ -3598,8 +4073,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       circle.setAttribute('cx', c.x);
       circle.setAttribute('cy', c.y);
-      circle.setAttribute('r', '8');
-      circle.setAttribute('fill', '#FFFDF9');
+      circle.setAttribute('r', idx === currentStageIndex ? '10' : '7');
+      circle.setAttribute('fill', idx === currentStageIndex ? (tour.color || '#8B5CF6') : '#FFFDF9');
       circle.setAttribute('stroke', tour.color || '#8B5CF6');
       circle.setAttribute('stroke-width', '3');
       pathsGroup.appendChild(circle);
@@ -3621,6 +4096,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tourNextStepBtn) {
       tourNextStepBtn.textContent = (index === currentJourney.stages.length - 1) ? 'Finish Tour' : 'Next ▶';
     }
+
+    // Re-render animated paths and faction positions
+    renderTourPaths(currentJourney);
 
     if (loc) {
       selectLocation(loc.id);
@@ -3666,8 +4144,27 @@ document.addEventListener('DOMContentLoaded', () => {
     currentStageIndex = 0;
     if (pathsGroup) pathsGroup.innerHTML = '';
     if (tourStepperBar) tourStepperBar.style.display = 'none';
+
+    // Hide the Dedicated Tour Tab in the sidebar
+    const tourTabWrap = document.getElementById('sidebarTourTabWrap');
+    if (tourTabWrap) {
+      tourTabWrap.style.display = 'none';
+    }
+
+    // If currently on expedition tab, switch back to overview
+    if (activeTab === 'expedition') {
+      activeTab = 'overview';
+      const overviewBtn = Array.from(sidebarTabs).find(t => t.getAttribute('data-tab') === 'overview');
+      sidebarTabs.forEach(t => t.classList.remove('active'));
+      if (overviewBtn) {
+        overviewBtn.classList.add('active');
+      }
+    }
+
     if (activeLocationId && mapLocations[activeLocationId]) {
       renderSidebarContent(mapLocations[activeLocationId]);
+    } else {
+      renderWelcomeSidebar();
     }
   }
 

@@ -5775,11 +5775,37 @@ const mapJourneys = [
     "subtitle": "Alma 43-44 (c. 74 BC)",
     "color": "#c0392b",
     "description": "The opening masterstroke of Captain Moroni: facing thousands of invading Lamanites in Antionum, outfitting the Nephites with revolutionary armor in Jershon, discerning Zerahemnah's 150-mile wilderness detour via prophetic revelation, and executing the decisive double-wing pincer ambush at Hill Riplah and the River Sidon.",
+    "factions": {
+      "nephite": {
+        "name": "Nephite Armed Forces (Captain Moroni & Lehi)",
+        "color": "#2563EB",
+        "badgeBg": "rgba(37, 99, 235, 0.12)",
+        "border": "#2563EB",
+        "icon": "🛡️"
+      },
+      "lamanite": {
+        "name": "Combined Lamanite & Zoramite Host (Zerahemnah)",
+        "color": "#DC2626",
+        "badgeBg": "rgba(220, 38, 38, 0.12)",
+        "border": "#DC2626",
+        "icon": "🗡️"
+      },
+      "courier": {
+        "name": "Prophetic Intelligence Relay (Moroni ↔ Alma)",
+        "color": "#F59E0B",
+        "badgeBg": "rgba(245, 158, 11, 0.12)",
+        "border": "#F59E0B",
+        "icon": "📜"
+      }
+    },
     "stages": [
       {
         "locId": "antionum",
         "stageTitle": "1. Gathering of Invasion Armies in Antionum",
         "ref": "Alma 43:5–8, 15",
+        "faction": "lamanite",
+        "commander": "Zerahemnah (Chief Captain of Lamanites & Zoramites)",
+        "armor": "Unarmored (Naked skins girt about loins; bows, scimitars & clubs)",
         "note": "Zerahemnah gathers thousands of Lamanite and Zoramite invaders in the land of Antionum to prepare for war.",
         "narrative": "In the commencement of the 18th year (c. 74 BC), the Lamanites ally with the apostate Zoramites. Supreme military commander Zerahemnah gathers an invading host of thousands in Antionum (the land of the Zoramites, south of Jershon bordering the eastern wilderness). Zerahemnah strategically appoints Amalekite and Zoramite captains over the armies because of their intense, murderous hatred toward the Nephites.",
         "distanceNote": "Antionum: East of Zarahemla, south of Jershon, bordering the south wilderness."
@@ -5788,6 +5814,9 @@ const mapJourneys = [
         "locId": "jershon",
         "stageTitle": "2. Moroni's Armor & Standoff in Jershon",
         "ref": "Alma 43:16–23",
+        "faction": "nephite",
+        "commander": "Captain Moroni (Supreme Chief Captain at Age 25)",
+        "armor": "Revolutionary Body Armor (Breastplates, arm-shields, head-plates & thick clothing)",
         "note": "Moroni equips his soldiers with armor in Jershon; intimidated by Nephite shields and breastplates, Zerahemnah declines battle.",
         "narrative": "Captain Moroni takes supreme command of the Nephite armies at age 25. He musters his force in the Land of Jershon to shield the peaceful Anti-Nephi-Lehies. Moroni equips his men with revolutionary armor—breastplates, arm-shields, head-plates, and thick clothing. The Lamanites, unarmored save for loin-skins, march to the border valley but are terrified of Moroni's armored legions and refuse to engage in battle in that valley.",
         "distanceNote": "Jershon directly borders Antionum on the north along the eastern seashore."
@@ -5796,41 +5825,85 @@ const mapJourneys = [
         "locId": "narrow_strip",
         "stageTitle": "3. Zerahemnah's 150-Mile Wilderness Flanking March",
         "ref": "Alma 43:24",
+        "faction": "lamanite",
+        "commander": "Zerahemnah (Leading host into deep wilderness)",
+        "armor": "Unarmored desert trek (Exposed to mountainous terrain)",
         "note": "The Lamanites secretly march south into the wilderness, circuiting around the head of Sidon toward Manti.",
         "narrative": "Refusing a frontal assault against Moroni's armored legions in Jershon, Zerahemnah conducts a massive flanking maneuver. The Lamanites depart Antionum and march south into the deep wilderness, skirting westward around the head of the River Sidon to surprise the southern fortress of Manti, not supposing Moroni would know where they had gone.",
-        "distanceNote": "Circuitous wilderness detour: ~140–160 miles through mountainous southern borders (~10–14 days' forced march)."
+        "distanceNote": "Circuitous wilderness detour: ~140–160 miles through mountainous southern borders (~10–14 days' forced march).",
+        "pathPoints": [
+          { "x": 85.0, "y": 56.5 },
+          { "x": 80.0, "y": 72.0 },
+          { "x": 62.0, "y": 78.0 },
+          { "x": 44.0, "y": 88.0 },
+          { "x": 33.0, "y": 92.0 },
+          { "x": 25.4, "y": 87.7 }
+        ]
       },
       {
         "locId": "zarahemla",
         "stageTitle": "4. Prophetic Intelligence via Alma in Zarahemla",
         "ref": "Alma 43:25–28",
+        "faction": "courier",
+        "commander": "Prophet Alma the Younger & Moroni's Mounted Scouts",
+        "armor": "Swift Nephite Courier Runners",
         "note": "Moroni sends spies into the wilderness and couriers to the prophet Alma; the Lord reveals Zerahemnah's exact crossing.",
         "narrative": "Moroni posts scouts along the wilderness perimeter and sends swift couriers across the interior (~43 miles) to Alma the Younger in Zarahemla to inquire of the Lord. The Lord reveals the exact enemy route: the Lamanite host will cross the River Sidon in the south wilderness away up beyond the borders of Manti, and commands Moroni to meet them on the east bank of the river.",
-        "distanceNote": "Courier relay from Jershon to Zarahemla: ~43 miles (completed in under 24–36 hours)."
+        "distanceNote": "Courier relay from Jershon to Zarahemla: ~43 miles (completed in under 24–36 hours).",
+        "pathPoints": [
+          { "x": 74.5, "y": 44.5 },
+          { "x": 60.0, "y": 48.0 },
+          { "x": 45.5, "y": 51.3 }
+        ]
       },
       {
         "locId": "manti",
         "stageTitle": "5. Moroni's Interior Forced March to Manti",
         "ref": "Alma 43:29–30",
+        "faction": "nephite",
+        "commander": "Captain Moroni (Main Force)",
+        "armor": "Full Armor & Heavy Shields (Rapid interior advance)",
         "note": "Moroni leaves a garrison in Jershon and marches southwest across interior Nephite roads, beating the Lamanites to Manti.",
         "narrative": "Leaving a protective force in Jershon, Moroni marches southwest with the bulk of his army along maintained interior Nephite roads (~115 miles). Because Moroni holds internal communication lines, his army arrives at Manti days ahead of Zerahemnah's encumbered wilderness host. Moroni mobilizes the local Nephites in Manti to defend their liberties and prepares a two-wing ambush.",
-        "distanceNote": "Moroni's interior route: ~115–125 miles (5–6 days' rapid march), beating Zerahemnah by 2–4 days."
+        "distanceNote": "Moroni's interior route: ~115–125 miles (5–6 days' rapid march), beating Zerahemnah by 2–4 days.",
+        "pathPoints": [
+          { "x": 74.5, "y": 44.5 },
+          { "x": 45.5, "y": 51.3 },
+          { "x": 37.0, "y": 70.0 },
+          { "x": 25.4, "y": 87.7 }
+        ]
       },
       {
         "locId": "hill_riplah",
         "stageTitle": "6. Lehi's Concealment at Hill Riplah",
         "ref": "Alma 43:31–35",
+        "faction": "nephite",
+        "commander": "Captain Lehi (East Division concealed east & south of Riplah)",
+        "armor": "Armored shock troops lying in concealed wait",
         "note": "Moroni divides his army, hiding Lehi east and south of Hill Riplah; Lehi charges the Lamanite rear as they cross Sidon.",
         "narrative": "Moroni splits his army into two concealed divisions. He places Captain Lehi with one division concealed on the east and south of Hill Riplah in the valley east of the River Sidon. When the unsuspecting Lamanites march past Hill Riplah and begin wading across the river toward Manti, Lehi's concealed warriors surge forth and strike their rear guard, encircling them.",
-        "distanceNote": "Hill Riplah lies in the valley on the east bank of River Sidon, directly opposite Manti."
+        "distanceNote": "Hill Riplah lies in the valley on the east bank of River Sidon, directly opposite Manti.",
+        "pincerStrike": {
+          "from": { "x": 37.5, "y": 83.0 },
+          "to": { "x": 31.5, "y": 85.5 },
+          "label": "Lehi's Rear Charge"
+        }
       },
       {
         "locId": "manti",
         "stageTitle": "7. The River Sidon Pincer Encirclement & Peace Covenant",
         "ref": "Alma 43:36–54; Alma 44:1–20",
+        "faction": "nephite",
+        "commander": "Moroni (West Bank) & Lehi (East Bank)",
+        "armor": "Impenetrable Nephite Perimeter in River Sidon",
         "note": "Moroni's division springs the trap on the west bank of Sidon; surrounded in the river, Zerahemnah surrenders and makes peace.",
         "narrative": "As the Lamanites flee westward across the River Sidon to escape Lehi, they crash directly into Captain Moroni's armored division concealed in the west valley of Manti! Trapped in the river waters between Moroni and Lehi, the Lamanites are overwhelmed. Seeing their utter despair, Moroni stops the slaughter and demands they surrender their weapons. After an assassination attempt fails and Zerahemnah is scalped, the remaining Lamanites surrender and enter into a sacred covenant of peace.",
-        "distanceNote": "River Sidon at Hill Riplah / Manti: The decisive pincer trap where terrain, armor, and divine revelation converged."
+        "distanceNote": "River Sidon at Hill Riplah / Manti: The decisive pincer trap where terrain, armor, and divine revelation converged.",
+        "pincerEncircle": {
+          "west": { "x": 25.4, "y": 87.7 },
+          "center": { "x": 31.5, "y": 85.5 },
+          "east": { "x": 37.5, "y": 83.0 }
+        }
       }
     ],
     "waypoints": [

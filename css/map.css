@@ -65,6 +65,86 @@
   pointer-events: auto;
 }
 
+/* Animated Multi-Faction Expedition & Military March Paths */
+@keyframes marchDashForward {
+  from {
+    stroke-dashoffset: 48;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pincerStrikePulse {
+  0%, 100% {
+    stroke-width: 5;
+    opacity: 0.92;
+    filter: drop-shadow(0 0 6px #DC2626);
+  }
+  50% {
+    stroke-width: 8;
+    opacity: 1;
+    filter: drop-shadow(0 0 16px #DC2626);
+  }
+}
+
+@keyframes troopTokenBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.12);
+  }
+}
+
+.march-path-active {
+  stroke-dasharray: 12 8;
+  animation: marchDashForward 1.4s linear infinite;
+}
+
+.march-path-trail {
+  stroke-dasharray: 6 6;
+  opacity: 0.65;
+}
+
+.march-path-nephite {
+  stroke: #2563EB;
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.45));
+}
+
+.march-path-lamanite {
+  stroke: #DC2626;
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 2px 8px rgba(220, 38, 38, 0.45));
+}
+
+.march-path-courier {
+  stroke: #F59E0B;
+  stroke-width: 4;
+  stroke-linecap: round;
+  filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.45));
+}
+
+.march-path-pincer {
+  stroke: #991B1B;
+  stroke-width: 6;
+  stroke-linecap: round;
+  animation: pincerStrikePulse 1.5s ease-in-out infinite;
+}
+
+.troop-marker-group {
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s ease;
+}
+
+.troop-marker-group:hover {
+  transform: scale(1.2);
+}
+
 /* Markers Layer */
 .markers-layer {
   position: absolute;
