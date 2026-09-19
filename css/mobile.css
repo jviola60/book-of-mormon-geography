@@ -24,7 +24,7 @@
     --filterbar-height: 0px;
     --footer-height: 98px;
     --sidebar-width: 100vw;
-    --mobile-nav-height: 0px;
+    --mobile-nav-height: 52px;
     --tap-min: 44px;
   }
 
@@ -386,10 +386,49 @@
   }
 
   /* --------------------------------------------------------------------------
-     Mobile Thumb-Friendly Bottom Action Bar (Removed per user request)
+     Mobile Thumb-Friendly Bottom Navigation Bar (52px)
      -------------------------------------------------------------------------- */
   .mobile-bottom-bar {
-    display: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-around;
+    height: var(--mobile-nav-height);
+    background: #231812;
+    border-top: 1.5px solid rgba(212, 160, 23, 0.4);
+    z-index: 2100;
+    flex-shrink: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mobile-bottom-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    color: #E2D9CC;
+    font-size: 0.68rem;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    min-width: 56px;
+    min-height: 48px;
+    height: 100%;
+    transition: color 0.15s ease, transform 0.15s ease;
+    padding: 4px 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-bottom-btn:hover,
+  .mobile-bottom-btn.active {
+    color: var(--accent-gold);
+  }
+
+  .mobile-bottom-icon {
+    font-size: 1.18rem;
+    line-height: 1;
   }
 
   .mobile-menu-item-highlight {

@@ -260,27 +260,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = window.innerWidth <= 768;
     const isDesktop = window.innerWidth > 768;
     const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
-    const sidebarOffset = (isDesktop && isSidebarOpen) ? 310 : 0;
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? 290 : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
     if (isMobile) {
-      // Mobile framing: fit width edge-to-edge, center on core Promised Land (Y ~48%)
+      // Mobile framing: fit width edge-to-edge, center on core Promised Land (Y ~49%)
       scale = (availWidth * 0.98) / imgWidth;
       minScale = scale * 0.6;
       translateX = (availWidth - (imgWidth * scale)) / 2;
-      translateY = (vHeight / 2) - (imgHeight * 0.48 * scale);
+      translateY = (vHeight / 2) - (imgHeight * 0.49 * scale);
     } else {
-      // Desktop framing: fill ~88% of available width to eliminate dark side void,
+      // Desktop framing: fill ~94% of available width to eliminate dark side void,
       // and frame core L1/L2 lands (Zarahemla, Nephi, Bountiful, Cumorah)
-      const scaleByWidth = (availWidth * 0.88) / imgWidth;
-      const scaleByHeight = (vHeight * 1.85) / imgHeight;
-      scale = Math.min(scaleByWidth, Math.max(scaleByHeight, 0.56));
-      scale = Math.max(scale, 0.46);
-      minScale = 0.18;
+      const scaleByWidth = (availWidth * 0.94) / imgWidth;
+      const scaleByHeight = (vHeight * 1.65) / imgHeight;
+      scale = Math.min(scaleByWidth, Math.max(scaleByHeight, 0.62));
+      scale = Math.max(scale, 0.50);
+      minScale = 0.20;
 
-      // Center horizontally on the inhabited landmass (X ~52%) to eliminate right-side void
-      translateX = (availWidth / 2) - (imgWidth * 0.52 * scale);
-      translateY = (vHeight / 2) - (imgHeight * 0.46 * scale);
+      // Center horizontally on inhabited landmass centroid (X ~54%) to eliminate right-side void
+      translateX = (availWidth / 2) - (imgWidth * 0.54 * scale);
+      translateY = (vHeight / 2) - (imgHeight * 0.49 * scale);
     }
 
     applyTransform();
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = window.innerWidth <= 768;
     const isDesktop = window.innerWidth > 768;
     const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
-    const sidebarOffset = (isDesktop && isSidebarOpen) ? 310 : 0;
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? 290 : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
     // On mobile, compact peek sheet covers bottom 42%; center in top 58% of viewport
@@ -1032,38 +1032,64 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // 4. Mobile Navigation Drawer Quick Action Buttons (Replaces bottom utility bar)
+    // 4. Mobile Bottom Navigation Bar & Drawer Quick Actions
+    const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
+    const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
+    const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
+    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
+    const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
+
     const mobNavSearchBtn = document.getElementById('mobNavSearchBtn');
     const mobNavJumpBtn = document.getElementById('mobNavJumpBtn');
     const mobNavCodexBtn = document.getElementById('mobNavCodexBtn');
     const mobNavToursBtn = document.getElementById('mobNavToursBtn');
+
     const mobileFiltersSheet = document.getElementById('mobileFiltersSheet');
     const mobileToolsSheet = document.getElementById('mobileToolsSheet');
     const mobilePickerSheet = document.getElementById('mobilePickerSheet');
 
-    if (mobNavSearchBtn && mobilePickerSheet) {
-      mobNavSearchBtn.addEventListener('click', () => {
-        closeAllMobileSheets();
-        openMobileSheet(mobilePickerSheet);
-        const input = document.getElementById('mobilePickerSearchInput');
-        if (input) { setTimeout(() => input.focus(), 150); }
-      });
-    }
+    const handleSearchOpen = () => {
+      closeAllMobileSheets();
+      openMobileSheet(mobilePickerSheet);
+      const input = document.getElementById('mobilePickerSearchInput');
+      if (input) { setTimeout(() => input.focus(), 150); }
+    };
 
-    if (mobNavJumpBtn && mobilePickerSheet) {
-      mobNavJumpBtn.addEventListener('click', () => {
-        closeAllMobileSheets();
-        openMobileSheet(mobilePickerSheet);
-      });
-    }
+    const handleJumpOpen = () => {
+      closeAllMobileSheets();
+      openMobileSheet(mobilePickerSheet);
+    };
 
-    if (mobNavCodexBtn && detailSidebar) {
-      mobNavCodexBtn.addEventListener('click', () => {
-        closeAllMobileSheets();
-        detailSidebar.classList.remove('closed');
+    const handleCodexToggle = () => {
+      closeAllMobileSheets();
+      if (detailSidebar) {
+        detailSidebar.classList.toggle('closed');
         updateSidebarStateUI();
+      }
+    };
+
+    if (mobBottomSearchBtn) mobBottomSearchBtn.addEventListener('click', handleSearchOpen);
+    if (mobNavSearchBtn) mobNavSearchBtn.addEventListener('click', handleSearchOpen);
+
+    if (mobBottomJumpBtn) mobBottomJumpBtn.addEventListener('click', handleJumpOpen);
+    if (mobNavJumpBtn) mobNavJumpBtn.addEventListener('click', handleJumpOpen);
+
+    if (mobBottomFiltersBtn && mobileFiltersSheet) {
+      mobBottomFiltersBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openMobileSheet(mobileFiltersSheet);
       });
     }
+
+    if (mobBottomToolsBtn && mobileToolsSheet) {
+      mobBottomToolsBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openMobileSheet(mobileToolsSheet);
+      });
+    }
+
+    if (mobBottomCodexBtn) mobBottomCodexBtn.addEventListener('click', handleCodexToggle);
+    if (mobNavCodexBtn) mobNavCodexBtn.addEventListener('click', handleCodexToggle);
 
     if (mobNavToursBtn && tourModal) {
       mobNavToursBtn.addEventListener('click', () => {
