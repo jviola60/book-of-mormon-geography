@@ -3854,42 +3854,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Stage 0: Gathering in Antionum (Alma 43:5–15)
     if (stageIdx === 0) {
-      // Threat vector pointing northwest from Antionum toward Jershon on land
-      drawPath([antionum, { x: 77.0, y: 49.0 }], {
-        stroke: '#DC2626',
-        class: 'march-path-lamanite march-path-active',
-        strokeWidth: '4',
-        markerEnd: 'url(#markerArrowLamanite)'
-      });
+      // Clear muster points in Antionum and Jershon (no lines to Omner or across other cities)
       const pA = toPx(antionum);
       const pJ = toPx(jershon);
       renderTroopToken(pA.x, pA.y, '🗡️', "Zerahemnah's Host (Antionum)", 'lamanite');
-      renderTroopToken(pJ.x, pJ.y, '🛡️', "Nephites Shield Jershon", 'nephite');
+      renderTroopToken(pJ.x, pJ.y, '🛡️', "Nephite Defense Army (Jershon)", 'nephite');
     }
 
-    // Stage 1: Armor & Standoff in Jershon (Alma 43:16–23)
+    // Stage 1: Armor Innovation & Standoff in Jershon (Alma 43:16–23)
     else if (stageIdx === 1) {
       const pJ = toPx(jershon);
       const pA = toPx(antionum);
       renderTroopToken(pJ.x, pJ.y, '🛡️', "Moroni's Armored Legions", 'nephite');
       renderTroopToken(pA.x, pA.y, '🗡️', "Zerahemnah (Declines Battle)", 'lamanite');
 
-      // Standoff confrontation barrier strictly on LAND in the valley south of Jershon (never in the sea!)
-      drawPath([{ x: 72.0, y: 46.5 }, { x: 76.0, y: 49.0 }], {
-        stroke: '#F59E0B',
-        class: 'march-path-active',
-        strokeWidth: '5',
-        dasharray: '8 6'
+      // Protective armor aura around Jershon (clean, no lines into the sea or across Omner)
+      const defenseAura = createSvgElem('circle', {
+        cx: pJ.x,
+        cy: pJ.y,
+        r: 32,
+        fill: 'rgba(37, 99, 235, 0.15)',
+        stroke: '#2563EB',
+        'stroke-width': 2.5,
+        'stroke-dasharray': '6 4',
+        class: 'march-path-active'
       });
+      pathsGroup.appendChild(defenseAura);
     }
 
     // Stage 2: Secret Wilderness Detour & Moroni's Spies (Alma 43:23–24)
     else if (stageIdx === 2) {
-      const pJ = toPx(jershon);
-      renderTroopToken(pJ.x, pJ.y, '🛡️', "Moroni (Jershon Garrison)", 'nephite');
-
-      // The Lamanites are only just commencing their march into the eastern mountain wilderness
-      // (They have NOT reached Manti or River Sidon yet!)
+      // Both armies in active motion in this waypoint!
+      // 1. Lamanites secretly entering the Narrow Strip of Wilderness
       const wildernessStart = [antionum, { x: 80.0, y: 64.0 }, { x: 74.0, y: 68.0 }];
       drawPath(wildernessStart, {
         stroke: '#DC2626',
@@ -3897,13 +3893,22 @@ document.addEventListener('DOMContentLoaded', () => {
         strokeWidth: '6',
         markerEnd: 'url(#markerArrowLamanite)'
       });
-
       const pCol = toPx({ x: 74.0, y: 68.0 });
       renderTroopToken(pCol.x, pCol.y, '🗡️', "Lamanites Enter Wilderness", 'lamanite');
 
-      // Moroni sends spies to shadow their camp/trail into the wilderness
+      // 2. Moroni simultaneously sends spies into the wilderness to shadow their trail
+      const spyPath = [jershon, { x: 70.0, y: 55.0 }, { x: 71.0, y: 65.0 }];
+      drawPath(spyPath, {
+        stroke: '#2563EB',
+        class: 'march-path-nephite march-path-active',
+        strokeWidth: '4',
+        markerEnd: 'url(#markerArrowNephite)'
+      });
       const pSpy = toPx({ x: 71.0, y: 65.0 });
       renderTroopToken(pSpy.x, pSpy.y, '👁️', "Moroni's Spies (Alma 43:23)", 'nephite');
+
+      const pJ = toPx(jershon);
+      renderTroopToken(pJ.x, pJ.y, '🛡️', "Moroni (Jershon Garrison)", 'nephite');
     }
 
     // Stage 3: Prophetic Intelligence Relay to Alma in Zarahemla (Alma 43:23–25)
@@ -3959,29 +3964,32 @@ document.addEventListener('DOMContentLoaded', () => {
       renderTroopToken(pM.x, pM.y, '🛡️', "Moroni Arrives First at Manti!", 'nephite');
     }
 
-    // Stage 5: Concealment at Hill Riplah & Rear Ambush (Alma 43:27–35)
+    // Stage 5: Dividing the Armies & Concealing Wings (Alma 43:27–33)
     else if (stageIdx === 5) {
       const pR = toPx(hillRiplah);
-      const pC = toPx(riverCrossing);
       const pM = toPx(manti);
 
-      // Lehi concealed east/south of Hill Riplah; Moroni concealed on west bank
-      renderTroopToken(pR.x, pR.y, '🛡️', "Captain Lehi (Concealed Division)", 'nephite');
-      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni (Concealed West Bank)", 'nephite');
-
-      // Unsuspecting Lamanites finally arrive and begin crossing River Sidon
-      renderTroopToken(pC.x, pC.y, '🗡️', "Lamanite Host Crossing Sidon", 'lamanite');
-
-      // Pincer rear strike vector from Hill Riplah directly into the river crossing rear guard!
-      drawPath([hillRiplah, { x: 32.2, y: 85.0 }], {
-        stroke: '#991B1B',
-        class: 'march-path-pincer',
-        strokeWidth: '7',
-        markerEnd: 'url(#markerArrowPincer)'
+      // Armies splitting and occupying two concealed positions (no attack yet!)
+      // Lehi's wing moves across river to Hill Riplah
+      drawPath([manti, hillRiplah], {
+        stroke: '#2563EB',
+        class: 'march-path-nephite march-path-active',
+        strokeWidth: '5',
+        markerEnd: 'url(#markerArrowNephite)'
       });
+      renderTroopToken(pR.x, pR.y, '🛡️', "Captain Lehi (Concealed East Wing)", 'nephite');
+      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni (Concealed West Wing)", 'nephite');
+
+      // Spies on high ground watching for approaching enemy
+      const pLookout = toPx({ x: 33.0, y: 81.0 });
+      renderTroopToken(pLookout.x, pLookout.y, '👁️', "Nephite Spies on Lookout", 'nephite');
+
+      // Unsuspecting Lamanites approaching from the north wilderness
+      const pLamApp = toPx({ x: 35.0, y: 79.5 });
+      renderTroopToken(pLamApp.x, pLamApp.y, '🗡️', "Lamanites Approach (Unaware)", 'lamanite');
     }
 
-    // Stage 6: Decisive River Sidon Encirclement & Covenant of Peace (Alma 43:36–54; 44)
+    // Stage 6: Decisive River Sidon Ambush, Double Pincer & Covenant of Peace (Alma 43:34–54; 44)
     else if (stageIdx === 6) {
       const pC = toPx(riverCrossing);
       const pM = toPx(manti);
@@ -4003,23 +4011,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       pathsGroup.appendChild(aura);
 
-      // Western pincer (Moroni)
+      // 1. Lehi charges rear guard from Hill Riplah
+      drawPath([hillRiplah, { x: 32.2, y: 85.0 }], {
+        stroke: '#991B1B',
+        class: 'march-path-pincer',
+        strokeWidth: '7',
+        markerEnd: 'url(#markerArrowPincer)'
+      });
+      renderTroopToken(pR.x, pR.y, '🛡️', "Lehi Strikes Rear Guard", 'nephite');
+
+      // 2. Moroni blocks west bank
       drawPath([manti, { x: 30.5, y: 85.2 }], {
         stroke: '#2563EB',
         class: 'march-path-nephite march-path-active',
         strokeWidth: '6',
         markerEnd: 'url(#markerArrowNephite)'
       });
-      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni (West Division)", 'nephite');
+      renderTroopToken(pM.x, pM.y, '🛡️', "Moroni Blocks West Bank", 'nephite');
 
-      // Eastern pincer (Lehi)
-      drawPath([hillRiplah, { x: 32.5, y: 85.0 }], {
-        stroke: '#2563EB',
-        class: 'march-path-nephite march-path-active',
-        strokeWidth: '6',
-        markerEnd: 'url(#markerArrowNephite)'
-      });
-      renderTroopToken(pR.x, pR.y, '🛡️', "Lehi (East Division)", 'nephite');
+      // 3. Covenant of Peace Medallion above center
+      renderTroopToken(pC.x, pC.y - 36, '🕊️', "Covenant of Peace (Alma 44)", 'courier');
     }
   }
 

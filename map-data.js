@@ -5883,30 +5883,30 @@ const mapJourneys = [
       },
       {
         "locId": "hill_riplah",
-        "stageTitle": "6. Concealment at Hill Riplah & Lehi's Rear Ambush",
-        "ref": "Alma 43:27–35",
+        "stageTitle": "6. Moroni Divides His Army into Two Concealed Wings",
+        "ref": "Alma 43:27–33",
         "faction": "nephite",
-        "commander": "Captain Lehi (East Division) & Captain Moroni (West Division)",
-        "armor": "Concealed Armored Divisions East & West of Sidon",
-        "note": "Moroni divides his army, hiding Lehi east and south of Hill Riplah; Lehi charges the Lamanite rear as they cross Sidon.",
-        "narrative": "Before the Lamanites arrive, Moroni divides his army into two concealed divisions: Captain Lehi hides east and south of Hill Riplah in the eastern valley, while Moroni hides in the west valley across River Sidon. When the unsuspecting Lamanites finally emerge from the wilderness and wade into River Sidon, Lehi's armored division surges from behind Hill Riplah and attacks their rear, encircling them.",
+        "commander": "Captain Lehi (East Wing) & Captain Moroni (West Wing)",
+        "armor": "Concealed Armored Divisions East & West of River Sidon",
+        "note": "Moroni divides his army: Lehi conceals east and south of Hill Riplah, while Moroni conceals west of River Sidon.",
+        "narrative": "Having arrived at Manti days ahead of the enemy, Moroni takes brilliant advantage of the local terrain. Rather than risking a frontal engagement, he divides his army into two concealed wings:\n\n🛡️ East Wing (Captain Lehi): Lehi moves across the river and conceals his division on the east and south of Hill Riplah in the eastern valley.\n\n🛡️ West Wing (Captain Moroni): Moroni conceals his division in the west valley, on the west of River Sidon down into the borders of Manti.\n\n👁️ Spies on High Ground: Moroni places scouts on high ground to watch for the approaching Lamanites. Both wings lie in concealed wait while the unaware Lamanite column approaches north of Hill Riplah!",
         "distanceNote": "Hill Riplah lies in the valley on the east bank of River Sidon, opposite Manti.",
-        "pincerStrike": {
-          "from": { "x": 37.5, "y": 83.0 },
-          "to": { "x": 31.5, "y": 85.0 },
-          "label": "Lehi's Rear Charge"
+        "splitWings": {
+          "base": { "x": 25.4, "y": 87.7 },
+          "lehi": { "x": 37.5, "y": 83.0 },
+          "moroni": { "x": 25.4, "y": 87.7 }
         }
       },
       {
         "locId": "manti",
-        "stageTitle": "7. River Sidon Pincer Encirclement & Covenant of Peace",
-        "ref": "Alma 43:36–54; Alma 44:1–20",
+        "stageTitle": "7. River Sidon Ambush, Double Pincer & Covenant of Peace",
+        "ref": "Alma 43:34–54; Alma 44:1–20",
         "faction": "nephite",
         "commander": "Moroni (West Bank) & Lehi (East Bank)",
         "armor": "Impenetrable Nephite Perimeter in River Sidon",
-        "note": "Moroni springs the trap on the west bank; trapped in the river, Zerahemnah surrenders and covenants peace.",
-        "narrative": "Fleeing across River Sidon from Lehi, the Lamanites crash directly into Captain Moroni's armored division on the west bank! Trapped in the river between two armored jaws, the Lamanites are overwhelmed. Seeing their terror, Moroni halts the slaughter, demanding they surrender and enter into a covenant of peace. After a failed assassination attempt where Zerahemnah is scalped, the Lamanites surrender their weapons and depart in peace.",
-        "distanceNote": "River Sidon at Hill Riplah / Manti: The decisive pincer trap convergence.",
+        "note": "Lehi strikes the rear; Moroni blocks the west bank; trapped in the river, Zerahemnah surrenders and covenants peace.",
+        "narrative": "The unsuspecting Lamanites march past Hill Riplah and begin wading across the River Sidon. Suddenly, Captain Lehi's armored division surges from behind Hill Riplah and attacks their rear guard!\n\n⚔️ The Double Pincer: Panicking, the Lamanites flee westward across the river—only to crash directly into Moroni's armored division on the west bank! Encircled on both banks and trapped in the river waters, the Lamanites are overwhelmed.\n\n🕊️ Covenant of Peace: Seeing their terror and helplessness, Moroni commands a halt to the slaughter. He demands they surrender their weapons and enter into a covenant of peace. After a failed assassination attempt where Zerahemnah is scalped, the Lamanites cast their weapons at Moroni's feet and depart in peace.",
+        "distanceNote": "River Sidon at Hill Riplah / Manti: The decisive double-pincer trap convergence.",
         "pincerEncircle": {
           "west": { "x": 25.4, "y": 87.7 },
           "center": { "x": 31.5, "y": 85.0 },
