@@ -22,12 +22,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Unified Modular Stylesheets -->
-  <link rel="stylesheet" href="css/main.css?v=9.5">
-  <link rel="stylesheet" href="css/map.css?v=9.5">
-  <link rel="stylesheet" href="css/timeline.css?v=9.5">
-  <link rel="stylesheet" href="css/sidebar.css?v=9.5">
-  <link rel="stylesheet" href="css/components.css?v=9.5">
-  <link rel="stylesheet" href="css/mobile.css?v=9.5">
+  <link rel="stylesheet" href="css/main.css?v=9.6">
+  <link rel="stylesheet" href="css/map.css?v=9.6">
+  <link rel="stylesheet" href="css/timeline.css?v=9.6">
+  <link rel="stylesheet" href="css/sidebar.css?v=9.6">
+  <link rel="stylesheet" href="css/components.css?v=9.6">
+  <link rel="stylesheet" href="css/mobile.css?v=9.6">
 
   <!-- Mobile Viewport & Phone Shell Detection -->
   <script>
@@ -547,30 +547,6 @@
       </div>
     </footer>
 
-    <!-- Mobile Thumb-Friendly Bottom Action Bar -->
-    <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Mobile Navigation Bar">
-      <button class="mobile-bottom-btn" id="mobBottomSearchBtn" type="button" aria-label="Search Places">
-        <span class="mobile-bottom-icon">🔍</span>
-        <span>Search</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomJumpBtn" type="button" aria-label="Jump to Landmark">
-        <span class="mobile-bottom-icon">📍</span>
-        <span>Jump</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomFiltersBtn" type="button" aria-label="Filter Map">
-        <span class="mobile-bottom-icon">⚙️</span>
-        <span>Filters</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomToolsBtn" type="button" aria-label="Atlas Tools">
-        <span class="mobile-bottom-icon">🛠️</span>
-        <span>Tools</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomCodexBtn" type="button" aria-label="Scriptural Codex">
-        <span class="mobile-bottom-icon">📜</span>
-        <span>Codex</span>
-      </button>
-    </nav>
-
   </div>
 
   <!-- Mobile Bottom Sheet Backdrop -->
@@ -581,6 +557,39 @@
     <div class="mobile-nav-header">
       <h3 class="mobile-nav-title">Book of Mormon Atlas</h3>
       <button class="mobile-nav-close" id="closeMobileNavBtn" aria-label="Close menu">&times;</button>
+    </div>
+
+    <!-- Quick Search & Landmark Access -->
+    <div class="mobile-nav-section mobile-nav-search-section">
+      <div class="mobile-nav-heading">Search &amp; Landmark Access</div>
+      <button class="mobile-menu-item mobile-menu-item-highlight" id="mobNavSearchBtn">
+        <span>🔍</span>
+        <div>
+          <div class="menu-title-bold">Search Places &amp; Scriptures</div>
+          <div class="menu-subtitle-muted">Find any city, land, prophet, or event</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobNavJumpBtn">
+        <span>📍</span>
+        <div>
+          <div class="menu-title-bold">Jump to Landmark (94 Sites)</div>
+          <div class="menu-subtitle-muted">Directly center and focus any landmark</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobNavCodexBtn">
+        <span>📜</span>
+        <div>
+          <div class="menu-title-bold">Scriptural Codex &amp; Dossier</div>
+          <div class="menu-subtitle-muted">Open archaeological, scriptural &amp; doctrinal details</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobNavToursBtn">
+        <span>🧭</span>
+        <div>
+          <div class="menu-title-bold">Guided Scriptural Tours</div>
+          <div class="menu-subtitle-muted">Explore curated expeditions &amp; military marches</div>
+        </div>
+      </button>
     </div>
 
     <!-- Scriptural Atlases Trilogy -->
@@ -1043,10 +1052,10 @@
   <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
 
   <!-- Data & Controller Scripts -->
-  <script src="map-data.js?v=9.5"></script>
-  <script src="js/data/placeDossiers.js?v=9.5"></script>
-  <script src="js/data/scriptureTranslations.js?v=9.5"></script>
-  <script src="js/data/churchVideos.js?v=9.5"></script>
-  <script src="app.js?v=9.5"></script>
+  <script src="map-data.js?v=9.6"></script>
+  <script src="js/data/placeDossiers.js?v=9.6"></script>
+  <script src="js/data/scriptureTranslations.js?v=9.6"></script>
+  <script src="js/data/churchVideos.js?v=9.6"></script>
+  <script src="app.js?v=9.6"></script>
 </body>
 </html>

@@ -1032,39 +1032,43 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // 4. Mobile Bottom Action Bar
-    const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
-    const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
-    const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
-    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
-    const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
+    // 4. Mobile Navigation Drawer Quick Action Buttons (Replaces bottom utility bar)
+    const mobNavSearchBtn = document.getElementById('mobNavSearchBtn');
+    const mobNavJumpBtn = document.getElementById('mobNavJumpBtn');
+    const mobNavCodexBtn = document.getElementById('mobNavCodexBtn');
+    const mobNavToursBtn = document.getElementById('mobNavToursBtn');
     const mobileFiltersSheet = document.getElementById('mobileFiltersSheet');
     const mobileToolsSheet = document.getElementById('mobileToolsSheet');
     const mobilePickerSheet = document.getElementById('mobilePickerSheet');
 
-    if (mobBottomSearchBtn) {
-      mobBottomSearchBtn.addEventListener('click', () => {
+    if (mobNavSearchBtn && mobilePickerSheet) {
+      mobNavSearchBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
         openMobileSheet(mobilePickerSheet);
         const input = document.getElementById('mobilePickerSearchInput');
-        if (input) { input.focus(); }
+        if (input) { setTimeout(() => input.focus(), 150); }
       });
     }
 
-    if (mobBottomJumpBtn && mobilePickerSheet) {
-      mobBottomJumpBtn.addEventListener('click', () => openMobileSheet(mobilePickerSheet));
+    if (mobNavJumpBtn && mobilePickerSheet) {
+      mobNavJumpBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openMobileSheet(mobilePickerSheet);
+      });
     }
 
-    if (mobBottomFiltersBtn && mobileFiltersSheet) {
-      mobBottomFiltersBtn.addEventListener('click', () => openMobileSheet(mobileFiltersSheet));
+    if (mobNavCodexBtn && detailSidebar) {
+      mobNavCodexBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        detailSidebar.classList.remove('closed');
+        updateSidebarStateUI();
+      });
     }
 
-    if (mobBottomToolsBtn && mobileToolsSheet) {
-      mobBottomToolsBtn.addEventListener('click', () => openMobileSheet(mobileToolsSheet));
-    }
-
-    if (mobBottomCodexBtn && detailSidebar) {
-      mobBottomCodexBtn.addEventListener('click', () => {
-        detailSidebar.classList.toggle('closed');
+    if (mobNavToursBtn && tourModal) {
+      mobNavToursBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        openModal(tourModal);
       });
     }
 
