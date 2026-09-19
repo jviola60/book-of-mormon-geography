@@ -282,7 +282,7 @@
           <!-- High-Resolution Main Map Artwork (2120x3160 canvas) -->
           <picture>
             <source media="(max-width: 768px)" srcset="map-v7-mobile.jpg?v=8.0">
-            <img src="map-v7-cleaned.jpg?v=8.0" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="async" draggable="false">
+            <img src="map-v7-cleaned.jpg?v=8.0" alt="Book of Mormon Geography Map" class="map-artwork" id="mapImage" width="2120" height="3160" loading="eager" decoding="sync" draggable="false">
           </picture>
 
           <!-- SVG Layer for Territory Overlays, Cataclysm Physical Transformations & Expedition Paths -->
@@ -550,31 +550,6 @@
         </div>
       </div>
     </footer>
-
-    <!-- Mobile Thumb-Friendly Bottom Navigation Bar (52px) -->
-    <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Mobile Navigation Bar">
-      <button class="mobile-bottom-btn" id="mobBottomSearchBtn" type="button" aria-label="Search Places">
-        <span class="mobile-bottom-icon">🔍</span>
-        <span>Search</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomJumpBtn" type="button" aria-label="Jump to Landmark">
-        <span class="mobile-bottom-icon">📍</span>
-        <span>Jump</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomFiltersBtn" type="button" aria-label="Filter Map">
-        <span class="mobile-bottom-icon">⚙️</span>
-        <span>Filters</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomToolsBtn" type="button" aria-label="Atlas Tools">
-        <span class="mobile-bottom-icon">🛠️</span>
-        <span>Tools</span>
-      </button>
-      <button class="mobile-bottom-btn" id="mobBottomCodexBtn" type="button" aria-label="Scriptural Codex">
-        <span class="mobile-bottom-icon">📜</span>
-        <span>Codex</span>
-      </button>
-    </nav>
-
   </div>
 
   <!-- Mobile Bottom Sheet Backdrop -->
@@ -585,6 +560,18 @@
     <div class="mobile-nav-header">
       <h3 class="mobile-nav-title">Book of Mormon Atlas</h3>
       <button class="mobile-nav-close" id="closeMobileNavBtn" aria-label="Close menu">&times;</button>
+    </div>
+
+    <!-- Textual Grounding & Official Church Stance -->
+    <div class="mobile-nav-section mobile-nav-stance-section">
+      <div class="mobile-nav-heading">Textual Grounding</div>
+      <button class="mobile-menu-item" id="mobChurchStanceBtn">
+        <span>📜</span>
+        <div>
+          <div class="menu-title-bold">Official Church Stance</div>
+          <div class="menu-subtitle-muted">Pure internal textual mandate</div>
+        </div>
+      </button>
     </div>
 
     <!-- Quick Search & Landmark Access -->
@@ -679,22 +666,11 @@
         </div>
       </div>
 
-      <!-- Filter Action: Reset -->
+      <!-- Filter Actions: Apply & Reset -->
       <div class="mobile-nav-filter-actions">
+        <button class="btn btn-sm btn-primary df-btn" id="mobNavApplyFiltersBtn">Apply &amp; View Map</button>
         <button class="btn btn-sm btn-outline df-btn" id="mobNavResetFiltersBtn">Reset Filters</button>
       </div>
-    </div>
-
-    <!-- Core Rule & Church Stance -->
-    <div class="mobile-nav-section">
-      <div class="mobile-nav-heading">Textual Grounding</div>
-      <button class="mobile-menu-item" id="mobChurchStanceBtn">
-        <span>📜</span>
-        <div>
-          <div class="menu-title-bold">Official Church Stance</div>
-          <div class="menu-subtitle-muted">Pure internal textual mandate</div>
-        </div>
-      </button>
     </div>
 
     <!-- Secondary Tools -->

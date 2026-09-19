@@ -804,6 +804,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statSitesCount) {
       statSitesCount.textContent = visibleCount;
     }
+    const mobNavApplyFiltersBtn = document.getElementById('mobNavApplyFiltersBtn');
+    if (mobNavApplyFiltersBtn) {
+      mobNavApplyFiltersBtn.textContent = `Apply & View Map (${visibleCount})`;
+    }
 
     // Synchronize Territory Polygons
     document.querySelectorAll('.territory-polygon').forEach(poly => {
@@ -1062,7 +1066,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleCodexToggle = () => {
       closeAllMobileSheets();
-      if (detailSidebar) {
+      if (!activeLocationId) {
+        selectLocation('zarahemla');
+      } else if (detailSidebar) {
         detailSidebar.classList.toggle('closed');
         updateSidebarStateUI();
       }
@@ -1105,7 +1111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobNavResetFiltersBtn = document.getElementById('mobNavResetFiltersBtn');
 
     if (closeMobileFiltersBtn) closeMobileFiltersBtn.addEventListener('click', closeAllMobileSheets);
-    if (mobApplyFiltersBtn) mobApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
+    const mobNavApplyFiltersBtn = document.getElementById('mobNavApplyFiltersBtn');
+    if (mobNavApplyFiltersBtn) mobNavApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
     if (mobResetFiltersBtn) mobResetFiltersBtn.addEventListener('click', resetAllFilters);
     if (mobNavResetFiltersBtn) mobNavResetFiltersBtn.addEventListener('click', resetAllFilters);
 
@@ -3869,11 +3876,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  viewport.addEventListener('mousemove', (e) => {
-    if (!isInspectorActive) return;
+  const updateCoordAtPoint = (clientX, clientY) => {
     const rect = viewport.getBoundingClientRect();
-    const vX = e.clientX - rect.left;
-    const vY = e.clientY - rect.top;
+    const vX = clientX - rect.left;
+    const vY = clientY - rect.top;
 
     const imgX = (vX - translateX) / scale;
     const imgY = (vY - translateY) / scale;
@@ -3884,6 +3890,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pctX >= 0 && pctX <= 100 && pctY >= 0 && pctY <= 100) {
       lastHoveredPct = { x: pctX, y: pctY };
       coordsBadgeText.innerHTML = `Map Pos: X: ${pctX}% | Y: ${pctY}%`;
+      return { x: pctX, y: pctY };
+    }
+    return null;
+  };
+
+  viewport.addEventListener('mousemove', (e) => {
+    if (!isInspectorActive) return;
+    updateCoordAtPoint(e.clientX, e.clientY);
+  });
+
+  viewport.addEventListener('click', (e) => {
+    if (!isInspectorActive) return;
+    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) return;
+    const coords = updateCoordAtPoint(e.clientX, e.clientY);
+    if (coords) {
+      const coordStr = `{ x: ${coords.x}, y: ${coords.y} }`;
+      navigator.clipboard?.writeText?.(coordStr).then(() => {
+        playGentleChime();
+        if (copyToast) {
+          copyToast.textContent = `Copied ${coordStr} to clipboard!`;
+          copyToast.classList.add('show');
+          setTimeout(() => copyToast.classList.remove('show'), 2000);
+        }
+      }).catch(() => {});
     }
   });
 
@@ -3902,7 +3932,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // PAN, ZOOM, DRAG & TOUCH INTERACTIONS
   // ==========================================================================
+  // 1. Mouse Dragging (Desktop)
   viewport.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'touch') return; // Handled by dedicated touch system below
     if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
       return;
     }
@@ -3915,6 +3947,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   viewport.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
     if (!isDragging) return;
     const dx = e.clientX - startPointerX;
     const dy = e.clientY - startPointerY;
@@ -3924,6 +3957,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   viewport.addEventListener('pointerup', (e) => {
+    if (e.pointerType === 'touch') return;
     if (isDragging) {
       isDragging = false;
       try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
@@ -3931,6 +3965,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   viewport.addEventListener('pointercancel', (e) => {
+    if (e.pointerType === 'touch') return;
     isDragging = false;
     try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
   });
@@ -3952,30 +3987,102 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTransform();
   }, { passive: false });
 
-  // Touch Gesture Pinch
+  // 2. Dedicated Multi-Touch Drag & Centered Pinch-to-Zoom (Mobile & Tablet)
+  let touchPinchActive = false;
+  let touchPinchStartDist = 0;
+  let touchPinchStartScale = 1;
+  let touchPinchStartTranslateX = 0;
+  let touchPinchStartTranslateY = 0;
+  let touchPinchMapStageX = 0;
+  let touchPinchMapStageY = 0;
+  let touchDragStartX = 0;
+  let touchDragStartY = 0;
+
   viewport.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 2) {
-      touchStartDist = Math.hypot(
+    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
+      return;
+    }
+
+    if (e.touches.length === 1) {
+      // 1 Finger: Smooth Pan
+      touchPinchActive = false;
+      isDragging = true;
+      touchDragStartX = e.touches[0].clientX;
+      touchDragStartY = e.touches[0].clientY;
+      startTranslateX = translateX;
+      startTranslateY = translateY;
+    } else if (e.touches.length === 2) {
+      // 2 Fingers: Centered Pinch-to-Zoom
+      isDragging = false;
+      touchPinchActive = true;
+      touchPinchStartDist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      touchStartScale = scale;
+      touchPinchStartScale = scale;
+      touchPinchStartTranslateX = translateX;
+      touchPinchStartTranslateY = translateY;
+
+      const rect = viewport.getBoundingClientRect();
+      const midViewportX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+      const midViewportY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+
+      touchPinchMapStageX = (midViewportX - touchPinchStartTranslateX) / touchPinchStartScale;
+      touchPinchMapStageY = (midViewportY - touchPinchStartTranslateY) / touchPinchStartScale;
     }
-  }, { passive: true });
+  }, { passive: false });
 
   viewport.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 2) {
+    if (e.touches.length === 1 && isDragging && !touchPinchActive) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - touchDragStartX;
+      const dy = e.touches[0].clientY - touchDragStartY;
+      translateX = startTranslateX + dx;
+      translateY = startTranslateY + dy;
+      applyTransform();
+    } else if (e.touches.length === 2 && touchPinchActive) {
+      e.preventDefault();
       const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      if (touchStartDist > 0) {
-        const factor = dist / touchStartDist;
-        scale = Math.min(Math.max(touchStartScale * factor, minScale), maxScale);
+      if (touchPinchStartDist > 0) {
+        const factor = dist / touchPinchStartDist;
+        const newScale = Math.min(Math.max(touchPinchStartScale * factor, minScale), maxScale);
+
+        const rect = viewport.getBoundingClientRect();
+        const currentMidX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+        const currentMidY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+
+        scale = newScale;
+        translateX = currentMidX - touchPinchMapStageX * newScale;
+        translateY = currentMidY - touchPinchMapStageY * newScale;
         applyTransform();
       }
     }
-  }, { passive: true });
+  }, { passive: false });
+
+  viewport.addEventListener('touchend', (e) => {
+    if (e.touches.length === 1) {
+      // Transition from pinch back to 1-finger drag cleanly without jump
+      touchPinchActive = false;
+      isDragging = true;
+      touchDragStartX = e.touches[0].clientX;
+      touchDragStartY = e.touches[0].clientY;
+      startTranslateX = translateX;
+      startTranslateY = translateY;
+    } else if (e.touches.length === 0) {
+      isDragging = false;
+      touchPinchActive = false;
+      touchPinchStartDist = 0;
+    }
+  }, { passive: false });
+
+  viewport.addEventListener('touchcancel', () => {
+    isDragging = false;
+    touchPinchActive = false;
+    touchPinchStartDist = 0;
+  }, { passive: false });
 
   // Keyboard Shortcuts
   window.addEventListener('keydown', (e) => {
