@@ -35,6 +35,7 @@
   backface-visibility: hidden;
   -webkit-transform-style: flat;
   transform-style: flat;
+  will-change: transform;
 }
 
 .map-artwork {

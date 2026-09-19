@@ -1676,6 +1676,71 @@ document.addEventListener('DOMContentLoaded', () => {
         openFullStanceBtn.addEventListener('click', () => openModal(disclaimerModal));
       }
     }
+
+    // If a guided expedition is actively running, prepend the Active Tour Card at the top of the sidebar
+    if (currentJourney && currentJourney.stages && currentJourney.stages[currentStageIndex]) {
+      const stage = currentJourney.stages[currentStageIndex];
+      const isLast = (currentStageIndex === currentJourney.stages.length - 1);
+      const isFirst = (currentStageIndex === 0);
+      const stageNum = currentStageIndex + 1;
+      const totalStages = currentJourney.stages.length;
+      const title = stage.stageTitle || stage.title || `${currentJourney.name} • Waypoint ${stageNum}`;
+      const narrative = stage.narrative || stage.note || loc.summary || '';
+      const ref = stage.ref || stage.scripture || '';
+      const distance = stage.distanceNote || '';
+
+      const tourCardHtml = `
+        <div class="active-tour-card" id="activeTourCard">
+          <div class="active-tour-header">
+            <span class="active-tour-badge">EXPEDITION WAYPOINT ${stageNum} OF ${totalStages}</span>
+            ${ref ? `<span class="active-tour-ref">${ref}</span>` : ''}
+          </div>
+          <h3 class="active-tour-title">${title}</h3>
+          <p class="active-tour-narrative">${narrative}</p>
+          ${distance ? `
+            <div class="active-tour-metric-box">
+              <span class="active-tour-metric-label">Strategic Geography & Distance:</span>
+              <span class="active-tour-metric-val">${distance}</span>
+            </div>
+          ` : ''}
+          <div class="active-tour-controls">
+            <button type="button" class="btn btn-outline btn-sm tour-sidebar-btn" id="sidebarTourPrevBtn" ${isFirst ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''}>◀ Previous</button>
+            <button type="button" class="btn btn-primary btn-sm glow-gold tour-sidebar-btn" id="sidebarTourNextBtn">${isLast ? 'Finish Expedition' : 'Next Waypoint ▶'}</button>
+            <button type="button" class="btn btn-outline btn-sm tour-sidebar-btn" id="sidebarTourExitBtn" title="Exit Guided Expedition">Exit Tour</button>
+          </div>
+        </div>
+      `;
+
+      sidebarContent.insertAdjacentHTML('afterbegin', tourCardHtml);
+
+      const sNext = sidebarContent.querySelector('#sidebarTourNextBtn');
+      if (sNext) {
+        sNext.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (currentJourney && currentStageIndex < currentJourney.stages.length - 1) {
+            goToTourStage(currentStageIndex + 1);
+          } else {
+            exitTour();
+          }
+        });
+      }
+      const sPrev = sidebarContent.querySelector('#sidebarTourPrevBtn');
+      if (sPrev) {
+        sPrev.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (currentStageIndex > 0) {
+            goToTourStage(currentStageIndex - 1);
+          }
+        });
+      }
+      const sExit = sidebarContent.querySelector('#sidebarTourExitBtn');
+      if (sExit) {
+        sExit.addEventListener('click', (e) => {
+          e.stopPropagation();
+          exitTour();
+        });
+      }
+    }
   }
 
   // ==========================================================================
@@ -3550,7 +3615,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (stepperTourName) stepperTourName.textContent = currentJourney.name;
     if (stepperStepCount) stepperStepCount.textContent = `Waypoint ${index + 1} of ${currentJourney.stages.length}`;
-    if (stepperStepNote) stepperStepNote.textContent = stage.note || loc.summary;
+    if (stepperStepNote) stepperStepNote.textContent = stage.note || stage.stageTitle || (loc && loc.summary);
 
     if (tourPrevStepBtn) tourPrevStepBtn.disabled = (index === 0);
     if (tourNextStepBtn) {
@@ -3560,16 +3625,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loc) {
       selectLocation(loc.id);
     }
+    if (sidebarContent) {
+      sidebarContent.scrollTop = 0;
+    }
+  }
+
+  if (tourStepperBar) {
+    tourStepperBar.addEventListener('pointerdown', (e) => e.stopPropagation());
+    tourStepperBar.addEventListener('mousedown', (e) => e.stopPropagation());
+    tourStepperBar.addEventListener('touchstart', (e) => e.stopPropagation());
   }
 
   if (tourPrevStepBtn) {
-    tourPrevStepBtn.addEventListener('click', () => {
+    tourPrevStepBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (currentStageIndex > 0) goToTourStage(currentStageIndex - 1);
     });
   }
 
   if (tourNextStepBtn) {
-    tourNextStepBtn.addEventListener('click', () => {
+    tourNextStepBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (currentJourney && currentStageIndex < currentJourney.stages.length - 1) {
         goToTourStage(currentStageIndex + 1);
       } else {
@@ -3579,7 +3655,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (tourExitBtn) {
-    tourExitBtn.addEventListener('click', exitTour);
+    tourExitBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      exitTour();
+    });
   }
 
   function exitTour() {
@@ -3587,6 +3666,9 @@ document.addEventListener('DOMContentLoaded', () => {
     currentStageIndex = 0;
     if (pathsGroup) pathsGroup.innerHTML = '';
     if (tourStepperBar) tourStepperBar.style.display = 'none';
+    if (activeLocationId && mapLocations[activeLocationId]) {
+      renderSidebarContent(mapLocations[activeLocationId]);
+    }
   }
 
   // ==========================================================================
@@ -3951,7 +4033,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Mouse Dragging (Desktop)
   viewport.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'touch') return; // Handled by dedicated touch system below
-    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
+    if (
+      e.target.closest('.map-pin') ||
+      e.target.closest('.floating-btn') ||
+      e.target.closest('.map-legend-box') ||
+      e.target.closest('.tour-stepper-bar') ||
+      e.target.closest('.map-scale-bar-container') ||
+      e.target.closest('.coords-inspector-badge') ||
+      e.target.closest('.floating-era-badge')
+    ) {
       return;
     }
     isDragging = true;
@@ -4036,7 +4126,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) {
+    if (
+      e.target.closest('.map-pin') ||
+      e.target.closest('.floating-btn') ||
+      e.target.closest('.map-legend-box') ||
+      e.target.closest('.tour-stepper-bar') ||
+      e.target.closest('.map-scale-bar-container') ||
+      e.target.closest('.coords-inspector-badge')
+    ) {
       return;
     }
 
