@@ -22,12 +22,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Unified Modular Stylesheets -->
-  <link rel="stylesheet" href="css/main.css?v=9.4">
-  <link rel="stylesheet" href="css/map.css?v=9.4">
-  <link rel="stylesheet" href="css/timeline.css?v=9.4">
-  <link rel="stylesheet" href="css/sidebar.css?v=9.4">
-  <link rel="stylesheet" href="css/components.css?v=9.4">
-  <link rel="stylesheet" href="css/mobile.css?v=9.4">
+  <link rel="stylesheet" href="css/main.css?v=9.5">
+  <link rel="stylesheet" href="css/map.css?v=9.5">
+  <link rel="stylesheet" href="css/timeline.css?v=9.5">
+  <link rel="stylesheet" href="css/sidebar.css?v=9.5">
+  <link rel="stylesheet" href="css/components.css?v=9.5">
+  <link rel="stylesheet" href="css/mobile.css?v=9.5">
 
   <!-- Mobile Viewport & Phone Shell Detection -->
   <script>
@@ -133,8 +133,11 @@
           </button>
           <div id="toolsDropdownMenu" class="dropdown-menu dropdown-menu-wide">
             <div class="dropdown-heading">Geographic Utilities</div>
+            <button id="menuToggleDistanceScaleBtn" class="dropdown-item">
+              <span id="menuScaleIcon">📏</span> <span id="menuScaleText">Distance Scale on Map: OFF</span>
+            </button>
             <button id="menuDistanceScaleBtn" class="dropdown-item">
-              <span>📏</span> Scriptural Travel Distances (Alma 22:32)
+              <span>📖</span> Scriptural Travel Metrics (Alma 22:32)
             </button>
             <button id="menuOldWorldBtn" class="dropdown-item">
               <span>🌍</span> Old World Origins (Babel & Jerusalem)
@@ -395,11 +398,12 @@
           </div>
         </div>
 
-        <!-- Scriptural Distance Scale Bar (Bottom-Right) -->
+        <!-- Scriptural Distance Scale Bar (Hidden by default; toggled via Tools or Mobile Menu) -->
         <div class="map-scale-bar-container" id="mapScaleContainer" title="Click to view Book of Mormon distance & travel time metrics">
           <div class="scale-bar-header">
             <span>DISTANCE SCALE</span>
             <span id="scaleNephiteDay">1 Day's Journey (~18 mi)</span>
+            <button class="scale-bar-close-btn" id="closeScaleBarBtn" title="Hide Distance Scale" aria-label="Hide Distance Scale">&times;</button>
           </div>
           <div class="scale-bar-ruler">
             <div class="scale-segment seg-1"></div>
@@ -659,8 +663,12 @@
     <!-- Secondary Tools -->
     <div class="mobile-nav-section">
       <div class="mobile-nav-heading">Atlas Tools</div>
-      <button class="mobile-menu-item" id="mobDistanceScaleBtn">
+      <button class="mobile-menu-item" id="mobToggleDistanceScaleBtn">
         <span>📏</span>
+        <span id="mobScaleText">Distance Scale on Map: OFF</span>
+      </button>
+      <button class="mobile-menu-item" id="mobDistanceScaleBtn">
+        <span>📖</span>
         <span>Travel Distances & Day Journeys (Alma 22:32)</span>
       </button>
       <button class="mobile-menu-item" id="mobOldWorldBtn">
@@ -757,8 +765,15 @@
     <div class="mobile-sheet-body">
       <!-- Geographic Utilities -->
       <div class="mobile-filter-section-title">Geographic Utilities</div>
-      <button class="mobile-menu-item" id="mobSheetDistanceScaleBtn">
+      <button class="mobile-menu-item" id="mobSheetToggleDistanceScaleBtn">
         <span>📏</span>
+        <div>
+          <div class="menu-title-bold" id="mobSheetScaleText">Distance Scale on Map: OFF</div>
+          <div class="menu-subtitle-muted">Toggle 1-day journey (~18 mi) ruler on the map</div>
+        </div>
+      </button>
+      <button class="mobile-menu-item" id="mobSheetDistanceScaleBtn">
+        <span>📖</span>
         <div>
           <div class="menu-title-bold">Scriptural Travel Distances</div>
           <div class="menu-subtitle-muted">Day journeys & Narrow Neck scale (Alma 22:32)</div>
@@ -1028,10 +1043,10 @@
   <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
 
   <!-- Data & Controller Scripts -->
-  <script src="map-data.js?v=9.4"></script>
-  <script src="js/data/placeDossiers.js?v=9.4"></script>
-  <script src="js/data/scriptureTranslations.js?v=9.4"></script>
-  <script src="js/data/churchVideos.js?v=9.4"></script>
-  <script src="app.js?v=9.4"></script>
+  <script src="map-data.js?v=9.5"></script>
+  <script src="js/data/placeDossiers.js?v=9.5"></script>
+  <script src="js/data/scriptureTranslations.js?v=9.5"></script>
+  <script src="js/data/churchVideos.js?v=9.5"></script>
+  <script src="app.js?v=9.5"></script>
 </body>
 </html>

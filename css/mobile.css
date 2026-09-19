@@ -197,6 +197,10 @@
     transform-origin: bottom right;
   }
 
+  .map-scale-bar-container:not(.is-visible) {
+    display: none !important;
+  }
+
   .map-legend-box {
     display: none; /* Accessible via Tools menu on phone to maximize map view */
   }

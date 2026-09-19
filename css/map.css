@@ -505,6 +505,7 @@
    SCRIPTURAL DISTANCE SCALE BAR
    ========================================================================== */
 .map-scale-bar-container {
+  display: none; /* Hidden by default per user request; toggled via Tools or Mobile menu */
   position: absolute;
   bottom: 14px;
   right: 14px;
@@ -520,6 +521,10 @@
   max-width: min(250px, calc(100vw - 32px));
   box-sizing: border-box;
   transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.map-scale-bar-container.is-visible {
+  display: block;
 }
 
 @media (min-width: 769px) {
@@ -555,6 +560,27 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 4px;
+}
+
+.scale-bar-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: auto;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.scale-bar-close-btn:hover {
+  color: #991B1B;
+  background: rgba(153, 27, 27, 0.08);
 }
 
 .scale-bar-ruler {

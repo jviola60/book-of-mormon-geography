@@ -145,6 +145,34 @@ document.addEventListener('DOMContentLoaded', () => {
   let isInspectorActive = false;
   let lastHoveredPct = { x: 50.0, y: 50.0 };
 
+  // Scriptural Distance Scale Bar State (Hidden by default; toggled via menus)
+  let isDistanceScaleVisible = false;
+
+  function setDistanceScaleVisibility(visible) {
+    isDistanceScaleVisible = !!visible;
+    if (mapScaleContainer) {
+      mapScaleContainer.classList.toggle('is-visible', isDistanceScaleVisible);
+    }
+    const label = `Distance Scale on Map: ${isDistanceScaleVisible ? 'ON' : 'OFF'}`;
+    const menuScaleText = document.getElementById('menuScaleText');
+    if (menuScaleText) menuScaleText.textContent = label;
+    const mobScaleText = document.getElementById('mobScaleText');
+    if (mobScaleText) mobScaleText.textContent = label;
+    const mobSheetScaleText = document.getElementById('mobSheetScaleText');
+    if (mobSheetScaleText) mobSheetScaleText.textContent = label;
+
+    const menuToggleDistanceScaleBtn = document.getElementById('menuToggleDistanceScaleBtn');
+    if (menuToggleDistanceScaleBtn) menuToggleDistanceScaleBtn.classList.toggle('active', isDistanceScaleVisible);
+    const mobToggleDistanceScaleBtn = document.getElementById('mobToggleDistanceScaleBtn');
+    if (mobToggleDistanceScaleBtn) mobToggleDistanceScaleBtn.classList.toggle('active', isDistanceScaleVisible);
+    const mobSheetToggleDistanceScaleBtn = document.getElementById('mobSheetToggleDistanceScaleBtn');
+    if (mobSheetToggleDistanceScaleBtn) mobSheetToggleDistanceScaleBtn.classList.toggle('active', isDistanceScaleVisible);
+  }
+
+  function toggleDistanceScale() {
+    setDistanceScaleVisibility(!isDistanceScaleVisible);
+  }
+
   // Chronology & Playback State
   let currentEraStep = 0;
   let isPlaying = false;
@@ -829,10 +857,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const toolsDropdownContainer = document.getElementById('toolsDropdownContainer');
     const toolsDropdownBtn = document.getElementById('toolsDropdownBtn');
     const toolsDropdownMenu = document.getElementById('toolsDropdownMenu');
+    const menuToggleDistanceScaleBtn = document.getElementById('menuToggleDistanceScaleBtn');
     const menuDistanceScaleBtn = document.getElementById('menuDistanceScaleBtn');
     const menuOldWorldBtn = document.getElementById('menuOldWorldBtn');
     const menuInspectorBtn = document.getElementById('menuInspectorBtn');
     const menuInspectorText = document.getElementById('menuInspectorText');
+
+    if (menuToggleDistanceScaleBtn) {
+      menuToggleDistanceScaleBtn.addEventListener('click', () => {
+        toolsDropdownMenu && toolsDropdownMenu.classList.remove('show');
+        toggleDistanceScale();
+      });
+    }
 
     if (toolsDropdownBtn && toolsDropdownMenu) {
       toolsDropdownBtn.addEventListener('click', (e) => {
@@ -954,6 +990,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    const mobToggleDistanceScaleBtn = document.getElementById('mobToggleDistanceScaleBtn');
+    if (mobToggleDistanceScaleBtn) {
+      mobToggleDistanceScaleBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        toggleDistanceScale();
+      });
+    }
+
     const mobDistanceScaleBtn = document.getElementById('mobDistanceScaleBtn');
     if (mobDistanceScaleBtn && distanceScaleModal) {
       mobDistanceScaleBtn.addEventListener('click', () => {
@@ -1038,6 +1082,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile Tools Sheet Wiring
     const closeMobileToolsBtn = document.getElementById('closeMobileToolsBtn');
     if (closeMobileToolsBtn) closeMobileToolsBtn.addEventListener('click', closeAllMobileSheets);
+
+    const mobSheetToggleDistanceScaleBtn = document.getElementById('mobSheetToggleDistanceScaleBtn');
+    if (mobSheetToggleDistanceScaleBtn) {
+      mobSheetToggleDistanceScaleBtn.addEventListener('click', () => {
+        closeAllMobileSheets();
+        toggleDistanceScale();
+      });
+    }
 
     const mobSheetDistanceScaleBtn = document.getElementById('mobSheetDistanceScaleBtn');
     if (mobSheetDistanceScaleBtn && distanceScaleModal) {
@@ -3748,8 +3800,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (mapScaleContainer && distanceScaleModal) {
     mapScaleContainer.addEventListener('click', (e) => {
+      if (e.target.closest('#closeScaleBarBtn')) return;
       e.stopPropagation();
       openModal(distanceScaleModal);
+    });
+  }
+  const closeScaleBarBtn = document.getElementById('closeScaleBarBtn');
+  if (closeScaleBarBtn) {
+    closeScaleBarBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setDistanceScaleVisibility(false);
     });
   }
   if (closeDistanceModalBtn && distanceScaleModal) {
