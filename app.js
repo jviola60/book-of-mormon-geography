@@ -322,11 +322,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarOffset = (isDesktop && isSidebarOpen) ? (detailSidebar.offsetWidth || 270) : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
-    // On mobile, sheet covers bottom 48%; center in upper 52% of viewport
+    // On mobile, if tour is active (38dvh sheet), center in upper 62% of viewport
     const offsetX = availWidth * 0.5;
-    const offsetY = isMobile ? vHeight * 0.26 : vHeight * 0.5;
+    const offsetY = isMobile ? (currentJourney ? vHeight * 0.28 : vHeight * 0.26) : vHeight * 0.5;
 
-    const minFocusScale = isMobile ? 1.05 : 1.35;
+    const minFocusScale = isMobile ? (currentJourney ? 0.95 : 1.05) : 1.35;
     if (customScale) {
       scale = customScale;
     } else if (scale < minFocusScale) {
@@ -4122,6 +4122,8 @@ document.addEventListener('DOMContentLoaded', () => {
     currentJourney = mapJourneys.find(j => j.id === tourId);
     if (!currentJourney) return;
 
+    document.body.classList.add('tour-is-active');
+
     currentStageIndex = 0;
 
     // Show the Dedicated Tour Tab in the sidebar and activate it
@@ -4137,7 +4139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activeTab = 'expedition';
 
     if (tourStepperBar) {
-      tourStepperBar.style.display = 'flex';
+      tourStepperBar.style.display = window.innerWidth > 768 ? 'flex' : 'none';
     }
 
     goToTourStage(0);
@@ -4257,6 +4259,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function exitTour() {
+    document.body.classList.remove('tour-is-active');
     currentJourney = null;
     currentStageIndex = 0;
     if (pathsGroup) pathsGroup.innerHTML = '';

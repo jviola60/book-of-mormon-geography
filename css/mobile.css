@@ -283,6 +283,89 @@
     transform: translateY(0);
   }
 
+  /* --------------------------------------------------------------------------
+     Active Tour Mobile Mode: Maximize Map Visibility & Streamline Player
+     -------------------------------------------------------------------------- */
+  .tour-stepper-bar,
+  body.tour-is-active .tour-stepper-bar {
+    display: none !important;
+  }
+
+  body.tour-is-active .sidebar-tabs {
+    display: none !important;
+  }
+
+  body.tour-is-active .detail-sidebar {
+    height: 38dvh !important;
+    max-height: 40dvh !important;
+  }
+
+  body.tour-is-active .detail-sidebar:not(.closed):not(.peek) {
+    height: 38dvh !important;
+    max-height: 40dvh !important;
+    transform: translateY(0) !important;
+  }
+
+  body.tour-is-active .detail-sidebar.peek {
+    transform: translateY(calc(100% - 44px)) !important;
+  }
+
+  body.tour-is-active .sidebar-header {
+    padding: 0.35rem 0.9rem 0.35rem !important;
+    background: #E8DCC4 !important;
+  }
+
+  body.tour-is-active .sidebar-eyebrow {
+    font-size: 0.62rem !important;
+    color: var(--color-crimson) !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  body.tour-is-active .sidebar-title {
+    font-size: 0.92rem !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.tour-is-active .sidebar-content {
+    padding: 0.5rem 0.85rem 1rem !important;
+  }
+
+  body.tour-is-active .expedition-theater {
+    padding-top: 0 !important;
+  }
+
+  body.tour-is-active .expedition-banner-card {
+    padding: 0.65rem 0.75rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  body.tour-is-active .active-tour-title {
+    font-size: 0.95rem !important;
+    margin: 0.25rem 0 0.4rem 0 !important;
+  }
+
+  body.tour-is-active .active-tour-narrative {
+    font-size: 0.82rem !important;
+    line-height: 1.45 !important;
+    margin-top: 0.35rem !important;
+  }
+
+  body.tour-is-active .active-tour-controls {
+    margin-top: 0.75rem !important;
+    gap: 6px !important;
+  }
+
+  body.tour-is-active .active-tour-controls .btn {
+    flex: 1 !important;
+    height: 38px !important;
+    font-size: 0.78rem !important;
+    padding: 0 6px !important;
+    justify-content: center !important;
+  }
+
   .mobile-drag-handle {
     display: flex;
     align-items: center;
