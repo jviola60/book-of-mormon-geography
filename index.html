@@ -22,12 +22,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Unified Modular Stylesheets -->
-  <link rel="stylesheet" href="css/main.css?v=15.0">
-  <link rel="stylesheet" href="css/map.css?v=15.0">
-  <link rel="stylesheet" href="css/timeline.css?v=15.0">
-  <link rel="stylesheet" href="css/sidebar.css?v=15.0">
-  <link rel="stylesheet" href="css/components.css?v=15.0">
-  <link rel="stylesheet" href="css/mobile.css?v=15.0">
+  <link rel="stylesheet" href="css/main.css?v=16.0">
+  <link rel="stylesheet" href="css/map.css?v=16.0">
+  <link rel="stylesheet" href="css/timeline.css?v=16.0">
+  <link rel="stylesheet" href="css/sidebar.css?v=16.0">
+  <link rel="stylesheet" href="css/components.css?v=16.0">
+  <link rel="stylesheet" href="css/mobile.css?v=16.0">
 
   <!-- Mobile Viewport & Phone Shell Detection -->
   <script>
@@ -740,6 +740,7 @@
 
   <!-- Mobile Filters Bottom Sheet -->
   <div class="mobile-filter-sheet" id="mobileFiltersSheet" aria-label="Mobile Filter Options">
+    <div class="mobile-drag-handle" id="mobileFiltersDragHandle" aria-hidden="true"><span class="drag-pill"></span></div>
     <div class="mobile-sheet-header">
       <h3 class="mobile-sheet-title">Filter Map Landmarks</h3>
       <button class="close-btn" id="closeMobileFiltersBtn">&times;</button>
@@ -801,6 +802,7 @@
 
   <!-- Mobile Tools Bottom Sheet (Full-Width Drawer) -->
   <div class="mobile-tools-sheet" id="mobileToolsSheet" aria-label="Mobile Atlas Tools">
+    <div class="mobile-drag-handle" id="mobileToolsDragHandle" aria-hidden="true"><span class="drag-pill"></span></div>
     <div class="mobile-sheet-header">
       <h3 class="mobile-sheet-title">Atlas Tools & Utilities</h3>
       <button class="close-btn" id="closeMobileToolsBtn">&times;</button>
@@ -869,6 +871,7 @@
 
   <!-- Mobile Landmark Quick Picker Sheet -->
   <div class="mobile-picker-sheet" id="mobilePickerSheet" aria-label="Quick Landmark Selector">
+    <div class="mobile-drag-handle" id="mobilePickerDragHandle" aria-hidden="true"><span class="drag-pill"></span></div>
     <div class="mobile-sheet-header">
       <h3 class="mobile-sheet-title">Jump to Landmark (94 Sites)</h3>
       <button class="close-btn" id="closeMobilePickerBtn">&times;</button>
@@ -884,6 +887,7 @@
   <!-- Guided Tours Selection Modal -->
   <div class="modal-backdrop" id="tourModal">
     <div class="modal-card">
+      <div class="mobile-drag-handle" id="mobileTourDragHandle" aria-hidden="true"><span class="drag-pill"></span></div>
       <div class="modal-header">
         <h3 class="modal-title">Select a Curated Scriptural Expedition</h3>
         <button class="close-btn" id="closeTourModalBtn">&times;</button>
@@ -1086,10 +1090,10 @@
   <div class="copy-toast" id="copyToast">Coordinates Copied to Clipboard!</div>
 
   <!-- Data & Controller Scripts -->
-  <script src="map-data.js?v=15.0"></script>
-  <script src="js/data/placeDossiers.js?v=15.0"></script>
-  <script src="js/data/scriptureTranslations.js?v=15.0"></script>
-  <script src="js/data/churchVideos.js?v=15.0"></script>
-  <script src="app.js?v=15.0"></script>
+  <script src="map-data.js?v=16.0"></script>
+  <script src="js/data/placeDossiers.js?v=16.0"></script>
+  <script src="js/data/scriptureTranslations.js?v=16.0"></script>
+  <script src="js/data/churchVideos.js?v=16.0"></script>
+  <script src="app.js?v=16.0"></script>
 </body>
 </html>

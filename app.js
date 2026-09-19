@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Touch gesture pinch state
   let touchStartDist = 0;
   let touchStartScale = 1;
+  let touchStartTime = 0;
 
   // ==========================================================================
   // MODAL UTILITIES (Reliable Display & Fade)
@@ -321,14 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarOffset = (isDesktop && isSidebarOpen) ? (detailSidebar.offsetWidth || 270) : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
-    // On mobile, compact peek sheet covers bottom; center in upper portion of viewport
+    // On mobile, sheet covers bottom 48%; center in upper 52% of viewport
     const offsetX = availWidth * 0.5;
-    const offsetY = isMobile ? vHeight * 0.35 : vHeight * 0.5;
+    const offsetY = isMobile ? vHeight * 0.26 : vHeight * 0.5;
 
+    const minFocusScale = isMobile ? 1.05 : 1.35;
     if (customScale) {
       scale = customScale;
-    } else if (scale < 1.35) {
-      scale = 1.35;
+    } else if (scale < minFocusScale) {
+      scale = minFocusScale;
     }
 
     translateX = offsetX - (targetX * scale);
@@ -1231,20 +1233,85 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Mobile Detail Sidebar Drag Handle (Tap to toggle peek vs expanded)
+    // Mobile Detail Sidebar Drag Handle (Tap to toggle peek vs open)
     const mobileDragHandle = document.getElementById('mobileDragHandle');
     if (mobileDragHandle && detailSidebar) {
       mobileDragHandle.addEventListener('click', () => {
-        if (detailSidebar.classList.contains('peek')) {
+        if (detailSidebar.classList.contains('peek') || detailSidebar.classList.contains('closed')) {
           detailSidebar.classList.remove('peek', 'closed');
-        } else if (detailSidebar.classList.contains('expanded')) {
-          detailSidebar.classList.add('peek');
-          detailSidebar.classList.remove('expanded');
         } else {
-          detailSidebar.classList.add('expanded');
+          detailSidebar.classList.add('peek');
         }
       });
     }
+
+    // Sheet Drag Handles tap to dismiss
+    const mobileFiltersDragHandle = document.getElementById('mobileFiltersDragHandle');
+    if (mobileFiltersDragHandle) {
+      mobileFiltersDragHandle.addEventListener('click', () => closeAllMobileSheets());
+    }
+
+    const mobileToolsDragHandle = document.getElementById('mobileToolsDragHandle');
+    if (mobileToolsDragHandle) {
+      mobileToolsDragHandle.addEventListener('click', () => closeAllMobileSheets());
+    }
+
+    const mobilePickerDragHandle = document.getElementById('mobilePickerDragHandle');
+    if (mobilePickerDragHandle) {
+      mobilePickerDragHandle.addEventListener('click', () => closeAllMobileSheets());
+    }
+
+    const mobileTourDragHandle = document.getElementById('mobileTourDragHandle');
+    if (mobileTourDragHandle && tourModal) {
+      mobileTourDragHandle.addEventListener('click', () => closeModal(tourModal));
+    }
+
+    // Touch swipe down on headers or drag handles to collapse
+    const setupSwipeDown = (element, onDismiss) => {
+      if (!element) return;
+      let startY = 0;
+      let deltaY = 0;
+      element.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          startY = e.touches[0].clientY;
+          deltaY = 0;
+        }
+      }, { passive: true });
+      element.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 1) {
+          deltaY = e.touches[0].clientY - startY;
+        }
+      }, { passive: true });
+      element.addEventListener('touchend', () => {
+        if (deltaY > 25) {
+          onDismiss();
+        }
+      }, { passive: true });
+    };
+
+    if (mobileDragHandle) setupSwipeDown(mobileDragHandle, () => {
+      if (detailSidebar) { detailSidebar.classList.add('peek'); }
+    });
+    const sidebarHeader = document.querySelector('#detailSidebar .sidebar-header');
+    if (sidebarHeader) setupSwipeDown(sidebarHeader, () => {
+      if (window.innerWidth <= 768 && detailSidebar) { detailSidebar.classList.add('peek'); }
+    });
+
+    if (mobileFiltersDragHandle) setupSwipeDown(mobileFiltersDragHandle, () => closeAllMobileSheets());
+    const filtersHeader = document.querySelector('#mobileFiltersSheet .mobile-sheet-header');
+    if (filtersHeader) setupSwipeDown(filtersHeader, () => closeAllMobileSheets());
+
+    if (mobileToolsDragHandle) setupSwipeDown(mobileToolsDragHandle, () => closeAllMobileSheets());
+    const toolsHeader = document.querySelector('#mobileToolsSheet .mobile-sheet-header');
+    if (toolsHeader) setupSwipeDown(toolsHeader, () => closeAllMobileSheets());
+
+    if (mobilePickerDragHandle) setupSwipeDown(mobilePickerDragHandle, () => closeAllMobileSheets());
+    const pickerHeader = document.querySelector('#mobilePickerSheet .mobile-sheet-header');
+    if (pickerHeader) setupSwipeDown(pickerHeader, () => closeAllMobileSheets());
+
+    if (mobileTourDragHandle) setupSwipeDown(mobileTourDragHandle, () => closeModal(tourModal));
+    const tourHeader = document.querySelector('#tourModal .modal-header');
+    if (tourHeader) setupSwipeDown(tourHeader, () => closeModal(tourModal));
   }
 
   // 5. Mobile Landmark Picker Sheet Content Generator
@@ -4546,6 +4613,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   viewport.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+      if (!e.target.closest('.map-pin') && !e.target.closest('.floating-btn') && !e.target.closest('.map-legend-box') && !e.target.closest('.tour-stepper-bar') && !e.target.closest('.mobile-bottom-bar')) {
+        closeAllMobileSheets();
+        if (detailSidebar && !detailSidebar.classList.contains('closed') && !detailSidebar.classList.contains('peek')) {
+          detailSidebar.classList.add('peek');
+          detailSidebar.classList.remove('expanded');
+        }
+      }
+    }
     if (!isInspectorActive) return;
     if (e.target.closest('.map-pin') || e.target.closest('.floating-btn') || e.target.closest('.map-legend-box')) return;
     const coords = updateCoordAtPoint(e.clientX, e.clientY);
@@ -4690,6 +4766,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isDragging = true;
       touchDragStartX = e.touches[0].clientX;
       touchDragStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
       startTranslateX = translateX;
       startTranslateY = translateY;
     }
@@ -4754,6 +4831,18 @@ document.addEventListener('DOMContentLoaded', () => {
       startTranslateX = translateX;
       startTranslateY = translateY;
     } else if (e.touches.length === 0) {
+      if (window.innerWidth <= 768 && isDragging && !touchPinchActive && e.changedTouches && e.changedTouches.length > 0) {
+        const movedDist = Math.hypot(e.changedTouches[0].clientX - touchDragStartX, e.changedTouches[0].clientY - touchDragStartY);
+        if (movedDist < 12 && (Date.now() - touchStartTime < 350)) {
+          if (!e.target.closest('.map-pin') && !e.target.closest('.floating-btn') && !e.target.closest('.tour-stepper-bar') && !e.target.closest('.mobile-bottom-bar')) {
+            closeAllMobileSheets();
+            if (detailSidebar && !detailSidebar.classList.contains('closed') && !detailSidebar.classList.contains('peek')) {
+              detailSidebar.classList.add('peek');
+              detailSidebar.classList.remove('expanded');
+            }
+          }
+        }
+      }
       isDragging = false;
       touchPinchActive = false;
       touchPinchStartDist = 0;

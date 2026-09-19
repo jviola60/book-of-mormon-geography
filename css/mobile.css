@@ -248,18 +248,19 @@
     left: 0;
     right: 0;
     width: 100vw;
-    height: 48vh;
-    max-height: 82dvh;
+    height: 48dvh;
+    max-height: 50dvh !important;
     background: #FFFDF9;
     border-top: 2px solid var(--color-gold);
     border-left: none;
     border-radius: 18px 18px 0 0;
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
     z-index: 2200;
-    transform: translateY(calc(100% - 46px)); /* Thin bottom sheet peek by default: exposes 46px handle bar */
+    transform: translateY(calc(100% - 44px)); /* Thin bottom sheet peek by default: exposes 44px handle bar */
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .detail-sidebar.closed {
@@ -267,15 +268,18 @@
   }
 
   .detail-sidebar.peek {
-    transform: translateY(calc(100% - 46px));
+    transform: translateY(calc(100% - 44px));
   }
 
   .detail-sidebar:not(.closed):not(.peek) {
     transform: translateY(0);
+    height: 48dvh;
+    max-height: 50dvh !important;
   }
 
   .detail-sidebar.expanded {
-    height: 75vh;
+    height: 50dvh !important;
+    max-height: 52dvh !important;
     transform: translateY(0);
   }
 
@@ -460,14 +464,14 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: rgba(20, 15, 10, 0.65);
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
+    bottom: var(--mobile-nav-height, 52px);
+    background: rgba(20, 15, 10, 0.2);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     z-index: 2500;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.2s ease;
   }
 
   .mobile-sheet-backdrop.active {
@@ -620,19 +624,21 @@
   .mobile-filter-sheet,
   .mobile-tools-sheet {
     position: fixed;
-    bottom: 0;
+    bottom: var(--mobile-nav-height, 52px);
     left: 0;
     right: 0;
-    max-height: 82dvh;
+    height: 48dvh;
+    max-height: 50dvh !important;
     background: #FFFDF9;
     border-top: 2px solid var(--color-gold);
     border-radius: 18px 18px 0 0;
     z-index: 2600;
-    transform: translateY(105%);
+    transform: translateY(115%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .mobile-filter-sheet.open,
@@ -709,19 +715,21 @@
   /* 3. Mobile Landmark Quick Jump Sheet */
   .mobile-picker-sheet {
     position: fixed;
-    bottom: 0;
+    bottom: var(--mobile-nav-height, 52px);
     left: 0;
     right: 0;
-    max-height: 80dvh;
+    height: 48dvh;
+    max-height: 50dvh !important;
     background: #FFFDF9;
     border-top: 2px solid var(--color-gold);
     border-radius: 18px 18px 0 0;
     z-index: 2600;
-    transform: translateY(105%);
+    transform: translateY(115%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .mobile-picker-sheet.open {
@@ -777,5 +785,98 @@
   .mobile-picker-meta {
     font-size: 0.75rem;
     color: var(--text-muted);
+  }
+
+  /* --------------------------------------------------------------------------
+     4. Mobile Modals (Guided Tours, Scriptures, Disclaimer) as Bottom Sheets
+     -------------------------------------------------------------------------- */
+  .modal-backdrop {
+    align-items: flex-end !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    background: rgba(20, 15, 10, 0.25) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    z-index: 3200 !important;
+  }
+
+  .modal-card {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 48dvh !important;
+    max-height: 50dvh !important;
+    margin: 0 !important;
+    margin-bottom: var(--mobile-nav-height, 52px) !important;
+    border-radius: 18px 18px 0 0 !important;
+    border: none !important;
+    border-top: 2px solid var(--color-gold) !important;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35) !important;
+    animation: slideUpSheet 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow: hidden !important;
+  }
+
+  @keyframes slideUpSheet {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+  }
+
+  .modal-header {
+    padding: 0.75rem 1.15rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .modal-title {
+    font-size: 0.98rem !important;
+  }
+
+  .modal-body {
+    padding: 0.85rem 1.15rem !important;
+    overflow-y: auto !important;
+    touch-action: pan-y !important;
+  }
+
+  .tours-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+  }
+
+  .tour-card {
+    padding: 0.75rem 0.85rem !important;
+    border-radius: 8px !important;
+  }
+
+  .tour-card-title {
+    font-size: 0.88rem !important;
+  }
+
+  .tour-card-meta {
+    font-size: 0.72rem !important;
+  }
+
+  /* Scripture Reader Modal as Bottom Sheet */
+  .scripture-modal {
+    align-items: flex-end !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    z-index: 3200 !important;
+  }
+
+  .scripture-modal-backdrop {
+    background: rgba(20, 15, 10, 0.25) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .scripture-modal-dialog {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 50dvh !important;
+    max-height: 52dvh !important;
+    margin: 0 !important;
+    margin-bottom: var(--mobile-nav-height, 52px) !important;
+    border-radius: 18px 18px 0 0 !important;
+    border: none !important;
+    border-top: 2px solid var(--color-gold) !important;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35) !important;
   }
 }
