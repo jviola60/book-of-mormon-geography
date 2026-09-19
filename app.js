@@ -226,9 +226,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statToursCount) statToursCount.textContent = mapJourneys.length;
     if (statErasCount) statErasCount.textContent = chronologicalMilestones.length;
 
-    // Mobile phone layout initialization: close sidebar so map is dominant
+    // Mobile phone layout initialization: start as thin bottom sheet peek so map is dominant
     if (window.innerWidth <= 768 && detailSidebar) {
-      detailSidebar.classList.add('closed');
+      detailSidebar.classList.add('peek');
+      detailSidebar.classList.remove('closed');
     }
 
     const runSetup = () => {
@@ -259,8 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth <= 768;
     const isDesktop = window.innerWidth > 768;
-    const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
-    const sidebarOffset = (isDesktop && isSidebarOpen) ? 290 : 0;
+    const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed') && !detailSidebar.classList.contains('peek');
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? (detailSidebar.offsetWidth || 270) : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
     if (isMobile) {
@@ -271,18 +272,17 @@ document.addEventListener('DOMContentLoaded', () => {
       translateX = (availWidth - (imgWidth * scale)) / 2;
       translateY = (vHeight / 2) - (imgHeight * 0.49 * scale);
     } else {
-      // Desktop framing: fill ~94% of available width to eliminate dark side void,
+      // Desktop framing: fill available canvas width to eliminate dark side void,
       // and frame core L1/L2 lands (Zarahemla, Nephi, Bountiful, Cumorah)
-      const scaleByWidth = (availWidth * 0.94) / imgWidth;
-      const scaleByHeight = (vHeight * 1.65) / imgHeight;
-      scale = Math.min(scaleByWidth, Math.max(scaleByHeight, 0.62));
-      scale = Math.max(scale, 0.50);
+      const scaleToFillWidth = availWidth / imgWidth;
+      const scaleToFitHeight = (vHeight * 1.35) / imgHeight;
+      scale = Math.max(scaleToFillWidth, scaleToFitHeight, 0.68);
       minScale = 0.20;
       maxScale = 3.5;
 
-      // Center horizontally on inhabited landmass centroid (X ~54%) to eliminate right-side void
-      translateX = (availWidth / 2) - (imgWidth * 0.54 * scale);
-      translateY = (vHeight / 2) - (imgHeight * 0.49 * scale);
+      // Center horizontally on inhabited landmass centroid (X ~52%) to eliminate right-side void
+      translateX = (availWidth / 2) - (imgWidth * 0.52 * scale);
+      translateY = (vHeight / 2) - (imgHeight * 0.48 * scale);
     }
 
     applyTransform();
@@ -317,13 +317,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth <= 768;
     const isDesktop = window.innerWidth > 768;
-    const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed');
-    const sidebarOffset = (isDesktop && isSidebarOpen) ? 290 : 0;
+    const isSidebarOpen = detailSidebar && !detailSidebar.classList.contains('closed') && !detailSidebar.classList.contains('peek');
+    const sidebarOffset = (isDesktop && isSidebarOpen) ? (detailSidebar.offsetWidth || 270) : 0;
     const availWidth = Math.max(320, vWidth - sidebarOffset);
 
-    // On mobile, compact peek sheet covers bottom 42%; center in top 58% of viewport
+    // On mobile, compact peek sheet covers bottom; center in upper portion of viewport
     const offsetX = availWidth * 0.5;
-    const offsetY = isMobile ? vHeight * 0.30 : vHeight * 0.5;
+    const offsetY = isMobile ? vHeight * 0.35 : vHeight * 0.5;
 
     if (customScale) {
       scale = customScale;
@@ -1085,7 +1085,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!activeLocationId) {
         selectLocation('zarahemla');
       } else if (detailSidebar) {
-        detailSidebar.classList.toggle('closed');
+        if (detailSidebar.classList.contains('closed') || detailSidebar.classList.contains('peek')) {
+          detailSidebar.classList.remove('closed', 'peek');
+        } else {
+          detailSidebar.classList.add('peek');
+        }
         updateSidebarStateUI();
       }
     };
@@ -1231,7 +1235,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileDragHandle = document.getElementById('mobileDragHandle');
     if (mobileDragHandle && detailSidebar) {
       mobileDragHandle.addEventListener('click', () => {
-        detailSidebar.classList.toggle('expanded');
+        if (detailSidebar.classList.contains('peek')) {
+          detailSidebar.classList.remove('peek', 'closed');
+        } else if (detailSidebar.classList.contains('expanded')) {
+          detailSidebar.classList.add('peek');
+          detailSidebar.classList.remove('expanded');
+        } else {
+          detailSidebar.classList.add('expanded');
+        }
       });
     }
   }
@@ -1332,9 +1343,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Tab Content
     renderSidebarContent(loc);
 
-    // Open Sidebar if closed (on mobile: start in compact peek mode)
+    // Open Sidebar if closed (on mobile: start in readable mode)
     if (detailSidebar) {
       detailSidebar.classList.remove('closed');
+      detailSidebar.classList.remove('peek');
       detailSidebar.classList.remove('expanded');
       const appContainer = document.querySelector('.app-main-container');
       if (appContainer) appContainer.classList.remove('sidebar-is-closed');
@@ -3436,8 +3448,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (closeSidebarBtn) {
     closeSidebarBtn.addEventListener('click', () => {
-      detailSidebar.classList.add('closed');
-      detailSidebar.classList.remove('expanded');
+      if (window.innerWidth <= 768) {
+        detailSidebar.classList.add('peek');
+        detailSidebar.classList.remove('expanded');
+      } else {
+        detailSidebar.classList.add('closed');
+        detailSidebar.classList.remove('expanded');
+      }
       const edgeToggleIcon = document.getElementById('edgeToggleIcon');
       if (edgeToggleIcon) edgeToggleIcon.textContent = '◀';
       const edgeToggleText = document.querySelector('#sidebarEdgeToggleBtn .edge-toggle-text');

@@ -24,7 +24,7 @@
     --filterbar-height: 0px;
     --footer-height: 98px;
     --sidebar-width: 100vw;
-    --mobile-nav-height: 0px;
+    --mobile-nav-height: 52px;
     --tap-min: 44px;
   }
 
@@ -144,7 +144,7 @@
     flex: 1;
     position: relative;
     overflow: hidden;
-    height: calc(100dvh - var(--header-height) - var(--footer-height));
+    height: calc(100dvh - var(--header-height) - var(--footer-height) - var(--mobile-nav-height));
     background: #FAF5EB;
   }
 
@@ -244,11 +244,11 @@
   .detail-sidebar {
     position: fixed;
     top: auto;
-    bottom: 0;
+    bottom: var(--mobile-nav-height, 52px);
     left: 0;
     right: 0;
     width: 100vw;
-    height: 42vh; /* Partially collapsed peek: leaves top 58% of phone screen for map */
+    height: 48vh;
     max-height: 82dvh;
     background: #FFFDF9;
     border-top: 2px solid var(--color-gold);
@@ -256,22 +256,27 @@
     border-radius: 18px 18px 0 0;
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
     z-index: 2200;
-    transform: translateY(110%);
+    transform: translateY(calc(100% - 46px)); /* Thin bottom sheet peek by default: exposes 46px handle bar */
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
   }
 
-  .detail-sidebar.expanded {
-    height: 75vh; /* Expanded view for deep reading */
+  .detail-sidebar.closed {
+    transform: translateY(115%);
   }
 
-  .detail-sidebar:not(.closed) {
+  .detail-sidebar.peek {
+    transform: translateY(calc(100% - 46px));
+  }
+
+  .detail-sidebar:not(.closed):not(.peek) {
     transform: translateY(0);
   }
 
-  .detail-sidebar.closed {
-    transform: translateY(110%);
+  .detail-sidebar.expanded {
+    height: 75vh;
+    transform: translateY(0);
   }
 
   .mobile-drag-handle {
@@ -392,10 +397,18 @@
   }
 
   /* --------------------------------------------------------------------------
-     Mobile Thumb-Friendly Bottom Navigation Bar (Hidden - settings moved to menu)
+     Mobile Thumb-Friendly Bottom Navigation Bar (52px)
      -------------------------------------------------------------------------- */
   .mobile-bottom-bar {
-    display: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-around;
+    height: var(--mobile-nav-height);
+    background: #231812;
+    border-top: 1.5px solid rgba(212, 160, 23, 0.4);
+    z-index: 2100;
+    flex-shrink: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .mobile-bottom-btn {
@@ -421,7 +434,7 @@
 
   .mobile-bottom-btn:hover,
   .mobile-bottom-btn.active {
-    color: var(--accent-gold);
+    color: var(--accent-gold, #F6D678);
   }
 
   .mobile-bottom-icon {
