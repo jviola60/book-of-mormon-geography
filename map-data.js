@@ -4347,17 +4347,17 @@ const mapLocations = {
   "mount_antipas": {
     "id": "mount_antipas",
     "name": "Mount Antipas & Onidah",
-    "title": "Mountain of Lamanite Resistance",
-    "category": "sacred",
+    "title": "Place of Arms & Lamanite Resistance (Alma 47)",
+    "category": "military",
     "region": "Land of Nephi",
     "coords": {
       "x": 68.5,
       "y": 84
     },
     "highlightSize": "small",
-    "glowColor": "gold",
-    "icon": "mountain",
-    "summary": "A prominent mountain in the Land of Nephi near the place of arms called Onidah, where Lehonti and his dissident Lamanites encamped in defense against Amalickiah.",
+    "glowColor": "crimson",
+    "icon": "fortress",
+    "summary": "A prominent mountain and military arsenal called Onidah in the Land of Nephi. Here Lehonti gathered the Lamanites who refused the king's command to wage war against the Nephites, and where Amalickiah used treachery and administered poison 'by degrees' to murder Lehonti and seize command of the army (Alma 47:5–18). Note: This military place of arms in Nephi is distinct from Hill Onidah in Antionum (Alma 32:4).",
     "refs": [
       {
         "ref": "Alma 47:5",
@@ -4373,8 +4373,15 @@ const mapLocations = {
       }
     ],
     "historicalEvents": [
-      "Lehonti gathers the peaceful Lamanite faction upon Mount Antipas (Alma 47:7)",
-      "Amalickiah secretly poisons Lehonti and usurps total military command (Alma 47:18)"
+      "Lehonti and dissident Lamanites gather at Onidah (the place of arms) and encamp atop Mount Antipas to refuse war against the Nephites (Alma 47:5–7)",
+      "Amalickiah entices Lehonti down the mount with false promises of joint command",
+      "Amalickiah secretly poisons Lehonti by degrees and usurps the royal army (Alma 47:18)"
+    ],
+    "aliases": [
+      "Onidah (Place of Arms)",
+      "Place of Arms",
+      "Mount of Lehonti",
+      "Poison by Degrees Mountain"
     ],
     "notablePeople": [
       "Lehonti",
@@ -4384,7 +4391,7 @@ const mapLocations = {
     "foundedYearLabel": "75 BC",
     "foundedStep": 16,
     "confidenceLevel": 2,
-    "confidenceJustification": "Alma 47:7–10 places Mount Antipas in the land of Nephi where Lehonti gathered Lamanites unwilling to fight.",
+    "confidenceJustification": "Alma 47:5–10 explicitly locates Onidah as the place of arms and Mount Antipas in the Land of Nephi where Lehonti gathered the Lamanites unwilling to fight.",
     "dispensation": "nephite_lamanite",
     "isIndeterminate": false,
     "relatedPlaces": [

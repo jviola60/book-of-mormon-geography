@@ -385,6 +385,7 @@ const PLACE_DOSSIERS = {
   },
 
   // =========================================================================
+  // =========================================================================
   // 25. LAND OF MORON & VALLEY OF CORIHOR (JAREDITE CRADLE & TRAGEDY)
   // =========================================================================
   "land_of_moron": {
@@ -395,6 +396,19 @@ const PLACE_DOSSIERS = {
     context: "The royal cradle and capital of the Jaredite civilization, situated near the Land of Desolation.",
     howAccepted: "Tragic cycle of pride, rebellion, and final destruction: though righteous kings like Shule and Lib protected the prophets, Coriantumr and his foes hardened their hearts, leading to total extinction.",
     passages: ["Ether 7:5–6", "Ether 9:1–3", "Ether 13:1–31", "Ether 14:1–31"]
+  },
+
+  // =========================================================================
+  // 26. MOUNT ANTIPAS & ONIDAH (PLACE OF ARMS)
+  // =========================================================================
+  "mount_antipas": {
+    teacher: "Military & Historical Record: Lehonti & Amalickiah (No Gospel Preaching)",
+    audience: "The Dissident Lamanite Army unwilling to fight the Nephites, and Amalickiah's Pursuing Royal Guard",
+    whatWasTaught: "This was a military and political standoff recorded as a sober warning against treason, flattery, and incremental spiritual compromise. Lehonti gathered the Lamanites who refused the king's order to wage aggressive war against the Nephites at the place of arms called Onidah and encamped atop Mount Antipas. Amalickiah used deceptive diplomacy and false promises of joint command to lure Lehonti down the mount, then secretly had a servant administer poison 'by degrees' until Lehonti died, usurping total command of the army.",
+    whyTaught: "Mormon preserved this historical account in Alma 47 to expose the insidious methods of apostate traitors and to provide a powerful scriptural warning of how spiritual compromise and lowering one's standards leads to destruction 'by degrees.'",
+    context: "A prominent mountain and central military arsenal ('place of arms') in the Land of Nephi. Note: This military Onidah in Nephi (Alma 47:5) is distinct from Hill Onidah in Antionum (Alma 32:4), where Alma preached his sermon on faith.",
+    howAccepted: "Lehonti was initially determined not to go down, but succumbed to Amalickiah's repeated flatteries and private compromises. Once Lehonti yielded ground, Amalickiah poisoned him by degrees, took command of the Lamanite host, assassinated the Lamanite king, and seized the throne.",
+    passages: ["Alma 47:1–36"]
   }
 };
 
@@ -448,7 +462,9 @@ const PROPHET_ROLES = {
   "Shiblon": "Righteous son of Alma the Younger who served faithfully as a missionary among the Zoramites and kept the records (Alma 38; 63).",
   "Corianton": "Son of Alma who initially strayed with the harlot Isabel in Siron, repented deeply, and returned to lifelong missionary labor (Alma 39–42; 63).",
   "Ammaron": "Prophet who hid all the sacred records in Hill Shim and commissioned the 10-year-old boy Mormon to remember them (Mormon 1:1–4).",
-  "Sariah": "Wife of Lehi and matriarch of the Nephite nation; journeyed through the wilderness and across the ocean (1 Nephi 1–18)."
+  "Sariah": "Wife of Lehi and matriarch of the Nephite nation; journeyed through the wilderness and across the ocean (1 Nephi 1–18).",
+  "Lehonti": "Leader of the dissident Lamanite faction encamped upon Mount Antipas / Onidah who refused to wage aggressive war against the Nephites; poisoned by degrees by Amalickiah (Alma 47).",
+  "Amalickiah": "Cunning Nephite dissenter and traitor who sought royal power, led a rebellion, poisoned Lehonti by degrees at Mount Antipas / Onidah, assassinated the Lamanite king, and instigated massive wars against the Nephites (Alma 46–51)."
 };
 
 /**
@@ -482,6 +498,8 @@ function getPlaceDossier(locId, loc) {
     baseDossier = Object.assign({}, PLACE_DOSSIERS["judea"]);
   } else if (key === "hill_onidah") {
     baseDossier = Object.assign({}, PLACE_DOSSIERS["antionum"]);
+  } else if (key === "mount_antipas" || key === "onidah" || key === "onidah_arms" || key === "place_of_arms") {
+    baseDossier = Object.assign({}, PLACE_DOSSIERS["mount_antipas"]);
   } else if (key === "mount_shelem" || key === "valley_of_nimrod") {
     baseDossier = Object.assign({}, PLACE_DOSSIERS["moriancumer_shore"]);
   } else if (key === "helamans_chain") {

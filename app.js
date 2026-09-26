@@ -826,6 +826,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobNavApplyFiltersBtn) {
       mobNavApplyFiltersBtn.textContent = `Apply & View Map (${visibleCount})`;
     }
+    const mobApplyFiltersBtn = document.getElementById('mobApplyFiltersBtn');
+    if (mobApplyFiltersBtn) {
+      mobApplyFiltersBtn.textContent = `Apply & Close (${visibleCount})`;
+    }
 
     // Synchronize Territory Polygons
     document.querySelectorAll('.territory-polygon').forEach(poly => {
@@ -874,6 +878,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // DESKTOP & MOBILE NAVIGATION CONTROLLERS
   // ==========================================================================
+  let closeAllMobileSheets = () => {};
+
   function setupMobileAndDesktopNavigation() {
     // 1. Desktop Tools Dropdown
     const toolsDropdownContainer = document.getElementById('toolsDropdownContainer');
@@ -884,6 +890,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuOldWorldBtn = document.getElementById('menuOldWorldBtn');
     const menuInspectorBtn = document.getElementById('menuInspectorBtn');
     const menuInspectorText = document.getElementById('menuInspectorText');
+
+    // Centralized Coordinate Inspector Toggle Synchronizer
+    const setInspectorActiveState = (active) => {
+      isInspectorActive = !!active;
+      if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
+      const stateStr = isInspectorActive ? 'ON' : 'OFF';
+      if (menuInspectorText) menuInspectorText.textContent = `Inspector: ${stateStr}`;
+      if (inspectorBtnText) inspectorBtnText.textContent = `Inspector: ${stateStr}`;
+      const mobInspectorText = document.getElementById('mobInspectorText');
+      if (mobInspectorText) mobInspectorText.textContent = `Coordinate Inspector: ${stateStr}`;
+      const mobSheetInspectorText = document.getElementById('mobSheetInspectorText');
+      if (mobSheetInspectorText) mobSheetInspectorText.textContent = `Coordinate Inspector: ${stateStr}`;
+    };
 
     if (menuToggleDistanceScaleBtn) {
       menuToggleDistanceScaleBtn.addEventListener('click', () => {
@@ -925,12 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuInspectorBtn) {
       menuInspectorBtn.addEventListener('click', () => {
         toolsDropdownMenu && toolsDropdownMenu.classList.remove('show');
-        isInspectorActive = !isInspectorActive;
-        if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
-        if (menuInspectorText) menuInspectorText.textContent = isInspectorActive ? 'Inspector: ON' : 'Inspector: OFF';
-        if (inspectorBtnText) inspectorBtnText.textContent = isInspectorActive ? 'Inspector: ON' : 'Inspector: OFF';
-        const mobInspectorText = document.getElementById('mobInspectorText');
-        if (mobInspectorText) mobInspectorText.textContent = isInspectorActive ? 'Coordinate Inspector: ON' : 'Coordinate Inspector: OFF';
+        setInspectorActiveState(!isInspectorActive);
       });
     }
 
@@ -975,21 +989,52 @@ document.addEventListener('DOMContentLoaded', () => {
       resetFiltersBtn.addEventListener('click', resetAllFilters);
     }
 
-    // 3. Mobile Navigation Sheet
+    // 3. Mobile Navigation Sheet & Bottom Navigation Bar
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileNavSheet = document.getElementById('mobileNavSheet');
     const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
     const mobileSheetBackdrop = document.getElementById('mobileSheetBackdrop');
 
+    const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
+    const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
+    const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
+    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
+    const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
+
+    const mobNavSearchBtn = document.getElementById('mobNavSearchBtn');
+    const mobNavJumpBtn = document.getElementById('mobNavJumpBtn');
+    const mobNavCodexBtn = document.getElementById('mobNavCodexBtn');
+    const mobNavToursBtn = document.getElementById('mobNavToursBtn');
+
+    const mobileFiltersSheet = document.getElementById('mobileFiltersSheet');
+    const mobileToolsSheet = document.getElementById('mobileToolsSheet');
+    const mobilePickerSheet = document.getElementById('mobilePickerSheet');
+
+    const updateMobileBottomBarState = () => {
+      if (!mobBottomSearchBtn) return;
+      const isFiltersOpen = mobileFiltersSheet && mobileFiltersSheet.classList.contains('open');
+      const isToolsOpen = mobileToolsSheet && mobileToolsSheet.classList.contains('open');
+      const isPickerOpen = mobilePickerSheet && mobilePickerSheet.classList.contains('open');
+      const isCodexOpen = detailSidebar && !detailSidebar.classList.contains('closed') && !detailSidebar.classList.contains('peek');
+
+      if (mobBottomFiltersBtn) mobBottomFiltersBtn.classList.toggle('active', !!isFiltersOpen);
+      if (mobBottomToolsBtn) mobBottomToolsBtn.classList.toggle('active', !!isToolsOpen);
+      if (mobBottomSearchBtn) mobBottomSearchBtn.classList.toggle('active', !!isPickerOpen);
+      if (mobBottomJumpBtn) mobBottomJumpBtn.classList.toggle('active', !!isPickerOpen);
+      if (mobBottomCodexBtn) mobBottomCodexBtn.classList.toggle('active', !!isCodexOpen);
+    };
+
     const openMobileSheet = (sheet) => {
       closeAllMobileSheets();
       if (sheet) sheet.classList.add('open');
       if (mobileSheetBackdrop) mobileSheetBackdrop.classList.add('active');
+      updateMobileBottomBarState();
     };
 
-    const closeAllMobileSheets = () => {
+    closeAllMobileSheets = () => {
       document.querySelectorAll('.mobile-nav-sheet, .mobile-filter-sheet, .mobile-tools-sheet, .mobile-picker-sheet').forEach(s => s.classList.remove('open'));
       if (mobileSheetBackdrop) mobileSheetBackdrop.classList.remove('active');
+      updateMobileBottomBarState();
     };
 
     if (mobileMenuBtn && mobileNavSheet) {
@@ -1040,10 +1085,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobInspectorBtn) {
       mobInspectorBtn.addEventListener('click', () => {
         closeAllMobileSheets();
-        isInspectorActive = !isInspectorActive;
-        if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
-        const mobInspectorText = document.getElementById('mobInspectorText');
-        if (mobInspectorText) mobInspectorText.textContent = isInspectorActive ? 'Coordinate Inspector: ON' : 'Coordinate Inspector: OFF';
+        setInspectorActiveState(!isInspectorActive);
       });
     }
 
@@ -1055,31 +1097,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 4. Mobile Bottom Navigation Bar & Drawer Quick Actions
-    const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
-    const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
-    const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
-    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
-    const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
-
-    const mobNavSearchBtn = document.getElementById('mobNavSearchBtn');
-    const mobNavJumpBtn = document.getElementById('mobNavJumpBtn');
-    const mobNavCodexBtn = document.getElementById('mobNavCodexBtn');
-    const mobNavToursBtn = document.getElementById('mobNavToursBtn');
-
-    const mobileFiltersSheet = document.getElementById('mobileFiltersSheet');
-    const mobileToolsSheet = document.getElementById('mobileToolsSheet');
-    const mobilePickerSheet = document.getElementById('mobilePickerSheet');
-
     const handleSearchOpen = () => {
+      const isOpen = mobilePickerSheet && mobilePickerSheet.classList.contains('open');
       closeAllMobileSheets();
-      openMobileSheet(mobilePickerSheet);
-      const input = document.getElementById('mobilePickerSearchInput');
-      if (input) { setTimeout(() => input.focus(), 150); }
+      if (!isOpen) {
+        openMobileSheet(mobilePickerSheet);
+        const input = document.getElementById('mobilePickerSearchInput');
+        if (input) { setTimeout(() => input.focus(), 150); }
+      }
     };
 
     const handleJumpOpen = () => {
+      const isOpen = mobilePickerSheet && mobilePickerSheet.classList.contains('open');
       closeAllMobileSheets();
-      openMobileSheet(mobilePickerSheet);
+      if (!isOpen) {
+        openMobileSheet(mobilePickerSheet);
+      }
     };
 
     const handleCodexToggle = () => {
@@ -1093,6 +1126,7 @@ document.addEventListener('DOMContentLoaded', () => {
           detailSidebar.classList.add('peek');
         }
         updateSidebarStateUI();
+        updateMobileBottomBarState();
       }
     };
 
@@ -1104,15 +1138,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mobBottomFiltersBtn && mobileFiltersSheet) {
       mobBottomFiltersBtn.addEventListener('click', () => {
+        const isOpen = mobileFiltersSheet.classList.contains('open');
         closeAllMobileSheets();
-        openMobileSheet(mobileFiltersSheet);
+        if (!isOpen) {
+          openMobileSheet(mobileFiltersSheet);
+        }
       });
     }
 
     if (mobBottomToolsBtn && mobileToolsSheet) {
       mobBottomToolsBtn.addEventListener('click', () => {
+        const isOpen = mobileToolsSheet.classList.contains('open');
         closeAllMobileSheets();
-        openMobileSheet(mobileToolsSheet);
+        if (!isOpen) {
+          openMobileSheet(mobileToolsSheet);
+        }
       });
     }
 
@@ -1126,13 +1166,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Close Mobile Filters Sheet
+    // Close Mobile Filters Sheet & Apply Buttons
     const closeMobileFiltersBtn = document.getElementById('closeMobileFiltersBtn');
     const mobApplyFiltersBtn = document.getElementById('mobApplyFiltersBtn');
     const mobResetFiltersBtn = document.getElementById('mobResetFiltersBtn');
     const mobNavResetFiltersBtn = document.getElementById('mobNavResetFiltersBtn');
 
     if (closeMobileFiltersBtn) closeMobileFiltersBtn.addEventListener('click', closeAllMobileSheets);
+    if (mobApplyFiltersBtn) mobApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
     const mobNavApplyFiltersBtn = document.getElementById('mobNavApplyFiltersBtn');
     if (mobNavApplyFiltersBtn) mobNavApplyFiltersBtn.addEventListener('click', closeAllMobileSheets);
     if (mobResetFiltersBtn) mobResetFiltersBtn.addEventListener('click', resetAllFilters);
@@ -1170,10 +1211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobSheetInspectorBtn) {
       mobSheetInspectorBtn.addEventListener('click', () => {
         closeAllMobileSheets();
-        isInspectorActive = !isInspectorActive;
-        if (coordsInspectorBadge) coordsInspectorBadge.classList.toggle('active', isInspectorActive);
-        const mobSheetInspectorText = document.getElementById('mobSheetInspectorText');
-        if (mobSheetInspectorText) mobSheetInspectorText.textContent = isInspectorActive ? 'Coordinate Inspector: ON' : 'Coordinate Inspector: OFF';
+        setInspectorActiveState(!isInspectorActive);
       });
     }
 
@@ -1209,6 +1247,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sidebarToggleBtn) sidebarToggleBtn.classList.toggle('active', !isClosed);
       const appContainer = document.querySelector('.app-main-container');
       if (appContainer) appContainer.classList.toggle('sidebar-is-closed', isClosed);
+      updateMobileBottomBarState();
     };
 
     if (sidebarEdgeToggleBtn && detailSidebar) {
@@ -1222,15 +1261,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile Header Quick Action Buttons
     const mobileSearchToggleBtn = document.getElementById('mobileSearchToggleBtn');
     const mobileCodexToggleBtn = document.getElementById('mobileCodexToggleBtn');
-    if (mobileSearchToggleBtn && mobilePickerSheet) {
-      mobileSearchToggleBtn.addEventListener('click', () => openMobileSheet(mobilePickerSheet));
+    if (mobileSearchToggleBtn) {
+      mobileSearchToggleBtn.addEventListener('click', handleSearchOpen);
     }
-    if (mobileCodexToggleBtn && detailSidebar) {
-      mobileCodexToggleBtn.addEventListener('click', () => {
-        detailSidebar.classList.toggle('closed');
-        detailSidebar.classList.remove('expanded');
-        updateSidebarStateUI();
-      });
+    if (mobileCodexToggleBtn) {
+      mobileCodexToggleBtn.addEventListener('click', handleCodexToggle);
     }
 
     // Mobile Detail Sidebar Drag Handle (Tap to toggle peek vs open)
@@ -3537,8 +3572,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (brandLogoBtn) {
     brandLogoBtn.addEventListener('click', () => {
+      if (typeof closeAllMobileSheets === 'function') closeAllMobileSheets();
+      if (tourModal) closeModal(tourModal);
+      if (oldWorldModal) closeModal(oldWorldModal);
+      if (disclaimerModal) closeModal(disclaimerModal);
+      if (distanceScaleModal) closeModal(distanceScaleModal);
       renderWelcomeSidebar();
-      detailSidebar.classList.remove('closed');
+      if (window.innerWidth <= 768) {
+        detailSidebar.classList.add('peek');
+        detailSidebar.classList.remove('closed', 'expanded');
+      } else {
+        detailSidebar.classList.remove('closed');
+      }
       const edgeToggleIcon = document.getElementById('edgeToggleIcon');
       if (edgeToggleIcon) edgeToggleIcon.textContent = '▶';
       const edgeToggleText = document.querySelector('#sidebarEdgeToggleBtn .edge-toggle-text');

@@ -79,6 +79,18 @@ const BOOK_OF_MORMON_TRANSLATIONS = {
     plainEnglish: "The Lamanites and Zoramites gathered their forces in Antionum, while Captain Moroni placed his Nephite armies in the borders of Jershon to protect the peaceful People of Ammon.",
     insight: "Captain Moroni's defensive positioning: stationing forces in Jershon prevented Zerahemnah from slaughtering the pacifist Ammonites, forcing the invaders to detour around through Manti."
   },
+  "Alma 47:5": {
+    plainEnglish: "The Lamanites who refused the king's order to fight the Nephites fled to Onidah, the place of arms, where the king's servants and dissenter forces had gathered under Lehonti.",
+    insight: "Military arsenal vs. pulpit: 'Onidah, the place of arms' in the Land of Nephi was a military staging ground in Alma 47, distinct from 'Hill Onidah' in Antionum (Alma 32:4) where Alma preached on faith."
+  },
+  "Alma 47:7": {
+    plainEnglish: "Lehonti and his dissident Lamanites gathered themselves atop Mount Antipas, taking the high ground in preparation to defend themselves and refuse forced combat against the Nephites.",
+    insight: "Strategic mountain stronghold: Lehonti encamped atop Mount Antipas with superior defensive terrain, determined not to yield to the king's aggressive war."
+  },
+  "Alma 47:18": {
+    plainEnglish: "Amalickiah had one of his servants secretly administer poison to Lehonti little by little, until Lehonti died, leaving Amalickiah as sole commander of the entire Lamanite army.",
+    insight: "Poison by degrees: Amalickiah's murder of Lehonti stands as one of the most famous scriptural warnings illustrating how spiritual compromise, flattery, and incremental deception destroy the unwary."
+  },
 
   // =========================================================================
   // TITLE PAGE & CORE PROPHECIES OF CHRIST'S COMING
