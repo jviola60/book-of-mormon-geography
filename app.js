@@ -2432,7 +2432,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="feature-card" style="border: 1.5px solid var(--border-gold); background: linear-gradient(135deg, #FFFDF9 0%, #FBF6EB 100%);">
         <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.35rem;">
           <span style="font-size:1.15rem;">🧭</span>
-          <h3 style="margin:0; font-family:var(--font-serif-title); font-size:0.92rem; color:var(--color-crimson);">Scriptural Atlases Trilogy</h3>
+          <h3 style="margin:0; font-family:var(--font-serif-title); font-size:0.92rem; color:var(--color-crimson);">Scriptural Atlases</h3>
         </div>
         <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.55rem;">
           Seamlessly navigate between companion interactive scriptural atlases:
@@ -2448,6 +2448,10 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <a href="https://jviola60.github.io/new-testament-geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
             <span style="word-break:normal; line-height:1.35;">✝️ New Testament Atlas (~6 BC – 100 AD)</span>
+            <span style="color:var(--color-crimson); font-size:0.75rem; flex-shrink:0;">Explore ↗</span>
+          </a>
+          <a href="https://jviola60.github.io/Doctrine-and-Covenants-Geography/" target="_blank" rel="noopener noreferrer" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; background:#FFFDF9; border:1px solid var(--border-gold); border-radius:6px; padding:0.45rem 0.7rem; text-decoration:none; color:var(--text-primary); font-size:0.8rem; font-weight:600; transition:all 0.15s ease;">
+            <span style="word-break:normal; line-height:1.35;">📜 Doctrine &amp; Covenants Atlas (~1805 – 1890)</span>
             <span style="color:var(--color-crimson); font-size:0.75rem; flex-shrink:0;">Explore ↗</span>
           </a>
         </div>
