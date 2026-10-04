@@ -368,20 +368,72 @@
 /* ==========================================================================
    FLOATING ERA BADGE / WATERMARK (Top-Left of Map)
    ========================================================================== */
+/* ==========================================================================
+   FLOATING ERA BADGE / WATERMARK (Top-Left of Map)
+   ========================================================================== */
 .floating-era-badge {
   position: absolute;
   top: 14px;
   left: 14px;
-  background: rgba(253, 250, 243, 0.92);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: rgba(253, 250, 243, 0.95);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border: 1.5px solid var(--border-gold);
-  border-radius: 8px;
-  padding: 0.65rem 0.95rem;
-  box-shadow: var(--shadow-md);
-  max-width: 320px;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(217, 119, 6, 0.15);
+  max-width: 340px;
   z-index: 100;
-  pointer-events: none;
+  pointer-events: auto;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-era-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 2px;
+}
+
+.era-live-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35), 0 0 8px #10B981;
+  animation: beaconLiveBlink 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes beaconLiveBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35), 0 0 8px #10B981;
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.3);
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.6), 0 0 16px #10B981;
+  }
+}
+
+.floating-era-badge.era-badge-shimmer {
+  animation: eraBadgePop 0.45s ease-out;
+}
+
+@keyframes eraBadgePop {
+  0% {
+    transform: scale(0.97);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.35), 0 4px 25px rgba(217, 119, 6, 0.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .floating-era-tag {
@@ -391,15 +443,14 @@
   letter-spacing: 0.12em;
   color: var(--color-crimson);
   text-transform: uppercase;
-  margin-bottom: 2px;
 }
 
 .floating-era-title {
   font-family: var(--font-serif-title);
-  font-size: 0.96rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .floating-era-desc {
@@ -408,6 +459,55 @@
   color: var(--text-secondary);
   line-height: 1.35;
   margin-top: 3px;
+}
+
+.floating-era-featured {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-gold);
+}
+
+.era-featured-label {
+  font-family: var(--font-serif-title);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #B45309;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.era-featured-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.era-featured-chip {
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #92400E;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.era-featured-chip:hover {
+  background: #FDE68A;
+  border-color: #F59E0B;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(217, 119, 6, 0.25);
 }
 
 /* ==========================================================================
@@ -738,3 +838,198 @@
   font-size: 0.65rem;
   color: var(--color-gold-light);
 }
+
+/* ==========================================================================
+   CHRONOLOGICAL TIMELINE PROGRESSIVE MAP ANIMATIONS (2200 BC – AD 421)
+   ========================================================================== */
+
+/* Pins that have not yet been founded in the active chronological era */
+.map-pin.pin-future-era {
+  opacity: 0.14 !important;
+  transform: translate(-50%, -50%) scale(0.68) !important;
+  filter: grayscale(85%) contrast(80%) !important;
+  pointer-events: auto;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.45s ease;
+}
+
+.map-pin.pin-future-era .pin-label {
+  display: none !important;
+}
+
+.map-pin.pin-future-era:hover {
+  opacity: 0.8 !important;
+  transform: translate(-50%, -50%) scale(0.95) !important;
+  filter: grayscale(10%) contrast(100%) !important;
+  z-index: 60 !important;
+}
+
+.map-pin.pin-future-era:hover .pin-label {
+  display: block !important;
+  opacity: 0.95 !important;
+}
+
+/* Pins active in the current era */
+.map-pin.pin-era-active {
+  opacity: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Spotlight for Newly Founded or Featured Locations in Active Period */
+.map-pin.era-spotlight {
+  z-index: 95 !important;
+  opacity: 1 !important;
+  animation: eraPinEntrance 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.map-pin.era-spotlight .pin-icon-wrap {
+  transform: scale(1.32);
+  box-shadow: 0 0 0 3.5px #F59E0B, 0 0 18px rgba(245, 158, 11, 0.9), 0 3px 10px rgba(0, 0, 0, 0.45) !important;
+  border-color: #D97706 !important;
+  background: #FFFBEB !important;
+  animation: eraBeaconPulse 1.3s ease-in-out infinite alternate;
+}
+
+/* Concentric Expanding Radar Waves */
+.map-pin.era-spotlight::before,
+.map-pin.era-spotlight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid #F59E0B;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.map-pin.era-spotlight::before {
+  animation: eraRadarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.map-pin.era-spotlight::after {
+  animation: eraRadarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite 0.75s;
+}
+
+@keyframes eraRadarPing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.65);
+    opacity: 1;
+    border-color: #FBBF24;
+  }
+  50% {
+    opacity: 0.7;
+    border-color: #F59E0B;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3.5);
+    opacity: 0;
+    border-color: #D97706;
+  }
+}
+
+@keyframes eraPinEntrance {
+  0% {
+    transform: translate(-50%, -50%) scale(0.25);
+    opacity: 0.15;
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes eraBeaconPulse {
+  0% {
+    transform: scale(1.22);
+    box-shadow: 0 0 0 3px #F59E0B, 0 0 12px rgba(245, 158, 11, 0.75);
+  }
+  100% {
+    transform: scale(1.38);
+    box-shadow: 0 0 0 6px #FBBF24, 0 0 26px rgba(217, 119, 6, 0.95), 0 0 45px rgba(245, 158, 11, 0.6);
+  }
+}
+
+.map-pin.era-spotlight .pin-label {
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  color: #78350F !important;
+  background: rgba(255, 251, 235, 0.97) !important;
+  border: 1.5px solid #F59E0B !important;
+  border-radius: 4px;
+  padding: 1.5px 7px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  text-shadow: none !important;
+  transform: translateY(3px);
+  z-index: 96 !important;
+}
+
+/* Savior's Visit at Bountiful (Step 20) Divine Radiance */
+.map-pin.bountiful-christ-glory .pin-icon-wrap {
+  border-color: #FBBF24 !important;
+  background: #FFFDF0 !important;
+  box-shadow: 0 0 0 6px rgba(251, 191, 36, 0.95),
+              0 0 35px rgba(245, 158, 11, 1),
+              0 0 70px rgba(255, 255, 255, 0.98) !important;
+  animation: christRadiance 1.4s ease-in-out infinite alternate !important;
+}
+
+@keyframes christRadiance {
+  0% {
+    box-shadow: 0 0 0 4px #FBBF24, 0 0 25px #F59E0B, 0 0 50px #FFFFFF;
+    transform: scale(1.35);
+  }
+  100% {
+    box-shadow: 0 0 0 10px #F59E0B, 0 0 50px #D97706, 0 0 90px #FEF08A;
+    transform: scale(1.55);
+  }
+}
+
+/* Cataclysm Destroyed Site Smoke/Ember Pulse */
+.destroyed-marker.destroyed-smoke-pulse .pin-icon-wrap {
+  animation: cataclysmEmberGlow 1.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes cataclysmEmberGlow {
+  0% {
+    box-shadow: 0 0 0 2px #7F1D1D, 0 0 10px #DC2626;
+  }
+  100% {
+    box-shadow: 0 0 0 7px #450A0A, 0 0 26px #EF4444;
+  }
+}
+
+/* Marching SVG Route Paths during Chronological Eras */
+.era-historical-path {
+  stroke-dasharray: 10 7;
+  animation: marchDashForward 1.3s linear infinite;
+  filter: drop-shadow(0 2px 10px rgba(217, 119, 6, 0.55));
+}
+
+.era-historical-path-bg {
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.era-waypoint-node {
+  animation: eraNodePulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes eraNodePulse {
+  0% {
+    r: 6;
+    stroke-width: 2.5;
+  }
+  100% {
+    r: 8.5;
+    stroke-width: 4;
+  }
+}
+

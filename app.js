@@ -4383,9 +4383,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // TIMELINE SCRUBBER & CHRONOLOGICAL ENGINE (2200 BC - AD 421)
   // ==========================================================================
+  const ERA_JOURNEY_MAP = {
+    0: 'the_three_ancient_landings', // 2200 BC - Jaredites arrive & Moron
+    5: 'the_three_ancient_landings', // 600 BC - Lehi landing & First Inheritance
+    13: 'mosiah_exodus',            // 200 BC - Mosiah I's Flight to Zarahemla
+    14: 'zeniffs_reclamation',       // 150 BC - Zeniff & Alma's covenant at Mormon
+    15: 'almas_circuit',             // 100 BC - Alma the Younger's Circuit
+    16: 'battle_of_manti',           // 75 BC - Battle of Manti along River Sidon
+    17: 'coastal_campaign',          // 70 BC - Captain Moroni's Coastal Counteroffensive
+    18: 'hagoth_voyages',            // 25 BC - Hagoth's Northern Maritime Voyages
+    20: 'christ_visitation',         // AD 34 - Christ's Ministry at Bountiful
+    27: 'final_retreat',             // AD 350 - Mormon's Northern Retreat
+    28: 'final_retreat',             // AD 365 - Northern Coastal Battles
+    29: 'final_retreat'              // AD 421 - Final Stand at Cumorah
+  };
+
+  const DESTROYED_SITES = new Set([
+    'zarahemla', 'city_of_moroni', 'city_of_moronihah', 'city_of_jerusalem',
+    'city_of_onihah', 'city_of_mocum', 'city_of_jacobugath', 'city_of_laman',
+    'city_of_josh', 'city_of_gad', 'city_of_kishkumen', 'city_of_gadiandi',
+    'city_of_gadiomnah', 'city_of_gimgimno', 'city_of_jacob'
+  ]);
+
   function applyChronologicalStep(step) {
     currentEraStep = step;
     const milestone = chronologicalMilestones[step] || chronologicalMilestones[0];
+
+    // If an interactive expedition tour was manually active, exit it cleanly for timeline playback
+    if (currentJourney) {
+      exitTour();
+    }
 
     // Sync range slider
     if (eraSlider && parseInt(eraSlider.value, 10) !== step) {
@@ -4396,10 +4423,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (displayYear) displayYear.textContent = milestone.yearLabel;
     if (displaySeason) displaySeason.textContent = milestone.title;
 
-    // Update Floating Watermark
+    // Update Floating Watermark & Live Chips
     if (floatingEraTag) floatingEraTag.textContent = `ERA • ${milestone.yearLabel}`;
     if (floatingEraTitle) floatingEraTitle.textContent = milestone.title;
     if (floatingEraDesc) floatingEraDesc.textContent = milestone.subtitle;
+
+    // Animate the floating badge with a soft pop/shimmer
+    if (floatingEraBadge) {
+      floatingEraBadge.classList.remove('era-badge-shimmer');
+      void floatingEraBadge.offsetWidth;
+      floatingEraBadge.classList.add('era-badge-shimmer');
+    }
 
     // Update active Era Tab (highlighting only the current era bracket)
     const sortedTabs = Array.from(eraTabs).map(tab => ({
@@ -4426,20 +4460,194 @@ document.addEventListener('DOMContentLoaded', () => {
       cataclysmTerrainGroup.style.display = (isCataclysmActive && activeLayers.has('cataclysm')) ? 'block' : 'none';
     }
 
-    // Mark destroyed sites
+    // Determine active spotlight IDs for this period
+    const newIdList = milestone.newIds || [];
+    let activeSpotlightIds = [...newIdList];
+    if (activeSpotlightIds.length === 0) {
+      if (step === 11) activeSpotlightIds = ['lehi_nephi', 'land_first_inheritance', 'shemlon'];
+      else if (step === 12) activeSpotlightIds = ['lehi_nephi', 'shilom', 'shemlon'];
+      else if (step === 19) activeSpotlightIds = ['zarahemla', 'bountiful'];
+      else if (step === 20) activeSpotlightIds = ['bountiful'];
+      else if (step === 21) activeSpotlightIds = ['bountiful', 'zarahemla'];
+      else if (step === 22) activeSpotlightIds = ['zarahemla', 'bountiful', 'manti', 'lehi_nephi'];
+      else if (step === 23) activeSpotlightIds = ['zarahemla', 'bountiful', 'lehi_nephi'];
+      else if (step === 24) activeSpotlightIds = ['zarahemla', 'bountiful'];
+      else if (step === 25) activeSpotlightIds = ['zarahemla', 'city_of_kishkumen'];
+    }
+    const spotlightSet = new Set(activeSpotlightIds);
+
+    // Update Floating Era Featured Chips
+    const floatingEraChips = document.getElementById('floatingEraChips');
+    if (floatingEraChips) {
+      floatingEraChips.innerHTML = '';
+      const chipsToShow = activeSpotlightIds.slice(0, 8);
+      chipsToShow.forEach(id => {
+        const loc = mapLocations[id];
+        if (!loc) return;
+        const chip = document.createElement('button');
+        chip.className = 'era-featured-chip';
+        chip.innerHTML = `<span>📍</span><span>${loc.name}</span>`;
+        chip.setAttribute('title', `Zoom to ${loc.name}`);
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectLocation(id);
+        });
+        floatingEraChips.appendChild(chip);
+      });
+      if (activeSpotlightIds.length > 8) {
+        const morePill = document.createElement('span');
+        morePill.className = 'era-featured-chip';
+        morePill.textContent = `+${activeSpotlightIds.length - 8} more`;
+        floatingEraChips.appendChild(morePill);
+      }
+    }
+
+    // Progressive Pin Animation and Historical Emergence Engine
     document.querySelectorAll('.map-pin').forEach(pin => {
       const pinId = pin.getAttribute('data-id');
-      const isDestroyedSite = isCataclysmActive && (
-        pinId === 'zarahemla' || pinId === 'city_of_moroni' || pinId === 'moronihah' ||
-        pinId === 'jerusalem_city' || pinId === 'onihah' || pinId === 'mocum' ||
-        pinId === 'city_of_jacobugath' || pinId === 'city_of_laman' || pinId === 'city_of_josh' ||
-        pinId === 'city_of_gad' || pinId === 'city_of_kishkumen'
-      );
+      const loc = mapLocations[pinId];
+      if (!loc) return;
+
+      const isFuture = typeof loc.foundedStep === 'number' && loc.foundedStep > step;
+      const isSpotlight = spotlightSet.has(pinId);
+      const isDestroyedSite = isCataclysmActive && DESTROYED_SITES.has(pinId);
+
+      pin.classList.toggle('pin-future-era', isFuture);
+      pin.classList.toggle('pin-era-active', !isFuture);
+
+      // Re-trigger entrance animation if becoming newly spotlighted
+      if (isSpotlight) {
+        if (!pin.classList.contains('era-spotlight')) {
+          pin.classList.remove('era-spotlight');
+          void pin.offsetWidth;
+          pin.classList.add('era-spotlight');
+        }
+      } else {
+        pin.classList.remove('era-spotlight');
+      }
+
+      pin.classList.toggle('bountiful-christ-glory', step === 20 && pinId === 'bountiful');
       pin.classList.toggle('destroyed-marker', isDestroyedSite);
+      pin.classList.toggle('destroyed-smoke-pulse', isDestroyedSite && step === 20);
     });
+
+    // Render Animated Historical Journey / Regional Connection for the Era
+    renderEraHistoricalRoute(step, activeSpotlightIds);
 
     if (milestone.isCataclysm) {
       playCataclysmRumble();
+    }
+  }
+
+  function renderEraHistoricalRoute(step, spotlightIds) {
+    if (!pathsGroup) return;
+    pathsGroup.innerHTML = '';
+    const imgWidth = MAP_BASE_WIDTH;
+    const imgHeight = MAP_BASE_HEIGHT;
+
+    const journeyId = ERA_JOURNEY_MAP[step];
+    if (journeyId) {
+      const tour = mapJourneys.find(j => j.id === journeyId);
+      if (tour && tour.stages && tour.stages.length >= 2) {
+        const coordsList = tour.stages.map(stage => {
+          const loc = mapLocations[stage.locId];
+          if (loc && loc.coords) {
+            return {
+              x: (loc.coords.x / 100) * imgWidth,
+              y: (loc.coords.y / 100) * imgHeight,
+              name: loc.name
+            };
+          }
+          return null;
+        }).filter(Boolean);
+
+        if (coordsList.length >= 2) {
+          let d = `M ${coordsList[0].x} ${coordsList[0].y}`;
+          for (let i = 1; i < coordsList.length; i++) {
+            d += ` L ${coordsList[i].x} ${coordsList[i].y}`;
+          }
+
+          // Background halo
+          const bgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          bgPath.setAttribute('d', d);
+          bgPath.setAttribute('fill', 'none');
+          bgPath.setAttribute('class', 'era-historical-path-bg');
+          pathsGroup.appendChild(bgPath);
+
+          // Animated marching dashed path
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', d);
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', tour.color || '#D97706');
+          path.setAttribute('stroke-width', '4.5');
+          path.setAttribute('stroke-linecap', 'round');
+          path.setAttribute('class', 'active-journey-path march-path-active era-historical-path');
+          pathsGroup.appendChild(path);
+
+          // Waypoint nodes
+          coordsList.forEach((c) => {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', c.x);
+            circle.setAttribute('cy', c.y);
+            circle.setAttribute('r', '7');
+            circle.setAttribute('fill', '#FFFDF9');
+            circle.setAttribute('stroke', tour.color || '#D97706');
+            circle.setAttribute('stroke-width', '3');
+            circle.setAttribute('class', 'era-waypoint-node');
+            pathsGroup.appendChild(circle);
+          });
+          return;
+        }
+      }
+    }
+
+    // If no predefined journey, connect the active spotlight cities of this era
+    if (spotlightIds && spotlightIds.length >= 2) {
+      const coordsList = spotlightIds.map(id => {
+        const loc = mapLocations[id];
+        if (loc && loc.coords) {
+          return {
+            x: (loc.coords.x / 100) * imgWidth,
+            y: (loc.coords.y / 100) * imgHeight
+          };
+        }
+        return null;
+      }).filter(Boolean);
+
+      if (coordsList.length >= 2) {
+        let d = `M ${coordsList[0].x} ${coordsList[0].y}`;
+        for (let i = 1; i < coordsList.length; i++) {
+          d += ` L ${coordsList[i].x} ${coordsList[i].y}`;
+        }
+
+        const bgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        bgPath.setAttribute('d', d);
+        bgPath.setAttribute('fill', 'none');
+        bgPath.setAttribute('class', 'era-historical-path-bg');
+        pathsGroup.appendChild(bgPath);
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', d);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', '#F59E0B');
+        path.setAttribute('stroke-width', '3.5');
+        path.setAttribute('stroke-dasharray', '8 6');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('class', 'active-journey-path march-path-active era-historical-path');
+        pathsGroup.appendChild(path);
+
+        coordsList.forEach((c) => {
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', c.x);
+          circle.setAttribute('cy', c.y);
+          circle.setAttribute('r', '6');
+          circle.setAttribute('fill', '#FEF3C7');
+          circle.setAttribute('stroke', '#F59E0B');
+          circle.setAttribute('stroke-width', '2.5');
+          circle.setAttribute('class', 'era-waypoint-node');
+          pathsGroup.appendChild(circle);
+        });
+      }
     }
   }
 
