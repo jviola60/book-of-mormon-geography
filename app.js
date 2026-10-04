@@ -1840,16 +1840,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (loc.notablePeople && loc.notablePeople.length > 0) {
         loc.notablePeople.forEach(person => {
-          const roleDesc = (typeof PROPHET_ROLES !== 'undefined' && PROPHET_ROLES[person])
-            ? PROPHET_ROLES[person]
-            : `Prominent scriptural figure, prophet, or leader associated with ${loc.name} in the sacred record of the Book of Mormon.`;
+          const personData = (typeof BOOK_OF_MORMON_FIGURES !== 'undefined' && BOOK_OF_MORMON_FIGURES[person])
+            || (typeof PROPHET_ROLES !== 'undefined' && PROPHET_ROLES[person]);
+
+          let roleType = 'Scriptural Figure';
+          let roleDesc = `Historical figure mentioned in connection with ${loc.name} in the Book of Mormon.`;
+
+          if (personData) {
+            if (typeof personData === 'object') {
+              roleType = personData.badge || personData.roleType || 'Scriptural Figure';
+              roleDesc = personData.description || '';
+            } else if (typeof personData === 'string') {
+              roleDesc = personData;
+            }
+          }
 
           // Card
           const card = document.createElement('div');
           card.className = 'person-card';
           card.innerHTML = `
-            <span class="person-card-name">👤 ${person}</span>
-            <span class="person-card-role">${roleDesc}</span>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.3rem;">
+              <span class="person-card-name" style="font-weight:600;">👤 ${person}</span>
+              <span style="font-size:0.68rem; padding:0.12rem 0.45rem; border-radius:4px; background:rgba(217,119,6,0.12); color:var(--color-gold); border:1px solid rgba(217,119,6,0.25); white-space:nowrap; text-align:right;">${roleType}</span>
+            </div>
+            <span class="person-card-role" style="font-size:0.8rem; line-height:1.45; color:var(--text-secondary); display:block;">${roleDesc}</span>
           `;
           cardsContainer.appendChild(card);
 
@@ -2176,33 +2190,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const dossier = (typeof getPlaceDossier === 'function')
       ? getPlaceDossier(locId, loc)
       : {
-          teacher: (loc && loc.notablePeople) ? loc.notablePeople.join(', ') : 'The Resurrected Lord Jesus Christ, Lehi, Nephi, Jacob, Enos, Jarom, Omni, King Mosiah I, King Benjamin, Abinadi, Alma the Elder, King Mosiah II, Alma the Younger, Amulek, Zeezrom, Sons of Mosiah, Captain Moroni, Helaman, Shiblon, Corianton, Nephi & Lehi, Samuel the Lamanite, Mormon, Moroni, The Brother of Jared, & Ether',
-          audience: 'Nephite, Lamanite, Mulekite, Jaredite & Zoramite Nations; Kings, Judges, Soldiers, Covenant Families, Little Children, and All Future Readers in the Latter Days',
-          whatWasTaught: (loc && loc.summary) || 'The Fulness of the Everlasting Gospel of Jesus Christ: the reality of His Resurrection and Atonement; faith, repentance, baptism, and the Holy Ghost; moral agency and the Fall of Adam; and enduring in holiness to the end.',
-          whyTaught: 'To show unto the remnant of the house of Israel what great things the Lord hath done for their fathers; and to the convincing of the Jew and Gentile that Jesus is the Christ, the Eternal God.',
-          context: (loc && loc.region) || 'Over 2,600 years of sacred history across ancient America (~2200 BC to AD 421).',
-          howAccepted: 'Produced golden eras of peace in 4 Nephi, alongside solemn warnings of apostasy when covenants were broken.',
+          hasRecordedTeachings: false,
+          whenTaught: 'No Gospel Preaching Recorded in Scripture',
+          teacher: 'No Gospel Preaching Recorded in Scripture',
+          audience: 'N/A — No Preaching or Sermons Recorded at this Site',
+          whatWasTaught: (loc && loc.summary) || 'A landmark recorded in the text of the Book of Mormon.',
+          whyTaught: 'N/A — Preserved as part of the sacred geography and history of the Book of Mormon.',
+          context: (loc && loc.region) || 'Ancient America',
+          howAccepted: 'Since no gospel preaching took place at this location, no reception of doctrine occurred.',
           passages: []
         };
 
     const placeTitle = loc ? (loc.name || loc.title) : 'All Lands of the Book of Mormon';
+    const hasTeachings = !!dossier.hasRecordedTeachings;
+
+    // Notice banner for sites with no recorded preaching
+    const statusBanner = !hasTeachings ? `
+      <div style="background: rgba(180, 83, 9, 0.1); border: 1px solid rgba(180, 83, 9, 0.3); border-radius: 6px; padding: 0.6rem 0.8rem; margin-bottom: 0.85rem; font-size: 0.8rem; line-height: 1.45; color: var(--color-gold); display: flex; align-items: flex-start; gap: 0.5rem;">
+        <span style="font-size: 1.1rem; line-height: 1;">ℹ️</span>
+        <div>
+          <strong>Scriptural Context:</strong> No sermons, gospel preaching, or doctrinal discourses are recorded in the Book of Mormon at this specific site. Preserved in sacred scripture for its military, historical, or geographical significance.
+        </div>
+      </div>
+    ` : '';
+
+    const roleBox1Label = hasTeachings ? 'Who Was Teaching' : 'Key Scriptural Figures Involved';
+    const roleBox1Value = `<div><strong>${dossier.teacher}</strong>${dossier.whenTaught ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">⏱️ ${dossier.whenTaught}</div>` : ''}</div>`;
+
+    const roleBox2Label = hasTeachings ? 'Who Was Being Taught' : 'People Present / Audience';
+    const roleBox2Value = dossier.audience;
+
+    const card1Title = hasTeachings ? `What Was Taught at ${placeTitle}` : `Scriptural Record & Events at ${placeTitle}`;
+    const card1Icon = hasTeachings ? '📜' : '⚔️';
+
+    const card2Title = hasTeachings ? 'Why It Was Taught' : 'Significance in the Sacred Record';
+
+    const card4Title = hasTeachings ? 'How the Teachings Were Accepted & Community Response' : 'Historical Outcome & Event Resolution';
+    const card4Icon = hasTeachings ? '🤝' : '⚔️';
 
     sidebarContent.innerHTML = `
+      ${statusBanner}
+
       <div class="teachings-role-grid">
         <div class="teachings-stat-box" style="border-left: 3px solid var(--color-crimson);">
-          <span class="teachings-stat-label">Who Was Teaching</span>
-          <span class="teachings-stat-value">${dossier.teacher}</span>
+          <span class="teachings-stat-label">${roleBox1Label}</span>
+          <span class="teachings-stat-value">${roleBox1Value}</span>
         </div>
         <div class="teachings-stat-box" style="border-left: 3px solid var(--color-gold);">
-          <span class="teachings-stat-label">Who Was Being Taught</span>
-          <span class="teachings-stat-value">${dossier.audience}</span>
+          <span class="teachings-stat-label">${roleBox2Label}</span>
+          <span class="teachings-stat-value">${roleBox2Value}</span>
         </div>
       </div>
 
       <div class="teachings-card teachings-card-gold">
         <div class="teachings-card-title">
-          <span>📜</span>
-          <span>What Was Taught at ${placeTitle}</span>
+          <span>${card1Icon}</span>
+          <span>${card1Title}</span>
         </div>
         <div class="teachings-card-body">
           ${dossier.whatWasTaught}
@@ -2212,7 +2255,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="teachings-card teachings-card-crimson">
         <div class="teachings-card-title">
           <span>🎯</span>
-          <span>Why It Was Taught</span>
+          <span>${card2Title}</span>
         </div>
         <div class="teachings-card-body">
           ${dossier.whyTaught}
@@ -2222,7 +2265,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="teachings-card teachings-card-bronze">
         <div class="teachings-card-title">
           <span>🏛️</span>
-          <span>Historical, Geographic & Cultural Context</span>
+          <span>Historical, Geographic & Strategic Context</span>
         </div>
         <div class="teachings-card-body">
           ${dossier.context}
@@ -2231,8 +2274,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       <div class="teachings-card teachings-card-sage">
         <div class="teachings-card-title">
-          <span>🤝</span>
-          <span>How the Teachings Were Accepted & Community Response</span>
+          <span>${card4Icon}</span>
+          <span>${card4Title}</span>
         </div>
         <div class="teachings-card-body">
           ${dossier.howAccepted}
