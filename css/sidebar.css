@@ -1395,6 +1395,7 @@
    DEDICATED EXPEDITION TAB & THEATER BRIEFING (Full-theater layout)
    ========================================================================== */
 .sidebar-tour-tab-wrap {
+  display: none;
   margin-bottom: 4px;
   padding: 0 4px;
 }
