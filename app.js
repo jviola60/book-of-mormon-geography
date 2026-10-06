@@ -227,10 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statToursCount) statToursCount.textContent = mapJourneys.length;
     if (statErasCount) statErasCount.textContent = chronologicalMilestones.length;
 
-    // Mobile phone layout initialization: start as thin bottom sheet peek so map is dominant
+    // Option 1: Mobile phone layout starts with sidebar closed and timeline visible for maximum map view
     if (window.innerWidth <= 768 && detailSidebar) {
-      detailSidebar.classList.add('peek');
-      detailSidebar.classList.remove('closed');
+      detailSidebar.classList.add('closed');
+      detailSidebar.classList.remove('peek', 'expanded');
+      if (timelineFooter) timelineFooter.classList.remove('timeline-hidden');
     }
 
     const runSetup = () => {
@@ -995,11 +996,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
     const mobileSheetBackdrop = document.getElementById('mobileSheetBackdrop');
 
+    const mobBottomMapBtn = document.getElementById('mobBottomMapBtn');
     const mobBottomSearchBtn = document.getElementById('mobBottomSearchBtn');
-    const mobBottomJumpBtn = document.getElementById('mobBottomJumpBtn');
     const mobBottomFiltersBtn = document.getElementById('mobBottomFiltersBtn');
-    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
     const mobBottomCodexBtn = document.getElementById('mobBottomCodexBtn');
+    const mobBottomToolsBtn = document.getElementById('mobBottomToolsBtn');
 
     const mobNavSearchBtn = document.getElementById('mobNavSearchBtn');
     const mobNavJumpBtn = document.getElementById('mobNavJumpBtn');
@@ -1013,14 +1014,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateMobileBottomBarState = () => {
       if (!mobBottomSearchBtn) return;
       const isFiltersOpen = mobileFiltersSheet && mobileFiltersSheet.classList.contains('open');
-      const isToolsOpen = mobileToolsSheet && mobileToolsSheet.classList.contains('open');
+      const isToolsOpen = (mobileToolsSheet && mobileToolsSheet.classList.contains('open')) || (mobileNavSheet && mobileNavSheet.classList.contains('open'));
       const isPickerOpen = mobilePickerSheet && mobilePickerSheet.classList.contains('open');
-      const isCodexOpen = detailSidebar && !detailSidebar.classList.contains('closed') && !detailSidebar.classList.contains('peek');
+      const isCodexOpen = detailSidebar && !detailSidebar.classList.contains('closed');
+      const isMapActive = !isFiltersOpen && !isToolsOpen && !isPickerOpen && (!detailSidebar || detailSidebar.classList.contains('closed'));
 
+      if (mobBottomMapBtn) mobBottomMapBtn.classList.toggle('active', !!isMapActive);
       if (mobBottomFiltersBtn) mobBottomFiltersBtn.classList.toggle('active', !!isFiltersOpen);
       if (mobBottomToolsBtn) mobBottomToolsBtn.classList.toggle('active', !!isToolsOpen);
       if (mobBottomSearchBtn) mobBottomSearchBtn.classList.toggle('active', !!isPickerOpen);
-      if (mobBottomJumpBtn) mobBottomJumpBtn.classList.toggle('active', !!isPickerOpen);
       if (mobBottomCodexBtn) mobBottomCodexBtn.classList.toggle('active', !!isCodexOpen);
     };
 
@@ -1097,6 +1099,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 4. Mobile Bottom Navigation Bar & Drawer Quick Actions
+    const handleMapReturn = () => {
+      closeAllMobileSheets();
+      if (detailSidebar) {
+        detailSidebar.classList.add('closed');
+        detailSidebar.classList.remove('peek', 'expanded');
+      }
+      if (timelineFooter) timelineFooter.classList.remove('timeline-hidden');
+      updateSidebarStateUI();
+      updateMobileBottomBarState();
+      fitMapToScreen();
+    };
+
     const handleSearchOpen = () => {
       const isOpen = mobilePickerSheet && mobilePickerSheet.classList.contains('open');
       closeAllMobileSheets();
@@ -1107,34 +1121,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const handleJumpOpen = () => {
-      const isOpen = mobilePickerSheet && mobilePickerSheet.classList.contains('open');
-      closeAllMobileSheets();
-      if (!isOpen) {
-        openMobileSheet(mobilePickerSheet);
-      }
-    };
-
     const handleCodexToggle = () => {
       closeAllMobileSheets();
       if (!activeLocationId) {
         selectLocation('zarahemla');
       } else if (detailSidebar) {
-        if (detailSidebar.classList.contains('closed') || detailSidebar.classList.contains('peek')) {
-          detailSidebar.classList.remove('closed', 'peek');
-        } else {
+        if (detailSidebar.classList.contains('closed')) {
+          detailSidebar.classList.remove('closed');
           detailSidebar.classList.add('peek');
+          if (timelineFooter) timelineFooter.classList.add('timeline-hidden');
+          const expBtn = document.getElementById('mobileExpandCodexBtn');
+          if (expBtn) expBtn.textContent = '⌃ Full Codex';
+        } else if (detailSidebar.classList.contains('peek')) {
+          detailSidebar.classList.remove('peek');
+          detailSidebar.classList.add('expanded');
+          const expBtn = document.getElementById('mobileExpandCodexBtn');
+          if (expBtn) expBtn.textContent = '⌄ Peek';
+        } else {
+          detailSidebar.classList.add('closed');
+          detailSidebar.classList.remove('peek', 'expanded');
+          if (timelineFooter) timelineFooter.classList.remove('timeline-hidden');
         }
         updateSidebarStateUI();
         updateMobileBottomBarState();
       }
     };
 
+    if (mobBottomMapBtn) mobBottomMapBtn.addEventListener('click', handleMapReturn);
     if (mobBottomSearchBtn) mobBottomSearchBtn.addEventListener('click', handleSearchOpen);
     if (mobNavSearchBtn) mobNavSearchBtn.addEventListener('click', handleSearchOpen);
-
-    if (mobBottomJumpBtn) mobBottomJumpBtn.addEventListener('click', handleJumpOpen);
-    if (mobNavJumpBtn) mobNavJumpBtn.addEventListener('click', handleJumpOpen);
 
     if (mobBottomFiltersBtn && mobileFiltersSheet) {
       mobBottomFiltersBtn.addEventListener('click', () => {
@@ -1146,12 +1161,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    if (mobBottomToolsBtn && mobileToolsSheet) {
+    if (mobBottomToolsBtn && mobileNavSheet) {
       mobBottomToolsBtn.addEventListener('click', () => {
-        const isOpen = mobileToolsSheet.classList.contains('open');
+        const isOpen = mobileNavSheet.classList.contains('open');
         closeAllMobileSheets();
         if (!isOpen) {
-          openMobileSheet(mobileToolsSheet);
+          openMobileSheet(mobileNavSheet);
         }
       });
     }
@@ -1268,15 +1283,34 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileCodexToggleBtn.addEventListener('click', handleCodexToggle);
     }
 
-    // Mobile Detail Sidebar Drag Handle (Tap to toggle peek vs open)
+    // Option 1: Mobile Detail Sidebar Drag Handle & Expand Button
     const mobileDragHandle = document.getElementById('mobileDragHandle');
+    const mobileExpandCodexBtn = document.getElementById('mobileExpandCodexBtn');
+
+    const toggleCodexSheetMode = () => {
+      if (!detailSidebar) return;
+      if (detailSidebar.classList.contains('expanded')) {
+        detailSidebar.classList.remove('expanded');
+        detailSidebar.classList.add('peek');
+        if (mobileExpandCodexBtn) mobileExpandCodexBtn.textContent = '⌃ Full Codex';
+      } else {
+        detailSidebar.classList.remove('peek', 'closed');
+        detailSidebar.classList.add('expanded');
+        if (timelineFooter) timelineFooter.classList.add('timeline-hidden');
+        if (mobileExpandCodexBtn) mobileExpandCodexBtn.textContent = '⌄ Peek';
+      }
+      updateSidebarStateUI();
+      updateMobileBottomBarState();
+    };
+
     if (mobileDragHandle && detailSidebar) {
-      mobileDragHandle.addEventListener('click', () => {
-        if (detailSidebar.classList.contains('peek') || detailSidebar.classList.contains('closed')) {
-          detailSidebar.classList.remove('peek', 'closed');
-        } else {
-          detailSidebar.classList.add('peek');
-        }
+      mobileDragHandle.addEventListener('click', toggleCodexSheetMode);
+    }
+
+    if (mobileExpandCodexBtn) {
+      mobileExpandCodexBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCodexSheetMode();
       });
     }
 
@@ -1324,13 +1358,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
     };
 
-    if (mobileDragHandle) setupSwipeDown(mobileDragHandle, () => {
-      if (detailSidebar) { detailSidebar.classList.add('peek'); }
-    });
+    const handleSidebarSwipeDown = () => {
+      if (!detailSidebar || window.innerWidth > 768) return;
+      if (detailSidebar.classList.contains('expanded')) {
+        detailSidebar.classList.remove('expanded');
+        detailSidebar.classList.add('peek');
+        if (mobileExpandCodexBtn) mobileExpandCodexBtn.textContent = '⌃ Full Codex';
+      } else {
+        detailSidebar.classList.add('closed');
+        detailSidebar.classList.remove('peek', 'expanded');
+        if (timelineFooter) timelineFooter.classList.remove('timeline-hidden');
+      }
+      updateSidebarStateUI();
+      updateMobileBottomBarState();
+    };
+
+    if (mobileDragHandle) setupSwipeDown(mobileDragHandle, handleSidebarSwipeDown);
     const sidebarHeader = document.querySelector('#detailSidebar .sidebar-header');
-    if (sidebarHeader) setupSwipeDown(sidebarHeader, () => {
-      if (window.innerWidth <= 768 && detailSidebar) { detailSidebar.classList.add('peek'); }
-    });
+    if (sidebarHeader) setupSwipeDown(sidebarHeader, handleSidebarSwipeDown);
 
     if (mobileFiltersDragHandle) setupSwipeDown(mobileFiltersDragHandle, () => closeAllMobileSheets());
     const filtersHeader = document.querySelector('#mobileFiltersSheet .mobile-sheet-header');
@@ -1445,11 +1490,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Tab Content
     renderSidebarContent(loc);
 
-    // Open Sidebar if closed (on mobile: start in readable mode)
+    // Open Sidebar if closed (Option 1 on mobile: start in Peek Mode and tuck timeline)
     if (detailSidebar) {
-      detailSidebar.classList.remove('closed');
-      detailSidebar.classList.remove('peek');
-      detailSidebar.classList.remove('expanded');
+      if (window.innerWidth <= 768) {
+        detailSidebar.classList.remove('closed', 'expanded');
+        detailSidebar.classList.add('peek');
+        const expBtn = document.getElementById('mobileExpandCodexBtn');
+        if (expBtn) expBtn.textContent = '⌃ Full Codex';
+        if (timelineFooter) timelineFooter.classList.add('timeline-hidden');
+      } else {
+        detailSidebar.classList.remove('closed', 'peek', 'expanded');
+      }
       const appContainer = document.querySelector('.app-main-container');
       if (appContainer) appContainer.classList.remove('sidebar-is-closed');
       const edgeToggleIcon = document.getElementById('edgeToggleIcon');
@@ -3598,8 +3649,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeSidebarBtn) {
     closeSidebarBtn.addEventListener('click', () => {
       if (window.innerWidth <= 768) {
-        detailSidebar.classList.add('peek');
-        detailSidebar.classList.remove('expanded');
+        detailSidebar.classList.add('closed');
+        detailSidebar.classList.remove('peek', 'expanded');
+        if (timelineFooter) timelineFooter.classList.remove('timeline-hidden');
       } else {
         detailSidebar.classList.add('closed');
         detailSidebar.classList.remove('expanded');
@@ -4663,6 +4715,26 @@ document.addEventListener('DOMContentLoaded', () => {
       applyChronologicalStep(step);
     });
   });
+
+  // Mobile Option 1: Top Floating Era Capsule Toggle & Click-to-Dismiss
+  if (floatingEraBadge) {
+    floatingEraBadge.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (e.target.closest('.era-featured-chip')) return;
+        floatingEraBadge.classList.toggle('is-expanded');
+      }
+    });
+  }
+
+  if (viewport) {
+    viewport.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (floatingEraBadge && !e.target.closest('#floatingEraBadge')) {
+          floatingEraBadge.classList.remove('is-expanded');
+        }
+      }
+    });
+  }
 
   // Playback Controls
   function playTimeline() {

@@ -122,6 +122,17 @@
   line-height: 1.2;
 }
 
+.sidebar-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mobile-expand-btn {
+  display: none;
+}
+
 .close-btn {
   background: none;
   border: none;

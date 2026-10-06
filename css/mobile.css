@@ -139,12 +139,12 @@
     cursor: pointer;
   }
 
-  /* Main Map Viewport on Mobile */
+  /* Main Map Viewport on Mobile - Full Viewport Height between Header & Nav */
   .app-main-container {
     flex: 1;
     position: relative;
     overflow: hidden;
-    height: calc(100dvh - var(--header-height) - var(--footer-height) - var(--mobile-nav-height));
+    height: calc(100dvh - var(--header-height, 50px) - var(--mobile-nav-height, 52px));
     background: #FAF5EB;
   }
 
@@ -158,26 +158,96 @@
     will-change: auto !important;
   }
 
-  /* Floating controls on Mobile: Compact & unobtrusive */
+  /* Option 1: Top Floating Era Capsule */
   .floating-era-badge {
+    position: absolute;
     top: 8px;
     left: 8px;
-    max-width: 65vw;
-    padding: 0.4rem 0.6rem;
-    background: rgba(253, 250, 243, 0.92);
-    border-radius: 6px;
+    max-width: calc(100vw - 80px);
+    background: rgba(253, 250, 243, 0.95);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid var(--border-gold);
+    border-radius: 20px;
+    padding: 5px 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    z-index: 120;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .floating-era-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0;
   }
 
   .floating-era-tag {
-    font-size: 0.58rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: var(--color-crimson);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
   .floating-era-title {
     font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 135px;
+    display: inline-block;
+  }
+
+  .era-dropdown-caret {
+    font-size: 0.72rem;
+    color: var(--color-gold);
+    margin-left: 2px;
+    transition: transform 0.2s ease;
+  }
+
+  /* Body is collapsed by default in capsule mode */
+  .floating-era-body {
+    display: none;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border-gold);
+    width: 100%;
+  }
+
+  /* Expanded Dropdown State on Tap */
+  .floating-era-badge.is-expanded {
+    border-radius: 12px;
+    padding: 8px 12px;
+    max-width: 86vw;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  }
+
+  .floating-era-badge.is-expanded .era-dropdown-caret {
+    transform: rotate(180deg);
+  }
+
+  .floating-era-badge.is-expanded .floating-era-title {
+    max-width: none;
+    white-space: normal;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .floating-era-badge.is-expanded .floating-era-body {
+    display: block;
   }
 
   .floating-era-desc {
-    display: none;
+    display: block;
+    font-size: 0.74rem;
+    line-height: 1.35;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
   }
 
   .map-floating-actions {
@@ -208,7 +278,7 @@
   }
 
   .map-legend-box {
-    display: none; /* Accessible via Tools menu on phone to maximize map view */
+    display: none;
   }
 
   /* Mobile Map Pins: Large, Tappable Touch Targets */
@@ -240,7 +310,7 @@
     right: -4px;
   }
 
-  /* Mobile Detail Sidebar -> Collapsible Bottom Sheet (Map First) */
+  /* Option 1: 3-State Collapsible Bottom Sheet (Map First) */
   .detail-sidebar {
     position: fixed;
     top: auto;
@@ -248,39 +318,50 @@
     left: 0;
     right: 0;
     width: 100vw;
-    height: 48dvh;
-    max-height: 50dvh !important;
+    height: 82dvh;
+    max-height: 85dvh !important;
     background: #FFFDF9;
     border-top: 2px solid var(--color-gold);
     border-left: none;
-    border-radius: 18px 18px 0 0;
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
     z-index: 2200;
-    transform: translateY(calc(100% - 44px)); /* Thin bottom sheet peek by default: exposes 44px handle bar */
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(115%); /* State 1: Closed by default! */
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), height 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
   .detail-sidebar.closed {
-    transform: translateY(115%);
+    transform: translateY(115%) !important;
   }
 
+  /* State 2: Peek Preview State (When a pin is tapped on the map) */
   .detail-sidebar.peek {
-    transform: translateY(calc(100% - 44px));
+    transform: translateY(0) !important;
+    height: 195px !important;
+    max-height: 195px !important;
   }
 
-  .detail-sidebar:not(.closed):not(.peek) {
-    transform: translateY(0);
-    height: 48dvh;
-    max-height: 50dvh !important;
+  .detail-sidebar.peek .sidebar-tabs {
+    display: none !important;
   }
 
+  .detail-sidebar.peek .sidebar-content {
+    padding: 0.25rem 0.9rem 0.6rem !important;
+    overflow: hidden !important;
+  }
+
+  /* State 3: Full Codex Reading State (Expanded) */
   .detail-sidebar.expanded {
-    height: 50dvh !important;
-    max-height: 52dvh !important;
-    transform: translateY(0);
+    transform: translateY(0) !important;
+    height: 82dvh !important;
+    max-height: 85dvh !important;
+  }
+
+  .detail-sidebar.expanded .sidebar-tabs {
+    display: flex !important;
   }
 
   /* --------------------------------------------------------------------------
@@ -390,97 +471,216 @@
   }
 
   .sidebar-header {
-    padding: 0.4rem 1rem 0.6rem;
+    padding: 0.35rem 0.9rem 0.45rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #EBE0CC;
   }
 
   .sidebar-title {
-    font-size: 1.15rem;
+    font-size: 1.12rem;
   }
 
+  .sidebar-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-expand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border: 1px solid var(--color-gold);
+    border-radius: 14px;
+    padding: 4px 10px;
+    font-family: var(--font-serif-title);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #78350F;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+  }
+
+  .detail-sidebar.expanded .mobile-expand-btn {
+    background: #E8DCC4;
+    color: var(--text-primary);
+  }
+
+  /* Single-row Horizontal Scrollable Tab Strip on Mobile */
   .sidebar-tabs {
-    padding: 0 0.75rem 0.4rem;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    gap: 6px !important;
+    padding: 0.4rem 0.75rem !important;
+    background: #F4EEDF !important;
+    border-bottom: 1px solid var(--border-gold) !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .sidebar-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .sidebar-tab-row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sidebar-tabs .tab-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    font-size: 0.74rem !important;
+    padding: 5px 11px !important;
+    border-radius: 16px !important;
+    background: #FFFDF9 !important;
+    border: 1px solid var(--border-gold) !important;
+    height: 32px !important;
+  }
+
+  .sidebar-tabs .tab-btn.active {
+    background: var(--color-crimson) !important;
+    color: #FFFDF9 !important;
+    border-color: var(--color-crimson) !important;
+    box-shadow: 0 2px 6px rgba(139, 30, 30, 0.35) !important;
   }
 
   .sidebar-content {
-    padding: 0.85rem 1rem 2rem;
+    padding: 0.75rem 0.9rem 1.8rem;
     overflow-y: auto;
     touch-action: pan-y;
   }
 
-  /* Mobile Timeline Footer & Larger Touch Targets */
+  /* Option 1: Mobile Floating Timeline Capsule */
   .app-timeline-footer {
-    height: var(--footer-height);
-    padding: 0.5rem 0.85rem 0.35rem;
-    flex-shrink: 0;
+    position: absolute !important;
+    bottom: calc(var(--mobile-nav-height, 52px) + 8px) !important;
+    left: 8px !important;
+    right: 8px !important;
+    height: auto !important;
+    min-height: 60px !important;
+    max-height: 74px !important;
+    padding: 5px 10px 7px !important;
+    background: rgba(30, 22, 16, 0.95) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    backdrop-filter: blur(14px) !important;
+    border: 1.5px solid var(--border-gold) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45) !important;
+    z-index: 150 !important;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 3px !important;
+  }
+
+  .app-timeline-footer.timeline-hidden {
+    transform: translateY(140%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .timeline-control-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .playback-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
   }
 
   .playback-controls .btn-ctrl {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
   }
 
   .playback-controls .btn-play {
-    width: 44px;
-    height: 44px;
+    width: 36px !important;
+    height: 36px !important;
   }
 
   .era-selector-tabs {
-    display: none; /* Hidden on mobile to avoid overflow; slider is the primary scrub */
+    display: none;
   }
 
   .timeline-labels {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
   }
 
   .current-date-badge {
-    min-width: 130px;
-    padding: 0 0.5rem;
+    min-width: 80px !important;
+    padding: 0 4px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
   }
 
   .badge-year {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #FDE68A;
-    text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+    font-size: 0.92rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    color: #FDE68A !important;
   }
 
   .badge-season {
-    font-size: 0.76rem;
-    max-width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #F8F5EE;
+    font-size: 0.6rem !important;
+    max-width: 95px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    color: #F8F5EE !important;
+  }
+
+  .btn-cataclysm-trigger {
+    padding: 3px 8px !important;
+    font-size: 0.65rem !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+  }
+
+  .timeline-slider-track {
+    margin-top: 1px !important;
   }
 
   .timeline-slider {
-    height: 8px;
+    height: 6px !important;
   }
 
   .timeline-slider::-webkit-slider-thumb {
-    width: 26px;
-    height: 26px;
-    background: #F59E0B;
-    border: 3px solid #FFF8EB;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
+    width: 20px !important;
+    height: 20px !important;
+    background: #F59E0B !important;
+    border: 2px solid #FFF8EB !important;
   }
 
   .timeline-slider::-moz-range-thumb {
-    width: 26px;
-    height: 26px;
-    background: #F59E0B;
-    border: 3px solid #FFF8EB;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
+    width: 20px !important;
+    height: 20px !important;
+    background: #F59E0B !important;
+    border: 2px solid #FFF8EB !important;
   }
 
   .speed-selector {
     display: none;
-  }
-
-  .btn-cataclysm-trigger {
-    padding: 3px 8px;
-    font-size: 0.68rem;
   }
 
   /* --------------------------------------------------------------------------
